@@ -51,16 +51,6 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 
-### Xcode Patch ###
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
-
-### Projects ###
-*.xcodeproj
-*.xcworkspace
 
 ### Tuist derived files ###
 graph.dot
@@ -68,15 +58,6 @@ Derived/
 
 ### Tuist managed dependencies ###
 Tuist/Dependencies
-
-# PList
-# => 전체 plist를 다 제외함.
-# **/*.plist  
-# Support/*.plist
-GoogleService-Info.plist
-
-# XCconfig
-**.xcconfig
 
 # Swift Package Manager
 **/*.package.resolved
