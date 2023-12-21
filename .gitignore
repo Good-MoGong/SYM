@@ -59,6 +59,15 @@ Derived/
 ### Tuist managed dependencies ###
 Tuist/Dependencies
 
+# PList
+# => 전체 plist를 다 제외함.
+# **/*.plist  
+# Support/*.plist
+GoogleService-Info.plist
+
+# XCconfig
+**.xcconfig
+
 # Swift Package Manager
 **/*.package.resolved
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
