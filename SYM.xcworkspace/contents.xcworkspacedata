@@ -2,66 +2,54 @@
 <Workspace
    version = "1.0">
    <Group
-      location = "group:.."
-      name = "Mogong">
-      <Group
-         location = "group:SYM"
-         name = "SYM">
-         <Group
-            location = "group:Projects"
-            name = "Projects">
-            <FileRef
-               location = "group:APP/SYM.xcodeproj">
-            </FileRef>
-            <FileRef
-               location = "group:FirebaseSPM/FirebaseSPM.xcodeproj">
-            </FileRef>
-         </Group>
-      </Group>
+      location = "group:Projects"
+      name = "Projects">
+      <FileRef
+         location = "group:APP/SYM.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:FirebaseSPM/FirebaseSPM.xcodeproj">
+      </FileRef>
    </Group>
    <Group
-      location = "group:../../TuistTest"
-      name = "TuistTest">
+      location = "group:Tuist"
+      name = "Tuist">
       <Group
-         location = "group:Tuist"
-         name = "Tuist">
+         location = "group:Dependencies"
+         name = "Dependencies">
          <Group
-            location = "group:Dependencies"
-            name = "Dependencies">
+            location = "group:SwiftPackageManager"
+            name = "SwiftPackageManager">
             <Group
-               location = "group:SwiftPackageManager"
-               name = "SwiftPackageManager">
+               location = "group:.build"
+               name = ".build">
                <Group
-                  location = "group:.build"
-                  name = ".build">
-                  <Group
-                     location = "group:checkouts"
-                     name = "checkouts">
-                     <FileRef
-                        location = "group:GoogleUtilities/GoogleUtilities.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:firebase-ios-sdk/Firebase.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:grpc-binary/gRPC.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:leveldb/leveldb.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:nanopb/nanopb.xcodeproj">
-                     </FileRef>
-                     <FileRef
-                        location = "group:promises/Promises.xcodeproj">
-                     </FileRef>
-                  </Group>
+                  location = "group:checkouts"
+                  name = "checkouts">
+                  <FileRef
+                     location = "group:GoogleUtilities/GoogleUtilities.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:firebase-ios-sdk/Firebase.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:grpc-binary/gRPC.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:leveldb/leveldb.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:nanopb/nanopb.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:promises/Promises.xcodeproj">
+                  </FileRef>
                </Group>
             </Group>
          </Group>
