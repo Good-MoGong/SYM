@@ -17,7 +17,7 @@
                BlueprintIdentifier = "787785524E0E998535524C4F"
                BuildableName = "FBLPromises.framework"
                BlueprintName = "FBLPromises"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "769B28412864CE639D5C8BFF"
                BuildableName = "Firebase.framework"
                BlueprintName = "Firebase"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "20EB295A16E872604F601DE8"
                BuildableName = "FirebaseAppCheckInterop.framework"
                BlueprintName = "FirebaseAppCheckInterop"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,7 +59,7 @@
                BlueprintIdentifier = "E0B0DA275AE486EF3029517C"
                BuildableName = "FirebaseAuth.framework"
                BlueprintName = "FirebaseAuth"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "76913A6628DE3CA06F1E69AD"
                BuildableName = "FirebaseCore.framework"
                BlueprintName = "FirebaseCore"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -87,7 +87,7 @@
                BlueprintIdentifier = "3632255486C34E31EEEE7688"
                BuildableName = "FirebaseCoreExtension.framework"
                BlueprintName = "FirebaseCoreExtension"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -101,7 +101,7 @@
                BlueprintIdentifier = "BF2506109F9DAB9BDE836612"
                BuildableName = "FirebaseCoreInternal.framework"
                BlueprintName = "FirebaseCoreInternal"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -115,7 +115,7 @@
                BlueprintIdentifier = "7B6632C335901E0214AF6DAB"
                BuildableName = "FirebaseFirestore.framework"
                BlueprintName = "FirebaseFirestore"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -129,7 +129,7 @@
                BlueprintIdentifier = "2F355934AD29E38946CB8798"
                BuildableName = "FirebaseFirestoreInternalWrapper.framework"
                BlueprintName = "FirebaseFirestoreInternalWrapper"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -143,7 +143,7 @@
                BlueprintIdentifier = "39B6729F6928208D504650A7"
                BuildableName = "FirebaseFirestoreSwift.framework"
                BlueprintName = "FirebaseFirestoreSwift"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -157,7 +157,7 @@
                BlueprintIdentifier = "B6871BCCFF2AE65CE6BCB922"
                BuildableName = "FirebaseFirestoreSwiftTarget.framework"
                BlueprintName = "FirebaseFirestoreSwiftTarget"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -171,7 +171,7 @@
                BlueprintIdentifier = "A56D6D4DCC95FB113396563E"
                BuildableName = "FirebaseFirestoreTarget.framework"
                BlueprintName = "FirebaseFirestoreTarget"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -199,7 +199,7 @@
                BlueprintIdentifier = "B69AE216EB8902A0EAEA8D43"
                BuildableName = "FirebaseSharedSwift.framework"
                BlueprintName = "FirebaseSharedSwift"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -213,7 +213,7 @@
                BlueprintIdentifier = "C1FE7FF39814998C3D90D94E"
                BuildableName = "GTMSessionFetcherCore.framework"
                BlueprintName = "GTMSessionFetcherCore"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -227,7 +227,7 @@
                BlueprintIdentifier = "3ED94F9FE92CD30586A12982"
                BuildableName = "GoogleUtilities_AppDelegateSwizzler.framework"
                BlueprintName = "GoogleUtilities-AppDelegateSwizzler"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -241,7 +241,7 @@
                BlueprintIdentifier = "F20F5A508D0D18A6998274ED"
                BuildableName = "GoogleUtilities_Environment.framework"
                BlueprintName = "GoogleUtilities-Environment"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -255,7 +255,7 @@
                BlueprintIdentifier = "B8F4309DA609689A1E4C324E"
                BuildableName = "GoogleUtilities_Logger.framework"
                BlueprintName = "GoogleUtilities-Logger"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -269,7 +269,7 @@
                BlueprintIdentifier = "82D64D19A26B0837A33FDFA0"
                BuildableName = "GoogleUtilities_NSData.framework"
                BlueprintName = "GoogleUtilities-NSData"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -283,7 +283,7 @@
                BlueprintIdentifier = "028985CE3AF9A6EEBA19BF6E"
                BuildableName = "GoogleUtilities_Network.framework"
                BlueprintName = "GoogleUtilities-Network"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -297,7 +297,7 @@
                BlueprintIdentifier = "40FFBEDB2AEFA0C9C7228480"
                BuildableName = "GoogleUtilities_Reachability.framework"
                BlueprintName = "GoogleUtilities-Reachability"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -311,7 +311,7 @@
                BlueprintIdentifier = "3DF0C429C6CCD0DDF04A208E"
                BuildableName = "RecaptchaInterop.framework"
                BlueprintName = "RecaptchaInterop"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -339,7 +339,7 @@
                BlueprintIdentifier = "947366CE2747B193F1A0D43A"
                BuildableName = "gRPC_CXX_Target.framework"
                BlueprintName = "gRPC-CXX-Target"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -353,7 +353,7 @@
                BlueprintIdentifier = "11A1F465984DE96DD8E11862"
                BuildableName = "gRPC_CXX_Wrapper.framework"
                BlueprintName = "gRPC-CXX-Wrapper"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -367,7 +367,7 @@
                BlueprintIdentifier = "114C2F19AE47E436B0DEF986"
                BuildableName = "leveldb.framework"
                BlueprintName = "leveldb"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/leveldb.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/leveldb.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -381,7 +381,7 @@
                BlueprintIdentifier = "00CCAE173147AFA99AA51F0E"
                BuildableName = "nanopb.framework"
                BlueprintName = "nanopb"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/nanopb.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/nanopb.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -395,7 +395,7 @@
                BlueprintIdentifier = "51D7B8F6AC67856BE18DC303"
                BuildableName = "third_party_IsAppEncrypted.framework"
                BlueprintName = "third-party-IsAppEncrypted"
-               ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+               ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -424,7 +424,7 @@
             BlueprintIdentifier = "787785524E0E998535524C4F"
             BuildableName = "FBLPromises.framework"
             BlueprintName = "FBLPromises"
-            ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
+            ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -440,7 +440,7 @@
             BlueprintIdentifier = "787785524E0E998535524C4F"
             BuildableName = "FBLPromises.framework"
             BlueprintName = "FBLPromises"
-            ReferencedContainer = "container:../../TuistTest/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
+            ReferencedContainer = "container:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
