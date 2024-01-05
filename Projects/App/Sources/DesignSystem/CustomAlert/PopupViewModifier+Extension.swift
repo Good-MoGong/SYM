@@ -17,20 +17,20 @@ struct PopupView: ViewModifier {
     let type: PopupType
     let title: String
     let desc: String
-    let confrimHandler: () -> Void
+    let confirmHandler: () -> Void
     let cancelHandler: () -> Void
     
     init(isShowing: Binding<Bool>,
          type: PopupType,
          title: String,
          desc: String,
-         confrimHandler: @escaping () -> Void,
+         confirmHandler: @escaping () -> Void,
          cancelHandler: @escaping () -> Void) {
         self._isShowing = isShowing
         self.type = type
         self.title = title
         self.desc = desc
-        self.confrimHandler = confrimHandler
+        self.confirmHandler = confirmHandler
         self.cancelHandler = cancelHandler
     }
     
@@ -126,7 +126,7 @@ struct PopupView: ViewModifier {
                 .foregroundColor(Color.red)
                 .cornerRadius(10)
                 .onTapGesture {
-                    confrimHandler()
+                    confirmHandler()
                 }
         }
         .font(DesignSystem.FontStyles.symH5)
@@ -150,14 +150,14 @@ public extension View {
                type: PopupType,
                title: String,
                desc: String,
-               confrimHandler: @escaping () -> Void,
+               confirmHandler: @escaping () -> Void,
                cancelHandler: @escaping () -> Void)
     -> some View {
         self.modifier(PopupView(isShowing: isShowing,
-                                    type: type,
-                                    title: title,
-                                    desc: desc,
-                                    confrimHandler: confrimHandler,
-                                    cancelHandler: cancelHandler))
+                                type: type,
+                                title: title,
+                                desc: desc,
+                                confirmHandler: confirmHandler,
+                                cancelHandler: cancelHandler))
     }
 }
