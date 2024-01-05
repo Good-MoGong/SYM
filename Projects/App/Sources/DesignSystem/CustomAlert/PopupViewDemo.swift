@@ -32,7 +32,7 @@ struct PopupDemo: View {
                type: .guide,
                title: "생각이 잘 떠오르지 않으세요?",
                desc: "잠시동안 눈을 감고 그때의 상황을 떠올려봐요. \n거창하지 않은 작은 생각이라도 좋아요!",
-               confrimHandler: {
+               confirmHandler: {
             print("확인")
         },
                cancelHandler: {
@@ -44,7 +44,7 @@ struct PopupDemo: View {
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: "로그아웃 하시겠어요?",
                desc: "",//"• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다.",
-               confrimHandler: {
+               confirmHandler: {
             print("확인")
             self.isShowingPopup.toggle()
         },
