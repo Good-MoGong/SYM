@@ -65,7 +65,7 @@
 		CA0BBF310C6F36947DA8087B /* ButtonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B585FB9516B14DF0D2C106AA /* ButtonDemo.swift */; };
 		CBAC6218728BB804F26B7B19 /* SYMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5DCEA671D51B5245551ED /* SYMApp.swift */; };
 		CE87149CF64CF65728941472 /* GTMSessionFetcherCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D0F29520C1FC52305A8663 /* GTMSessionFetcherCore.framework */; };
-		D5383A8D2B482B1A00945FD2 /* PopupViewModifier+Exenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Exenstion.swift */; };
+		D5383A8D2B482B1A00945FD2 /* PopupViewModifier+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Extension.swift */; };
 		D64544CAAC3770020CB67A01 /* RepoDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001F3DFCFCC7A6E3D63DC9D2 /* RepoDemo.swift */; };
 		D9CC74C88FCBDCAAFE4DD2DD /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0D8EEA51A14738AC118A517A /* Secrets.xcconfig */; };
 		DA9693C61D37DC96EA7AA972 /* GoogleUtilities_Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19EB5C1E2E62C5755AC3D37C /* GoogleUtilities_Reachability.framework */; };
@@ -153,7 +153,7 @@
 		C9488A9B5C8E93A67574F795 /* EntityDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDemo.swift; sourceTree = "<group>"; };
 		CC3534B25EE68C874607FDDF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		D3E8B3F8E01182F5AFAFA3CC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Exenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PopupViewModifier+Exenstion.swift"; path = "../../../../App/Sources/DesignSystem/CustomAlert/PopupViewModifier+Exenstion.swift"; sourceTree = "<group>"; };
+		D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PopupViewModifier+Extension.swift"; path = "../../../../App/Sources/DesignSystem/CustomAlert/PopupViewModifier+Extension.swift"; sourceTree = "<group>"; };
 		D5C45D28DD017FC07CD52ED0 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		D816EC7B5E8D7CFF1B180E19 /* FontDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDemo.swift; sourceTree = "<group>"; };
 		DA5B569F7D39BB2B413DA248 /* PopupViewDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewDemo.swift; sourceTree = "<group>"; };
@@ -500,7 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				DA5B569F7D39BB2B413DA248 /* PopupViewDemo.swift */,
-				D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Exenstion.swift */,
+				D5383A8C2B482B1A00945FD2 /* PopupViewModifier+Extension.swift */,
 			);
 			path = CustomAlert;
 			sourceTree = "<group>";
@@ -812,7 +812,7 @@
 				E88A96D3E8BD6134E4A8599F /* Font.swift in Sources */,
 				81F6776F21D471E9CD27C193 /* FontDemo.swift in Sources */,
 				C9E0D5A82AB7E3DDC1E0B8A7 /* FormDemo.swift in Sources */,
-				D5383A8D2B482B1A00945FD2 /* PopupViewModifier+Exenstion.swift in Sources */,
+				D5383A8D2B482B1A00945FD2 /* PopupViewModifier+Extension.swift in Sources */,
 				C94B208BFDB547C41AB952A0 /* EntityDemo.swift in Sources */,
 				7B0F9A27080EBE6AE8ECA86C /* ProtocolDemo.swift in Sources */,
 				8D00169AECE55D86E14B1C04 /* UseCaseDemo.swift in Sources */,
