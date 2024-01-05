@@ -30,7 +30,9 @@ struct FontTest: View {
 
             Text("Body Text")
                 .foregroundStyle(DesignSystem.ColorStyles.symPink)
+//                .foregroundStyle(Color.symPink)
                 .modifier(BodyTextStyle())
+
         }
     }
 }

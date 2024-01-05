@@ -10,6 +10,16 @@ import SwiftUI
 
 // App Color DesignSystem
 
+extension Color {
+    static let symPink = Color.init(hex: "FFD2D2")
+    static let symBlack = Color.init(hex: "2D2D2D")
+    static let symGray4 = Color.init(hex: "7E7D7A")
+    static let symGray3 = Color.init(hex: "989898")
+    static let symGray2 = Color.init(hex: "E5E5E5")
+    static let symGray1 = Color.init(hex: "F1F1F1")
+    static let symWhite = Color.init(hex: "FFFFFF")
+}
+
 extension DesignSystem {
     struct ColorStyles {
         static let symPink = Color.init(hex: "FFD2D2")
