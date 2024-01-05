@@ -5,9 +5,6 @@
       location = "group:Projects"
       name = "Projects">
       <FileRef
-         location = "group:GoogleService-Info.plist">
-      </FileRef>
-      <FileRef
          location = "group:APP/SYM.xcodeproj">
       </FileRef>
       <FileRef
