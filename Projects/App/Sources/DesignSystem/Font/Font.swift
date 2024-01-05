@@ -8,6 +8,24 @@
 
 import SwiftUI
 
+
+extension Font {
+    /// 28 .medium
+    static let symH1 = Font.system(size: 28, weight: .medium)
+    /// 25 .medium
+    static let symH2 = Font.system(size: 25, weight: .medium)
+    /// 20 .medium
+    static let symH3 = Font.system(size: 20, weight: .medium)
+    /// 18 .medium
+    static let symH4 = Font.system(size: 18, weight: .medium)
+    /// 16 .medium
+    static let symH5 = Font.system(size: 16, weight: .medium)
+    /// 14 .medium
+    static let symBody = Font.system(size: 14, weight: .medium)
+    /// 12 .medium
+    static let symSmall = Font.system(size: 12, weight: .medium)
+}
+
 extension DesignSystem {
     struct FontStyles {
         /// 28 .medium
