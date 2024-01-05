@@ -56,6 +56,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		059044A6B26C6FE0EDE80F6B /* Compiled */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Compiled;
+			sourceTree = "<group>";
+		};
 		0BCB9D7ED2924009F5BAA5EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				355504AC457EC67BA302F6B0 /* Project */,
-				8D1D6E095321DFCEA188300B /* Frameworks */,
+				059044A6B26C6FE0EDE80F6B /* Compiled */,
 				0BCB9D7ED2924009F5BAA5EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,13 +97,6 @@
 				9A11F8A2CC4964F67028F8C7 /* InfoPlists */,
 			);
 			path = Derived;
-			sourceTree = "<group>";
-		};
-		8D1D6E095321DFCEA188300B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9A11F8A2CC4964F67028F8C7 /* InfoPlists */ = {

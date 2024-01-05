@@ -12,7 +12,7 @@ import SwiftUI
 struct DefaultButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .frame(width: 230, height: 45)
+            .frame(maxWidth: .infinity, maxHeight: 60)
             .font(DesignSystem.FontStyles.h1)
             .foregroundColor(Color(hex: "#2D2D2D"))
             .background(Color(hex: "#FFD2D2"))
