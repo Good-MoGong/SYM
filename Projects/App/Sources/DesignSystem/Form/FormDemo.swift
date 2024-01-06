@@ -7,3 +7,18 @@
 //
 
 // Demo
+import SwiftUI
+
+struct FormDemo: View {
+    var body: some View {
+        VStack {
+            TextView()
+            DefaultTextField()
+            ErrorTextField()
+        }
+    }
+}
+
+#Preview {
+    FormDemo()
+}
