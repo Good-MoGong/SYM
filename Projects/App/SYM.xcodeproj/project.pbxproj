@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -44,6 +44,8 @@
 		6C73517A33182401BD39B143 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519848519CF4806F49322147 /* Security.framework */; };
 		6CE69CD0B74C14774DBB25D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E8B3F8E01182F5AFAFA3CC /* UIKit.framework */; };
 		6F386F70C785F1476BBE848E /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F5C656C1F0C707DD22C5B /* nanopb.framework */; };
+		7701E3C469AB2EC56E614FF9 /* ChatBubbleDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFCDE079447BEA4C8112208 /* ChatBubbleDemo.swift */; };
+		772A11E2FED7249A71CCFEA0 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65524FC04A398F556AE32F1 /* TextEditor.swift */; };
 		77B2AE69EC2CDD5F2B57ED54 /* GoogleUtilities_Environment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FB689E204F69504B0450D6 /* GoogleUtilities_Environment.framework */; };
 		7B0F9A27080EBE6AE8ECA86C /* ProtocolDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFBABB9171180DB262E1D0 /* ProtocolDemo.swift */; };
 		7CC4D57726F9230F3CC7321B /* GoogleUtilities_Logger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 565A0EBBA8C8EC2C2363B9D7 /* GoogleUtilities_Logger.framework */; };
@@ -58,6 +60,7 @@
 		9C4131E6AFBA5A3788398B49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0EE3FAADE1F12B38409A52 /* ContentView.swift */; };
 		A08315A4DD88C4676AF5B6F0 /* FirebaseFirestoreInternalWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6D9E78D45179AFF067A048 /* FirebaseFirestoreInternalWrapper.framework */; };
 		AC985F4EC1EAE71417EEF2CD /* ServicesDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2635415F454D9E4885FE5D8E /* ServicesDemo.swift */; };
+		ACF4D370704CF288DF1471DB /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BCA18ED498009AFB0D6FBA /* TextField.swift */; };
 		B08D4C21DE323556F38843D8 /* NetworkDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13AAE0999EFB898E28FDCF3 /* NetworkDemo.swift */; };
 		C220A404CADCCDA9430740E6 /* PopupViewModifier+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F18DB8A28D0CDC25C61E5 /* PopupViewModifier+Extension.swift */; };
 		C94B208BFDB547C41AB952A0 /* EntityDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9488A9B5C8E93A67574F795 /* EntityDemo.swift */; };
@@ -66,14 +69,14 @@
 		CBAC6218728BB804F26B7B19 /* SYMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5DCEA671D51B5245551ED /* SYMApp.swift */; };
 		CE87149CF64CF65728941472 /* GTMSessionFetcherCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D0F29520C1FC52305A8663 /* GTMSessionFetcherCore.framework */; };
 		D64544CAAC3770020CB67A01 /* RepoDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001F3DFCFCC7A6E3D63DC9D2 /* RepoDemo.swift */; };
+		D6A85290EAB8818E3FB8045B /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F059B72E6C3F3C0C34671 /* ChatBubble.swift */; };
+		D8E611253A950730873A6AC2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B2D06D47220A7DDF438DB0 /* Button.swift */; };
 		D9CC74C88FCBDCAAFE4DD2DD /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0D8EEA51A14738AC118A517A /* Secrets.xcconfig */; };
 		DA9693C61D37DC96EA7AA972 /* GoogleUtilities_Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19EB5C1E2E62C5755AC3D37C /* GoogleUtilities_Reachability.framework */; };
 		DE938893C5595D7F1DA57B55 /* MypageDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30EDC59862E39AF90D6B928 /* MypageDemo.swift */; };
 		E2EC516E6D7D2D3D1F06918E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7C8AE31F2EAD1ED7471B59D /* Assets.xcassets */; };
 		E88A96D3E8BD6134E4A8599F /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43812BA4C40B52AE11BB279 /* Font.swift */; };
 		E8C29D9C1825596E8B666E5E /* abseil.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F7373C5A5637F3144FC1086 /* abseil.xcframework */; };
-		EC57750B2B49BFD1003CFD5E /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57750A2B49BFD1003CFD5E /* ChatBubble.swift */; };
-		EC57750D2B49BFFF003CFD5E /* ChatBubbleDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57750C2B49BFFF003CFD5E /* ChatBubbleDemo.swift */; };
 		EE7C55FA3EA295A56CB1CEB1 /* leveldb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25075772C72D6E90D35A78DC /* leveldb.framework */; };
 		EE9D97A608976FD6344F92A3 /* ViewModelDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD63356416F245D745DC63 /* ViewModelDemo.swift */; };
 		F09896DAC59C4EE9FC2F5FCF /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D639DD000AD21BBD511CADD /* FirebaseCore.framework */; };
@@ -98,12 +101,14 @@
 		01BF7C33C3CB8D3879944635 /* TuistBundle+SYM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+SYM.swift"; sourceTree = "<group>"; };
 		03F5DCEA671D51B5245551ED /* SYMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SYMApp.swift; sourceTree = "<group>"; };
 		044E1AB18C18739FAB7CD224 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
+		0A1F059B72E6C3F3C0C34671 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		0D8EEA51A14738AC118A517A /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		18BB0855C3F3434A96A71F79 /* GoogleUtilities_AppDelegateSwizzler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleUtilities_AppDelegateSwizzler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19EB5C1E2E62C5755AC3D37C /* GoogleUtilities_Reachability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleUtilities_Reachability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24472EBB672EF753CF80AA6C /* third_party_IsAppEncrypted.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = third_party_IsAppEncrypted.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25075772C72D6E90D35A78DC /* leveldb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = leveldb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2635415F454D9E4885FE5D8E /* ServicesDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesDemo.swift; sourceTree = "<group>"; };
+		26B2D06D47220A7DDF438DB0 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		27CFBABB9171180DB262E1D0 /* ProtocolDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolDemo.swift; sourceTree = "<group>"; };
 		29E2EC5164E7D549A5C54CB7 /* AnalysisDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisDemo.swift; sourceTree = "<group>"; };
 		2A6D880FA0D6584A005469B0 /* UseCaseDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseDemo.swift; sourceTree = "<group>"; };
@@ -127,14 +132,17 @@
 		78D0F29520C1FC52305A8663 /* GTMSessionFetcherCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GTMSessionFetcherCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7908600BDD1C7977F4CBD3D8 /* ColorDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemo.swift; sourceTree = "<group>"; };
 		793269BAF0BD5845D6D2C681 /* FirebaseFirestoreTarget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseFirestoreTarget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BFCDE079447BEA4C8112208 /* ChatBubbleDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleDemo.swift; sourceTree = "<group>"; };
 		7F7373C5A5637F3144FC1086 /* abseil.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = abseil.xcframework; sourceTree = "<group>"; };
 		824CF427E13E7C61ECE1CC24 /* Firebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82BCA18ED498009AFB0D6FBA /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		82FB689E204F69504B0450D6 /* GoogleUtilities_Environment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleUtilities_Environment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85BBB29A9954AF7458641A0F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		8E74B4C28A7589403CFDCA21 /* HexColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorExtension.swift; sourceTree = "<group>"; };
 		9CD5E9152A8919B1DA7C0051 /* FirebaseCoreExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseCoreExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30B6EBE304879C561268284 /* FirebaseFirestore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseFirestore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30EDC59862E39AF90D6B928 /* MypageDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageDemo.swift; sourceTree = "<group>"; };
+		A65524FC04A398F556AE32F1 /* TextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditor.swift; sourceTree = "<group>"; };
 		A841526235863D21B809C51B /* gRPC-Core.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "gRPC-Core.xcframework"; sourceTree = "<group>"; };
 		B12BB78D44D2958A8D84E1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B585FB9516B14DF0D2C106AA /* ButtonDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDemo.swift; sourceTree = "<group>"; };
@@ -162,8 +170,6 @@
 		E5F9165ADF24E130589578D8 /* gRPC-C++.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "gRPC-C++.xcframework"; sourceTree = "<group>"; };
 		E77EB8D7C847B57F9E94B7B8 /* FirebaseSPM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseSPM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BA856B72916931E7D0A1E8 /* FirebaseAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC57750A2B49BFD1003CFD5E /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubble.swift; path = ../../../../App/Sources/DesignSystem/ChatBubble/ChatBubble.swift; sourceTree = "<group>"; };
-		EC57750C2B49BFFF003CFD5E /* ChatBubbleDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatBubbleDemo.swift; path = ../../../../App/Sources/DesignSystem/ChatBubble/ChatBubbleDemo.swift; sourceTree = "<group>"; };
 		ECD1FA11BF54F1C71593CA74 /* FirebaseFirestoreSwiftTarget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseFirestoreSwiftTarget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE13A008422DC1A895F53274 /* FirebaseSharedSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseSharedSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9923B40669CDE35EC922D8D /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +279,7 @@
 		2932092E187BC8A65B327F34 /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				26B2D06D47220A7DDF438DB0 /* Button.swift */,
 				B585FB9516B14DF0D2C106AA /* ButtonDemo.swift */,
 			);
 			path = Button;
@@ -471,6 +478,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		82EB218169571CA90C90F5EB /* ChatBubble */ = {
+			isa = PBXGroup;
+			children = (
+				0A1F059B72E6C3F3C0C34671 /* ChatBubble.swift */,
+				7BFCDE079447BEA4C8112208 /* ChatBubbleDemo.swift */,
+			);
+			path = ChatBubble;
+			sourceTree = "<group>";
+		};
 		844D16A9A29451B34AA6DE80 /* SwiftPackageManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,8 +657,8 @@
 		D71D00516436EBF13EFEDDB2 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				EC5775092B49BFB7003CFD5E /* ChatBubble */,
 				2932092E187BC8A65B327F34 /* Button */,
+				82EB218169571CA90C90F5EB /* ChatBubble */,
 				30E3B68BE6DEDF06F0689CBD /* Color */,
 				88866F3A1568894EF4211420 /* CustomAlert */,
 				D30AE6D609CA1B9FC6026CD3 /* Font */,
@@ -675,15 +691,6 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
-		EC5775092B49BFB7003CFD5E /* ChatBubble */ = {
-			isa = PBXGroup;
-			children = (
-				EC57750A2B49BFD1003CFD5E /* ChatBubble.swift */,
-				EC57750C2B49BFFF003CFD5E /* ChatBubbleDemo.swift */,
-			);
-			path = ChatBubble;
-			sourceTree = "<group>";
-		};
 		F8682A494CD4D2EC735D89A6 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,6 +712,8 @@
 			isa = PBXGroup;
 			children = (
 				B88F968987365C175C52D12F /* FormDemo.swift */,
+				A65524FC04A398F556AE32F1 /* TextEditor.swift */,
+				82BCA18ED498009AFB0D6FBA /* TextField.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -747,6 +756,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = Mogong;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = B02C37D118F9E57CC0BD5F21 /* Build configuration list for PBXProject "SYM" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -811,7 +822,10 @@
 				9C4131E6AFBA5A3788398B49 /* ContentView.swift in Sources */,
 				B08D4C21DE323556F38843D8 /* NetworkDemo.swift in Sources */,
 				D64544CAAC3770020CB67A01 /* RepoDemo.swift in Sources */,
+				D8E611253A950730873A6AC2 /* Button.swift in Sources */,
 				CA0BBF310C6F36947DA8087B /* ButtonDemo.swift in Sources */,
+				D6A85290EAB8818E3FB8045B /* ChatBubble.swift in Sources */,
+				7701E3C469AB2EC56E614FF9 /* ChatBubbleDemo.swift in Sources */,
 				3F8338535859D742A6E70AEC /* Color.swift in Sources */,
 				12C3D3917B13F9918BCCBA34 /* ColorDemo.swift in Sources */,
 				0F11B797AC84524EE911266A /* PopupViewDemo.swift in Sources */,
@@ -819,6 +833,8 @@
 				E88A96D3E8BD6134E4A8599F /* Font.swift in Sources */,
 				81F6776F21D471E9CD27C193 /* FontDemo.swift in Sources */,
 				C9E0D5A82AB7E3DDC1E0B8A7 /* FormDemo.swift in Sources */,
+				772A11E2FED7249A71CCFEA0 /* TextEditor.swift in Sources */,
+				ACF4D370704CF288DF1471DB /* TextField.swift in Sources */,
 				C94B208BFDB547C41AB952A0 /* EntityDemo.swift in Sources */,
 				7B0F9A27080EBE6AE8ECA86C /* ProtocolDemo.swift in Sources */,
 				8D00169AECE55D86E14B1C04 /* UseCaseDemo.swift in Sources */,
@@ -828,13 +844,11 @@
 				8888EBE8279CC8D1BB029E5D /* AnalysisDemo.swift in Sources */,
 				0EDA3F6726B2545FD5CC7A2E /* CalendarDemo.swift in Sources */,
 				8561F3B444F878805A6008B6 /* CharacterDemo.swift in Sources */,
-				EC57750B2B49BFD1003CFD5E /* ChatBubble.swift in Sources */,
 				DE938893C5595D7F1DA57B55 /* MypageDemo.swift in Sources */,
 				49101454DCB84777F4C96B07 /* RecordDemo.swift in Sources */,
 				9AFC745B2CD42F513E4B50FD /* SignDemo.swift in Sources */,
 				EE9D97A608976FD6344F92A3 /* ViewModelDemo.swift in Sources */,
 				CBAC6218728BB804F26B7B19 /* SYMApp.swift in Sources */,
-				EC57750D2B49BFFF003CFD5E /* ChatBubbleDemo.swift in Sources */,
 				AC985F4EC1EAE71417EEF2CD /* ServicesDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -997,7 +1011,45 @@
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseCore/Extension/FirebaseCoreExtension.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternalWrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreSwiftWrap/include/FirebaseFirestoreSwiftTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreWrap/include/FirebaseFirestoreTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/SwiftPM-PlatformExclude/gRPC-CXX-Target/include/gRPC-CXX-Target.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC-CXX-Wrapper/include/gRPC-CXX-Wrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public/GTMSessionFetcherCore.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/include/leveldb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap";
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseCore/Extension/FirebaseCoreExtension.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternalWrapper.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreSwiftWrap/include/FirebaseFirestoreSwiftTarget.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreWrap/include/FirebaseFirestoreTarget.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/SwiftPM-PlatformExclude/gRPC-CXX-Target/include/gRPC-CXX-Target.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC-CXX-Wrapper/include/gRPC-CXX-Wrapper.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public/GTMSessionFetcherCore.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/include/leveldb.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mogong.SYM;
 				PRODUCT_NAME = SYM;
 				SDKROOT = iphoneos;
@@ -1053,7 +1105,45 @@
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseCore/Extension/FirebaseCoreExtension.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternalWrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreSwiftWrap/include/FirebaseFirestoreSwiftTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreWrap/include/FirebaseFirestoreTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/SwiftPM-PlatformExclude/gRPC-CXX-Target/include/gRPC-CXX-Target.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC-CXX-Wrapper/include/gRPC-CXX-Wrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public/GTMSessionFetcherCore.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/include/leveldb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap";
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseCore/Extension/FirebaseCoreExtension.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseFirestoreInternal/FirebaseFirestoreInternalWrapper.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreSwiftWrap/include/FirebaseFirestoreSwiftTarget.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseFirestoreWrap/include/FirebaseFirestoreTarget.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/SwiftPM-PlatformExclude/gRPC-CXX-Target/include/gRPC-CXX-Target.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC-CXX-Wrapper/include/gRPC-CXX-Wrapper.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public/GTMSessionFetcherCore.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/include/leveldb.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
+					"-Xcc",
+					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Mogong.SYM;
 				PRODUCT_NAME = SYM;
 				SDKROOT = iphoneos;
