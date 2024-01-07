@@ -12,7 +12,7 @@ struct DefaultButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: 60)
-            .font(.symH3)
+            .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symBlack)
             .background(Color.symPink)
             .cornerRadius(30)
@@ -25,7 +25,7 @@ struct DisabledButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: 60)
-            .font(.symH3)
+            .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symWhite)
             .background(Color.symGray2)
             .cornerRadius(30)
