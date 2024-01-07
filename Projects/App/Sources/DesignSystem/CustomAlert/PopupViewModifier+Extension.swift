@@ -8,7 +8,9 @@
 import SwiftUI
 
 public enum PopupType {
+    /// 일반 확인/취소 버튼이 있는 팝업뷰
     case doubleButton(leftTitle: String, rightTitle: String)
+    /// 가이드 라인 작성 시 사용할 팝업뷰
     case guide
 }
 

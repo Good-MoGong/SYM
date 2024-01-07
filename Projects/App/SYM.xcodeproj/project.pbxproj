@@ -48,7 +48,10 @@
 		6C73517A33182401BD39B143 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 519848519CF4806F49322147 /* Security.framework */; };
 		6CE69CD0B74C14774DBB25D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E8B3F8E01182F5AFAFA3CC /* UIKit.framework */; };
 		6F386F70C785F1476BBE848E /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F5C656C1F0C707DD22C5B /* nanopb.framework */; };
+<<<<<<< HEAD
 		708FD3DF42FA54BE7B4E6B84 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F5929E097DE2513C2B41D0E /* Pretendard-Thin.otf */; };
+=======
+>>>>>>> 53f1d31 (feat: TextField, TextEditor 관련 컴포넌트 구현)
 		7701E3C469AB2EC56E614FF9 /* ChatBubbleDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFCDE079447BEA4C8112208 /* ChatBubbleDemo.swift */; };
 		772A11E2FED7249A71CCFEA0 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65524FC04A398F556AE32F1 /* TextEditor.swift */; };
 		77B2AE69EC2CDD5F2B57ED54 /* GoogleUtilities_Environment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FB689E204F69504B0450D6 /* GoogleUtilities_Environment.framework */; };
@@ -78,7 +81,10 @@
 		CBAC6218728BB804F26B7B19 /* SYMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5DCEA671D51B5245551ED /* SYMApp.swift */; };
 		CE87149CF64CF65728941472 /* GTMSessionFetcherCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D0F29520C1FC52305A8663 /* GTMSessionFetcherCore.framework */; };
 		D64544CAAC3770020CB67A01 /* RepoDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001F3DFCFCC7A6E3D63DC9D2 /* RepoDemo.swift */; };
+<<<<<<< HEAD
 		D680E4F13F6EB046035EBFD7 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B89F45C1A6FC1B505755FE13 /* Pretendard-ExtraBold.otf */; };
+=======
+>>>>>>> 53f1d31 (feat: TextField, TextEditor 관련 컴포넌트 구현)
 		D6A85290EAB8818E3FB8045B /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F059B72E6C3F3C0C34671 /* ChatBubble.swift */; };
 		D8E611253A950730873A6AC2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B2D06D47220A7DDF438DB0 /* Button.swift */; };
 		D9CC74C88FCBDCAAFE4DD2DD /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0D8EEA51A14738AC118A517A /* Secrets.xcconfig */; };
