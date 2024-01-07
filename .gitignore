@@ -125,12 +125,25 @@ DerivedData/
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
 
 ### Projects ###
 *.xcodeproj
 *.xcworkspace
+
+### 기타 ###
+
+# DS store
+*.DS_Store
+
+# xcuserstate
+*.xcuserstate
+*.xcodeproj
+*.xcworkspace
+*.xcuserdatad
 
 ### Tuist derived files ###
 graph.dot
