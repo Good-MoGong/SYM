@@ -25,7 +25,7 @@ struct CustomTextFieldStyle: ViewModifier {
                     .padding(15)
                     .padding(.leading, 7)
                     .background(Color.symGray1)
-                    .font(DesignSystem.FontStyles.symBody)
+                    .font(PretendardFont.bodyMedium)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .padding(.horizontal, 5)
             }
@@ -34,7 +34,7 @@ struct CustomTextFieldStyle: ViewModifier {
                 content
                     .padding(15)
                     .padding(.leading, 7)
-                    .font(DesignSystem.FontStyles.symBody)
+                    .font(PretendardFont.bodyMedium)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .background(
@@ -43,7 +43,7 @@ struct CustomTextFieldStyle: ViewModifier {
                     )
                     .padding(.horizontal, 5)
                 Text("사용할 수 없는 닉네임이에요 \n닉네임을 다시 한번 확인해주세요")
-                    .font(DesignSystem.FontStyles.symSmall)
+                    .font(PretendardFont.smallMedium)
                     .foregroundColor(.red)
                     .lineSpacing(1.5)
                     .padding(.leading, 15)
