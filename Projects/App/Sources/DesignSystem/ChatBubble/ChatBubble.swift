@@ -15,11 +15,11 @@ struct ChatBubble: View {
     
     var body: some View {
         Text(animatedMessage)
-            .padding(24)
-            .font(.symH4)
+            .padding()
+            .font(PretendardFont.h4Medium)
             .background(Color.symPink)
             .foregroundColor(.black)
-            .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
             .overlay(alignment: .bottom) {
                 Image(systemName: "arrowtriangle.down.fill")
                     .font(.title)
@@ -31,7 +31,7 @@ struct ChatBubble: View {
             .task {
                 await animate()
             }
-            .padding(24)
+            .padding()
     }
     private func animate() async {
         for char in message {

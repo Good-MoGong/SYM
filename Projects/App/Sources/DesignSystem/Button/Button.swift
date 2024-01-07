@@ -12,11 +12,7 @@ struct DefaultButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: 60)
-<<<<<<< HEAD
             .font(PretendardFont.h3Medium)
-=======
-            .font(.symH3)
->>>>>>> 53f1d31 (feat: TextField, TextEditor 관련 컴포넌트 구현)
             .foregroundColor(Color.symBlack)
             .background(Color.symPink)
             .cornerRadius(30)
@@ -29,11 +25,7 @@ struct DisabledButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: 60)
-<<<<<<< HEAD
             .font(PretendardFont.h3Medium)
-=======
-            .font(.symH3)
->>>>>>> 53f1d31 (feat: TextField, TextEditor 관련 컴포넌트 구현)
             .foregroundColor(Color.symWhite)
             .background(Color.symGray2)
             .cornerRadius(30)
