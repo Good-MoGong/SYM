@@ -44,12 +44,11 @@ struct PopupView: ViewModifier {
                         .ignoresSafeArea()
                     VStack {
                         Text(title)
-                            .font(DesignSystem.FontStyles.symH3)
-                            .fontWeight(.bold)
+                            .font(PretendardFont.h3Bold)
                         Spacer().frame(height: 10)
                         if !desc.isEmpty {
                             Text(desc)
-                                .font(DesignSystem.FontStyles.symBody)
+                                .font(PretendardFont.bodyMedium)
                                 .lineSpacing(2)
                                 .multilineTextAlignment(.leading)
                         }
@@ -73,15 +72,14 @@ struct PopupView: ViewModifier {
                     VStack(alignment: .leading) {
                         HStack {
                             Text(title)
-                                .font(DesignSystem.FontStyles.symH3)
-                                .fontWeight(.bold)
+                                .font(PretendardFont.h3Bold)
                             Spacer()
                             bottomView
                                 .frame(alignment: .trailing)
                         }
                         Spacer().frame(height: 20)
                         Text(desc)
-                            .font(DesignSystem.FontStyles.symBody)
+                            .font(PretendardFont.bodyMedium)
                             .lineSpacing(1.5)
                             .multilineTextAlignment(.leading)
                         
@@ -91,7 +89,7 @@ struct PopupView: ViewModifier {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 40)
                     .padding(.bottom, 25)
-                    .background(Color.white)
+                    .background(Color.symWhite)
                     .cornerRadius(30)
                     .padding(.horizontal, 30)
                 }
@@ -129,8 +127,7 @@ struct PopupView: ViewModifier {
                     confirmHandler()
                 }
         }
-        .font(DesignSystem.FontStyles.symH5)
-        .foregroundColor(Color.yellow)
+        .font(PretendardFont.h5Medium)
         .padding(.horizontal, 20)
     }
     

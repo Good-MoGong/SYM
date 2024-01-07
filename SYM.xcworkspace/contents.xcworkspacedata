@@ -12,31 +12,47 @@
       </FileRef>
    </Group>
    <Group
-      location = "container:"
-      name = "Dependencies">
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/grpc-binary/gRPC.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/leveldb/leveldb.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/nanopb.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
-      </FileRef>
+      location = "group:Tuist"
+      name = "Tuist">
+      <Group
+         location = "group:Dependencies"
+         name = "Dependencies">
+         <Group
+            location = "group:SwiftPackageManager"
+            name = "SwiftPackageManager">
+            <Group
+               location = "group:.build"
+               name = ".build">
+               <Group
+                  location = "group:checkouts"
+                  name = "checkouts">
+                  <FileRef
+                     location = "group:GoogleUtilities/GoogleUtilities.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:firebase-ios-sdk/Firebase.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:grpc-binary/gRPC.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:gtm-session-fetcher/GTMSessionFetcher.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:interop-ios-for-google-sdks/InteropForGoogle.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:leveldb/leveldb.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:nanopb/nanopb.xcodeproj">
+                  </FileRef>
+                  <FileRef
+                     location = "group:promises/Promises.xcodeproj">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+      </Group>
    </Group>
 </Workspace>
