@@ -16,7 +16,7 @@ struct ButtonDemo: View {
                 print("DefaultStyle 버튼 눌림")
             }
             /// .buttonStyle에 적용
-            .buttonStyle(DefaultButtonStyle())
+            .buttonStyle(PinkButtonStyle())
             
             Button("Disabled 버튼 테스트용") {
                 print("DisabledStyle 버튼 눌림")
@@ -29,7 +29,7 @@ struct ButtonDemo: View {
                     print("DefaultStyle 버튼 눌림")
                 }
                 /// .buttonStyle에 적용
-                .buttonStyle(DefaultButtonStyle())
+                .buttonStyle(PinkButtonStyle())
                 Button("테스트용") {
                     print("DisabledStyle 버튼 눌림")
                 }

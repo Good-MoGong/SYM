@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DefaultButtonStyle: ButtonStyle {
+struct PinkButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: 60)

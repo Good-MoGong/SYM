@@ -32,7 +32,7 @@ struct CustomTextEditorStyle: ViewModifier {
         } else {
             content
                 .padding(15)
-                .background(Color(UIColor.systemGray5))
+                .background(Color.symGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
                 .scrollContentBackground(.hidden)
         }
