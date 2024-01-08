@@ -21,12 +21,12 @@ struct CustomTextEditorStyle: ViewModifier {
                     .background(Color.symGray1)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .scrollContentBackground(.hidden)
-                    .font(DesignSystem.FontStyles.symBody)
+                    .font(PretendardFont.bodyMedium)
                 Text(placeholder)
                     .lineSpacing(10)
                     .padding(20)
                     .padding(.top, 2)
-                    .font(DesignSystem.FontStyles.symBody)
+                    .font(PretendardFont.bodyMedium)
                     .foregroundColor(Color.symGray3)
             }
         } else {
