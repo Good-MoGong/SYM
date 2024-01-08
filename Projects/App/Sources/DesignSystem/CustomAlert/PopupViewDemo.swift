@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PopupDemo: View {
     @State private var isShowingPopup = false
-    @State private var isShowingGuide = false
+    @State private var isShowingGuide = true
     
     var body: some View {
         ZStack {
