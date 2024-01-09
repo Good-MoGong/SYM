@@ -69,25 +69,29 @@ struct PopupView: ViewModifier {
                     Color.black
                         .opacity(0.3)
                         .ignoresSafeArea()
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
+                            Image(systemName: "xmark")
+                                .font(PretendardFont.h3Medium)
+                                .padding(.trailing, 10)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        Spacer().frame(height: 10)
                         HStack {
                             Text(title)
                                 .font(PretendardFont.h3Bold)
-                            Spacer()
-                            bottomView
-                                .frame(alignment: .trailing)
+//                            Spacer()
+//                            bottomView
+//                                .frame(alignment: .trailing)
                         }
                         Spacer().frame(height: 20)
                         Text(desc)
                             .font(PretendardFont.bodyMedium)
                             .lineSpacing(1.5)
-                            .multilineTextAlignment(.leading)
-                        
+                            .multilineTextAlignment(.center)
                         Spacer().frame(height: 20)
                     }
                     .padding(.horizontal, 20)
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
+                    .padding(.top, 23)
                     .padding(.bottom, 25)
                     .background(Color.symWhite)
                     .cornerRadius(30)
