@@ -36,7 +36,6 @@ struct ColorDemo: View {
                     .foregroundColor(Color.symGray4)
                     .frame(width: 50, height: 50)
             }
-
         }
     }
 }
