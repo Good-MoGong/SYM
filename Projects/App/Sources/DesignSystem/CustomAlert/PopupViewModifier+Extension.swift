@@ -9,26 +9,35 @@ import SwiftUI
 
 public enum PopupType {
     case doubleButton(leftTitle: String, rightTitle: String)
-    case guide
+    case guide(title: String)
 }
 
 struct PopupView: ViewModifier {
     @Binding var isShowing: Bool
+    /// 팝업 타입
     let type: PopupType
+    /// 팝업뷰 제목
     let title: String
+    /// 팝업뷰 소제목
+    let boldDesc: String
+    /// 팝업뷰 내용
     let desc: String
+    /// 팝업뷰 확인 버튼 함수
     let confirmHandler: () -> Void
+    /// 팝업뷰 취소 버튼 함수
     let cancelHandler: () -> Void
     
     init(isShowing: Binding<Bool>,
          type: PopupType,
          title: String,
+         boldDesc: String,
          desc: String,
          confirmHandler: @escaping () -> Void,
          cancelHandler: @escaping () -> Void) {
         self._isShowing = isShowing
         self.type = type
         self.title = title
+        self.boldDesc = boldDesc
         self.desc = desc
         self.confirmHandler = confirmHandler
         self.cancelHandler = cancelHandler
@@ -44,25 +53,32 @@ struct PopupView: ViewModifier {
                         .ignoresSafeArea()
                     VStack {
                         Text(title)
-                            .font(PretendardFont.h3Bold)
-                        Spacer().frame(height: 10)
+                            .font(PretendardFont.h5Bold)
+                        Spacer().frame(height: 12)
+                        
+                        if !boldDesc.isEmpty {
+                            Text(boldDesc)
+                                .font(PretendardFont.smallMedium)
+                                .foregroundColor(Color.symRed)
+                            Spacer().frame(height: 4)
+                        }
+                        
                         if !desc.isEmpty {
                             Text(desc)
-                                .font(PretendardFont.bodyMedium)
+                                .font(.custom(PretendardFont.medium, size: 10))
                                 .lineSpacing(2)
                                 .multilineTextAlignment(.leading)
+                         
                         }
-                        Spacer().frame(height: 14)
-                        
+                        Spacer().frame(height: 20)
                         bottomView
                     }
                     .padding(.horizontal, 20)
+                    .padding(.vertical, 25)
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
-                    .padding(.bottom, 10)
                     .background(Color.white)
-                    .cornerRadius(30)
-                    .padding(.horizontal, 30)
+                    .cornerRadius(15)
+                    .padding(.horizontal, 60)
                 }
             case .guide:
                 ZStack {
@@ -70,32 +86,24 @@ struct PopupView: ViewModifier {
                         .opacity(0.3)
                         .ignoresSafeArea()
                     VStack(alignment: .center) {
-                            Image(systemName: "xmark")
-                                .font(PretendardFont.h3Medium)
-                                .padding(.trailing, 10)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        Spacer().frame(height: 10)
-                        HStack {
-                            Text(title)
-                                .font(PretendardFont.h3Bold)
-//                            Spacer()
-//                            bottomView
-//                                .frame(alignment: .trailing)
-                        }
-                        Spacer().frame(height: 20)
+                        Text(title)
+                            .font(PretendardFont.h4Bold)
+                        Spacer().frame(height: 15)
                         Text(desc)
                             .font(PretendardFont.bodyMedium)
                             .lineSpacing(1.5)
                             .multilineTextAlignment(.center)
-                        Spacer().frame(height: 20)
+                        Spacer().frame(height: 28)
+                        bottomView
+                        
                     }
                     .padding(.horizontal, 20)
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 23)
+                    .padding(.top, 25)
                     .padding(.bottom, 25)
                     .background(Color.symWhite)
-                    .cornerRadius(30)
-                    .padding(.horizontal, 30)
+                    .cornerRadius(15)
+                    .padding(.horizontal, 60)
                 }
             }
         } else {
@@ -107,38 +115,45 @@ struct PopupView: ViewModifier {
         switch type {
         case .doubleButton(let leftTitle, let rightTitle):
             multiButtonView(leftTitle: leftTitle, rightTitle: rightTitle)
-        case .guide:
-            guideView()
+        case .guide(let title):
+            guideView(title: title)
         }
     }
     
     func multiButtonView(leftTitle: String, rightTitle: String) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 30) {
             Text(leftTitle)
-                .frame(height: 50)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
-                .foregroundColor(Color.gray)
-                .cornerRadius(10)
-                .onTapGesture {
-                    cancelHandler()
-                }
-            Text(rightTitle)
-                .frame(height: 50)
-                .frame(maxWidth: .infinity)
-                .foregroundColor(Color.red)
-                .cornerRadius(10)
+                .foregroundColor(Color.symBlack)
+                .background(Color.symPink)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
                 .onTapGesture {
                     confirmHandler()
                 }
+            
+            Text(rightTitle)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.symBlack)
+                .background(Color.symGray2)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .onTapGesture {
+                    cancelHandler()
+                }
         }
-        .font(PretendardFont.h5Medium)
+        .font(PretendardFont.bodyMedium)
         .padding(.horizontal, 20)
     }
     
-    func guideView() -> some View {
-        HStack {
-            Image(systemName: "xmark")
-                .foregroundColor(Color.black)
+    func guideView(title: String) -> some View {
+        VStack {
+            Text(title)
+                .padding(.vertical, 11)
+                .frame(maxWidth: .infinity)
+                .background(Color.symPink)
+                .font(PretendardFont.bodyMedium)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
                 .onTapGesture {
                     cancelHandler()
                 }
@@ -150,6 +165,7 @@ public extension View {
     func popup(isShowing: Binding<Bool>,
                type: PopupType,
                title: String,
+               boldDesc: String,
                desc: String,
                confirmHandler: @escaping () -> Void,
                cancelHandler: @escaping () -> Void)
@@ -157,6 +173,7 @@ public extension View {
         self.modifier(PopupView(isShowing: isShowing,
                                 type: type,
                                 title: title,
+                                boldDesc: boldDesc,
                                 desc: desc,
                                 confirmHandler: confirmHandler,
                                 cancelHandler: cancelHandler))

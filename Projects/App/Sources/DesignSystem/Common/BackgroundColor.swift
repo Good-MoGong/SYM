@@ -32,8 +32,27 @@ struct BackgroundView: ViewModifier {
     }
 }
 
+struct UseforSignupView: ViewModifier {
+    let color: Color
+    
+    func body(content: Content) -> some View {
+        content
+            .font(PretendardFont.smallMedium)
+            .foregroundColor(color)
+            .lineSpacing(1.5)
+    }
+}
+
 public extension Text {
+    /// 일반 핑크/회색 백그라운드
     func setBackgroundColor(_ colorType: BackgroundType) -> some View {
         self.modifier(BackgroundView(type: colorType))
     }
+    
+    /// 회원가입시 닉네임 관련 modifier 일괄 적용
+    func SignupTextFieldContent(color: Color) -> some View {
+        self.modifier(UseforSignupView(color: color))
+    }
 }
+
+

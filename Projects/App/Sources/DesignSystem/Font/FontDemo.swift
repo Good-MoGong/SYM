@@ -65,16 +65,6 @@ struct FontTest: View {
                 Text("16, PretendardFont-Bold")
                     .font(PretendardFont.smallMedium)
             }
-            //            Text("H1 Text")
-            //              .foregroundStyle(DesignSystem.ColorStyles.symGray1)
-            //              .modifier(PinkTextStyle())
-            //            Text("H2 Text")
-            //                .foregroundStyle(Color.symPink)
-            //                .foregroundStyle(DesignSystem.ColorStyles.symGray4)
-            //            Text("Body Text")
-            //                .foregroundStyle(DesignSystem.ColorStyles.symPink)
-            //                .foregroundStyle(Color.symPink)
-            
         }
     }
 }
