@@ -25,4 +25,6 @@ extension Color {
     static let symGray1 = Color.init(hex: "F1F1F1")
     /// 시스템 화이트
     static let symWhite = Color.init(hex: "FFFFFF")
+    /// 버튼 눌렸을 때 짙은 핑크색
+    static let symPressedPink = Color.init(hex: "FABEBE")
 }
