@@ -41,7 +41,7 @@ struct SignupNicknameView: View {
     }
     
     @ViewBuilder
-    func getButton() -> some View {
+    private func getButton() -> some View {
         if 1 <= nickname.count, nickname.count < 6 {
             Button {
                 
@@ -62,7 +62,7 @@ struct SignupNicknameView: View {
     
     @ViewBuilder
     /// 닉네임 규칙 룰을 그리는 뷰
-    func checkNicknameRules() -> some View {
+    private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
             Text(NickNameRules.zero.rawValue)
                 .settingNicknameRules(.symBlack)
@@ -83,7 +83,7 @@ struct SignupNicknameView: View {
     
     @ViewBuilder
     /// 닉네임 카운팅
-    func countingNickname() -> some View {
+    private func countingNickname() -> some View {
         Spacer()
         HStack(spacing: 0) {
             Text("\(nickname.count)")
@@ -107,7 +107,7 @@ struct SignupNickNameRuleView: ViewModifier {
     }
 }
 
-public extension Text {
+extension Text {
     /// 회원가입시 닉네임 관련 modifier 일괄 적용
     func settingNicknameRules(_ color: Color) -> some View {
         self.modifier(SignupNickNameRuleView(color: color))
