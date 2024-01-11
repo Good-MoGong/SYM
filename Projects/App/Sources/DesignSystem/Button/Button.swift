@@ -11,7 +11,8 @@ import SwiftUI
 struct PinkButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .frame(maxWidth: .infinity, maxHeight: 60)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 17)
             .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symBlack)
             .background(Color.symPink)
@@ -24,7 +25,8 @@ struct PinkButtonStyle: ButtonStyle {
 struct DisabledButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .frame(maxWidth: .infinity, maxHeight: 60)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 17)
             .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symWhite)
             .background(Color.symGray2)
