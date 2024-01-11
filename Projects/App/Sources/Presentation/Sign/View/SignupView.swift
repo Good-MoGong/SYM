@@ -57,6 +57,7 @@ struct SignupBackground: ViewModifier {
 }
 
 extension View {
+    /// 카카오톡과 애플 로그인 텍스트의 공통 background 설정
     func signupTextBackground(_ color: Color) -> some View {
         self.modifier(SignupBackground(color: color))
     }
