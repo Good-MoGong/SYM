@@ -8,10 +8,16 @@
 
 import SwiftUI
 
+enum NickNameRules: String, CaseIterable {
+    case zero = "한글, 영문을 포함하여 2~5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
+    case allow = "한글, 영문을 포함하여 최소 2~5자까지 입력 가능해요."
+    case reject = "사용할 수 없는 닉네임이에요 \n닉네임을 다시 한번 확인해주세요"
+}
+
 struct SignupNicknameView: View {
     @State var nickname = ""
     @State var isPressed: Bool = false
-    
+    @State var nicknameRules = NickNameRules.zero
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 16) {
@@ -22,7 +28,7 @@ struct SignupNicknameView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     TextField("닉네임을 입력해주세요", text: $nickname)
                         .customTF(type: nickname.count < 5 ? .normal : .error)
-                    getTextField()
+                    checkNicknameRules()
                 }
             }
             Spacer()
@@ -37,37 +43,55 @@ struct SignupNicknameView: View {
     @ViewBuilder
     func getButton() -> some View {
         if 1 <= nickname.count, nickname.count < 6 {
-            Button("완료") {
-                print("완료")
+            Button {
+                
+            } label: {
+                Text("완료")
+                    .font(PretendardFont.h4Medium)
             }
             .buttonStyle(PinkButtonStyle())
+            
         } else {
-            Button("완료") {
-                print("비활성화된 버튼 눌림")
-            }
+            Button(action: {}, label: {
+                Text("완료")
+                    .font(PretendardFont.h4Medium)
+            })
             .buttonStyle(DisabledButtonStyle())
         }
     }
     
     @ViewBuilder
-    func getTextField() -> some View {
-        if nickname.count >= 5 {
-            HStack(alignment: .top) {
-                Text("사용할 수 없는 닉네임이에요 \n닉네임을 다시 한번 확인해주세요")
-                    .font(PretendardFont.smallMedium)
-                    .foregroundColor(.red)
-                    .lineSpacing(1.5)
-                    .padding(.leading, 15)
-                Spacer()
-                HStack(spacing: 0) {
-                    Text("\(nickname.count)")
-                        .font(PretendardFont.smallMedium)
-                        .foregroundColor(Color.symBlack)
-                    Text("/5")
-                        .font(PretendardFont.smallMedium)
-                        .foregroundColor(Color.symGray4)
-                }
+    /// 닉네임 규칙 룰을 그리는 뷰
+    func checkNicknameRules() -> some View {
+        if nickname.isEmpty {
+            Text(NickNameRules.zero.rawValue)
+                .SignupTextFieldContent(color: .symBlack)
+        } else if nickname.count < 5, nickname.count >= 1 {
+            HStack {
+                Text(NickNameRules.allow.rawValue)
+                    .SignupTextFieldContent(color: .symBlack)
+                countingNickname()
             }
+        } else if nickname.count >= 5 {
+            HStack(alignment: .top) {
+                Text(NickNameRules.reject.rawValue)
+                    .SignupTextFieldContent(color: .symRed)
+                countingNickname()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    /// 닉네임 카운팅
+    func countingNickname() -> some View {
+        Spacer()
+        HStack(spacing: 0) {
+            Text("\(nickname.count)")
+                .font(PretendardFont.smallMedium)
+                .foregroundColor(Color.symBlack)
+            Text("/5")
+                .font(PretendardFont.smallMedium)
+                .foregroundColor(Color.symGray4)
         }
     }
 }

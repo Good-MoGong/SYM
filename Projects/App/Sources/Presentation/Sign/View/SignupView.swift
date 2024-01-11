@@ -22,13 +22,13 @@ struct SignupView: View {
                 }
             }
             
-            VStack(spacing: 30) {
+            VStack(spacing: 20) {
                 HStack(spacing: 35) {
                     Image(systemName: "star.fill")
                         .padding(.leading, 35)
                     Text("카카오톡으로 로그인")
                         .font(PretendardFont.h4Medium)
-                }.loginCustom(.yellow)
+                }.signupTextBackground(Color(hex: "FEE500"))
                 
                 HStack(spacing: 35) {
                     Image(systemName: "heart.fill")
@@ -36,15 +36,15 @@ struct SignupView: View {
                     Text("Apple로 로그인")
                         .font(PretendardFont.h4Medium)
                         .foregroundColor(.white)
-                }.loginCustom(.symBlack)
+                }.signupTextBackground(.symBlack)
             }
         }
         .padding(.horizontal, 24)
     }
 }
 
-/// background 관련 디자인 빼기
-struct CustomRoundedPaddingModifier: ViewModifier {
+/// 카카오톡과 애플 로그인 텍스트의 공통 background
+struct SignupBackground: ViewModifier {
     var color: Color
     
     func body(content: Content) -> some View {
@@ -57,8 +57,8 @@ struct CustomRoundedPaddingModifier: ViewModifier {
 }
 
 extension View {
-    func loginCustom(_ color: Color) -> some View {
-        self.modifier(CustomRoundedPaddingModifier(color: color))
+    func signupTextBackground(_ color: Color) -> some View {
+        self.modifier(SignupBackground(color: color))
     }
 }
 
