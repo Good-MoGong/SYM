@@ -27,4 +27,8 @@ extension Color {
     static let symWhite = Color.init(hex: "FFFFFF")
     /// Error 에서 사용되는 빨간색
     static let symRed = Color.init(hex: "FF5C5C")
+    /// 카카오톡 색상
+    static let kakao = Color.init(hex: "FEE500")
+    /// 말풍선 색상
+    static let bubble = Color.init(hex: "D8EBFC")
 }
