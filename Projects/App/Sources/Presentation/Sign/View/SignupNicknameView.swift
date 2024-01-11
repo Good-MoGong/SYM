@@ -65,17 +65,17 @@ struct SignupNicknameView: View {
     func checkNicknameRules() -> some View {
         if nickname.isEmpty {
             Text(NickNameRules.zero.rawValue)
-                .SignupTextFieldContent(color: .symBlack)
+                .settingNicknameRules(.symBlack)
         } else if nickname.count < 5, nickname.count >= 1 {
             HStack {
                 Text(NickNameRules.allow.rawValue)
-                    .SignupTextFieldContent(color: .symBlack)
+                    .settingNicknameRules(.symBlack)
                 countingNickname()
             }
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
                 Text(NickNameRules.reject.rawValue)
-                    .SignupTextFieldContent(color: .symRed)
+                    .settingNicknameRules(.symRed)
                 countingNickname()
             }
         }
@@ -93,6 +93,24 @@ struct SignupNicknameView: View {
                 .font(PretendardFont.smallMedium)
                 .foregroundColor(Color.symGray4)
         }
+    }
+}
+
+struct SignupNickNameRuleView: ViewModifier {
+    let color: Color
+    
+    func body(content: Content) -> some View {
+        content
+            .font(PretendardFont.smallMedium)
+            .foregroundColor(color)
+            .lineSpacing(1.5)
+    }
+}
+
+public extension Text {
+    /// 회원가입시 닉네임 관련 modifier 일괄 적용
+    func settingNicknameRules(_ color: Color) -> some View {
+        self.modifier(SignupNickNameRuleView(color: color))
     }
 }
 
