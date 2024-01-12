@@ -20,7 +20,7 @@ struct TextFieldClearButton: ViewModifier {
                         Button {
                             text = ""
                         } label: {
-                            Image(systemName: "multiply.circle.fill")
+                            Image(systemName: "multiply.circle")
                         }
                         .foregroundStyle(Color.symBlack)
                         .padding(.trailing, 10)

@@ -10,9 +10,11 @@ import SwiftUI
 
 struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     @Environment(\.dismiss) var dismiss
-    
+    /// navigation 제목 뷰
     let centerView: (() -> C)?
+    /// navigation trailing item
     let rightView: (() -> R)?
+    /// leading 백 버튼 유무, 기본 값 true
     let isShowingBackButton: Bool?
     
     init(centerView: (() -> C)? = nil, rightView: (() -> R)? = nil, isShowingBackButton: Bool? = true) {
@@ -38,6 +40,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     
                     self.rightView?()
                         .foregroundStyle(Color.symBlack)
+                        .frame(width: 24, height: 24)
                 }
                 .frame(height: 44)
                 .frame(maxWidth: .infinity)
