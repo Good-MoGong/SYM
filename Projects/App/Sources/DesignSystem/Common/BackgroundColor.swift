@@ -33,7 +33,10 @@ struct BackgroundView: ViewModifier {
 }
 
 public extension Text {
+    /// 일반 핑크/회색 백그라운드
     func setBackgroundColor(_ colorType: BackgroundType) -> some View {
         self.modifier(BackgroundView(type: colorType))
     }
 }
+
+
