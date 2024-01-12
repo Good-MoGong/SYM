@@ -8,13 +8,9 @@
 
 import SwiftUI
 
-struct Mypage: View {
+struct MypageView: View {
     var body: some View {
         NavigationStack {
-            Rectangle()
-                .foregroundStyle(Color.symGray3)
-                .frame(height: 1)
-            
             UserInfo()
                 .padding(.vertical, 28)
             
@@ -29,16 +25,13 @@ struct Mypage: View {
             
             Spacer()
         }
-        // navigationTitle을 custom으로 만들어야 할듯
-        .navigationTitle("마이페이지")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    Text("Setting View")
-                } label: {
-                    Image(systemName: "gearshape")
-                }
+        .customNavigationBar {
+            Text("마이페이지")
+        } rightView: {
+            NavigationLink {
+                SettingView()
+            } label: {
+                Image(systemName: "gearshape")
             }
         }
     }
@@ -46,39 +39,41 @@ struct Mypage: View {
 // stub 데이터 만들어서 테스트하기
 private struct UserInfo: View {
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Button {
-                    print("모공모공님")
-                } label: {
-                    HStack {
-                        Text("모공모공님")
-                            .font(PretendardFont.h4Bold)
-                        Image(systemName: "chevron.forward")
-                            .font(PretendardFont.h4Medium)
+        NavigationStack {
+            HStack {
+                VStack(alignment: .leading) {
+                    NavigationLink {
+                        MyAccountInfo()
+                    } label: {
+                        HStack {
+                            Text("모공모공님")
+                                .font(PretendardFont.h4Bold)
+                            Image(systemName: "chevron.forward")
+                                .font(PretendardFont.h4Medium)
+                        }
                     }
-                }
-                .buttonStyle(.plain)
-                .padding(.bottom, 24)
-                
-                HStack {
-                    Text("소중한")
-                    Text("\(10)개의")
-                        .foregroundStyle(Color.symPink)
-                    Text("기록이 담겨있어요")
-                }
-                .font(PretendardFont.smallBold)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.bottom, 24)
                     
+                    HStack {
+                        Text("소중한")
+                        Text("\(10)개의")
+                            .foregroundStyle(Color.symPink)
+                        Text("기록이 담겨있어요")
+                    }
+                    .font(PretendardFont.smallBold)
+                    
+                }
+                Spacer()
+                
+                Image("TestImage")
+                    .resizable()
+                    .frame(width: 81, height: 70)
+                    .scaledToFill()
             }
-            Spacer()
-            
-            Image("TestImage")
-                .resizable()
-                .frame(width: 81, height: 70)
-                .scaledToFill()
+            .padding(.leading, 24)
+            .padding(.trailing, 22)
         }
-        .padding(.leading, 24)
-        .padding(.trailing, 22)
     }
 }
 
@@ -157,6 +152,6 @@ private struct CustomerSupportButton: View {
 
 #Preview {
     NavigationStack {
-        Mypage()
+        MypageView()
     }
 }
