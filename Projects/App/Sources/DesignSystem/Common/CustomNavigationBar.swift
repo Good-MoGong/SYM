@@ -62,8 +62,6 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                 .frame(height: 1)
             
             content
-            
-            Spacer()
         }
         .toolbar(.hidden)
     }

@@ -14,6 +14,7 @@ struct MyAccountInfo: View {
         NavigationStack {
             VStack {
                 Circle()
+                    .foregroundStyle(Color.symGray2)
                     .frame(width: 71, height: 71)
                     .padding(.top, 53)
                     .padding(.bottom, 41)
