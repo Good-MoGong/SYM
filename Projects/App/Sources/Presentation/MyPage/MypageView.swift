@@ -93,6 +93,7 @@ private struct Feedback: View {
                 }
                 .buttonStyle(PinkButtonStyle())
                 .frame(width: 126, height: 39)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
             }
             .padding(.trailing, 66)
             .frame(maxWidth: .infinity, maxHeight: 137)
