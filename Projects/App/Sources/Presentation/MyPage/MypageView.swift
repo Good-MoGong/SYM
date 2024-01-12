@@ -13,6 +13,15 @@ struct MypageView: View {
         NavigationStack {
             UserInfo()
                 .padding(.vertical, 28)
+                .customNavigationBar(centerView: {
+                    Text("마이페이지")
+                }, rightView: {
+                    NavigationLink {
+                        SettingView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }, isShowingBackButton: false)
             
             Rectangle()
                 .foregroundStyle(Color.symGray3)
@@ -25,21 +34,11 @@ struct MypageView: View {
             
             Spacer()
         }
-        .customNavigationBar {
-            Text("마이페이지")
-        } rightView: {
-            NavigationLink {
-                SettingView()
-            } label: {
-                Image(systemName: "gearshape")
-            }
-        }
     }
 }
 // stub 데이터 만들어서 테스트하기
 private struct UserInfo: View {
     var body: some View {
-        NavigationStack {
             HStack {
                 VStack(alignment: .leading) {
                     NavigationLink {
@@ -62,7 +61,6 @@ private struct UserInfo: View {
                         Text("기록이 담겨있어요")
                     }
                     .font(PretendardFont.smallBold)
-                    
                 }
                 Spacer()
                 
@@ -73,7 +71,6 @@ private struct UserInfo: View {
             }
             .padding(.leading, 24)
             .padding(.trailing, 22)
-        }
     }
 }
 
