@@ -16,29 +16,36 @@ enum Tab: String {
 
 struct MainView: View {
     @State var selectedTab: Tab = .first
+    @StateObject private var tabBarViewModel = TabBarViewModel()
+    
     var body: some View {
-        VStack {
-            Spacer()
-            switch selectedTab {
-            case .first:
-//                SignupView() // 테스트용
-                Text("홈뷰")
-            case .second:
-                Text("기록뷰")
-            case .third:
-                Text("캘린더뷰")
+        TabView(selection: $tabBarViewModel.selected) {
+            ForEach(MainTab.allCases) { tab in
+                tab.view
             }
-            Spacer()
-            
-            VStack {
-                Rectangle()
-                    .frame(maxWidth: .infinity)
-                    .frame(maxHeight: 1)
-                    .foregroundColor(Color.symGray3)
-                CustomTabView(selectedTab: $selectedTab)
-            }
-            .background(.white)
+            .toolbarBackground(.hidden, for: .tabBar)
         }
+        .overlay {
+            VStack {
+                Spacer()
+                TestTabView(tabBarViewModel: tabBarViewModel)
+            }
+            .background(.blue)
+        }
+//        VStack {
+//            Spacer()
+//            switch selectedTab {
+//            case .first:
+//                SignupView() // 테스트용
+//                Text("홈뷰")
+//            case .second:
+//                Text("기록뷰")
+//            case .third:
+//                Text("캘린더뷰")
+//            }
+//            Spacer()
+//            TestTabView(tabBarViewModel: tabBarViewModel)
+//        }
     }
 }
 
@@ -82,7 +89,8 @@ struct CustomTabView: View {
                         .font(PretendardFont.smallMedium)
                 }.foregroundColor(selectedTab.rawValue == "third" ? Color.symBlack : Color.symGray3)
             }
-        }.padding(.horizontal, 45)
+        }
+        .padding(.horizontal, 45)
     }
 }
 

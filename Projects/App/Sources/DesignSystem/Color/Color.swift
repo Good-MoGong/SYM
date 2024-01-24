@@ -11,24 +11,37 @@ import SwiftUI
 // App Color DesignSystem
 
 extension Color {
-    /// SYM 메인 컬러
-    static let symPink = Color.init(hex: "FFD2D2")
+    /// Main
+    static let main = Color.init(hex: "37C056")
+    /// Medium
+    static let medium = Color.init(hex: "6DDA85")
+    /// Bright
+    static let bright = Color.init(hex: "DBF7E4")
+    /// Gradient
+    static let gradient = Color.init(hex: "FF7E7E")
+    
     /// Black
-    static let symBlack = Color.init(hex: "2D2D2D")
+    static let symBlack = Color.init(hex: "313439")
+    /// Gray6
+    static let symGray6 = Color.init(hex: "42454A")
+    /// Gray5
+    static let symGray5 = Color.init(hex: "69707B")
     /// Gray4
-    static let symGray4 = Color.init(hex: "7E7D7A")
+    static let symGray4 = Color.init(hex: "9BA3AE")
     /// Gray3
-    static let symGray3 = Color.init(hex: "989898")
+    static let symGray3 = Color.init(hex: "CCD2DA")
     /// Gray2
-    static let symGray2 = Color.init(hex: "E5E5E5")
+    static let symGray2 = Color.init(hex: "E8EAED")
     /// Gray1
-    static let symGray1 = Color.init(hex: "F1F1F1")
-    /// 시스템 화이트
-    static let symWhite = Color.init(hex: "FFFFFF")
+    static let symGray1 = Color.init(hex: "F3F5F8")
+
     /// 버튼 눌렸을 때 짙은 핑크색
     static let symPressedPink = Color.init(hex: "FABEBE")
-    /// Error 에서 사용되는 빨간색
-    static let symRed = Color.init(hex: "FF5C5C")
+    
+    /// Error - red
+    static let errorRed = Color.init(hex: "FF5959")
+    /// Error - green
+    static let errorGreen = Color.init(hex: "4CD964")
     /// 카카오톡 색상
     static let kakao = Color.init(hex: "FEE500")
     /// 말풍선 색상
