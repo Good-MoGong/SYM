@@ -75,7 +75,7 @@ struct SignupNicknameView: View {
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
                 Text(NickNameRules.reject.rawValue)
-                    .settingNicknameRules(.symRed)
+                    .settingNicknameRules(.errorRed)
                 countingNickname()
             }
         }

@@ -21,7 +21,7 @@ struct BackgroundView: ViewModifier {
             content
                 .padding(.horizontal, 20)
                 .padding(.vertical, 15)
-                .background(Color.symPink)
+                .background(Color.main)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
         case .grayThird:
             content
