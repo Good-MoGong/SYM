@@ -59,7 +59,7 @@ struct PopupView: ViewModifier {
                         if !boldDesc.isEmpty {
                             Text(boldDesc)
                                 .font(PretendardFont.smallMedium)
-                                .foregroundColor(Color.symRed)
+                                .foregroundColor(Color.errorRed)
                             Spacer().frame(height: 4)
                         }
                         
@@ -101,7 +101,7 @@ struct PopupView: ViewModifier {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 25)
                     .padding(.bottom, 25)
-                    .background(Color.symWhite)
+                    .background(Color.white)
                     .cornerRadius(15)
                     .padding(.horizontal, 60)
                 }
@@ -126,7 +126,7 @@ struct PopupView: ViewModifier {
                 .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
                 .foregroundColor(Color.symBlack)
-                .background(Color.symPink)
+                .background(Color.main)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .onTapGesture {
                     confirmHandler()
@@ -151,7 +151,7 @@ struct PopupView: ViewModifier {
             Text(title)
                 .padding(.vertical, 11)
                 .frame(maxWidth: .infinity)
-                .background(Color.symPink)
+                .background(Color.main)
                 .font(PretendardFont.bodyMedium)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .onTapGesture {

@@ -36,7 +36,7 @@ struct CustomTextFieldStyle: ViewModifier {
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .background(
                     RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color.symRed, lineWidth: 1)
+                        .stroke(Color.errorRed, lineWidth: 1)
                 )
         }
     }

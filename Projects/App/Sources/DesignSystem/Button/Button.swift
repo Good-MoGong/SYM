@@ -16,7 +16,7 @@ struct PinkButtonStyle: ButtonStyle {
             .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symBlack)
             // isPressed 통해 버튼 눌렸을 때 색 변경 구현
-            .background(configuration.isPressed ? Color.symPressedPink : Color.symPink)
+            .background(configuration.isPressed ? Color.symPressedPink : Color.main)
             .cornerRadius(15)
     }
 }
@@ -27,7 +27,7 @@ struct DisabledButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 17)
             .font(PretendardFont.h3Medium)
-            .foregroundColor(Color.symWhite)
+            .foregroundColor(Color.white)
             .background(Color.symGray2)
             .cornerRadius(15)
     }
