@@ -15,8 +15,7 @@ struct PinkButtonStyle: ButtonStyle {
             .padding(.vertical, 17)
             .font(PretendardFont.h3Medium)
             .foregroundColor(Color.symBlack)
-            // isPressed 통해 버튼 눌렸을 때 색 변경 구현
-            .background(configuration.isPressed ? Color.symPressedPink : Color.main)
+            .background(Color.main)
             .cornerRadius(15)
     }
 }
