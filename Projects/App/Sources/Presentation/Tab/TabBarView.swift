@@ -12,7 +12,7 @@ final class TabBarViewModel: ObservableObject {
     @Published var selected: MainTab = .home
 }
 
-struct TestTabView: View {
+struct TabBarView: View {
     @ObservedObject var tabBarViewModel: TabBarViewModel
     
     var body: some View {
@@ -21,14 +21,17 @@ struct TestTabView: View {
                 Spacer()
                 Button {
                     tabBarViewModel.selected = item
+                    print(item)
                 } label: {
                     VStack(spacing: 8) {
-                        Image(systemName: item.imageName)
+                        Image("\(tabBarViewModel.selected == item ? "\(item.imageName)" : "\(item.imageName)Default")")
                             .resizable()
                             .frame(width: 25, height: 25)
+                            .tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
                         Text(item.title)
                             .font(PretendardFont.smallMedium)
-                    }.tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
+                            .tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
+                    }
                 }
                 Spacer()
             }
@@ -43,13 +46,15 @@ struct TestTabView: View {
         .clipped()
         .shadow(
             color: .symGray2,
-            radius: 7
+            radius: 4,
+            x: 0,
+            y: -7
         )
     }
 }
 
 #Preview {
-    TestTabView(tabBarViewModel: TabBarViewModel())
+    TabBarView(tabBarViewModel: TabBarViewModel())
 }
 
 extension View {

@@ -8,19 +8,19 @@
 import SwiftUI
 
 enum MainTab: Int, CaseIterable, Identifiable {
-    case home, diary, alarm, myPage
+    case home, diary, alarm, mypage
     
     @ViewBuilder
     var view: some View {
         switch self {
         case .home:
-            EmptyView()
+            Text("home")
         case .diary:
-            EmptyView()
+            Text("diary")
         case .alarm:
-            EmptyView()
-        case .myPage:
-            EmptyView()
+            Text("alarm")
+        case .mypage:
+            Text("mypage")
         }
     }
     
@@ -32,7 +32,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
             return "감정일기"
         case .alarm:
             return "알림"
-        case .myPage:
+        case .mypage:
             return "마이페이지"
         }
     }
@@ -45,7 +45,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
             return "pencil"
         case .alarm:
             return "alarm"
-        case .myPage:
+        case .mypage:
             return "person"
         }
     }
