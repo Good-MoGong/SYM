@@ -27,8 +27,8 @@ struct PretendardFont {
     static let h2Medium = Font.custom(PretendardFont.medium, size: 25)
     /// 20
     static let h3Medium = Font.custom(PretendardFont.medium, size: 20)
-    /// 18
-    static let h4Medium = Font.custom(PretendardFont.medium, size: 18)
+    /// 17
+    static let h4Medium = Font.custom(PretendardFont.medium, size: 17)
     /// 16
     static let h5Medium = Font.custom(PretendardFont.medium, size: 16)
     /// 14
@@ -43,8 +43,8 @@ struct PretendardFont {
     static let h2Bold = Font.custom(PretendardFont.bold, size: 25)
     /// 20
     static let h3Bold = Font.custom(PretendardFont.bold, size: 20)
-    /// 18
-    static let h4Bold = Font.custom(PretendardFont.bold, size: 18)
+    /// 17
+    static let h4Bold = Font.custom(PretendardFont.bold, size: 17)
     /// 16
     static let h5Bold = Font.custom(PretendardFont.bold, size: 16)
     /// 14
