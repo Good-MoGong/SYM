@@ -46,7 +46,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .alarm:
             return "alarm"
         case .mypage:
-            return "person"
+            return "mypage"
         }
     }
     
