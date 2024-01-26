@@ -11,7 +11,7 @@ import SwiftUI
 enum NickNameRules: String, CaseIterable {
     case zero = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
     case allow = "사용가능한 닉네임이에요"
-    case reject = "사용할 수 없는 닉네임이에요 \n닉네임을 다시 한번 확인해주세요"
+    case reject = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
 }
 
 struct SignupNicknameView: View {
@@ -27,7 +27,7 @@ struct SignupNicknameView: View {
 
                 VStack(alignment: .leading, spacing: 10) {
                     TextField("닉네임을 입력해주세요", text: $nickname)
-                        .customTF(type: nickname.count < 5 ? .normal : .error)
+                        .customTF(type: .normal)
                     checkNicknameRules()
                 }
             }
@@ -65,35 +65,35 @@ struct SignupNicknameView: View {
     private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
             Text(NickNameRules.zero.rawValue)
-                .settingNicknameRules(.symBlack)
+                .settingNicknameRules(.errorRed)
         } else if nickname.count < 5, nickname.count >= 1 {
             HStack {
                 Text(NickNameRules.allow.rawValue)
                     .settingNicknameRules(.errorGreen)
-                countingNickname()
+//                countingNickname()
             }
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
                 Text(NickNameRules.reject.rawValue)
                     .settingNicknameRules(.errorRed)
-                countingNickname()
+//                countingNickname()
             }
         }
     }
     
-    @ViewBuilder
-    /// 닉네임 카운팅
-    private func countingNickname() -> some View {
-        Spacer()
-        HStack(spacing: 0) {
-            Text("\(nickname.count)")
-                .font(PretendardFont.smallMedium)
-                .foregroundColor(Color.symBlack)
-            Text("/5")
-                .font(PretendardFont.smallMedium)
-                .foregroundColor(Color.symGray4)
-        }
-    }
+//    @ViewBuilder
+//    /// 닉네임 카운팅
+//    private func countingNickname() -> some View {
+//        Spacer()
+//        HStack(spacing: 0) {
+//            Text("\(nickname.count)")
+//                .font(PretendardFont.smallMedium)
+//                .foregroundColor(Color.symBlack)
+//            Text("/5")
+//                .font(PretendardFont.smallMedium)
+//                .foregroundColor(Color.symGray4)
+//        }
+//    }
 }
 
 struct SignupNickNameRuleView: ViewModifier {
