@@ -21,16 +21,16 @@ struct CustomTextFieldStyle: ViewModifier {
         switch type {
         case .normal:
             content
-                .padding(.vertical, 20)
-                .padding(.leading, 30)
+                .padding(.vertical, 17)
+                .padding(.leading, 20)
                 .background(Color.symGray1)
                 .font(PretendardFont.bodyMedium)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
             
         case .error:
             content
-                .padding(.vertical, 20)
-                .padding(.leading, 30)
+                .padding(.vertical, 17)
+                .padding(.leading, 20)
                 .font(PretendardFont.bodyMedium)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
