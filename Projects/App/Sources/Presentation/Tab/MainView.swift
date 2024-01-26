@@ -6,49 +6,30 @@
 ////  Copyright © 2024 Mogong. All rights reserved.
 ////
 //
-//import SwiftUI
-//
-//enum Tab: String {
-//    case first
-//    case second
-//    case third
-//}
-//
-//struct MainView: View {
-//    @State var selectedTab: Tab = .first
-////    @StateObject private var tabBarViewModel = TabBarViewModel()
-//    
-//    var body: some View {
-//        TabView(selection: $tabBarViewModel.selected) {
-//            ForEach(MainTab.allCases) { tab in
-//                tab.view
-//            }
-//            .toolbarBackground(.hidden, for: .tabBar)
-//        }
-//        .overlay {
-//            VStack {
-//                Spacer()
-//                TestTabView(tabBarViewModel: tabBarViewModel)
-//            }
-//            .background(.blue)
-//        }
-////        VStack {
-////            Spacer()
-////            switch selectedTab {
-////            case .first:
-////                SignupView() // 테스트용
-////                Text("홈뷰")
-////            case .second:
-////                Text("기록뷰")
-////            case .third:
-////                Text("캘린더뷰")
-////            }
-////            Spacer()
-////            TestTabView(tabBarViewModel: tabBarViewModel)
-////        }
-//    }
-//}
-//
+
+import SwiftUI
+
+struct MainView: View {
+    @StateObject private var tabBarViewModel = TabBarViewModel()
+    
+    var body: some View {
+        TabView(selection: $tabBarViewModel.selected) {
+            ForEach(MainTab.allCases) { tab in
+                tab.view
+            }
+            .toolbarBackground(.hidden, for: .tabBar)
+        }
+        .overlay {
+            VStack {
+                Spacer()
+                TabBarView(tabBarViewModel: tabBarViewModel)
+            }
+        }
+        .onAppear() {
+            UITabBar.appearance().barTintColor = .white
+        }
+    }
+}
 //struct CustomTabView: View {
 //    @Binding var selectedTab: Tab
 //    
@@ -93,7 +74,7 @@
 //        .padding(.horizontal, 45)
 //    }
 //}
-//
-//#Preview {
-//    MainView()
-//}
+
+#Preview {
+    MainView()
+}
