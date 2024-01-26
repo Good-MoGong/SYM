@@ -9,8 +9,8 @@
 import SwiftUI
 
 enum NickNameRules: String, CaseIterable {
-    case zero = "한글, 영문을 포함하여 2~5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
-    case allow = "한글, 영문을 포함하여 최소 2~5자까지 입력 가능해요."
+    case zero = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
+    case allow = "사용가능한 닉네임이에요"
     case reject = "사용할 수 없는 닉네임이에요 \n닉네임을 다시 한번 확인해주세요"
 }
 
@@ -69,7 +69,7 @@ struct SignupNicknameView: View {
         } else if nickname.count < 5, nickname.count >= 1 {
             HStack {
                 Text(NickNameRules.allow.rawValue)
-                    .settingNicknameRules(.symBlack)
+                    .settingNicknameRules(.errorGreen)
                 countingNickname()
             }
         } else if nickname.count >= 5 {
