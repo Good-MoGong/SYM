@@ -48,7 +48,7 @@ struct CustomTextEditorStyle: ViewModifier {
                     .scrollContentBackground(.hidden)
                 HStack(spacing: 0) {
                     Text("\(text.count) ")
-                        .foregroundColor(Color.gradient)
+                        .foregroundColor(Color.sub)
                     Text("/ 200")
                         .foregroundColor(Color.symGray4)
                 }

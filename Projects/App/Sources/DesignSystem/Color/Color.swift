@@ -12,13 +12,13 @@ import SwiftUI
 
 extension Color {
     /// Main
-    static let main = Color.init(hex: "37C056")
+    static let main = Color.init(hex: "FF7E7E")
+    /// Sub
+    static let sub = Color.init(hex: "FF9A9A")
     /// Medium
-    static let medium = Color.init(hex: "6DDA85")
+    static let medium = Color.init(hex: "FFF0F0")
     /// Bright
-    static let bright = Color.init(hex: "DBF7E4")
-    /// Gradient
-    static let gradient = Color.init(hex: "FF7E7E")
+    static let bright = Color.init(hex: "FFF3F3")
     
     /// Black
     static let symBlack = Color.init(hex: "313439")
@@ -34,9 +34,6 @@ extension Color {
     static let symGray2 = Color.init(hex: "E8EAED")
     /// Gray1
     static let symGray1 = Color.init(hex: "F3F5F8")
-
-    /// 버튼 눌렸을 때 짙은 핑크색
-    static let symPressedPink = Color.init(hex: "FABEBE")
     
     /// Error - red
     static let errorRed = Color.init(hex: "FF5959")

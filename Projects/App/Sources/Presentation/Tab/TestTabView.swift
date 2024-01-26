@@ -28,7 +28,7 @@ struct TestTabView: View {
                             .frame(width: 25, height: 25)
                         Text(item.title)
                             .font(PretendardFont.smallMedium)
-                    }.tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
+                    }.tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                 }
                 Spacer()
             }
