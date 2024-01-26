@@ -8,50 +8,54 @@
 
 import SwiftUI
 
+
+
 struct CustomTextEditorStyle: ViewModifier {
     
     let placeholder: String
     @Binding var text: String
-//    @Binding var contentCount: String
     
     func body(content: Content) -> some View {
         if text.isEmpty {
-            ZStack(alignment: .topLeading) {
-                content
-                    .padding(15)
-                    .background(Color.symGray1)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .scrollContentBackground(.hidden)
-                    .font(PretendardFont.bodyMedium)
-                Text(placeholder)
-                    .lineSpacing(10)
-                    .padding(20)
-                    .padding(.top, 2)
-                    .font(PretendardFont.bodyMedium)
-                    .foregroundColor(Color.symGray3)
-            }
-        } else {
-            ZStack(alignment: .bottomTrailing) {
-                content
-                    .padding(15)
-                    .background(Color.symGray1)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .scrollContentBackground(.hidden)
-                
+            ZStack (alignment: .bottomTrailing) {
+                ZStack(alignment: .topLeading) {
+                    content
+                        .padding(15)
+                        .background(Color.symGray1)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .scrollContentBackground(.hidden)
+                        .font(PretendardFont.bodyMedium)
+                    Text(placeholder)
+                        .lineSpacing(10)
+                        .padding(20)
+                        .padding(.top, 2)
+                        .font(PretendardFont.bodyMedium)
+                        .foregroundColor(Color.symGray3)
+                    
+                }
                 Text("\(text.count) / 200")
                     .font(PretendardFont.smallMedium)
                     .foregroundColor(Color.symGray4)
                     .padding(.trailing, 10)
                     .padding(.bottom, 10)
             }
-            /*
-             // 글자수 없으면 이대로 가면 됨
-             content
-                 .padding(15)
-                 .background(Color.symGray1)
-                 .clipShape(RoundedRectangle(cornerRadius: 30))
-                 .scrollContentBackground(.hidden)
-             */
+        } else {
+            ZStack(alignment: .bottomTrailing) {
+                content
+                    .padding(15)
+                    .background(Color.symGray1)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .scrollContentBackground(.hidden)
+                HStack(spacing: 0) {
+                    Text("\(text.count) ")
+                        .foregroundColor(Color.gradient)
+                    Text("/ 200")
+                        .foregroundColor(Color.symGray4)
+                }
+                .padding(.trailing, 10)
+                .padding(.bottom, 10)
+                .font(PretendardFont.smallMedium)
+            }
         }
     }
 }
