@@ -6,7 +6,6 @@
 //  Copyright © 2023 Mogong. All rights reserved.
 //
 
-// Demo
 import SwiftUI
 
 struct ButtonDemo: View {
@@ -15,7 +14,7 @@ struct ButtonDemo: View {
             Button("디폴트 버튼 테스트용") {
                 print("DefaultStyle 버튼 눌림")
             }
-            /// .buttonStyle에 적용
+            // .buttonStyle에 적용
             .buttonStyle(PinkButtonStyle())
             
             Button("Disabled 버튼 테스트용") {
@@ -23,17 +22,25 @@ struct ButtonDemo: View {
             }
             .buttonStyle(DisabledButtonStyle())
             
-            /// 버튼 나란히 생성시
+            Button("시미에게 의견 보내기") {
+                print("SubPinkButton 버튼 눌림")
+            }
+            .buttonStyle(SubPinkButtonStyle())
+            
+            // 버튼 나란히 생성시
             HStack {
-                Button("테스트용") {
-                    print("DefaultStyle 버튼 눌림")
+                Button("홈") {
+                    print("smallGrayButton 버튼 눌림")
                 }
-                /// .buttonStyle에 적용
+                // .buttonStyle에 적용
+                .buttonStyle(smallGrayButtonStyle())
+                // 버튼 사이 간격 20
+                .padding(.trailing, 20)
+                
+                Button("기록 보기") {
+                    print("기록보기 버튼 눌림")
+                }
                 .buttonStyle(PinkButtonStyle())
-                Button("테스트용") {
-                    print("DisabledStyle 버튼 눌림")
-                }
-                .buttonStyle(DisabledButtonStyle())
             }
         }
         /// 버튼에 padding 값 따로 주지 않음. 버튼 사용시 padding 필요
