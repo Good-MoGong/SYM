@@ -1,9 +1,10 @@
-//
-//  MainView.swift
-//  SYM
-//
-//  Created by 박서연 on 2024/01/09.
-//  Copyright © 2024 Mogong. All rights reserved.
+////
+////  MainView.swift
+////  SYM
+////
+////  Created by 박서연 on 2024/01/09.
+////  Copyright © 2024 Mogong. All rights reserved.
+////
 //
 
 import SwiftUI
@@ -29,7 +30,6 @@ struct MainView: View {
         }
     }
 }
-
 //struct CustomTabView: View {
 //    @Binding var selectedTab: Tab
 //    
