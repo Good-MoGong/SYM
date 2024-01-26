@@ -23,7 +23,7 @@ struct TestTabView: View {
                     tabBarViewModel.selected = item
                 } label: {
                     VStack(spacing: 8) {
-                        Image(systemName: item.imageName)
+                        Image(item.imageName)
                             .resizable()
                             .frame(width: 25, height: 25)
                         Text(item.title)

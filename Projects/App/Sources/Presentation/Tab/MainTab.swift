@@ -40,13 +40,13 @@ enum MainTab: Int, CaseIterable, Identifiable {
     var imageName: String {
         switch self {
         case .home:
-            return "house"
+            return "Home"
         case .diary:
-            return "pencil"
+            return "diary"
         case .alarm:
             return "alarm"
         case .myPage:
-            return "person"
+            return "mypage"
         }
     }
     
