@@ -8,8 +8,12 @@
 import SwiftUI
 
 public enum PopupType {
+    /// 버튼이 2개인 팝뷰, 왼쪽메인 오른쪽 그레이5
     case doubleButton(leftTitle: String, rightTitle: String)
+    /// 가이드라인 팝뷰 (버튼1개)
     case guide(title: String)
+    /// 버튼이 2개인 팝뷰, 왼쪽 그레이5 오른쪽메인
+    case switchColorDoubleBtn(leftTitle: String, rightTitle: String)
 }
 
 struct PopupView: ViewModifier {
@@ -17,11 +21,11 @@ struct PopupView: ViewModifier {
     /// 팝업 타입
     let type: PopupType
     /// 팝업뷰 제목
-    let title: String
+    @State var title: String
     /// 팝업뷰 소제목
-    let boldDesc: String
+    @State var boldDesc: String
     /// 팝업뷰 내용
-    let desc: String
+    @State var desc: String
     /// 팝업뷰 확인 버튼 함수
     let confirmHandler: () -> Void
     /// 팝업뷰 취소 버튼 함수
@@ -52,34 +56,10 @@ struct PopupView: ViewModifier {
                         .opacity(0.3)
                         .ignoresSafeArea()
                     VStack {
-                        Spacer().frame(height: 12)
-                        Text(title)
-                            .font(PretendardFont.h3Bold)
-                        
-                        if !boldDesc.isEmpty {
-                            Spacer().frame(height: 10)
-                            Text(boldDesc)
-                                .font(PretendardFont.smallMedium)
-                                .foregroundColor(Color.errorRed)
-                            Spacer().frame(height: 10)
-                        }
-                        
-                        if !desc.isEmpty {
-                            Text(desc)
-                                .font(.custom(PretendardFont.medium, size: 10))
-                                .lineSpacing(2)
-                                .multilineTextAlignment(.leading)
-                         
-                        }
-                        Spacer().frame(height: 40)
+                        CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
                         bottomView
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 25)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal, 40)
+                    .customPopupModifier()
                 }
             case .guide:
                 ZStack {
@@ -98,13 +78,25 @@ struct PopupView: ViewModifier {
                         bottomView
                         
                     }
-                    .padding(.horizontal, 20)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 25)
-                    .padding(.bottom, 25)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal, 60)
+                    .customPopupModifier()
+//                    .padding(.horizontal, 20)
+//                    .frame(maxWidth: .infinity)
+//                    .padding(.top, 25)
+//                    .padding(.bottom, 25)
+//                    .background(Color.white)
+//                    .cornerRadius(15)
+//                    .padding(.horizontal, 60)
+                }
+            case .switchColorDoubleBtn(_, _):
+                ZStack {
+                    Color.black
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                    VStack {
+                        CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
+                        bottomView
+                    }
+                    .customPopupModifier()
                 }
             }
         } else {
@@ -118,26 +110,28 @@ struct PopupView: ViewModifier {
             multiButtonView(leftTitle: leftTitle, rightTitle: rightTitle)
         case .guide(let title):
             guideView(title: title)
+        case .switchColorDoubleBtn(let leftTitle, let rightTitle):
+            switchColorView(leftTitle: leftTitle, rightTitle: rightTitle)
         }
     }
     
     func multiButtonView(leftTitle: String, rightTitle: String) -> some View {
         HStack(spacing: 20) {
             Text(leftTitle)
-                .padding(.vertical, 19)
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.2)
-                .foregroundColor(Color.symGray5)
-                .background(Color.symGray1)
+                .padding(.vertical, 15)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.white)
+                .background(Color.main)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .onTapGesture {
                     confirmHandler()
                 }
             
             Text(rightTitle)
-                .padding(.vertical, 19)
+                .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
-                .foregroundColor(Color.white)
-                .background(Color.main)
+                .foregroundColor(Color.symGray5)
+                .background(Color.symGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .onTapGesture {
                     cancelHandler()
@@ -160,6 +154,32 @@ struct PopupView: ViewModifier {
                 }
         }
     }
+    
+    func switchColorView(leftTitle: String, rightTitle: String) -> some View {
+        HStack(spacing: 20) {
+            Text(leftTitle)
+                .padding(.vertical, 15)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.symGray5)
+                .background(Color.symGray1)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .onTapGesture {
+                    confirmHandler()
+                }
+            
+            Text(rightTitle)
+                .padding(.vertical, 15)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.white)
+                .background(Color.main)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .onTapGesture {
+                    cancelHandler()
+                }
+        }
+        .font(PretendardFont.h4Bold)
+        .padding(.horizontal, 10)
+    }
 }
 
 public extension View {
@@ -179,4 +199,95 @@ public extension View {
                                 confirmHandler: confirmHandler,
                                 cancelHandler: cancelHandler))
     }
+}
+
+struct PopupDemo: View {
+    @State private var isShowingPopup = true
+    @State private var isShowingGuide = false
+    @State private var isShowingAlone = false
+    @State private var isShowingSwitch = false
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            Button(action: {
+                self.isShowingGuide.toggle()
+            }, label: {
+                Text("가이드 라인 팝업 뷰 사용 방법")
+            })
+            
+            Button(action: {
+                self.isShowingPopup.toggle()
+            }, label: {
+                Text("일반 커스텀 팝업 뷰 사용 방법")
+            })
+            
+            Button(action: {
+                self.isShowingAlone.toggle()
+            }, label: {
+                Text("로그아웃 버튼 테스트")
+            })
+            
+            Button(action: {
+                self.isShowingSwitch.toggle()
+            }, label: {
+                Text("Switch 버튼 테스트")
+            })
+        }
+        /// 가이드 라인 팝업 뷰 사용 방법
+        .popup(isShowing: $isShowingGuide,
+               type: .guide(title: "알겠어요"),
+               title: "생각이 잘 떠오르지 않으세요?",
+               boldDesc: "",
+               desc: "잠시동안 눈을 감고 그때의 상황을 떠올려봐요. 거창하지 않은 작은 생각이라도 좋아요!",
+               confirmHandler: {
+            self.isShowingGuide.toggle()
+            print("확인")
+        },
+               cancelHandler: {
+            print("취소 버튼")
+            self.isShowingGuide.toggle()
+        })
+        
+        
+        /// 일반 커스텀 팝업 뷰 사용 방법 -> 현재 취소 확인 둘 다 똑같이 동작하는 예시입니다.
+        .popup(isShowing: $isShowingPopup,
+               type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
+               title: "탈퇴 하시겠어요?",
+               boldDesc: "탈퇴 전 유의 사항",
+               desc: "• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다.",
+               confirmHandler: {
+            print("아니")
+            self.isShowingPopup.toggle()
+        },
+               cancelHandler: {
+            print("좋았어 버튼")
+            self.isShowingPopup.toggle()
+        })
+        
+        /// 로그아웃 버튼
+        .popup(isShowing: $isShowingAlone,
+               type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
+               title: "기록이 도움이 됐나요?",
+               boldDesc: "",
+               desc: "") {
+            self.isShowingAlone.toggle()
+        } cancelHandler: {
+            self.isShowingAlone.toggle()
+        }
+        
+        /// 로그아웃 버튼
+        .popup(isShowing: $isShowingSwitch,
+               type: .switchColorDoubleBtn(leftTitle: "아니", rightTitle: "아주 좋았어!"),
+               title: "기록이 도움이 됐나요?",
+               boldDesc: "",
+               desc: "") {
+            self.isShowingSwitch.toggle()
+        } cancelHandler: {
+            self.isShowingSwitch.toggle()
+        }
+    }
+}
+
+#Preview {
+    PopupDemo()
 }
