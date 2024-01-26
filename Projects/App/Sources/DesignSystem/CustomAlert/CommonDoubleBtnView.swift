@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// 팝업 뷰 생성시 겹치는 색상 뷰
 struct CommonDoubleBtnView: View {
     @Binding var title: String
     @Binding var boldDesc: String
@@ -40,7 +41,7 @@ struct CommonDoubleBtnView: View {
 }
 
 #Preview {
-    CommonDoubleBtnView(title: .constant("title"), boldDesc: .constant("ddddd"), desc: .constant("dddddd"))
+    CommonDoubleBtnView(title: .constant("title"), boldDesc: .constant("boldDesc"), desc: .constant("desc"))
 }
 
 struct CustomPopupModifier: ViewModifier {

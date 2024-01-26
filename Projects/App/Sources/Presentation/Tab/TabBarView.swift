@@ -27,10 +27,10 @@ struct TabBarView: View {
                         Image("\(tabBarViewModel.selected == item ? "\(item.imageName)" : "\(item.imageName)Default")")
                             .resizable()
                             .frame(width: 25, height: 25)
-                            .tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
+                            .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                         Text(item.title)
                             .font(PretendardFont.smallMedium)
-                            .tint(tabBarViewModel.selected == item ? Color.gradient : Color.symGray3)
+                            .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                     }
                 }
                 Spacer()
