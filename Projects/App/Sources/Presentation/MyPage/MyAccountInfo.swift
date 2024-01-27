@@ -15,57 +15,66 @@ struct MyAccountInfo: View {
             VStack {
                 Circle()
                     .foregroundStyle(Color.symGray2)
-                    .frame(width: 71, height: 71)
-                    .padding(.top, 53)
-                    .padding(.bottom, 41)
+                    .frame(width: 100, height: 100)
+                    .padding(.top, 24)
+                    .padding(.bottom, 37)
                 
-                VStack(alignment: .leading) {
-                    HStack {
+                VStack {
+                    VStack(alignment: .leading) {
                         //TODO: - 닉네임 글자수에 따른 조건 처리
                         Text("닉네임")
-                            .padding(.trailing, 37)
+                            .padding(.leading, 20)
+                            .font(PretendardFont.h5Bold)
                         
-                        TextField("", text: $nickname)
-                            .padding(.horizontal)
-                            .padding(.vertical, 6)
-                            .background(Color.symGray1)
-                            .frame(height: 29)
-                            .clearButton(text: $nickname)
+                        TextField("닉네임을 입력해주세요", text: $nickname)
+                            .customTF(type: .normal)
                     }
-                    .padding(.bottom, 41)
+                    .padding(.bottom, 32)
                     
-                    HStack {
+                    VStack(alignment: .leading) {
                         Text("가입계정")
-                            .padding(.trailing, 37)
+                            .padding(.leading, 20)
+                            .font(PretendardFont.h5Bold)
+
                         
-                        Text("abc213445@kakao.com")
-                            .tint(Color.symBlack)
+                        ZStack(alignment: .trailing) {
+                            TextField("아이디", text: .constant("abcd123@kakako.com"))
+                                .customTF(type: .normal)
+
+                            Image(systemName: "message")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                .frame(width: 38, height: 32)
+                                .clipped()
+                                .padding(.trailing, 8) // 이미지와 텍스트 필드 간의 간격 조절
+                        }
                         
-                        Spacer()
-                        
-                        Image(systemName: "message")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                            .frame(width: 38, height: 32)
-                            .clipped()
                     }
+                    
+                    Spacer()
+                    
+                    Button("완료") {
+                        print("MainButtonStyle 버튼 눌림")
+                    }
+                    // .buttonStyle에 적용
+                    // isButtonEnabled에 활성화/비활성화 되는 Bool 조건 넣어서 사용하면 됨!
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: nickname.isEmpty))
+                    // disabled 추가해서 비활성화 가능
+                    .disabled(nickname.isEmpty)
                 }
                 .padding(.horizontal)
-                .padding(.trailing, 54)
             }
             .font(PretendardFont.bodyBold)
+            
+            
             
             Spacer()
         }
         .customNavigationBar(centerView: {
             Text("닉네임 수정")
         }, rightView: {
-            NavigationLink {
-                SettingView()
-            } label: {
-                Image(systemName: "gearshape")
-            }
+            EmptyView()
         })
     }
 }
