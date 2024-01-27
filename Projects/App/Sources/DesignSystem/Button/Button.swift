@@ -8,15 +8,18 @@
 
 import SwiftUI
 
-/// Default pink main button, 활성화 된 버튼
-struct PinkButtonStyle: ButtonStyle {
+/// Default main button, isButtonEnabled 변수에 Bool 값 지정해서 활성화/비활성화 함께 사용 가능
+struct MainButtonStyle: ButtonStyle {
+    
+    var isButtonEnabled: Bool
+    
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity)
             .padding(.vertical, 19)
             .font(PretendardFont.h3Medium)
-            .foregroundColor(Color.white)
-            .background(Color.main)
+            .foregroundColor(isButtonEnabled ? Color.white : Color.symGray5)
+            .background(isButtonEnabled ? Color.main : Color.symGray1)
             .cornerRadius(15)
     }
 }
@@ -34,20 +37,7 @@ struct SubPinkButtonStyle: ButtonStyle {
     }
 }
 
-/// Disabled button, 비활성화 된 버튼
-struct DisabledButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 19)
-            .font(PretendardFont.h3Medium)
-            .foregroundColor(Color.symGray5)
-            .background(Color.symGray1)
-            .cornerRadius(15)
-    }
-}
-
-/// 작은 크기의 Gray button, 감정일기 기록 완료 시에 "홈" 버튼으로 사용
+/// 작은 크기의 Gray button, 감정일기 기록 완료 시에 "홈" 버튼으로 사용, 비활성화처럼 보이나 활성화된 버튼으로 사용
 struct smallGrayButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
