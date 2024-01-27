@@ -9,32 +9,46 @@
 import SwiftUI
 
 public enum BackgroundType {
-    case systemPink
-    case grayThird
+    case subColor
+    case whiteWithStroke
+//    case subColorTextEditor
 }
 
 struct BackgroundView: ViewModifier {
     let type: BackgroundType
     func body(content: Content) -> some View {
         switch type {
-        case .systemPink:
+        case .subColor:
             content
                 .padding(.horizontal, 20)
-                .padding(.vertical, 15)
-                .background(Color.symPink)
+                .padding(.vertical, 12)
+                .background(Color.sub)
+                .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
-        case .grayThird:
+        case .whiteWithStroke:
             content
-                .padding(20)
-                .background(Color.symGray1)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 30)
+                        .stroke(Color.symGray2, lineWidth: 2)
+                )
+//        case .subColorTextEditor:
+//            content
+//                .padding(.horizontal, 17)
+//                .padding(.top, 23)
+//                .background(
+//                    RoundedRectangle(cornerRadius: 20)
+//                        .stroke(Color.main, lineWidth: 1)
+//                )
+//                .background(Color.bright)
         }
     }
 }
 
 public extension Text {
     /// 일반 핑크/회색 백그라운드
-    func setBackgroundColor(_ colorType: BackgroundType) -> some View {
+    func setTextBackground(_ colorType: BackgroundType) -> some View {
         self.modifier(BackgroundView(type: colorType))
     }
 }
