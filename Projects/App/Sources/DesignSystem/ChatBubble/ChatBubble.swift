@@ -17,7 +17,7 @@ struct ChatBubble: View {
         Text(animatedMessage)
             .padding()
             .font(PretendardFont.h4Medium)
-            .background(Color.symPink)
+            .background(Color.main)
             .foregroundColor(.black)
             .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
             .overlay(alignment: .bottom) {
@@ -25,7 +25,7 @@ struct ChatBubble: View {
                     .font(.title)
                     .rotationEffect(.degrees(30))
                     .offset(y: 15)
-                    .foregroundColor(.symPink)
+                    .foregroundColor(.main)
             }
             .opacity(message.isEmpty ? 0 : 1)
             .task {

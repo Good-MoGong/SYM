@@ -12,7 +12,7 @@ struct ColorDemo: View {
     var body: some View {
         VStack {
             Rectangle()
-                .foregroundColor(Color.symPink)
+                .foregroundColor(Color.main)
                 .frame(width: 70, height: 70)
             
             HStack {
