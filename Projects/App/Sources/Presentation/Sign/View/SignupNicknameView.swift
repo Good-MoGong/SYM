@@ -24,7 +24,7 @@ struct SignupNicknameView: View {
                 Text("환영해요! \n회원님을 어떻게 불러드리면 좋을까요?")
                     .font(PretendardFont.h4Bold)
                     .lineSpacing(8)
-
+                
                 VStack(alignment: .leading, spacing: 10) {
                     TextField("닉네임을 입력해주세요", text: $nickname)
                         .customTF(type: .normal)
@@ -42,22 +42,16 @@ struct SignupNicknameView: View {
     
     @ViewBuilder
     private func getButton() -> some View {
-        if 1 <= nickname.count, nickname.count < 6 {
-            Button {
-                
-            } label: {
-                Text("완료")
-                    .font(PretendardFont.h4Medium)
-            }
-            .buttonStyle(PinkButtonStyle())
+        Button {
             
-        } else {
-            Button(action: {}, label: {
-                Text("완료")
-                    .font(PretendardFont.h4Medium)
-            })
-            .buttonStyle(DisabledButtonStyle())
+        } label: {
+            Text("완료")
+                .font(PretendardFont.h4Medium)
         }
+        .buttonStyle(MainButtonStyle(
+            isButtonEnabled: 1 <= nickname.count && nickname.count < 6)
+        )
+        .disabled(1 > nickname.count || nickname.count >= 6)
     }
     
     @ViewBuilder
