@@ -9,37 +9,50 @@ import SwiftUI
 
 struct SignupView: View {
     var body: some View {
-        VStack(spacing: 150) {
+        VStack {
+            Spacer()
             VStack(spacing: 20) {
-                Circle()
-                    .frame(width: 145, height: 145)
+                Image("Sample")
+
                 
-                VStack(spacing: 1) {
+                VStack(spacing: 4) {
                     Text("SYM")
                         .font(PretendardFont.h1Bold)
-                    Text("speak your mind")
+                    Text("Speak Your Mind")
                         .font(PretendardFont.h2Medium)
                 }
+                .foregroundColor(.main)
             }
-            
+            Spacer()
             VStack(spacing: 20) {
-                HStack(spacing: 35) {
-                    Image(systemName: "star.fill")
-                        .padding(.leading, 35)
-                    Text("카카오톡으로 로그인")
-                        .font(PretendardFont.h4Medium)
-                }.signupTextBackground(Color(hex: "FEE500"))
+                Button {
+                    print("🟨 카카오톡 로그인 진행")
+                } label: {
+                    HStack(spacing: 35) {
+                        Image("KaKaoLogo")
+                            .padding(.leading, 47)
+                        Text("카카오톡으로 로그인")
+                            .font(PretendardFont.h4Medium)
+                            .foregroundColor(.symBlack)
+                    }.signupTextBackground(Color.kakao)
+                }
                 
-                HStack(spacing: 35) {
-                    Image(systemName: "heart.fill")
-                        .padding(.leading, 35)
-                    Text("Apple로 로그인")
-                        .font(PretendardFont.h4Medium)
-                        .foregroundColor(.white)
-                }.signupTextBackground(.symBlack)
+                Button {
+                    print("🍎 애플 로그인 진행")
+                } label: {
+                    HStack(spacing: 35) {
+                        Image("AppleLogo")
+                            .padding(.leading, 47)
+                        Text("Apple로 로그인")
+                            .font(PretendardFont.h4Medium)
+                            .foregroundColor(.white)
+                    }.signupTextBackground(.symBlack)
+                }
+                
             }
         }
         .padding(.horizontal, 24)
+        Spacer()
     }
 }
 
@@ -50,9 +63,9 @@ struct SignupBackground: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 20)
+            .padding(.vertical, 19)
             .background(color)
-            .clipShape(RoundedRectangle(cornerRadius: 30))
+            .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 }
 
