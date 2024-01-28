@@ -9,20 +9,20 @@
 import SwiftUI
 
 enum NickNameRules: String, CaseIterable {
-    case zero = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
     case allow = "사용가능한 닉네임이에요"
-    case reject = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
+    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
+    case reject = "특수문자는 사용이 불가능해요"
 }
 
 struct SignupNicknameView: View {
     @State var nickname = ""
     @State var isPressed: Bool = false
-    @State var nicknameRules = NickNameRules.zero
+    @State var nicknameRules = NickNameRules.defult
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 16) {
-                Text("환영해요! \n회원님을 어떻게 불러드리면 좋을까요?")
-                    .font(PretendardFont.h4Bold)
+                Text("환영해요! \n닉네임을 입력해주세요")
+                    .font(PretendardFont.h4Medium)
                     .lineSpacing(8)
                 
                 VStack(alignment: .leading, spacing: 10) {
@@ -58,7 +58,7 @@ struct SignupNicknameView: View {
     /// 닉네임 규칙 룰을 그리는 뷰
     private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
-            Text(NickNameRules.zero.rawValue)
+            Text(NickNameRules.defult.rawValue)
                 .settingNicknameRules(.errorRed)
         } else if nickname.count < 5, nickname.count >= 1 {
             HStack {
@@ -68,7 +68,7 @@ struct SignupNicknameView: View {
             }
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
-                Text(NickNameRules.reject.rawValue)
+                Text(NickNameRules.defult.rawValue)
                     .settingNicknameRules(.errorRed)
 //                countingNickname()
             }
