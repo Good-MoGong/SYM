@@ -86,7 +86,7 @@ struct CalendarDetailView: View {
                             // 공백 채워주려고 있는 -1 때문에 이렇게 조건문으로
                             if value.day != -1 {
                                 ZStack {
-                                    // If it's the current date, draw a circle with pink background
+                                    // 오늘날짜 뒤에 배경
                                     if isToday {
                                         Circle()
                                             .fill(Color.medium)
