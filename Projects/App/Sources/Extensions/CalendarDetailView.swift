@@ -80,13 +80,16 @@ struct CalendarDetailView: View {
                         // 그 날이 무슨 요일인지 확인하는 상수. 이걸로 일요일이면 날짜 색 빨간색으로 바꿔주려고 선언
                         let dayOfWeek = Calendar.current.component(.weekday, from: value.date)
                         
+                        // value.date가 오늘날짜인지 확인해서 bool값 저장
                         let isToday = Calendar.current.isDateInToday(value.date)
                         
                         VStack {
                             // 공백 채워주려고 있는 -1 때문에 이렇게 조건문으로
                             if value.day != -1 {
+                                
+                                // 오늘날짜 뒤에 배경
                                 ZStack {
-                                    // 오늘날짜 뒤에 배경
+                                    // 오늘날짜이면
                                     if isToday {
                                         Circle()
                                             .fill(Color.medium)
