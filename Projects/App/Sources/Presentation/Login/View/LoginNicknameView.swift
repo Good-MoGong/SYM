@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import AuthenticationServices
+import Combine
 
 enum NickNameRules: String, CaseIterable {
     case allow = "사용가능한 닉네임이에요"
@@ -14,7 +16,7 @@ enum NickNameRules: String, CaseIterable {
     case reject = "특수문자는 사용이 불가능해요"
 }
 
-struct SignupNicknameView: View {
+struct LoginNicknameView: View {
     @State var nickname = ""
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.defult
@@ -43,19 +45,16 @@ struct SignupNicknameView: View {
     @ViewBuilder
     private func getButton() -> some View {
         Button {
-            
+            //
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)
         }
-        .buttonStyle(MainButtonStyle(
-            isButtonEnabled: 1 <= nickname.count && nickname.count < 6)
-        )
+        .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
         .disabled(1 > nickname.count || nickname.count >= 6)
     }
     
-    @ViewBuilder
-    /// 닉네임 규칙 룰을 그리는 뷰
+    @ViewBuilder /// 닉네임 규칙 룰을 그리는 뷰
     private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
             Text(NickNameRules.defult.rawValue)
@@ -64,30 +63,14 @@ struct SignupNicknameView: View {
             HStack {
                 Text(NickNameRules.allow.rawValue)
                     .settingNicknameRules(.errorGreen)
-//                countingNickname()
             }
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
                 Text(NickNameRules.defult.rawValue)
                     .settingNicknameRules(.errorRed)
-//                countingNickname()
             }
         }
     }
-    
-//    @ViewBuilder
-//    /// 닉네임 카운팅
-//    private func countingNickname() -> some View {
-//        Spacer()
-//        HStack(spacing: 0) {
-//            Text("\(nickname.count)")
-//                .font(PretendardFont.smallMedium)
-//                .foregroundColor(Color.symBlack)
-//            Text("/5")
-//                .font(PretendardFont.smallMedium)
-//                .foregroundColor(Color.symGray4)
-//        }
-//    }
 }
 
 struct SignupNickNameRuleView: ViewModifier {
@@ -110,6 +93,6 @@ extension Text {
 
 #Preview {
     NavigationStack {
-        SignupNicknameView()
+        LoginNicknameView()
     }
 }
