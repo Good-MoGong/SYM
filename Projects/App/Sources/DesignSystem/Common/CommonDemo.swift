@@ -25,8 +25,8 @@ struct CommonDemo: View {
                 .padding(.horizontal, 20)
                 
                 Text("사건")
-                    .setTextBackground(.settenceTitle)
-                    .padding(.trailing, 170)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 200)
                     .padding(.bottom, 215)
             }
         }
