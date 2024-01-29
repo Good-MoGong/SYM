@@ -20,6 +20,8 @@ struct LoginNicknameView: View {
     @State var nickname = ""
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.defult
+    @ObservedObject var authViewModel: AuthenticationViewModel
+    
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 16) {
@@ -35,6 +37,13 @@ struct LoginNicknameView: View {
             }
             Spacer()
             getButton()
+            
+            // 로그아웃 임시 버튼
+            Button{
+                authViewModel.send(action: .logout)
+            } label: {
+                Text("로그아웃")
+            }
             
         }
         .padding(24)
@@ -59,12 +68,12 @@ struct LoginNicknameView: View {
         if nickname.isEmpty {
             Text(NickNameRules.defult.rawValue)
                 .settingNicknameRules(.errorRed)
-        } else if nickname.count < 5, nickname.count >= 1 {
+        } else if nickname.count <= 5, nickname.count >= 1 {
             HStack {
                 Text(NickNameRules.allow.rawValue)
                     .settingNicknameRules(.errorGreen)
             }
-        } else if nickname.count >= 5 {
+        } else if nickname.count > 5 {
             HStack(alignment: .top) {
                 Text(NickNameRules.defult.rawValue)
                     .settingNicknameRules(.errorRed)
@@ -93,6 +102,6 @@ extension Text {
 
 #Preview {
     NavigationStack {
-        LoginNicknameView()
+        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }
