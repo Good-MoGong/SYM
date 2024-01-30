@@ -33,6 +33,29 @@ extension Target {
             }
         }
         
+        let isProductApp = product == .app ? true : false
+
+        var setting: Settings?
+        var entitlements: Entitlements?
+        
+        if isProductApp {
+//            setting = .settings(base: ["OTHER_LDFLAGS":"-ObjC"])
+            entitlements = "SYM.entitlements"
+            // 빌드 세팅 (xcconfig 있을경우)
+            setting = Settings.settings(configurations: [
+                .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
+                .release(name: "Release", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
+            ], defaultSettings: .recommended)
+        } else {
+            // 빌드 세팅 (기본)
+//            setting = nil
+//            entitlements = nil
+            setting = .settings(base: [:],
+                                configurations: [.debug(name: .debug),
+                                                 .release(name: .release)],
+                                defaultSettings: .recommended)
+        }
+        
         let bundleId: String = "com.Mogong.SYM"
         
         //infoPlist 경로로 설정
@@ -45,15 +68,17 @@ extension Target {
         }
         
         let addTarget = Target(name: name,
-                                platform: platform,
-                                product: product,
-                                bundleId: bundleId,
-                                deploymentTarget: deploymentTarget,
-                                infoPlist: infoPlist, // 변경
-                                sources: sources,
-                                resources: resources,
-                                scripts: scripts,
-                                dependencies: dependencies)
+                               platform: platform,
+                               product: product,
+                               bundleId: bundleId,
+                               deploymentTarget: deploymentTarget,
+                               infoPlist: infoPlist, // 변경
+                               sources: sources,
+                               resources: resources,
+                               entitlements: entitlements,
+                               scripts: scripts,
+                               dependencies: dependencies,
+                               settings: setting)
         
         var targets: [Target] = [addTarget]
         
