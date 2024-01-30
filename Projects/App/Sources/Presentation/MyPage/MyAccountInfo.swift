@@ -9,13 +9,17 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    @State private var nickname = "모공모공"
+    @State private var nickname = "모공모공" // 기존 닉네임이 뜨도록
+    @State var isPressed: Bool = false
+    @State var nicknameRules = NickNameRules.zero
+    
     var body: some View {
         NavigationStack {
             VStack {
-                Circle()
-                    .foregroundStyle(Color.symGray2)
-                    .frame(width: 100, height: 100)
+                Image("TestImage")
+                    .resizable()
+                    .frame(width: 80, height: 70)
+                    .scaledToFill()
                     .padding(.top, 24)
                     .padding(.bottom, 37)
                 
@@ -25,9 +29,11 @@ struct MyAccountInfo: View {
                         Text("닉네임")
                             .padding(.leading, 20)
                             .font(PretendardFont.h5Bold)
-                        
-                        TextField("닉네임을 입력해주세요", text: $nickname)
-                            .customTF(type: .normal)
+                        VStack(alignment: .leading) {
+                            TextField("닉네임을 입력해주세요", text: $nickname)
+                                .customTF(type: .normal)
+                            checkNicknameRules()
+                        }
                     }
                     .padding(.bottom, 32)
                     
@@ -35,12 +41,12 @@ struct MyAccountInfo: View {
                         Text("가입계정")
                             .padding(.leading, 20)
                             .font(PretendardFont.h5Bold)
-
                         
                         ZStack(alignment: .trailing) {
                             TextField("아이디", text: .constant("abcd123@kakako.com"))
                                 .customTF(type: .normal)
-
+                                .disabled(true)
+                            
                             Image(systemName: "message")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -49,7 +55,6 @@ struct MyAccountInfo: View {
                                 .clipped()
                                 .padding(.trailing, 8) // 이미지와 텍스트 필드 간의 간격 조절
                         }
-                        
                     }
                     
                     Spacer()
@@ -57,25 +62,42 @@ struct MyAccountInfo: View {
                     Button("완료") {
                         print("MainButtonStyle 버튼 눌림")
                     }
-                    // .buttonStyle에 적용
-                    // isButtonEnabled에 활성화/비활성화 되는 Bool 조건 넣어서 사용하면 됨!
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: nickname.isEmpty))
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
                     // disabled 추가해서 비활성화 가능
-                    .disabled(nickname.isEmpty)
+                    .disabled(1 > nickname.count || nickname.count >= 6)
                 }
                 .padding(.horizontal)
             }
             .font(PretendardFont.bodyBold)
             
-            
-            
             Spacer()
         }
-        .customNavigationBar(centerView: {
-            Text("닉네임 수정")
-        }, rightView: {
-            EmptyView()
-        })
+        .customNavigationBar(
+            centerView: {
+                Text("닉네임 수정")
+            }, rightView: {
+                EmptyView()
+            }, isShowingBackButton: true
+        )
+    }
+    
+    @ViewBuilder
+    /// 닉네임 규칙 룰을 그리는 뷰
+    private func checkNicknameRules() -> some View {
+        if nickname.isEmpty {
+            Text(NickNameRules.zero.rawValue)
+                .settingNicknameRules(.errorRed)
+        } else if nickname.count < 6, nickname.count >= 1 {
+            HStack {
+                Text(NickNameRules.allow.rawValue)
+                    .settingNicknameRules(.errorGreen)
+            }
+        } else if nickname.count >= 5 {
+            HStack(alignment: .top) {
+                Text(NickNameRules.reject.rawValue)
+                    .settingNicknameRules(.errorRed)
+            }
+        }
     }
 }
 
