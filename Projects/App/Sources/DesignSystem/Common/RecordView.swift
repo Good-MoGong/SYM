@@ -80,9 +80,9 @@ struct RecordView: View {
             
             Spacer()
             
-            Image("TestImage")
+            Image("Sample")
                 .resizable()
-                .frame(width: 80, height: 70)
+                .frame(width: 100, height: 100)
                 .scaledToFill()
         }
         .padding(.horizontal, 20)

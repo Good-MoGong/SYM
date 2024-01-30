@@ -11,14 +11,14 @@ import SwiftUI
 struct MyAccountInfo: View {
     @State private var nickname = "모공모공" // 기존 닉네임이 뜨도록
     @State var isPressed: Bool = false
-    @State var nicknameRules = NickNameRules.zero
+    @State var nicknameRules = NickNameRules.allow
     
     var body: some View {
         NavigationStack {
             VStack {
-                Image("TestImage")
+                Image("Sample")
                     .resizable()
-                    .frame(width: 80, height: 70)
+                    .frame(width: 120, height: 120)
                     .scaledToFill()
                     .padding(.top, 24)
                     .padding(.bottom, 37)
@@ -47,7 +47,7 @@ struct MyAccountInfo: View {
                                 .customTF(type: .normal)
                                 .disabled(true)
                             
-                            Image(systemName: "message")
+                            Image("KaKaoLogo")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(Circle())
@@ -85,7 +85,7 @@ struct MyAccountInfo: View {
     /// 닉네임 규칙 룰을 그리는 뷰
     private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
-            Text(NickNameRules.zero.rawValue)
+            Text(NickNameRules.defult.rawValue)
                 .settingNicknameRules(.errorRed)
         } else if nickname.count < 6, nickname.count >= 1 {
             HStack {
@@ -94,7 +94,7 @@ struct MyAccountInfo: View {
             }
         } else if nickname.count >= 5 {
             HStack(alignment: .top) {
-                Text(NickNameRules.reject.rawValue)
+                Text(NickNameRules.defult.rawValue)
                     .settingNicknameRules(.errorRed)
             }
         }
