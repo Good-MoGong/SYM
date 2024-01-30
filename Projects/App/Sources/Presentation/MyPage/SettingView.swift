@@ -14,37 +14,37 @@ struct SettingView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 26) {
                 Toggle(isOn: .constant(true), label: {
                     Text("푸시 알림 설정")
-                        .font(PretendardFont.h5Bold)
                 })
-                .tint(Color.symPink)
-                .padding(.top, 44)
-                .padding(.bottom, 50)
+                .tint(Color.main)
+                .padding(.top, 32)
                 
-                HStack {
-                    Button {
-                        isShowingLogoutPopup.toggle()
-                    } label: {
-                        Text("로그아웃")
-                            .font(PretendardFont.h5Bold)
-                    }
-                    Spacer()
-                }
-                .buttonStyle(.plain)
-                .padding(.bottom, 10)
-                
-                HStack {
-                    Button {
-                        isShowingWithdrawalPopup.toggle()
-                    } label: {
-                        Text("회원탈퇴")
-                            .font(PretendardFont.smallBold)
+                Group {
+                    HStack {
+                        Button {
+                            isShowingLogoutPopup.toggle()
+                        } label: {
+                            Text("로그아웃")
+                        }
+                        Spacer()
                     }
                     .buttonStyle(.plain)
-                    Spacer()
+                    .padding(.bottom, 10)
+                    
+                    HStack {
+                        Button {
+                            isShowingWithdrawalPopup.toggle()
+                        } label: {
+                            Text("회원탈퇴")
+                        }
+                        .buttonStyle(.plain)
+                        Spacer()
+                    }
                 }
+                .font(PretendardFont.h5Medium)
+                .foregroundStyle(Color.symGray4)
             }
             .padding(.horizontal)
             
