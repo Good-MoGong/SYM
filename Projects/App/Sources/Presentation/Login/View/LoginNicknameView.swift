@@ -7,22 +7,26 @@
 //
 
 import SwiftUI
+import AuthenticationServices
+import Combine
 
 enum NickNameRules: String, CaseIterable {
-    case zero = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요. \n닉네임은 가입 후에도 바꿀 수 있어요."
     case allow = "사용가능한 닉네임이에요"
-    case reject = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
+    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
+    case reject = "특수문자는 사용이 불가능해요"
 }
 
-struct SignupNicknameView: View {
+struct LoginNicknameView: View {
     @State var nickname = ""
     @State var isPressed: Bool = false
-    @State var nicknameRules = NickNameRules.zero
+    @State var nicknameRules = NickNameRules.defult
+    @ObservedObject var authViewModel: AuthenticationViewModel
+    
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 16) {
-                Text("환영해요! \n회원님을 어떻게 불러드리면 좋을까요?")
-                    .font(PretendardFont.h4Bold)
+                Text("환영해요! \n닉네임을 입력해주세요")
+                    .font(PretendardFont.h4Medium)
                     .lineSpacing(8)
                 
                 VStack(alignment: .leading, spacing: 10) {
@@ -34,6 +38,13 @@ struct SignupNicknameView: View {
             Spacer()
             getButton()
             
+            // 로그아웃 임시 버튼
+            Button{
+                authViewModel.send(action: .logout)
+            } label: {
+                Text("로그아웃")
+            }
+            
         }
         .padding(24)
         .navigationTitle("닉네임 설정")
@@ -43,51 +54,32 @@ struct SignupNicknameView: View {
     @ViewBuilder
     private func getButton() -> some View {
         Button {
-            
+            //
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)
         }
-        .buttonStyle(MainButtonStyle(
-            isButtonEnabled: 1 <= nickname.count && nickname.count < 6)
-        )
+        .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
         .disabled(1 > nickname.count || nickname.count >= 6)
     }
     
-    @ViewBuilder
-    /// 닉네임 규칙 룰을 그리는 뷰
+    @ViewBuilder /// 닉네임 규칙 룰을 그리는 뷰
     private func checkNicknameRules() -> some View {
         if nickname.isEmpty {
-            Text(NickNameRules.zero.rawValue)
+            Text(NickNameRules.defult.rawValue)
                 .settingNicknameRules(.errorRed)
-        } else if nickname.count < 5, nickname.count >= 1 {
+        } else if nickname.count <= 5, nickname.count >= 1 {
             HStack {
                 Text(NickNameRules.allow.rawValue)
                     .settingNicknameRules(.errorGreen)
-//                countingNickname()
             }
-        } else if nickname.count >= 5 {
+        } else if nickname.count > 5 {
             HStack(alignment: .top) {
-                Text(NickNameRules.reject.rawValue)
+                Text(NickNameRules.defult.rawValue)
                     .settingNicknameRules(.errorRed)
-//                countingNickname()
             }
         }
     }
-    
-//    @ViewBuilder
-//    /// 닉네임 카운팅
-//    private func countingNickname() -> some View {
-//        Spacer()
-//        HStack(spacing: 0) {
-//            Text("\(nickname.count)")
-//                .font(PretendardFont.smallMedium)
-//                .foregroundColor(Color.symBlack)
-//            Text("/5")
-//                .font(PretendardFont.smallMedium)
-//                .foregroundColor(Color.symGray4)
-//        }
-//    }
 }
 
 struct SignupNickNameRuleView: ViewModifier {
@@ -110,6 +102,6 @@ extension Text {
 
 #Preview {
     NavigationStack {
-        SignupNicknameView()
+        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }
