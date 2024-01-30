@@ -50,16 +50,12 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     Spacer()
                     
                     self.centerView?()
-                        .font(PretendardFont.h4Bold)
+                        .font(PretendardFont.h4Medium)
                     
                     Spacer()
                 }
             }
             .background((Color.white).ignoresSafeArea(.all, edges: .top))
-            
-            Rectangle()
-                .foregroundStyle(Color.symGray3)
-                .frame(height: 1)
             
             content
         }
