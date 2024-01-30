@@ -21,7 +21,7 @@ struct SettingView: View {
                 .tint(Color.main)
                 .padding(.top, 32)
                 
-                Group {
+                VStack(spacing: 26) {
                     HStack {
                         Button {
                             isShowingLogoutPopup.toggle()
@@ -30,8 +30,7 @@ struct SettingView: View {
                         }
                         Spacer()
                     }
-                    .buttonStyle(.plain)
-                    .padding(.bottom, 10)
+                    
                     
                     HStack {
                         Button {
@@ -39,7 +38,6 @@ struct SettingView: View {
                         } label: {
                             Text("회원탈퇴")
                         }
-                        .buttonStyle(.plain)
                         Spacer()
                     }
                 }
