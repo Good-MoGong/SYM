@@ -117,31 +117,33 @@ struct RecordOrganizeView: View {
     }
 
     func isResolutionSentenceTitle(title: String) -> some View {
-        if isiPhone47or58Inch() {
-            Text(title)
-                .setTextBackground(.sentenceTitle)
-                .padding(.trailing, 190)
-                .padding(.bottom, 215)
-        } else if isiPhone55orLCD61or65Inch() {
-            Text(title)
-                .setTextBackground(.sentenceTitle)
-                .padding(.trailing, 215)
-                .padding(.bottom, 215)
-        } else if isiPhoneOLED61Inch() {
-            Text(title)
-                .setTextBackground(.sentenceTitle)
-                .padding(.trailing, 200)
-                .padding(.bottom, 215)
-        } else if isiPhone67Inch() {
-            Text(title)
-                .setTextBackground(.sentenceTitle)
-                .padding(.trailing, 210)
-                .padding(.bottom, 215)
-        } else { // iPhone mini
-            Text(title)
-                .setTextBackground(.sentenceTitle)
-                .padding(.trailing, 165)
-                .padding(.bottom, 230)
+        Group {
+            if isiPhone47or58Inch() {
+                Text(title)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 190)
+                    .padding(.bottom, 215)
+            } else if isiPhone55orLCD61or65Inch() {
+                Text(title)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 215)
+                    .padding(.bottom, 215)
+            } else if isiPhoneOLED61Inch() {
+                Text(title)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 200)
+                    .padding(.bottom, 215)
+            } else if isiPhone67Inch() {
+                Text(title)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 210)
+                    .padding(.bottom, 215)
+            } else { // iPhone mini
+                Text(title)
+                    .setTextBackground(.sentenceTitle)
+                    .padding(.trailing, 165)
+                    .padding(.bottom, 230)
+            }
         }
     }
 }
