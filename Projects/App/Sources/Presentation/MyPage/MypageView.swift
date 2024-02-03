@@ -10,6 +10,13 @@ import SwiftUI
 
 struct MypageView: View {
     @State var nickname = "모공모공"
+    
+    var appVersion: String? {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let version = dictionary["CFBundleShortVersionString"] as? String else { return nil }
+        return version
+    }
+    
     var body: some View {
         NavigationStack {
             RecordView(isShowingMainView: false, nickname: nickname)
@@ -49,7 +56,7 @@ struct MypageView: View {
                     .font(PretendardFont.h4Bold)
                 Spacer()
                 
-                Text("1.0.0")
+                Text(appVersion ?? "0.0")
                     .font(PretendardFont.bodyBold)
             }
         }
