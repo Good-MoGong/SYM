@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CalendarDetailView: View {
     @State private var currentMonth: Int = 0
+    @State private var offset: CGSize = CGSize()
+    @State var isShowingDateChangeSheet: Bool = false
     
     @Binding var currentDate: Date
     @Binding var selectDate: Date
@@ -24,38 +26,36 @@ struct CalendarDetailView: View {
                     Text("모공모공님, 반가워요!")
                         .foregroundStyle(Color.symBlack)
                     Text("오늘의 기분은 어때요?")
-                        .foregroundStyle(Color.sub)
+                        .foregroundStyle(Color.main)
                 }
                 .font(PretendardFont.h3Bold)
                 
                 Spacer(minLength: 0)
             }
             .padding(.leading, 37)
-            .padding(.bottom, 33)
+            .padding(.bottom, 46)
             
             // MARK: 연도, 월 헤더뷰 (여기 나눌 수 있으면 나누기)
             HStack {
-                // 이전달 넘기는 버튼
-                Button(action: {
-                    currentMonth -= 1
-                }, label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(Color.black)
-                })
-                
                 // 연도, 월 텍스트
                 Text("\(getYearAndMonthString(currentDate: currentDate)[0])년 \(getYearAndMonthString(currentDate: currentDate)[1])")
                     .font(.title3.bold())
-                    .padding(.horizontal, 28)
                 
-                // 다음달로 넘기는 버튼
+                // 날짜 이동 시트 버튼
                 Button(action: {
-                    currentMonth += 1
+                    isShowingDateChangeSheet.toggle()
                 }, label: {
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.down")
                         .foregroundStyle(Color.black)
                 })
             }
+            .sheet(isPresented: $isShowingDateChangeSheet,
+                   content: { DateChangeSheetView(
+                    isShowingDateChangeSheet: $isShowingDateChangeSheet,
+                    currentDate: $currentDate
+                   )
+                   .presentationDetents([.medium])
+            })
             
             // MARK: Calendar View
             VStack {
@@ -70,44 +70,68 @@ struct CalendarDetailView: View {
                             .foregroundStyle(day == "일" ? Color.errorRed : Color.symBlack)
                     }
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 15)
                 
                 let columns = Array(repeating: GridItem(.flexible()), count: 7)
                 
                 // 달력 그리드
-                LazyVGrid(columns: columns, spacing: 30) {
+                LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(extractDate(currentMonth: currentMonth)) { value in
                         // 그 날이 무슨 요일인지 확인하는 상수. 이걸로 일요일이면 날짜 색 빨간색으로 바꿔주려고 선언
                         let dayOfWeek = Calendar.current.component(.weekday, from: value.date)
+                        
+                        let isToday = Calendar.current.isDateInToday(value.date)
                         
                         VStack {
                             // 공백 채워주려고 있는 -1 때문에 이렇게 조건문으로
                             if value.day != -1 {
                                 // 오늘 날짜이면
-                                if isSameDay(date1: currentDate, date2: value.date) {
-                                        Text("\(value.day)")
-                                            .fontWeight(.bold)
-                                        // 일요일이면 색 변경
-                                            .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
-                                            .background(
-                                                Circle()
-                                                    .fill(Color.medium)
-                                                    .frame(width: 43, height: 43)
-                                            )
-                                    // 오늘이 아니면
-                                    } else {
-                                        Text("\(value.day)")
-                                            .fontWeight(.bold)
-                                        // 일요일이면 색 변경
-                                            .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
-                                        // 오늘날짜 뒤에 배경
-                                            .background(
-                                                Circle()
-                                                    .fill(Color.white)
-                                                    .frame(width: 43, height: 43)
-                                            )
+                                if isToday {
+                                    VStack(spacing: 2) {
+                                        VStack {
+                                            Text("오늘")
+                                                .font(PretendardFont.smallMedium)
+                                                .foregroundStyle(Color.errorRed)
+                                            Text("\(value.day)")
+                                                .font(PretendardFont.h4Bold)
+                                                .fontWeight(.bold)
+                                            // 일요일이면 색 변경
+                                                .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
+                                        }
+                                        Circle()
+                                            .fill(Color.main)
+                                            .frame(width: 7, height: 7)
                                     }
-                            // 공백인날이면 (-1 이면)
+                                    .background(
+                                        Circle()
+                                            .fill(Color.medium)
+                                            .frame(width: 48, height: 48)
+                                            .opacity(isSameDay(date1: value.date, date2: selectDate) ? 1 : 0)
+                                    )
+                                    // 오늘이 아니면
+                                } else {
+                                    VStack(spacing: 2) {
+                                        VStack {
+                                            Text("오늘")
+                                                .font(PretendardFont.smallMedium)
+                                                .foregroundStyle(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
+                                            Text("\(value.day)")
+                                                .font(PretendardFont.h4Bold)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
+                                        }
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 7, height: 7)
+                                    }
+                                    .background(
+                                        Circle()
+                                            .fill(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
+                                            .frame(width: 50, height: 50)
+                                            .opacity(isSameDay(date1: value.date, date2: selectDate) ? 1 : 0)
+                                    )
+                                }
+                                // 공백인날이면 (-1 이면)
                             } else {
                                 Text("\(value.day)")
                                     .foregroundStyle(.white)
@@ -116,7 +140,6 @@ struct CalendarDetailView: View {
                         // 날짜 누를때마다 해당 날짜가 selectDate
                         .onTapGesture {
                             selectDate = value.date
-                            print(selectDate)
                         }
                     }
                 }
@@ -127,6 +150,23 @@ struct CalendarDetailView: View {
                 // 현재 달력이 보여주는 month로 현재날짜 지정해서 달력 보여주기
                 currentDate = getCurrentMonth(addingMonth: currentMonth)
             }
+            // 옆으로 스크롤해서 month 넘기기
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        self.offset = gesture.translation
+                    }
+                    .onEnded { gesture in
+                        withAnimation {
+                            if gesture.translation.width < -100 {
+                                currentMonth += 1
+                            } else if gesture.translation.width > 100 {
+                                currentMonth -= 1
+                            }
+                            self.offset = CGSize()
+                        }
+                    }
+            )
         }
     }
 }
@@ -193,6 +233,70 @@ private extension CalendarDetailView {
     }
 }
 
+struct DateChangeSheetView: View {
+    
+    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
+    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+    var years: [String] = ["2022", "2023", "2024", "2025", "2026"]
+    var months: [String] {
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 로케일 설정
+            return dateFormatter.monthSymbols
+        }
+    
+    @Binding var isShowingDateChangeSheet: Bool
+    @Binding var currentDate: Date
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("TODAY")
+                    .font(PretendardFont.bodyMedium)
+                    .foregroundStyle(Color.symGray5)
+                
+                Spacer()
+                
+                Text("2024.02.03")
+                    .font(PretendardFont.bodyMedium)
+                    .foregroundStyle(Color.main)
+            }
+            .padding(.top, 20)
+            
+            Spacer()
+            
+            HStack {
+                Picker("Year", selection: $selectedYear) {
+                    ForEach(years, id: \.self) { year in
+                        Text("\(year)년").tag(year)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 180, height: 200)
+                .clipped()
+                
+                Picker("Month", selection: $selectedMonth) {
+                    ForEach(1...12, id: \.self) { month in
+                        Text("\(months[month - 1])").tag(month)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 180, height: 200)
+                .clipped()
+            }
+            Spacer()
+            
+            Button(action: {
+                
+            }, label: {
+                Text("완료")
+            })
+            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+        }
+        .padding(.horizontal, 20)
+    }
+}
+
 #Preview {
     CalendarMainView()
+    //    DateChangeSheetView(isShowingDateChangeSheet: .constant(true))
 }
