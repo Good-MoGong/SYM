@@ -8,6 +8,23 @@
 
 import SwiftUI
 
+enum RecordViewText {
+    case beforeRecord
+    case afterRecord
+    case mypageRecord(count: Int)
+    
+    var stringValue: String {
+        switch self {
+        case .beforeRecord:
+            "오늘의 감정이 기록되지 않았어요\n시미가 당신을 기다리고 있어요!"
+        case .afterRecord:
+            "꾸준한 감정일기는 자신을 단단히 만들어준답니다! 내일도 와주실거죠?"
+        case let .mypageRecord(count):
+            "\(count)개의 감정기록이 담겨있네요!\n시미가 당신의 의견을 기다리고 있어요"
+        }
+    }
+}
+
 struct RecordView: View {
     /// mainView에서 쓰이는지, mypage에서 쓰이는지
     var isShowingMainView: Bool = true
