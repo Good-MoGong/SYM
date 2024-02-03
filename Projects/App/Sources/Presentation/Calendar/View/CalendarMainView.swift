@@ -16,6 +16,7 @@ struct CalendarMainView: View {
         ScrollView {
             CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate)
                 .padding(.vertical, 20)
+//            CalendarDiaryView(currentDate: $currentDate, selectDate: $selectDate)
         }
     }
 }
