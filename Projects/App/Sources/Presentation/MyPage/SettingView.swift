@@ -31,7 +31,6 @@ struct SettingView: View {
                         Spacer()
                     }
                     
-                    
                     HStack {
                         Button {
                             isShowingWithdrawalPopup.toggle()
