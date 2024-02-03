@@ -31,12 +31,13 @@ struct RecordView: View {
     /// 기록 전, 후를 bool로 구분
     var beforeRecord: Bool?
     var nickname: String = ""
+    var recordCount: Int = 0
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 if isShowingMainView {
-                    Text("오늘의 기록")
+                    Text(beforeRecord ?? true ? "오늘의 기록" : "오늘 일기 작성 완료!")
                         .font(PretendardFont.h4Bold)
                         .padding(.bottom, 12)
                 } else {
@@ -54,43 +55,22 @@ struct RecordView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    if isShowingMainView {
-                        if beforeRecord ?? false {
-                            Text("오늘의 감정이 기록되지 않았어요\n시미가 당신을 기다리고 있어요!")
-                        } else {
-                            Text("오늘의 감정을 기록했어요\n시미가 기뻐하고 있어요!")
-                        }
-                    } else {
-                        Text("\(10)개의 감정기록이 담겨있네요!\n시미가 당신의 의견을 기다리고 있어요")
-                    }
+                    Text(isShowingMainView ? (beforeRecord ?? false ?
+                          RecordViewText.beforeRecord.stringValue : RecordViewText.afterRecord.stringValue
+                                             ) :
+                         RecordViewText.mypageRecord(count: recordCount).stringValue)
                 }
                 .lineSpacing(8)
                 .font(PretendardFont.smallMedium)
                 .padding(.bottom, 12)
-                
-                if isShowingMainView {
+                if beforeRecord ?? true {
                     Button {
-                        if beforeRecord ?? false {
-                            print("기록하기")
-                        } else {
-                            print("보러가기")
-                        }
+                        print(isShowingMainView ? (beforeRecord ?? false ? "기록하기" : "보러가기") : "의견 보내기")
                     } label: {
-                        if beforeRecord ?? false {
-                            Text("감정 기록하기")
-                        } else {
-                            Text("기록 보러가기")
-                        }
+                        Text(isShowingMainView ? (beforeRecord ?? false ? "감정 기록하기" : "기록 보러가기") : "시미에게 의견 보내기")
+                            .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
                     }
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
-                } else {
-                    Button {
-                        print("의견 보내기")
-                    } label: {
-                        Text("시미에게 의견 보내기")
-                            .font(PretendardFont.h5Medium)
-                    }
-                    .buttonStyle(SubPinkButtonStyle())
+                    .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
                 }
             }
             .padding(.trailing, 23)
@@ -112,5 +92,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: true)
+    RecordView(beforeRecord: false)
 }
