@@ -48,60 +48,50 @@ struct PopupView: ViewModifier {
     }
     
     public func body(content: Content) -> some View {
-        if isShowing {
-            switch type {
-            case .doubleButton(_, _):
+        content
+            .overlay {
                 ZStack {
                     Color.black
                         .opacity(0.3)
                         .ignoresSafeArea()
-                    VStack {
-                        CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
-                        bottomView
+                    switch type {
+                    case .doubleButton(_, _):
+                        ZStack {
+                            VStack {
+                                CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
+                                bottomView
+                            }
+                            .customPopupModifier()
+                        }
+                    case .guide:
+                        ZStack {
+                            VStack(alignment: .center) {
+                                Text(title)
+                                    .font(PretendardFont.h5Bold)
+                                Spacer().frame(height: 15)
+                                Text(desc)
+                                    .font(PretendardFont.smallMedium)
+                                    .lineSpacing(1.5)
+                                    .multilineTextAlignment(.center)
+                                Spacer().frame(height: 32)
+                                bottomView
+                                
+                            }
+                            .customPopupModifier()
+                        }
+                    case .switchColorDoubleBtn(_, _):
+                        ZStack {
+                            VStack {
+                                CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
+                                bottomView
+                            }
+                            .customPopupModifier()
+                        }
                     }
-                    .customPopupModifier()
                 }
-            case .guide:
-                ZStack {
-                    Color.black
-                        .opacity(0.3)
-                        .ignoresSafeArea()
-                    VStack(alignment: .center) {
-                        Text(title)
-                            .font(PretendardFont.h5Bold)
-                        Spacer().frame(height: 15)
-                        Text(desc)
-                            .font(PretendardFont.smallMedium)
-                            .lineSpacing(1.5)
-                            .multilineTextAlignment(.center)
-                        Spacer().frame(height: 32)
-                        bottomView
-                        
-                    }
-                    .customPopupModifier()
-//                    .padding(.horizontal, 20)
-//                    .frame(maxWidth: .infinity)
-//                    .padding(.top, 25)
-//                    .padding(.bottom, 25)
-//                    .background(Color.white)
-//                    .cornerRadius(15)
-//                    .padding(.horizontal, 60)
-                }
-            case .switchColorDoubleBtn(_, _):
-                ZStack {
-                    Color.black
-                        .opacity(0.3)
-                        .ignoresSafeArea()
-                    VStack {
-                        CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
-                        bottomView
-                    }
-                    .customPopupModifier()
-                }
+                .opacity(isShowing ? 1 : 0)
+                .animation(.easeInOut, value: isShowing)
             }
-        } else {
-            content
-        }
     }
     
     @ViewBuilder private var bottomView: some View {
@@ -202,36 +192,39 @@ public extension View {
 }
 
 struct PopupDemo: View {
-    @State private var isShowingPopup = true
+    @State private var isShowingPopup = false
     @State private var isShowingGuide = false
     @State private var isShowingAlone = false
-    @State private var isShowingSwitch = false
+    @State private var isShowingSwitch = true
     
     var body: some View {
-        VStack(spacing: 10) {
-            Button(action: {
-                self.isShowingGuide.toggle()
-            }, label: {
-                Text("가이드 라인 팝업 뷰 사용 방법")
-            })
-            
-            Button(action: {
-                self.isShowingPopup.toggle()
-            }, label: {
-                Text("일반 커스텀 팝업 뷰 사용 방법")
-            })
-            
-            Button(action: {
-                self.isShowingAlone.toggle()
-            }, label: {
-                Text("로그아웃 버튼 테스트")
-            })
-            
-            Button(action: {
-                self.isShowingSwitch.toggle()
-            }, label: {
-                Text("Switch 버튼 테스트")
-            })
+        ZStack {
+            Color.red
+            VStack(spacing: 10) {
+                Button(action: {
+                    self.isShowingGuide.toggle()
+                }, label: {
+                    Text("가이드 라인 팝업 뷰 사용 방법")
+                })
+                
+                Button(action: {
+                    self.isShowingPopup.toggle()
+                }, label: {
+                    Text("일반 커스텀 팝업 뷰 사용 방법")
+                })
+                
+                Button(action: {
+                    self.isShowingAlone.toggle()
+                }, label: {
+                    Text("로그아웃 버튼 테스트")
+                })
+                
+                Button(action: {
+                    self.isShowingSwitch.toggle()
+                }, label: {
+                    Text("Switch 버튼 테스트")
+                })
+            }
         }
         /// 가이드 라인 팝업 뷰 사용 방법
         .popup(isShowing: $isShowingGuide,
@@ -247,8 +240,6 @@ struct PopupDemo: View {
             print("취소 버튼")
             self.isShowingGuide.toggle()
         })
-        
-        
         /// 일반 커스텀 팝업 뷰 사용 방법 -> 현재 취소 확인 둘 다 똑같이 동작하는 예시입니다.
         .popup(isShowing: $isShowingPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
