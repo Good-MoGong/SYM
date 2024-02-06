@@ -10,7 +10,9 @@ import SwiftUI
 
 struct CalendarDetailView: View {
     @State private var currentMonth: Int = 0
-    @State var isShowingDateChangeSheet: Bool = false
+    @State private var isShowingDateChangeSheet: Bool = false
+    // 나중에 유저 닉네임 가져올 예정
+    @State private var nickname: String = "모공모공"
     
     @Binding var currentDate: Date
     @Binding var selectDate: Date
@@ -19,7 +21,7 @@ struct CalendarDetailView: View {
     
     var body: some View {
         VStack {
-            HeaderView()
+            HeaderView(nickname: $nickname)
             YearMonthHeaderView(currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
             CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, weekday: weekday)
         }
@@ -28,6 +30,9 @@ struct CalendarDetailView: View {
 
 // MARK: - HeaderView: 환영글
 struct HeaderView: View {
+    
+    @Binding var nickname: String
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -50,7 +55,7 @@ struct HeaderView: View {
 struct YearMonthHeaderView: View {
     @Binding var currentDate: Date
     @Binding var isShowingDateChangeSheet: Bool
-
+    
     var body: some View {
         HStack {
             // 연도, 월 텍스트
@@ -99,7 +104,7 @@ struct CalendarView: View {
     var body: some View {
         VStack {
             WeekdayHeaderView(weekday: weekday)
-            CalendarGridView(selectDate: $selectDate, currentMonth: $currentMonth)
+            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth)
         }
         .padding(20)
         // currentMonth 바뀔 때 마다
@@ -156,8 +161,8 @@ struct WeekdayHeaderView: View {
     }
 }
 
-// MARK: - CalendarGridView: 날짜
-struct CalendarGridView: View {
+// MARK: - CalendarGridView: 날짜 그리드
+struct DatesGridView: View {
     
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
@@ -166,85 +171,16 @@ struct CalendarGridView: View {
     
     var body: some View {
         // 달력 그리드
-        LazyVGrid(columns: columns, spacing: 10) {
+        LazyVGrid(columns: columns, spacing: 15) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
-                // 그 날이 무슨 요일인지 확인하는 상수. 이걸로 일요일이면 날짜 색 빨간색으로 바꿔주려고 선언
-                let dayOfWeek = Calendar.current.component(.weekday, from: value.date)
-                
-                let isToday = Calendar.current.isDateInToday(value.date)
-                
-                VStack {
-                    // 공백 채워주려고 있는 -1 때문에 이렇게 조건문으로
-                    if value.day != -1 {
-                        // 오늘 날짜이면
-                        if isToday {
-                            Button {
-                                selectDate = value.date
-                            } label: {
-                                VStack(spacing: 2) {
-                                    VStack {
-                                        Text("오늘")
-                                            .font(PretendardFont.smallMedium)
-                                            .foregroundStyle(Color.errorRed)
-                                        Text("\(value.day)")
-                                            .font(PretendardFont.h4Bold)
-                                            .fontWeight(.bold)
-                                        // 일요일이면 색 변경
-                                            .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
-                                    }
-                                    Circle()
-                                        .fill(Color.main)
-                                        .frame(width: 7, height: 7)
-                                }
-                                .background(
-                                    Circle()
-                                        .fill(Color.medium)
-                                        .frame(width: 48, height: 48)
-                                        .opacity(isSameDay(date1: value.date, date2: selectDate) ? 1 : 0)
-                                )
-                                // 오늘이 아니면
-                            }
-                        } else {
-                            Button {
-                                selectDate = value.date
-                                print("\(value.date)")
-                            } label: {
-                                VStack(spacing: 2) {
-                                    VStack {
-                                        Text("오늘")
-                                            .font(PretendardFont.smallMedium)
-                                            .foregroundStyle(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
-                                        Text("\(value.day)")
-                                            .font(PretendardFont.h4Bold)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
-                                    }
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 7, height: 7)
-                                }
-                                .background(
-                                    Circle()
-                                        .fill(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
-                                        .frame(width: 50, height: 50)
-                                        .opacity(isSameDay(date1: value.date, date2: selectDate) ? 1 : 0)
-                                )
-                            }
-                            // 공백인날이면 (-1 이면)
-                        }
-                    } else {
-                        Text("\(value.day)")
-                            .foregroundStyle(.white)
-                    }
+                if value.day != -1 {
+                    DateButton(value: value, selectDate: $selectDate)
+                } else {
+                    // 날짜 공백때문에 -1이 있을경우 숨긴다
+                    Text("\(value.day)").hidden()
                 }
             }
         }
-    }
-    
-    /// 두 날짜가 같은 날인지 확인하는 함수
-    func isSameDay(date1: Date, date2: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(date1, inSameDayAs: date2)
     }
     
     /// 현재 캘린더에 보이는 month 구하는 함수
@@ -258,7 +194,7 @@ struct CalendarGridView: View {
         
         return currentMonth
     }
-
+    
     /// 해당 월의 모든 날짜들을 DateValue 배열로 만들어주는 함수, 모든 날짜를 배열로 만들어야 Grid에서 보여주기 가능
     func extractDate(currentMonth: Int) -> [DateValue] {
         let calendar = Calendar.current
@@ -292,6 +228,61 @@ struct CalendarGridView: View {
     }
 }
 
+// MARK: - 날짜버튼
+struct DateButton: View {
+    
+    var value: DateValue
+    
+    @Binding var selectDate: Date
+    
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(value.date)
+    }
+    private var dayOfWeek: Int {
+        Calendar.current.component(.weekday, from: value.date)
+    }
+    private var isSelected: Bool {
+        isSameDay(date1: value.date, date2: selectDate)
+    }
+    
+    var body: some View {
+        Button {
+            selectDate = value.date
+        } label: {
+            VStack(spacing: 2) {
+                if isToday {
+                    Text("오늘")
+                        .font(PretendardFont.smallMedium)
+                        .foregroundStyle(Color.errorRed)
+                } else {
+                    Text("오늘")
+                        .font(PretendardFont.smallMedium)
+                        .foregroundStyle(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
+                }
+                Text("\(value.day)")
+                    .font(PretendardFont.h4Bold)
+                    .fontWeight(.bold)
+                    .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
+                Circle()
+                    .fill(isToday ? Color.main : Color.white)
+                    .frame(width: 7, height: 7)
+            }
+            .background(
+                Circle()
+                    .fill(isSelected ? Color.medium : Color.white)
+                    .frame(width: 50, height: 50)
+                    .opacity(isSelected ? 1 : 0)
+            )
+        }
+    }
+    /// 두 날짜가 같은 날인지 확인하는 함수
+    func isSameDay(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(date1, inSameDayAs: date2)
+    }
+}
+
+
 // MARK: - DateChangeSheetView: 날짜 변경 sheet
 struct DateChangeSheetView: View {
     
@@ -309,21 +300,6 @@ struct DateChangeSheetView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("TODAY")
-                    .font(PretendardFont.bodyMedium)
-                    .foregroundStyle(Color.symGray5)
-                
-                Spacer()
-                
-                Text("2024년 2월 3일")
-                    .font(PretendardFont.bodyMedium)
-                    .foregroundStyle(Color.main)
-            }
-            .padding(.top, 20)
-            
-            Spacer()
-            
             HStack {
                 Picker("Year", selection: $selectedYear) {
                     ForEach(years, id: \.self) { year in
