@@ -49,3 +49,17 @@ struct smallGrayButtonStyle: ButtonStyle {
             .cornerRadius(15)
     }
 }
+
+struct CustomButtonStyle: ButtonStyle {
+    private let content: (ButtonStyle.Configuration) -> AnyView
+
+    init<S: ButtonStyle>(_ style: S) {
+        content = { configuration in
+            AnyView(style.makeBody(configuration: configuration))
+        }
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        content(configuration)
+    }
+}
