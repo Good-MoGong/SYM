@@ -75,7 +75,7 @@ struct YearMonthHeaderView: View {
                 isShowingDateChangeSheet: $isShowingDateChangeSheet,
                 currentDate: $currentDate
                )
-               .presentationDetents([.medium])
+               .presentationDetents([.fraction(0.4)])
         })
     }
     
@@ -304,6 +304,7 @@ struct DateChangeSheetView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Picker("Year", selection: $selectedYear) {
                     ForEach(years, id: \.self) { year in
@@ -311,7 +312,6 @@ struct DateChangeSheetView: View {
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
-                .frame(width: 180, height: 200)
                 .clipped()
                 
                 Picker("Month", selection: $selectedMonth) {
@@ -320,7 +320,6 @@ struct DateChangeSheetView: View {
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
-                .frame(width: 180, height: 200)
                 .clipped()
             }
             Spacer()
@@ -332,7 +331,7 @@ struct DateChangeSheetView: View {
             })
             .buttonStyle(MainButtonStyle(isButtonEnabled: true))
         }
-        .padding(.horizontal, 20)
+        .padding(20)
     }
 }
 
