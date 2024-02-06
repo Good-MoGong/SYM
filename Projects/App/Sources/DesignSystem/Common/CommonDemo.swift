@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct CommonDemo: View {
+    @State private var nickname = "김모공"
     var body: some View {
         VStack {
             Text("즐거운")
@@ -34,5 +35,7 @@ struct CommonDemo: View {
 }
 
 #Preview {
-    CommonDemo()
+    NavigationStack {
+        CommonDemo()
+    }
 }

@@ -20,7 +20,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .alarm:
             Text("alarm")
         case .mypage:
-            Text("mypage")
+            MypageView()
         }
     }
     
