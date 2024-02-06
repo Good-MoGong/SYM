@@ -235,12 +235,15 @@ struct DateButton: View {
     
     @Binding var selectDate: Date
     
+    // 오늘인지 아닌지
     private var isToday: Bool {
         Calendar.current.isDateInToday(value.date)
     }
+    // 해당 날짜가 무슨 요일인지 (일요일이면 foregroundColor red로 바꿀때 사용)
     private var dayOfWeek: Int {
         Calendar.current.component(.weekday, from: value.date)
     }
+    // 날짜가 선택되었을 때
     private var isSelected: Bool {
         isSameDay(date1: value.date, date2: selectDate)
     }
@@ -257,7 +260,7 @@ struct DateButton: View {
                 } else {
                     Text("오늘")
                         .font(PretendardFont.smallMedium)
-                        .foregroundStyle(isSameDay(date1: value.date, date2: selectDate) ? Color.medium : Color.white)
+                        .foregroundStyle(isSelected ? Color.medium : Color.white)
                 }
                 Text("\(value.day)")
                     .font(PretendardFont.h4Bold)
@@ -275,6 +278,7 @@ struct DateButton: View {
             )
         }
     }
+    
     /// 두 날짜가 같은 날인지 확인하는 함수
     func isSameDay(date1: Date, date2: Date) -> Bool {
         let calendar = Calendar.current
