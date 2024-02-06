@@ -102,10 +102,10 @@ struct CalendarView: View {
     let weekday: [String]
     
     var body: some View {
-        VStack {
-            WeekdayHeaderView(weekday: weekday)
-            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth)
-        }
+            VStack {
+                WeekdayHeaderView(weekday: weekday)
+                DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth)
+            }
         .padding(20)
         // currentMonth 바뀔 때 마다
         .onChange(of: currentMonth) { _ in
@@ -127,6 +127,9 @@ struct CalendarView: View {
                     self.offset = CGSize()
                 }
         )
+        .onAppear() {
+            selectDate = Date()
+        }
     }
     /// 현재 캘린더에 보이는 month 구하는 함수
     func getCurrentMonth(addingMonth: Int) -> Date {
@@ -233,6 +236,8 @@ struct DateButton: View {
     
     var value: DateValue
     
+    @State var isShowingRecordView = false
+    
     @Binding var selectDate: Date
     
     // 오늘인지 아닌지
@@ -251,6 +256,7 @@ struct DateButton: View {
     var body: some View {
         Button {
             selectDate = value.date
+            isShowingRecordView = true
         } label: {
             VStack(spacing: 2) {
                 if isToday {
@@ -276,6 +282,9 @@ struct DateButton: View {
                     .frame(width: 50, height: 50)
                     .opacity(isSelected ? 1 : 0)
             )
+        }
+        .navigationDestination(isPresented: $isShowingRecordView) {
+            RecordOrganizeView()
         }
     }
     
@@ -325,7 +334,7 @@ struct DateChangeSheetView: View {
             Spacer()
             
             Button(action: {
-                
+                currentDate = createNewDate(year: selectedYear, month: selectedMonth)
             }, label: {
                 Text("완료")
             })
@@ -333,8 +342,24 @@ struct DateChangeSheetView: View {
         }
         .padding(20)
     }
+    
+    /// 선택된 연도와 월로 새로운 Date를 생성
+        private func createNewDate(year: Int, month: Int) -> Date {
+            var components = DateComponents()
+            components.year = year
+            components.month = month
+            components.day = 1 // 일자는 1로 설정하거나 필요에 따라 조절
+            
+            guard let newDate = Calendar.current.date(from: components) else {
+                fatalError("Failed to create a new date.")
+            }
+            
+            return newDate
+        }
 }
 
 #Preview {
-    CalendarMainView()
+    NavigationStack {
+        CalendarMainView()
+    }
 }
