@@ -19,22 +19,46 @@ struct RecordStartView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-                
                 VStack(spacing: .symHeight * 0.05) {
-                    HStack {
-                        Button("<") {
-                            recordViewModel.movePage(to: .previous)
+                    VStack {
+                        ZStack {
+                            HStack {
+                                Button {
+                                    recordViewModel.movePage(to: .previous)
+                                } label: {
+                                    Image(systemName: "chevron.left")
+                                }
+                                .buttonStyle(.plain)
+                                Spacer()
+                                
+                                Button {
+                                    recordViewModel.writeLater()
+                                } label: {
+                                    Text("나중에 쓰기")
+                                        .font(PretendardFont.bodyMedium)
+                                        .foregroundColor(.symGray5)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .frame(height: 44)
+                            .frame(maxWidth: .infinity)
+                            
+                            HStack {
+                                Spacer()
+                                
+                                Text("감정일기")
+                                    .font(PretendardFont.h4Medium)
+                                
+                                Spacer()
+                            }
                         }
-                        Spacer()
-                        Text("감정기록")
-                        Spacer()
-                        Button("나중에쓰기") {
-                            recordViewModel.writeLater()
+                        HStack {
+                            ForEach(RecordOrder.allCases, id: \.self) { value in
+                        
+                            }
                         }
                     }
-                    
                     HStack {
-                        
                         Text(recordViewModel.recordOrder.symMent)
                             .font(PretendardFont.h3Bold)
                             .overlay {
@@ -99,7 +123,6 @@ struct RecordStartView: View {
 extension RecordStartView {
     @ViewBuilder
     private var emotionSelectView: some View {
-        
         HStack {
             ForEach(EmotionType.allCases, id: \.self) { emotion in
                 VStack {
