@@ -52,9 +52,13 @@ struct RecordStartView: View {
                                 Spacer()
                             }
                         }
-                        HStack {
-                            ForEach(RecordOrder.allCases, id: \.self) { value in
-                        
+                        HStack(spacing: 12) {
+                            ForEach(RecordOrder.allCases, id: \.self) { index in // 1
+                                Circle()
+                                    .fill(recordViewModel.recordOrder == index ? Color.main : Color.symGray2)
+                                    .frame(width: 8, height: 8)
+                                   
+                                   
                             }
                         }
                     }
