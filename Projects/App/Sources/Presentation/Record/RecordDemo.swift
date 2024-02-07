@@ -7,3 +7,25 @@
 //
 
 // Demo
+import SwiftUI
+
+struct RecordDemo: View {
+    @State private var isShowingRecordView = false
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Button("기록하기") {
+                    isShowingRecordView.toggle()
+                }
+            }
+            .navigationDestination(isPresented: $isShowingRecordView) {
+                RecordStartView(isShowingRecordView: $isShowingRecordView)
+            }
+        }
+    }
+}
+
+#Preview {
+    RecordDemo()
+}
+
