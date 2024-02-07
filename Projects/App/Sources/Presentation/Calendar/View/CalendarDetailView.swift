@@ -11,9 +11,8 @@ import SwiftUI
 struct CalendarDetailView: View {
     @State private var currentMonth: Int = 0
     @State private var isShowingDateChangeSheet: Bool = false
-    // 나중에 유저 닉네임 가져올 예정
-    @State private var nickname: String = "모공모공"
-    
+
+    @Binding var nickname: String
     @Binding var currentDate: Date
     @Binding var selectDate: Date
     
@@ -46,8 +45,8 @@ struct HeaderView: View {
             
             Spacer(minLength: 0)
         }
-        .padding(.leading, 37)
-        .padding(.bottom, 46)
+        .padding(.leading, 15)
+        .padding(.bottom, 40)
     }
 }
 
@@ -106,7 +105,7 @@ struct CalendarView: View {
                 WeekdayHeaderView(weekday: weekday)
                 DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth)
             }
-        .padding(20)
+            .padding(.top, 20)
         // currentMonth 바뀔 때 마다
         .onChange(of: currentMonth) { _ in
             // 현재 달력이 보여주는 month로 현재날짜 지정해서 달력 보여주기
@@ -174,7 +173,7 @@ struct DatesGridView: View {
     
     var body: some View {
         // 달력 그리드
-        LazyVGrid(columns: columns, spacing: 15) {
+        LazyVGrid(columns: columns, spacing: 10) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
                 if value.day != -1 {
                     DateButton(value: value, selectDate: $selectDate)

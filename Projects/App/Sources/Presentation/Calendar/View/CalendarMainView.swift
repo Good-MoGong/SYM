@@ -11,16 +11,21 @@ import SwiftUI
 struct CalendarMainView: View {
     @State var currentDate: Date = Date()
     @State var selectDate: Date = Date()
+    @State private var nickname: String = "모공모공"
     
     var body: some View {
         ScrollView {
-            CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate)
+            CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate)
                 .padding(.vertical, 20)
-//            CalendarDiaryView(currentDate: $currentDate, selectDate: $selectDate)
+            RecordView(beforeRecord: true, nickname: nickname)
         }
+        .padding(.horizontal, 20)
+        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    CalendarMainView()
+    NavigationStack {
+        CalendarMainView()
+    }
 }
