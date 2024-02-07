@@ -15,11 +15,11 @@ extension Scheme {
                 shared: true,
                 buildAction: .buildAction(targets: ["\(name)"]),
                 // 테스트 코드 관련인듯? 딱히 필요없어보임
-//                testAction: .targets(
-//                    ["\(name)Tests"],
-//                    configuration: target,
-//                    options: .options(coverage: true, codeCoverageTargets: ["\(name)"])
-//                ),
+                testAction: .targets(
+                    ["\(name)Tests"],
+                    configuration: target,
+                    options: .options(coverage: true, codeCoverageTargets: ["\(name)"])
+                ),
                 runAction: .runAction(configuration: target),
                 archiveAction: .archiveAction(configuration: target),
                 profileAction: .profileAction(configuration: target),

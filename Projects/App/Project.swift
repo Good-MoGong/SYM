@@ -20,7 +20,7 @@ let appTarget = Target.makeTarget(name: "SYM",
                                                          devices: [.iphone, .ipad],
                                                          supportsMacDesignedForIOS: true),
                                   dependencies: [.project(target: "FirebaseSPM", path: .relativeToRoot("\(projectFolder)/FirebaseSPM"))],
-                                  scripts: [.swiftLintPath],
+                                  scripts: [], // [.swiftLintPath],
                                   infoPlistPath: "Support/Info.plist",
                                   coreDataModels: [],
                                   // 메인만 리소스 있음
