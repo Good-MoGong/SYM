@@ -19,49 +19,49 @@ struct RecordStartView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-                VStack(spacing: .symHeight * 0.05) {
-                    VStack {
-                        ZStack {
-                            HStack {
-                                Button {
-                                    recordViewModel.movePage(to: .previous)
-                                } label: {
-                                    Image(systemName: "chevron.left")
-                                }
-                                .buttonStyle(.plain)
-                                Spacer()
-                                
-                                Button {
-                                    recordViewModel.writeLater()
-                                } label: {
-                                    Text("나중에 쓰기")
-                                        .font(PretendardFont.bodyMedium)
-                                        .foregroundColor(.symGray5)
-                                }
-                                .buttonStyle(.plain)
+                VStack {
+                    ZStack {
+                        HStack {
+                            Button {
+                                recordViewModel.movePage(to: .previous)
+                            } label: {
+                                Image(systemName: "chevron.left")
                             }
-                            .frame(height: 44)
-                            .frame(maxWidth: .infinity)
+                            .buttonStyle(.plain)
+                            Spacer()
                             
-                            HStack {
-                                Spacer()
-                                
-                                Text("감정일기")
-                                    .font(PretendardFont.h4Medium)
-                                
-                                Spacer()
+                            Button {
+                                recordViewModel.writeLater()
+                            } label: {
+                                Text("나중에 쓰기")
+                                    .font(PretendardFont.bodyMedium)
+                                    .foregroundColor(.symGray5)
                             }
+                            .buttonStyle(.plain)
                         }
-                        HStack(spacing: 12) {
-                            ForEach(RecordOrder.allCases, id: \.self) { index in // 1
-                                Circle()
-                                    .fill(recordViewModel.recordOrder == index ? Color.main : Color.symGray2)
-                                    .frame(width: 8, height: 8)
-                                   
-                                   
-                            }
+                        .frame(height: 44)
+                        .frame(maxWidth: .infinity)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Text("감정일기")
+                                .font(PretendardFont.h4Medium)
+                            
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                    HStack(spacing: 12) {
+                        ForEach(RecordOrder.allCases, id: \.self) { index in // 1
+                            Circle()
+                                .fill(recordViewModel.recordOrder == index ? Color.main : Color.symGray2)
+                                .frame(width: 8, height: 8)
+                            
+                            
                         }
                     }
+                    Spacer()
                     HStack {
                         Text(recordViewModel.recordOrder.symMent)
                             .font(PretendardFont.h3Bold)
@@ -79,7 +79,9 @@ struct RecordStartView: View {
                             .foregroundColor(.symGray3)
                         Spacer()
                     }
+                    Spacer()
                     Image("Sample")
+                    Spacer()
                     
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
@@ -137,7 +139,7 @@ extension RecordStartView {
                     
                     Button {
                         recordViewModel.selectEmotion(selected: emotion)
-            
+                        
                     } label: {
                         Text("\(emotion.rawValue)")
                             .font(PretendardFont.h3Bold)
