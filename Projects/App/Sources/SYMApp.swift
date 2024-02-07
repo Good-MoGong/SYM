@@ -15,9 +15,8 @@ struct SYMApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            AuthenticatedView(authViewModel: .init(container: container))
-//                .environmentObject(container)
-            RecordDemo()
+            AuthenticatedView(authViewModel: .init(container: container))
+                .environmentObject(container)
         }
     }
 }
