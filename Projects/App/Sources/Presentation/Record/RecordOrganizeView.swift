@@ -82,29 +82,28 @@ struct RecordOrganizeView: View {
     let screenSize = UIScreen.main.bounds.size.width
     
     func isResolutionSentenceTitle(title: String) -> some View {
-        switch screenSize {
-        case 375: // 4.7, 5.8인치
-            Text(title)
+        if screenSize == 375 { // 4.7, 5.8 inches
+            return Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 190)
                 .padding(.bottom, 215)
-        case 414: // 5.5, LCD 6.1, 6.5인치
-            Text(title)
+        } else if screenSize == 414 { // 5.5, LCD 6.1, 6.5 inches
+            return Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 215)
                 .padding(.bottom, 215)
-        case 390, 393: // OLED 6.1인치
-            Text(title)
+        } else if screenSize == 390 || screenSize == 393 { // OLED 6.1 inches
+            return Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 200)
                 .padding(.bottom, 215)
-        case 428, 430: // 6.7인치
-            Text(title)
+        } else if screenSize == 428 || screenSize == 430 { // 6.7 inches
+            return Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 210)
                 .padding(.bottom, 215)
-        default: // mini 모델
-            Text(title)
+        } else { // mini model
+            return Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 165)
                 .padding(.bottom, 230)

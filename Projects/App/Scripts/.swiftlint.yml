@@ -31,10 +31,17 @@ disabled_rules: # 사용하지 않는 룰
     - function_parameter_count
     # 옵셔널 배열을 제한
     - discouraged_optional_collection
-#    # 닫는 중괄호 앞에 세로 공백(빈 줄)을 포함하지 마세요.
-#    - vertical_whitespace_closing_braces
-#    # 여는 중괄호 뒤에 세로 공백(빈 줄)을 포함하지 마세요
-#    - vertical_whitespace_opening_braces
+    # 닫는 중괄호 앞에 세로 공백(빈 줄)을 포함하지 마세요.
+    - vertical_whitespace_closing_braces
+    # 여는 중괄호 뒤에 세로 공백(빈 줄)을 포함하지 마세요
+    - vertical_whitespace_opening_braces
+    - colon
+    - no_space_in_method_call
+    - comment_spacing
+    - empty_parentheses_with_trailing_closure
+    - empty_enum_arguments
+    - discouraged_optional_boolean
+    
     
 analyzer_rules:
     # 모든 선언은 한 번 이상 사용되어야 함
@@ -64,9 +71,6 @@ opt_in_rules: # 명시적 룰 활성화
 
     # collection elem은 vertically aligned 되어야 함
     - collection_alignment
-
-    # colon 사용 시 앞 공백 필수, 뒷 공백이 있으면 안 됨
-    - colon
 
     # comma 사용 시 앞 공백 필수, 뒷 공백이 있으면 안 됨
     - comma
@@ -114,16 +118,10 @@ opt_in_rules: # 명시적 룰 활성화
     - literal_expression_end_indentation
 
     # let, var 선언 시 다른 statments와 한 줄 공백이 필요함
-    - let_var_whitespace
+#    - let_var_whitespace
 
-    # 수직 공백 2줄 이상 사용 지양
-    - vertical_whitespace
-
-    # 여는 괄호 앞에서 한 줄 이상의 공백 사용 지양
-    - vertical_whitespace_opening_braces
-
-    # 닫는 괄호 앞에서 한 줄 이상의 공백 사용 지양
-    - vertical_whitespace_closing_braces
-        
+#    # 닫는 괄호 앞에서 한 줄 이상의 공백 사용 지양
+#    - vertical_whitespace_closing_braces
+#        
     # delegate는 약한 참조 사용 권장
     - weak_delegate
