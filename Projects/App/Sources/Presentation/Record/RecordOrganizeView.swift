@@ -9,11 +9,9 @@
 import SwiftUI
 
 struct RecordOrganizeView: View {
-    let sampleFeelings = ["즐거운", "매우 기쁜", "만족스러운", "놀라운", "화가 나는"] // 감정 샘플 데이터
-    let sampleText = """
-    푸른하늘처럼 투명하게 새벽공기처럼 청아하게 언제나 파란 희망으로 다가서는 너에게 나는 그런 사람이고 싶다. 들판에 핀 작은 풀꽃같이 바람에 날리는 어여쁜 민들레같이 잔잔한 미소와 작은 행복을 주는 사람 너에게 나는 그런 사람이고 싶다. 따스한 햇살이 되어시린 가슴으로 아파할 때 포근하게 감싸주며 위로가 되는 사람 너에게 나는 그런 사람이고 싶다. 긴 인생이
-    """
-    
+    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var recordViewModel: RecordViewModel
+    @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
@@ -27,7 +25,7 @@ struct RecordOrganizeView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: Array(repeating: GridItem(), count: 1)) {
-                            ForEach(sampleFeelings, id: \.self) { feeling in
+                            ForEach(recordViewModel.selectedDatailEmotion.1, id: \.self) { feeling in
                                 Text(feeling)
                                     .setTextBackground(.brightWithStroke)
                                     .padding(.horizontal, 2)
@@ -44,7 +42,7 @@ struct RecordOrganizeView: View {
                         .padding(.bottom, 7)
                     
                     ZStack {
-                        Text(sampleText) // 추후에 실제 기록으로 변경 필요
+                        Text(recordViewModel.recordDiary.event) // 추후에 실제 기록으로 변경 필요
                         .setTextBackground(.sentenceField)
                         
                         isResolutionSentenceTitle(title: "사건")
@@ -52,7 +50,7 @@ struct RecordOrganizeView: View {
                     .padding(.horizontal, 20)
                     
                     ZStack {
-                        Text(sampleText) // 추후에 실제 기록으로 변경 필요
+                        Text(recordViewModel.recordDiary.idea) // 추후에 실제 기록으로 변경 필요
                         .setTextBackground(.sentenceField)
                         
                         isResolutionSentenceTitle(title: "생각")
@@ -60,7 +58,7 @@ struct RecordOrganizeView: View {
                     .padding(.horizontal, 20)
                     
                     ZStack {
-                        Text(sampleText) // 추후에 실제 기록으로 변경 필요
+                        Text(recordViewModel.recordDiary.action) // 추후에 실제 기록으로 변경 필요
                         .setTextBackground(.sentenceField)
                         
                         isResolutionSentenceTitle(title: "행동")
@@ -68,14 +66,15 @@ struct RecordOrganizeView: View {
                     .padding(.horizontal, 20)
                     
                     Button("완료") {
-                        print("완료 버튼") // 추후에 action 추가 필요
+                        isShowingRecordView = false
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     .padding(.horizontal, 20)
                 }
             }
-            .navigationTitle("2023. 1. 28 일기") // 추후에 실제로 실제 날짜로 변경 필요
+            .navigationTitle("\(recordViewModel.recordDiary.date) 일기") // 추후에 실제로 실제 날짜로 변경 필요
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
         }
     }
     
@@ -112,5 +111,5 @@ struct RecordOrganizeView: View {
 }
 
 #Preview {
-    RecordOrganizeView()
+    RecordOrganizeView(recordViewModel: RecordViewModel(), isShowingRecordView: .constant(false))
 }
