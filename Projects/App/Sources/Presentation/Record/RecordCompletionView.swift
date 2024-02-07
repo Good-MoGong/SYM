@@ -22,14 +22,29 @@ struct RecordCompletionView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: .symHeight * 0.05) {
-                    HStack {
-                        Button("X") {
-                            isShowingRecordView = false
+                    ZStack {
+                        HStack {
+                            Button {
+                               isShowingRecordView = false
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                            .buttonStyle(.plain)
+                            Spacer()
+                            
+                           
                         }
-                        Spacer()
-                        Text("감정기록")
-                        Spacer()
+                        .frame(height: 44)
+                        .frame(maxWidth: .infinity)
                         
+                        HStack {
+                            Spacer()
+                            
+                            Text("감정일기")
+                                .font(PretendardFont.h4Medium)
+                            
+                            Spacer()
+                        }
                     }
                     Text("기록이 완료되었어요!")
                         .font(PretendardFont.h3Bold)

@@ -14,6 +14,31 @@ struct RecordOrganizeView: View {
     @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
+            ZStack {
+                HStack {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                    .buttonStyle(.plain)
+                    .padding()
+                    Spacer()
+                    
+                   
+                }
+                .frame(height: 44)
+                .frame(maxWidth: .infinity)
+                
+                HStack {
+                    Spacer()
+                    
+                    Text("\(recordViewModel.recordDiary.date) 일기")
+                        .font(PretendardFont.h4Medium)
+                    
+                    Spacer()
+                }
+            }
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
                     Spacer(minLength: 33)
@@ -72,8 +97,6 @@ struct RecordOrganizeView: View {
                     .padding(.horizontal, 20)
                 }
             }
-            .navigationTitle("\(recordViewModel.recordDiary.date) 일기") // 추후에 실제로 실제 날짜로 변경 필요
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
     }
