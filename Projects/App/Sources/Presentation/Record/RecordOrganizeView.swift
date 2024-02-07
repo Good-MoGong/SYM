@@ -79,65 +79,31 @@ struct RecordOrganizeView: View {
         }
     }
     
-    let deviceType = UIDevice.current.model
-    let screenSize = UIScreen.main.bounds.size
+    let screenSize = UIScreen.main.bounds.size.width
     
-    func isiPhone47or58Inch() -> Bool {
-        let iPhone47or58Inch = deviceType == "iPhone" && screenSize.width == 375
-        
-        return iPhone47or58Inch
-    }
-    
-    func isiPhone55orLCD61or65Inch() -> Bool {
-        let iPhone55orLCD61or65Inch = deviceType == "iPhone" && screenSize.width == 414
-        
-        return iPhone55orLCD61or65Inch
-    }
-    
-    func isiPhoneOLED61Inch() -> Bool {
-        let iPhone12to14 = deviceType == "iPhone" && screenSize.width == 390 && screenSize.height == 844
-        let iPhone14or15Pro = deviceType == "iPhone" && screenSize.width == 393 && screenSize.height == 852
-        
-        if iPhone12to14 || iPhone14or15Pro {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func isiPhone67Inch() -> Bool {
-        let iPhone12or13MaxOr14Plus = deviceType == "iPhone" && screenSize.width == 428 && screenSize.height == 926
-        let iPhone14or15MaxOr15Plus = deviceType == "iPhone" && screenSize.width == 430 && screenSize.height == 932
-        
-        if iPhone12or13MaxOr14Plus || iPhone14or15MaxOr15Plus {
-            return true
-        } else {
-            return false
-        }
-    }
-
     func isResolutionSentenceTitle(title: String) -> some View {
-        if isiPhone47or58Inch() {
+        switch screenSize {
+        case 375: // 4.7, 5.8인치
             Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 190)
                 .padding(.bottom, 215)
-        } else if isiPhone55orLCD61or65Inch() {
+        case 414: // 5.5, LCD 6.1, 6.5인치
             Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 215)
                 .padding(.bottom, 215)
-        } else if isiPhoneOLED61Inch() {
+        case 390, 393: // OLED 6.1인치
             Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 200)
                 .padding(.bottom, 215)
-        } else if isiPhone67Inch() {
+        case 428, 430: // 6.7인치
             Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 210)
                 .padding(.bottom, 215)
-        } else { // iPhone mini
+        default: // mini 모델
             Text(title)
                 .setTextBackground(.sentenceTitle)
                 .padding(.trailing, 165)
