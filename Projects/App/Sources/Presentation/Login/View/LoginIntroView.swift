@@ -18,7 +18,7 @@ struct LoginIntroView: View {
             VStack {
                 Spacer()
                 VStack(spacing: 20) {
-                    Image("Sample")
+                    Image("SimiSmile")
                     VStack(spacing: 4) {
                         Text("SYM")
                             .font(PretendardFont.h1Bold)

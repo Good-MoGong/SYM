@@ -16,7 +16,7 @@ struct MyAccountInfo: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Image("Sample")
+                Image("SimiSmile")
                     .resizable()
                     .frame(width: 120, height: 120)
                     .scaledToFill()
