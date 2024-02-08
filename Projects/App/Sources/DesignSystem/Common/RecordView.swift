@@ -77,7 +77,7 @@ struct RecordView: View {
             
             Spacer()
             
-            Image("Sample")
+            Image("SimiSmile")
                 .resizable()
                 .frame(width: 100, height: 100)
                 .scaledToFill()

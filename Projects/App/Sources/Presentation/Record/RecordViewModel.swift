@@ -15,12 +15,12 @@ class RecordViewModel: ObservableObject {
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var currentText: String = ""
     @Published var selectedEmotion: EmotionType = .joy
-    @Published var selectedDatailEmotion: (EmotionType,[String]) = (EmotionType.joy, [""])
+    @Published var selectedDatailEmotion: [String] = []
     
     @Published var isShowingOutPopUp: Bool = false
     @Published var isShowingCompletionView: Bool = false
     @Published var isShowingOrganizeView: Bool = false
-    
+    @Published var isShowingToastMessage: Bool = false
     
     
     func movePage(to direction: PageDirection) {
@@ -39,7 +39,7 @@ class RecordViewModel: ObservableObject {
         }
         updateCurrentText()
     }
- 
+    
     
     func seeRecord() {
         isShowingOrganizeView = true
@@ -50,7 +50,23 @@ class RecordViewModel: ObservableObject {
     
     func selectEmotion(selected: EmotionType) {
         self.selectedEmotion = selected
-        self.selectedDatailEmotion.0 = selected
+    }
+    
+    func selectedDatailEmotion(selected: String) -> Bool {
+       
+        if let index = self.selectedDatailEmotion.firstIndex(of: selected) {
+            // 이미 값이 있는 경우, 삭제하고 false 반환
+            self.selectedDatailEmotion.remove(at: index)
+            return false
+        } else {
+            // 값이 없는 경우, 추가하고 true 반환
+            if selectedDatailEmotion.count < 5 {
+                self.selectedDatailEmotion.append(selected)
+                return true
+            }
+            isShowingToastMessage.toggle()
+            return false
+        }
     }
     
     private func formatDateToString(date: Date) -> String {
@@ -64,7 +80,7 @@ class RecordViewModel: ObservableObject {
         switch recordOrder {
         case .event: recordDiary.event = currentText
         case .idea: recordDiary.idea = currentText
-        case .emotions: recordDiary.emotions = [currentText]
+        case .emotions: recordDiary.emotions = self.selectedDatailEmotion
         case .action: recordDiary.action = currentText
         }
     }
@@ -73,7 +89,7 @@ class RecordViewModel: ObservableObject {
         switch recordOrder {
         case .event: currentText = recordDiary.event
         case .idea: currentText = recordDiary.idea
-        case .emotions: currentText = recordDiary.emotions.last ?? ""
+        case .emotions: self.selectedDatailEmotion = recordDiary.emotions
         case .action: currentText = recordDiary.action
         }
     }
@@ -114,15 +130,15 @@ enum EmotionType: String, CaseIterable {
     var detailEmotion: [String] {
         switch self {
         case .joy:
-            ["즐거운","","","",""]
+            ["감동적인","감사한","자신있는","재미있는","편안한","행복한","휼가분한","활기찬","자랑스러운","설레는","신나는","사랑스러운"]
         case .sadness:
-            ["슬픔","","","",""]
+            ["서운한","그리운","막막한","미안한","서러운","실망한","안타까운","후회스러운","허전한","우울한","외로운","괴로운"]
         case .fear:
-            ["두려운","","","",""]
+            ["걱정스러운","긴장하는","무서운","깜짝놀란","불안한","혼란스러운","당황한","메스꺼운","좌절스러운","의기소침한","비참한","조마조마한"]
         case .disgust:
-            ["불쾌함","","","",""]
+            ["곤란한","불편한","귀찮은","어색한","부끄러운","지루한","부담스러운","피곤한","부러운","황당한","찝찝한","매스꺼운"]
         case .anger:
-            ["분노하는","","","",""]
+            ["답답한","미운","원망스러운","지긋지긋한","짜증나는","억울한","화가나는","역겨운","신경질나는","기분이상한","눈물나는","우려스러운"]
         }
     }
 }

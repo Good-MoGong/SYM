@@ -39,9 +39,6 @@ struct RecordStartView: View {
                             }
                             .buttonStyle(.plain)
                         }
-                        .frame(height: 44)
-                        .frame(maxWidth: .infinity)
-                        
                         HStack {
                             Spacer()
                             
@@ -50,60 +47,61 @@ struct RecordStartView: View {
                             
                             Spacer()
                         }
-                        Spacer()
                     }
+                    Spacer().frame(maxHeight: .symHeight * 0.03)
                     HStack(spacing: 12) {
                         ForEach(RecordOrder.allCases, id: \.self) { index in // 1
                             Circle()
                                 .fill(recordViewModel.recordOrder == index ? Color.main : Color.symGray2)
                                 .frame(width: 8, height: 8)
-                            
-                            
                         }
                     }
-                    Spacer()
+                    Spacer().frame(maxHeight: .symHeight * 0.03)
                     HStack {
                         Text(recordViewModel.recordOrder.symMent)
                             .font(PretendardFont.h3Bold)
-                            .overlay {
-                                if recordViewModel.recordOrder == .emotions {
-                                    HStack {
-                                        Text("감정단어는 최대 5개까지 선택할 수 있어요")
-                                            .font(PretendardFont.smallMedium)
-                                            .offset(y: 25)
-                                        Spacer()
-                                    }
-                                }
-                            }
+                        
                         Image(systemName: "questionmark.circle.fill")
                             .foregroundColor(.symGray3)
                         Spacer()
                     }
-                    Spacer()
-                    Image("Sample")
-                    Spacer()
-                    
+                    Spacer().frame(maxHeight: .symHeight * 0.01)
+                    if recordViewModel.recordOrder == .emotions {
+                        HStack {
+                            Text("감정단어는 최대 5개까지 선택할 수 있어요")
+                                .font(PretendardFont.smallMedium)
+                            
+                            Spacer()
+                        }
+                    } 
+                    Spacer().frame(maxHeight: .symHeight * 0.03)
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
+                        Image("SimiSmile")
+                            .resizable()
+                            .frame(width: 200, height: 220)
                         TextEditor(text: $recordViewModel.currentText)
                             .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
                             .frame(height: 200)
-                        Spacer()
+                        Spacer().frame(maxHeight: .symHeight * 0.03)
+                            .frame(maxHeight: .infinity)
                         Button("다음으로") {
                             recordViewModel.movePage(to: .next)
-                            
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
                         .disabled(recordViewModel.currentText.isEmpty)
                     case .emotions:
+                        Image("SimiCurious")
+                            .resizable()
+                            .frame(width: 200, height: 220)
                         emotionSelectView
-                            .padding(-16)
-                        Spacer()
+                            .frame(maxHeight: .infinity)
+                        Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
                             recordViewModel.movePage(to: .next)
                         }
-                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.selectedDatailEmotion.1.isEmpty))
-                        .disabled(recordViewModel.selectedDatailEmotion.1.isEmpty)
+                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.selectedDatailEmotion.isEmpty))
+                        .disabled(recordViewModel.selectedDatailEmotion.isEmpty)
                     }
                 }
                 .padding()
@@ -129,34 +127,80 @@ struct RecordStartView: View {
 extension RecordStartView {
     @ViewBuilder
     private var emotionSelectView: some View {
-        HStack {
-            ForEach(EmotionType.allCases, id: \.self) { emotion in
-                VStack {
-                    
-                    Rectangle()
-                        .foregroundColor(Color.bright)
-                        .frame(height: 8)
-                    
-                    Button {
-                        recordViewModel.selectEmotion(selected: emotion)
+        VStack {
+            HStack {
+                ForEach(EmotionType.allCases, id: \.self) { emotion in
+                    VStack {
+                        Rectangle()
+                            .foregroundColor(Color.bright)
+                            .frame(height: 8)
+                        Button {
+                            withAnimation {
+                                recordViewModel.selectEmotion(selected: emotion)
+                            }
+                            
+                        } label: {
+                            Text("\(emotion.rawValue)")
+                                .font(PretendardFont.h3Bold)
+                                .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
+                        }
+                        .foregroundColor(.primary)
                         
-                    } label: {
-                        Text("\(emotion.rawValue)")
-                            .font(PretendardFont.h3Bold)
-                            .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
+                        Capsule()
+                            .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .clear)
+                            .frame(height: 5)
                     }
-                    .foregroundColor(.primary)
-                    
-                    Capsule()
-                        .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .clear)
-                        .frame(height: 5)
-                    
-                    
                 }
             }
+            .padding(.horizontal)
+            .background(Color.bright)
+            Spacer().frame(maxHeight: .symHeight * 0.02)
+            ScrollView {
+                LazyVGrid(columns: Array(repeating: GridItem(), count: 3)) {
+                    ForEach(recordViewModel.selectedEmotion.detailEmotion, id: \.self) { item in
+                        EmotionButton(
+                            title: item,
+                            isSelected: Binding(
+                                get: { recordViewModel.selectedDatailEmotion.contains(item) },
+                                set: { isSelected in
+                                    if isSelected {
+                                        _ = recordViewModel.selectedDatailEmotion(selected: item)
+                                    } else {
+                                        _ = recordViewModel.selectedDatailEmotion(selected: item)
+                                    }
+                                }
+                            )
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
-        .background(Color.bright)
+        .padding(.horizontal, -16)
+    }
+}
+
+struct EmotionButton: View {
+    var title: String
+    @Binding var isSelected: Bool
+    
+    var body: some View {
+        Button {
+            isSelected.toggle()
+        } label: {
+            Text(title)
+                .font(PretendardFont.h5Medium)
+                .foregroundColor(isSelected ? .white : .black)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(height: 15)
+                .padding(17)
+                .background(
+                    RoundedRectangle(cornerRadius: 30)
+                        .stroke(Color.symGray2, lineWidth: 2)
+                        .background(RoundedRectangle(cornerRadius: 30).fill(isSelected ? Color.sub : .white))
+                )
+        }
+        .padding(4)
     }
 }
 
