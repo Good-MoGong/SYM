@@ -30,13 +30,17 @@ struct LoginNicknameView: View {
                     .lineSpacing(8)
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    TextField("닉네임을 입력해주세요", text: $nickname)
+                    TextField("닉네임을 입력해주세요", text: $nickname, onEditingChanged: { editing in
+                        if !editing {
+                            nickname = removeSpecialCharacters(from: nickname)
+                        }
+                    })
                         .customTF(type: .normal)
                     checkNicknameRules()
                 }
             }
             Spacer()
-            getButton()
+            doneButton()
             
             // 로그아웃 임시 버튼
             Button{
@@ -52,7 +56,7 @@ struct LoginNicknameView: View {
     }
     
     @ViewBuilder
-    private func getButton() -> some View {
+    private func doneButton() -> some View {
         Button {
             //
         } label: {
@@ -79,6 +83,11 @@ struct LoginNicknameView: View {
                     .settingNicknameRules(.errorRed)
             }
         }
+    }
+    
+    func removeSpecialCharacters(from string: String) -> String {
+        let allowedCharacters = CharacterSet.alphanumerics // Set of allowed characters
+        return string.components(separatedBy: allowedCharacters.inverted).joined() // Remove characters not in the set
     }
 }
 
