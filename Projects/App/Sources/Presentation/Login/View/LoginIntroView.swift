@@ -29,7 +29,7 @@ struct LoginIntroView: View {
                 }
                 Spacer()
                 
-                VStack(spacing: 20) {
+                VStack(spacing: 12) {
                     Button {
                         print("🟨 카카오톡 로그인 진행")
                     } label: {
@@ -41,30 +41,26 @@ struct LoginIntroView: View {
                                 .foregroundColor(.symBlack)
                         }.signupTextBackground(Color.kakao)
                     }
-                    SignInWithAppleButton(
-                        onRequest: { request in
-                            authViewModel.send(action: .appleLogin(request))
-                        },
-                        onCompletion: { result in
-                            authViewModel.send(action: .appleLoginCompletion(result))
-                        }
-                    )
-                    .frame(maxWidth: .infinity)
-                    .frame(maxHeight: UIScreen.main.bounds.height * 0.06)
-//                    Button {
-//                        print("🍎 애플 로그인 진행")
-//                    } label: {
-//                        HStack(spacing: 35) {
-//                            Image("AppleLogo")
-//                                .padding(.leading, 47)
-//                            Text("Apple로 로그인")
-//                                .font(PretendardFont.h4Medium)
-//                                .foregroundColor(.white)
-//                        }.signupTextBackground(.symBlack)
-//                    }
                     
-                    
-                    
+                    HStack(spacing: 35) {
+                        Image("AppleLogo")
+                            .padding(.leading, 47)
+                        Text("Apple로 로그인")
+                            .font(PretendardFont.h4Medium)
+                            .foregroundColor(.white)
+                    }
+                    .signupTextBackground(.black)
+                    .overlay {
+                        SignInWithAppleButton(
+                            onRequest: { request in
+                                authViewModel.send(action: .appleLogin(request))
+                            },
+                            onCompletion: { result in
+                                authViewModel.send(action: .appleLoginCompletion(result))
+                            }
+                        )
+                        .blendMode(.overlay)
+                    }
                 }
             }
         }
