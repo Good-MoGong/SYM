@@ -48,7 +48,7 @@ struct RecordCompletionView: View {
                     }
                     Text("기록이 완료되었어요!")
                         .font(PretendardFont.h3Bold)
-                    Image("Sample")
+                    Image("SimiSmile2")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.6)

@@ -50,7 +50,7 @@ struct RecordOrganizeView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: Array(repeating: GridItem(), count: 1)) {
-                            ForEach(recordViewModel.selectedDatailEmotion.1, id: \.self) { feeling in
+                            ForEach(recordViewModel.selectedDatailEmotion, id: \.self) { feeling in
                                 Text(feeling)
                                     .setTextBackground(.brightWithStroke)
                                     .padding(.horizontal, 2)
