@@ -30,51 +30,6 @@ struct MainView: View {
         }
     }
 }
-//struct CustomTabView: View {
-//    @Binding var selectedTab: Tab
-//    
-//    var body: some View {
-//        Spacer().frame(height: 11)
-//        HStack {
-//            Button {
-//                selectedTab = .first
-//            } label: {
-//                VStack(spacing: 4) {
-//                    Image(systemName: "house")
-//                        .font(.system(size: 24))
-//                    Text("홈")
-//                        .font(PretendardFont.smallMedium)
-//                }
-//            }.foregroundColor(selectedTab.rawValue == "first" ? Color.symBlack : Color.symGray3)
-//            
-//            Spacer()
-//            Button {
-//                selectedTab = .second
-//            } label: {
-//                VStack(spacing: 4) {
-//                    Image(systemName: "square.and.pencil")
-//                        .font(.system(size: 24))
-//                    Text("기록")
-//                        .font(PretendardFont.smallMedium)
-//                }
-//            }.foregroundColor(selectedTab.rawValue == "second" ? Color.symBlack : Color.symGray3)
-//            
-//            Spacer()
-//            Button {
-//                selectedTab = .third
-//            } label: {
-//                VStack(spacing: 4) {
-//                    Image(systemName: "calendar")
-//                        .font(.system(size: 24))
-//                    Text("캘린더")
-//                        .font(PretendardFont.smallMedium)
-//                }.foregroundColor(selectedTab.rawValue == "third" ? Color.symBlack : Color.symGray3)
-//            }
-//        }
-//        .padding(.horizontal, 45)
-//    }
-//}
-
 #Preview {
     MainView()
 }
