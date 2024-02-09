@@ -15,14 +15,12 @@ let firebaseTarget = Target.makeTarget(name: "FirebaseSPM",
                                        deploymentTarget: .iOS(targetVersion: "16.0",
                                                               devices: [.iphone, .ipad],
                                                               supportsMacDesignedForIOS: true),
-                                       dependencies: [.SPM.fireAuth,
-                                                      .SPM.firestore,
-                                                      .SPM.firestoreSwift],
+                                       dependencies: [.firebaseAuth, .firestore],
                                        scripts: [],
                                        infoPlistPath: "",
                                        coreDataModels: [],
                                        isResource: false) // 나머지 리소스 없음
 
 // 위의 타겟으로 프로젝트 생성
-let firebaseProject = Project.makeProject(targets: firebaseTarget, name: "FirebaseSPM")
+let firebaseProject = Project.makeProject(targets: firebaseTarget, name: "FirebaseSPM", packages: [.firebase])
 
