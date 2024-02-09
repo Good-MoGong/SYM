@@ -11,7 +11,8 @@ extension Project {
     public static func makeProject(
         targets: [Target],
         name: String,
-        isXcconfigSet: Bool = false
+        isXcconfigSet: Bool = false,
+        packages: [Package]
     ) -> Project {
 
         // 프로젝트 이름은 프로젝트마다 달라야함 이렇게 되면 의존성 프로젝트까지 SPM으로 가져가게 됨
@@ -35,7 +36,8 @@ extension Project {
         // 메인 앱일때만 시크릿 키가 필요할때 적용해주면 됨
         if isProductApp, isXcconfigSet {
             // 빌드 세팅 (xcconfig 있을경우)
-            setting = Settings.settings(configurations: [
+//            setting = Settings.settings(configurations: [
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":"-Xlinker -no_warn_duplicate_libraries"], configurations: [
                 .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
                 .release(name: "Release", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
             ], defaultSettings: .recommended)
@@ -50,7 +52,7 @@ extension Project {
         return Project(name: name,
                        organizationName: orgaizationName,
                        options: Project.Options.options(),
-//                       packages: [], // -> project 자체에 라이브러리 주입 x -> 타겟 단위로 라이브러리 주입하여 타겟끼리 의존성 생성해야함
+                       packages: packages, // -> project 자체에 라이브러리 주입 x -> 타겟 단위로 라이브러리 주입하여 타겟끼리 의존성 생성해야함
                        settings: setting,
                        targets: targets,
                        schemes: schemes)

@@ -40,9 +40,11 @@ extension Target {
         
         if isProductApp {
 //            setting = .settings(base: ["OTHER_LDFLAGS":"-ObjC"])
+//            setting = .settings(base: ["OTHER_LDFLAGS":"-Xlinker -no_warn_duplicate_libraries"])
             entitlements = "SYM.entitlements"
             // 빌드 세팅 (xcconfig 있을경우)
             setting = Settings.settings(configurations: [
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":"-Xlinker -no_warn_duplicate_libraries"], configurations: [
                 .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
                 .release(name: "Release", xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
             ], defaultSettings: .recommended)
