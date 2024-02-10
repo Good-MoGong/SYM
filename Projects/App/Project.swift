@@ -19,7 +19,8 @@ let appTarget = Target.makeTarget(name: "SYM",
                                   deploymentTarget: .iOS(targetVersion: "16.0",
                                                          devices: [.iphone, .ipad],
                                                          supportsMacDesignedForIOS: true),
-                                  dependencies: [.project(target: "FirebaseSPM", path: .relativeToRoot("\(projectFolder)/FirebaseSPM"))],
+                                  dependencies: [.project(target: "FirebaseSPM", 
+                                                          path: .relativeToRoot("\(projectFolder)/FirebaseSPM"))],
                                   scripts: [], // [.swiftLintPath],
                                   infoPlistPath: "Support/Info.plist",
                                   coreDataModels: [],
@@ -27,4 +28,4 @@ let appTarget = Target.makeTarget(name: "SYM",
                                   isResource: true)
 
 // 위의 타겟으로 프로젝트 생성, 여기서만 시크릿 키 사용하니까 true 로 설정
-let appProject = Project.makeProject(targets: appTarget, name: "SYM", isXcconfigSet: true)
+let appProject = Project.makeProject(targets: appTarget, name: "SYM", isXcconfigSet: true, packages: [])
