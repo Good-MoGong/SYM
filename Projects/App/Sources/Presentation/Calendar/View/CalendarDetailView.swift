@@ -305,10 +305,9 @@ struct DateChangeSheetView: View {
     
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
-    var years: [Int] {
-        let yearArray = [2024, 2025, 2026, 2027, 2028]
-        return removeCommasFromNumbers(numbers: yearArray)
-    }
+    
+    let years = [2024, 2025, 2026, 2027, 2028]
+    
     var months: [String] {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 로케일 설정
@@ -325,7 +324,7 @@ struct DateChangeSheetView: View {
             HStack(spacing: 0) {
                 Picker(selection: $selectedYear, label: Text("Year")) {
                     ForEach(years, id: \.self) { year in
-                        Text("\(year)년").tag(year)
+                        Text("\(year.formatterStyle(.none)!)년").tag(year)
                     }
                 }
                 .pickerStyle(.wheel)
@@ -378,23 +377,6 @@ struct DateChangeSheetView: View {
         }
         return newDate
     }
-    
-    ///
-    private func removeCommasFromNumbers(numbers: [Int]) -> [Int] {
-        // 연도를 형식화하는 NumberFormatter 생성
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .none
-
-        // 형식화된 연도를 배열에 추가
-        var formattedYears: [Int] = []
-        for number in numbers {
-            if let formattedYear = numberFormatter.string(from: NSNumber(value: number)) {
-                formattedYears.append(Int(formattedYear) ?? 0)
-            }
-        }
-        return formattedYears
-    }
-
 }
 
 #Preview {
