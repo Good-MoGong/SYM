@@ -36,7 +36,7 @@ struct HeaderView: View {
         HStack {
             VStack(alignment: .leading) {
                 // ~님 -> 나중에 닉네임으로 변경
-                Text("모공모공님, 반가워요!")
+                Text("\(nickname)님, 반가워요!")
                     .foregroundStyle(Color.symBlack)
                 Text("오늘의 기분은 어때요?")
                     .foregroundStyle(Color.main)
@@ -273,7 +273,7 @@ struct DateButton: View {
                     .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
                 Circle()
                     .fill(isToday ? Color.main : Color.white)
-                    .frame(width: 7, height: 7)
+                    .frame(width: 6, height: 6)
             }
             .background(
                 Circle()
