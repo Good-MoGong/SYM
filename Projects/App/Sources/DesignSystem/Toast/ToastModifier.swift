@@ -35,7 +35,6 @@ struct ToastModifier: ViewModifier {
             VStack {
                 Spacer()
                 ToastView(
-                    style: toast.style,
                     message: toast.message
                 )
                 .frame(width: .symWidth * 0.8)
