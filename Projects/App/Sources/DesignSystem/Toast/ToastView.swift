@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct ToastView: View {
-  
-    var style: ToastStyle
+
     var message: String
 
     var body: some View {
         HStack(alignment: .center) {
-            Image(systemName: style.iconStyle)
-                .foregroundColor(style.themeColor)
+            Image(systemName: "xmark.circle.fill")
+                .foregroundColor(Color.red)
 
             Text(message)
                 .font(PretendardFont.bodyMedium)
@@ -33,6 +32,6 @@ struct ToastView: View {
 
 
 #Preview {
-    ToastView(style: .error, message: "감정단어는 최대 5개까지 선택할 수 있어요")
+    ToastView(message: "감정단어는 최대 5개까지 선택할 수 있어요")
 }
 
