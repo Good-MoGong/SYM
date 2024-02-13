@@ -116,6 +116,7 @@ struct RecordStartView: View {
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()
         }
+        .toastView(toast: $recordViewModel.isShowingToastMessage)
         .navigationBarBackButtonHidden(true)
         .animation(.default)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
