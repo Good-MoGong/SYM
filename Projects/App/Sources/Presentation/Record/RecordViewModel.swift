@@ -64,7 +64,7 @@ class RecordViewModel: ObservableObject {
                 self.selectedDatailEmotion.append(selected)
                 return true
             }
-            isShowingToastMessage = .init(style: .error, message: "감정단어는 최대 5개까지 선택할 수 있어요")
+            isShowingToastMessage = .init(message: "감정단어는 최대 5개까지 선택할 수 있어요")
             return false
         }
     }
