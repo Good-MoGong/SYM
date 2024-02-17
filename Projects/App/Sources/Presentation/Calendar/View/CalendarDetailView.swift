@@ -288,7 +288,7 @@ struct DateButton: View {
             )
         }
         .navigationDestination(isPresented: $isShowingRecordView) {
-            RecordOrganizeView()
+//            RecordOrganizeView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
         }
     }
     

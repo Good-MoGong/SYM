@@ -16,10 +16,10 @@ struct CalendarMainView: View {
     var body: some View {
         ScrollView {
             CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate)
-                .padding(.vertical, 20)
+                .padding(20)
             RecordView(beforeRecord: true, nickname: nickname)
+                .padding(.horizontal, 20)
         }
-        .padding(.horizontal, 20)
         .padding(.bottom, 20)
         .scrollIndicators(.hidden)
     }
