@@ -82,7 +82,7 @@ struct YearMonthHeaderView: View {
     }
     
     /// 현재 연도, 월 String으로 변경하는 formatter로 배열 구하는 함수
-    func getYearAndMonthString(currentDate: Date) -> [String] {
+    private func getYearAndMonthString(currentDate: Date) -> [String] {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY MMMM"
         formatter.locale = Locale(identifier: "ko_kr")
@@ -134,7 +134,7 @@ struct CalendarView: View {
         }
     }
     /// 현재 캘린더에 보이는 month 구하는 함수
-    func getCurrentMonth(addingMonth: Int) -> Date {
+    private func getCurrentMonth(addingMonth: Int) -> Date {
         // 현재 날짜의 캘린더
         let calendar = Calendar.current
         
@@ -189,7 +189,7 @@ struct DatesGridView: View {
     }
     
     /// 현재 캘린더에 보이는 month 구하는 함수
-    func getCurrentMonth(addingMonth: Int) -> Date {
+    private func getCurrentMonth(addingMonth: Int) -> Date {
         // 현재 날짜의 캘린더
         let calendar = Calendar.current
         
@@ -201,7 +201,7 @@ struct DatesGridView: View {
     }
     
     /// 해당 월의 모든 날짜들을 DateValue 배열로 만들어주는 함수, 모든 날짜를 배열로 만들어야 Grid에서 보여주기 가능
-    func extractDate(currentMonth: Int) -> [DateValue] {
+    private func extractDate(currentMonth: Int) -> [DateValue] {
         let calendar = Calendar.current
         
         // getCurrentMonth가 리턴한 month 구해서 currentMonth로
@@ -293,7 +293,7 @@ struct DateButton: View {
     }
     
     /// 두 날짜가 같은 날인지 확인하는 함수
-    func isSameDay(date1: Date, date2: Date) -> Bool {
+    private func isSameDay(date1: Date, date2: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(date1, inSameDayAs: date2)
     }
