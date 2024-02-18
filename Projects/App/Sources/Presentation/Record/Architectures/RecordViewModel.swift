@@ -9,20 +9,26 @@
 import Foundation
 import Combine
 
-class RecordViewModel: ObservableObject {
+final class RecordViewModel: ObservableObject {
     
+    private let recordUseCase: RecordUseCase 
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var currentText: String = ""
     @Published var selectedEmotion: EmotionType = .joy
     @Published var selectedDatailEmotion: [String] = []
+    @Published var gptAnswerText: String = ""
     
     @Published var isShowingOutPopUp: Bool = false
     @Published var isShowingCompletionView: Bool = false
     @Published var isShowingOrganizeView: Bool = false
     @Published var isShowingToastMessage: Toast? = nil
     
+    init(recordUseCase: RecordUseCase) {
+        self.recordUseCase = recordUseCase
+    }
     
+    @MainActor
     func movePage(to direction: PageDirection) {
         guard let currentIndex = RecordOrder.allCases.firstIndex(of: recordOrder) else { return }
         
@@ -31,8 +37,10 @@ class RecordViewModel: ObservableObject {
             self.writeLater()
         }
         else if recordOrder == .action && direction == .next {
-            recordDiary.date = formatDateToString(date: Date())
-            isShowingCompletionView = true
+            recordDiary.date = Date().formatToString()
+            Task {
+                self.isShowingCompletionView = await recordUseCase.saveRecord(diary: recordDiary)
+            }
         } else {
             let indexOffset = direction == .previous ? -1 : 1
             recordOrder = RecordOrder.allCases[currentIndex + indexOffset]
@@ -41,9 +49,23 @@ class RecordViewModel: ObservableObject {
     }
     
     
-    func seeRecord() {
-        isShowingOrganizeView = true
+    func validateRecord() -> Bool {
+        var isShowingValidatePopup: Bool = false
+        recordUseCase.fetchRecord(date: Date().formatToString()) { diary, isSuccess in
+            isShowingValidatePopup = !isSuccess
+        }
+        return isShowingValidatePopup
     }
+    
+    func seeRecord() {
+        recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
+            DispatchQueue.main.async {
+                self.recordDiary = diary
+                self.isShowingOrganizeView = isSuccess
+            }
+        }
+    }
+    
     func writeLater() {
         isShowingOutPopUp = true
     }
@@ -53,7 +75,7 @@ class RecordViewModel: ObservableObject {
     }
     
     func selectedDatailEmotion(selected: String) -> Bool {
-       
+        
         if let index = self.selectedDatailEmotion.firstIndex(of: selected) {
             // 이미 값이 있는 경우, 삭제하고 false 반환
             self.selectedDatailEmotion.remove(at: index)
@@ -67,13 +89,6 @@ class RecordViewModel: ObservableObject {
             isShowingToastMessage = .init(message: "감정단어는 최대 5개까지 선택할 수 있어요")
             return false
         }
-    }
-    
-    private func formatDateToString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" // 원하는 포맷으로 설정
-        
-        return dateFormatter.string(from: date)
     }
     
     private func saveCurrentText() {
