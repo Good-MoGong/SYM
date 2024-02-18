@@ -67,7 +67,7 @@ struct RecordCompletionView: View {
                         .padding(.trailing, 20)
                         
                         Button("기록 보기") {
-                            recordViewModel.isShowingOrganizeView = true
+                            recordViewModel.seeRecord()
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
@@ -84,5 +84,5 @@ struct RecordCompletionView: View {
 }
 
 #Preview {
-    RecordCompletionView(recordViewModel: RecordViewModel(), isShowingRecordView: .constant(false))
+    RecordCompletionView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingRecordView: .constant(false))
 }

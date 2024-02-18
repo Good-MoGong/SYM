@@ -11,20 +11,31 @@ import SwiftUI
 struct ChatBubble: View {
     let message: String
     var delay: CGFloat = 50
+    var userName: String = "모공모공"
+    var title: String = "님을 위한 시미의 답장이 도착했어요"
     @Binding var animatedMessage: String
     
     var body: some View {
-        Text(animatedMessage)
-            .padding()
-            .font(PretendardFont.h4Medium)
-            .background(Color.bright)
-            .foregroundColor(.black)
-            .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
-            .opacity(message.isEmpty ? 0 : 1)
-            .task {
-                await animate()
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 0) {
+                Text(userName)
+                    .foregroundColor(.main)
+                    .font(PretendardFont.h5Bold)
+                Text(title)
+                    .font(PretendardFont.h5Bold)
             }
-            .padding()
+            Text(animatedMessage)
+                .font(PretendardFont.bodyMedium)
+        }
+        .padding()
+        .background(Color.bright)
+        .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
+        .opacity(message.isEmpty ? 0 : 1)
+        .task {
+            await animate()
+        }
+        .padding(.horizontal)
+            
     }
     private func animate() async {
         for char in message {

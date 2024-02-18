@@ -11,7 +11,7 @@ import SwiftUI
 
 struct RecordStartView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var recordViewModel: RecordViewModel = RecordViewModel()
+    @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
@@ -85,7 +85,7 @@ struct RecordStartView: View {
                             .frame(height: 200)
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                             .frame(maxHeight: .infinity)
-                        Button("다음으로") {
+                        Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
                             recordViewModel.movePage(to: .next)
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
@@ -96,6 +96,7 @@ struct RecordStartView: View {
                             .frame(width: 200, height: 220)
                         emotionSelectView
                             .frame(maxHeight: .infinity)
+                            .animation(nil)
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
                             recordViewModel.movePage(to: .next)

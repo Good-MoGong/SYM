@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Diary" representedClassName="Diary" syncable="YES" codeGenerationType="class">
-        <attribute name="action" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="emotion" optional="YES" attributeType="Transformable"/>
-        <attribute name="event" optional="YES" attributeType="String"/>
-        <attribute name="idea" optional="YES" attributeType="String"/>
-        <attribute name="userId" optional="YES" attributeType="String"/>
+    <entity name="DiaryEntity" representedClassName="DiaryEntity" syncable="YES">
+        <attribute name="action" attributeType="String"/>
+        <attribute name="date" attributeType="String"/>
+        <attribute name="emotion" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="[String]"/>
+        <attribute name="event" attributeType="String"/>
+        <attribute name="idea" attributeType="String"/>
+        <attribute name="userId" attributeType="String"/>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
     </entity>
 </model>
