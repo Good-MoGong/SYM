@@ -9,10 +9,12 @@
 import Foundation
 
 extension Date {
+    
     func formatToString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd" // 원하는 포맷으로 설정
         return dateFormatter.string(from: self)
+    }
       
     // 현재 월의 날짜를 Date 배열로 만들어주는 함수
     func getAllDates() -> [Date] {
