@@ -261,17 +261,11 @@ struct DateButton: View {
             isShowingRecordView = true
         } label: {
             VStack(spacing: 3) {
-                if isToday {
-                    Text("오늘")
-                        .font(PretendardFont.smallMedium)
-                        .foregroundStyle(Color.errorRed)
-                        .padding(.bottom, -5)
-                } else {
-                    Text("오늘")
-                        .font(PretendardFont.smallMedium)
-                        .foregroundStyle(isSelected ? Color.medium : Color.white)
-                        .padding(.bottom, -5)
-                }
+                Text(isToday ? "오늘" : "")
+                    .font(PretendardFont.smallMedium)
+                    .foregroundStyle(Color.errorRed)
+                    .padding(.bottom, -5)
+                
                 Text("\(value.day)")
                     .font(PretendardFont.h4Bold)
                     .fontWeight(.bold)
