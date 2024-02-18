@@ -11,6 +11,10 @@ public extension TargetDependency {
     static let kingfisher: TargetDependency = .package(product: "Kingfisher")
     static let firebaseAuth: TargetDependency = .package(product: "FirebaseAuth")
     static let firestore: TargetDependency = .package(product: "FirebaseFirestore")
+    
+    // FCM 추가
+    static let firebaseAnalytics: TargetDependency = .package(product: "FirebaseAnalytics")
+    static let firebaseMessaging: TargetDependency = .package(product: "FirebaseMessaging")
 }
 
 public extension Package {

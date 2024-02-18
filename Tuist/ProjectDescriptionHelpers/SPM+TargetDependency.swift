@@ -13,7 +13,7 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.SPM {
-    static let firestore = TargetDependency.external(name: "FirebaseFirestore")
-    static let fireAuth = TargetDependency.external(name: "FirebaseAuth")
-    static let firestoreSwift = TargetDependency.external(name: "FirebaseFirestoreSwift")
+//    static let firestore = TargetDependency.external(name: "FirebaseFirestore")
+//    static let fireAuth = TargetDependency.external(name: "FirebaseAuth")
+//    static let firestoreSwift = TargetDependency.external(name: "FirebaseFirestoreSwift")
 }
