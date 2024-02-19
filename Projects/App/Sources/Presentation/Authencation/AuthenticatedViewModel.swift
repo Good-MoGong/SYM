@@ -13,7 +13,7 @@ import FirebaseAuth
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
-    case initial 
+    case initial
     case unauthenticated
     case authenticated
 }
@@ -55,12 +55,13 @@ class AuthenticationViewModel: ObservableObject {
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
             
+            // 애플로그인 완료 -> 인증 결과
         case let .appleLoginCompletion(result):
             if case let .success(authorization) = result {
                 guard let nonce = currentNonce else { return }
                 
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
-                    .sink { [weak self] completion in
+                    .sink { [weak self] completion in // 생성자에게 구독증 신청
                         if case .failure = completion {
                             self?.isLoading = false
                         }
@@ -83,7 +84,7 @@ class AuthenticationViewModel: ObservableObject {
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
-
+            
         case .kakaoLogin:
             container.services.authService.checkKakaoToken()
                 .sink { completion in
@@ -104,8 +105,7 @@ class AuthenticationViewModel: ObservableObject {
                         })
                     }
                 }.store(in: &subscritpions)
-
-
+            
             // 로그아웃
         case .logout:
             container.services.authService.logoutWithKakao()
