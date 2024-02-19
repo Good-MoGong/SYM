@@ -280,7 +280,7 @@ class StubAuthenticationService: AuthenticationServiceType {
     func checkAuthenticationState() -> String? {
         return nil
     }
-
+    
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String {
         return ""
     }
