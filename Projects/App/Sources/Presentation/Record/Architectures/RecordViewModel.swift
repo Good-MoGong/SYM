@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-final class RecordViewModel: ObservableObject {
+final class RecordViewModel: RecordConditionFetch {
     
     private let recordUseCase: RecordUseCase 
     @Published var recordOrder: RecordOrder = .event
@@ -49,6 +49,7 @@ final class RecordViewModel: ObservableObject {
     }
     
     
+    
     func validateRecord() -> Bool {
         var isShowingValidatePopup: Bool = false
         recordUseCase.fetchRecord(date: Date().formatToString()) { diary, isSuccess in
@@ -57,7 +58,7 @@ final class RecordViewModel: ObservableObject {
         return isShowingValidatePopup
     }
     
-    func seeRecord() {
+    func recordSpecificFetch() {
         recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
                 self.recordDiary = diary
