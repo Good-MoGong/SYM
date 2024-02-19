@@ -9,5 +9,8 @@
 import Foundation
 
 protocol RecordConditionFetch: ObservableObject {
+    
+    var recordDiary: Diary { get set }
+
     func recordSpecificFetch()
 }
