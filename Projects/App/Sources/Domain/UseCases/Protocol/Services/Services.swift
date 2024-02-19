@@ -7,8 +7,9 @@
 
 import Foundation
 
+// DIContainer와 소통하는 서비스 로직 (인증에 대한 서비스를 가지고 있음)
 protocol ServiceType {
-    var authService: AuthenticationServiceType { get set }
+    var authService: AuthenticationServiceType { get set } // 인증 서비스
 }
 
 class Services: ServiceType {

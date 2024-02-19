@@ -17,10 +17,13 @@ enum NickNameRules: String, CaseIterable {
 }
 
 struct LoginNicknameView: View {
-    @State var nickname = ""
-    @State var isPressed: Bool = false
-    @State var nicknameRules = NickNameRules.defult
-    @ObservedObject var authViewModel: AuthenticationViewModel
+    @State private var nickname = ""
+    @State private var isPressed: Bool = false
+    @State private var user: User = .init(id: "", name: "")
+    @State private var nicknameRules = NickNameRules.defult
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         VStack {
@@ -58,7 +61,14 @@ struct LoginNicknameView: View {
     @ViewBuilder
     private func doneButton() -> some View {
         Button {
-            //
+            // firebasestore에 유저정보 추가
+            if let userInfo = authViewModel.userId {
+                user.id = userInfo
+                user.name = nickname
+                user.diary = []
+                
+                firebaseService.createUserInFirebase(user: user)
+            }
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)
@@ -111,6 +121,7 @@ extension Text {
 
 #Preview {
     NavigationStack {
-        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
+        LoginNicknameView()
+//        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }
