@@ -44,7 +44,7 @@ protocol AuthenticationServiceType {
     
     // MARK: - 로그아웃
     func logout() -> AnyPublisher<Void, ServiceError>
-    
+    func logoutWithKakao()
     
     // MARK: - Firebase 관련 해야하는 것
     // 1) FireStore에 유저 데이터 추가
@@ -168,8 +168,6 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    
-    
     func logout() -> AnyPublisher<Void, ServiceError> {
         Future { promise in
             do {
@@ -179,6 +177,16 @@ class AuthenticationService: AuthenticationServiceType {
                 promise(.failure(.error(error)))
             }
         }.eraseToAnyPublisher()
+    }
+    
+    func logoutWithKakao() {
+        UserApi.shared.logout { error in
+            if let error {
+                print("🟨 DEBUG: 카카오 로그아웃 중 에러 발생 \(error.localizedDescription)")
+            } else {
+                print("🟨 DEBUG: 카카오 로그아웃 성공")
+            }
+        }
     }
 }
 // 구글 로그인 컴바인 제공 x -> COMPLETION handler로 정의 후 컴바인 사용
@@ -274,4 +282,6 @@ class StubAuthenticationService: AuthenticationServiceType {
     func signupWithFirebase() { }
     
     func kakaoLogin() { }
+    
+    func logoutWithKakao() { }
 }
