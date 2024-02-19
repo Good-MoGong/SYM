@@ -24,7 +24,7 @@ class AuthenticationViewModel: ObservableObject {
         case appleLoginCompletion(Result<ASAuthorization, Error>) // 인증이 된 후
         
         // 카카오로그인
-//        case kakaoLogin
+        case kakaoLogin
 //        case kakaologout
         case logout
     }
@@ -33,9 +33,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var authenticationState: AuthenticationState = .unauthenticated
     
     // userId를 받아서 닉네임 설정 뷰로 넘어가고, 해당 뷰에서 닉넴이과 합쳐서 create firestore해야함
-//    @Published var userInfo: User?
     @Published var userId: String?
-//    var userId: String?
     
     private var currentNonce: String?
     private var container: DIContainer
@@ -80,6 +78,9 @@ class AuthenticationViewModel: ObservableObject {
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
+            
+        case .kakaoLogin:
+            container.services.authService.checkKakaoToken()
             
             // 로그아웃
         case .logout:

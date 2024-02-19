@@ -10,6 +10,9 @@ import Combine
 import FirebaseAuth
 import FirebaseCore
 import AuthenticationServices
+import KakaoSDKCommon
+import KakaoSDKAuth
+import KakaoSDKUser
 
 // 인증 에러 정의
 enum AuthenticationError: Error {
@@ -24,13 +27,20 @@ protocol AuthenticationServiceType {
     func checkAuthenticationState() -> String?
     
     // MARK: - Apple 로그인
-    // 요청이 왔을 때 원하는 정보에 대한 범위를 request에 담아서 보내줌
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String
-    // 인증에 대한 성공 정보와 로그인 요청에 대한 정보를 담고 있음, 함수의 끝에 유저에 대한 생성자를 리턴함
     func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, none: String) -> AnyPublisher<User, ServiceError>
     
     // MARK: - 카카오 로그인
-    
+    /// 카카오 토큰 확인
+    func checkKakaoToken()
+    /// 카카오 로그인 (분기처리)
+    func kakaoLogin()
+    /// 앱으로 카카오 로그인 진행
+    func signInWithKakaoApp()
+    /// 웹으로 카카오 로그인 진행
+    func signInWithKakaoWeb()
+    /// Firebase에 이메일/비밀번호로 가입
+    func signupWithFirebase()
     
     // MARK: - 로그아웃
     func logout() -> AnyPublisher<Void, ServiceError>
@@ -76,6 +86,90 @@ class AuthenticationService: AuthenticationServiceType {
         }.eraseToAnyPublisher()
     }
     
+    // MARK: - 카카오톡 관련 진행
+    /// 카카오 토큰 확인
+    func checkKakaoToken() {
+        // 카카오 토큰이 존재한다면
+            if AuthApi.hasToken() {
+                UserApi.shared.accessTokenInfo { accessTokenInfo, error in
+                    if let error = error {
+                        print("DEBUG: 카카오톡 토큰 가져오기 에러 \(error.localizedDescription)")
+                        self.kakaoLogin()
+                    } else {
+                        // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
+                    }
+                }
+            } else {
+                // 토큰이 없는 상태 로그인 필요
+                kakaoLogin()
+            }
+    }
+    
+    /// 로그인 실행
+    func kakaoLogin() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            signInWithKakaoApp() // 카카오톡 앱이 있다면 앱으로 로그인
+        } else {
+            signInWithKakaoWeb() // 앱이 없다면 웹으로 로그인 (시뮬레이터)
+        }
+    }
+    
+    /// 앱으로 카카오 로그인 진행
+    func signInWithKakaoApp() {
+        UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+            if let error = error {
+                print("DEBUG: 카카오톡 로그인 에러 \(error.localizedDescription)")
+            } else {
+                print("DEBUG: 카카오톡 로그인 Success")
+                if let token = oauthToken {
+                    print("DEBUG: 카카오톡 토큰 \(token)")
+                    self.signupWithFirebase()
+                }
+            }
+        }
+    }
+    
+    /// 웹으로 카카오 로그인 진행
+    func signInWithKakaoWeb() {
+        UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+            if let error = error {
+                print("DEBUG: 카카오톡 로그인 에러 \(error.localizedDescription)")
+            } else {
+                print("DEBUG: 카카오톡 로그인 Success")
+                if let token = oauthToken {
+                    print("DEBUG: 카카오톡 토큰 \(token)")
+                    self.signupWithFirebase()
+                }
+            }
+        }
+    }
+    
+    /// Firebase에 이메일/비밀번호로 가입
+    func signupWithFirebase() {
+        UserApi.shared.me() { user, error in
+            if let error = error {
+                print("🟨 DEBUG: 카카오톡 사용자 정보가져오기 에러 \(error.localizedDescription)")
+            } else {
+                print("🟨 DEBUG: 카카오톡 사용자 정보가져오기 success.")
+
+                // 파이어베이스 유저 생성 (이메일로 회원가입)
+                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!,
+                                       password: "\(String(describing: user?.id))") { result, error in
+                    if let error = error {
+                        print("🟨 DEBUG: 파이어베이스 사용자 생성 실패 \(error.localizedDescription)")
+                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email)!,
+                                           password: "\(String(describing: user?.id))")
+
+                    } else {
+                        print("🟨 DEBUG: 파이어베이스 사용자 생성")
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
     func logout() -> AnyPublisher<Void, ServiceError> {
         Future { promise in
             do {
@@ -87,7 +181,6 @@ class AuthenticationService: AuthenticationServiceType {
         }.eraseToAnyPublisher()
     }
 }
-
 // 구글 로그인 컴바인 제공 x -> COMPLETION handler로 정의 후 컴바인 사용
 extension AuthenticationService {
     
@@ -124,6 +217,10 @@ extension AuthenticationService {
             }
         }
     }
+    
+    // MARK: - 카카오 로그인
+    
+    
     
     /// Firebase 인증 함수, 'AuthCredential'(Google 로그인에서 획득)을 가져와 Firebase 인증 프로세스를 완료
     private func authenticateUserWithFirebase(credential: AuthCredential, completion: @escaping (Result<User, Error>) -> Void) {
@@ -167,4 +264,14 @@ class StubAuthenticationService: AuthenticationServiceType {
     func logout() -> AnyPublisher<Void, ServiceError>  {
         Empty().eraseToAnyPublisher()
     }
+    
+    func checkKakaoToken() { }
+    
+    func signInWithKakaoApp() { }
+    
+    func signInWithKakaoWeb() { }
+    
+    func signupWithFirebase() { }
+    
+    func kakaoLogin() { }
 }
