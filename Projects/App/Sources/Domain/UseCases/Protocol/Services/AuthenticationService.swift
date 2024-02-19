@@ -151,15 +151,15 @@ class AuthenticationService: AuthenticationServiceType {
                 print("🟨 DEBUG: 카카오톡 사용자 정보가져오기 에러 \(error.localizedDescription)")
             } else {
                 print("🟨 DEBUG: 카카오톡 사용자 정보가져오기 success.")
-
+                
                 // 파이어베이스 유저 생성 (이메일로 회원가입)
                 Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!,
                                        password: "\(String(describing: user?.id))") { result, error in
+                    print("🟨 DEBUG: 카카오톡 사용자 정보로 파이어베이스 사용자 생성 성공")
                     if let error = error {
                         print("🟨 DEBUG: 파이어베이스 사용자 생성 실패 \(error.localizedDescription)")
                         Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email)!,
                                            password: "\(String(describing: user?.id))")
-
                     } else {
                         print("🟨 DEBUG: 파이어베이스 사용자 생성")
                     }
