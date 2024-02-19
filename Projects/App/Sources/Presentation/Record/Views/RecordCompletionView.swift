@@ -67,7 +67,7 @@ struct RecordCompletionView: View {
                         .padding(.trailing, 20)
                         
                         Button("기록 보기") {
-                            recordViewModel.seeRecord()
+                            recordViewModel.recordSpecificFetch()
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
