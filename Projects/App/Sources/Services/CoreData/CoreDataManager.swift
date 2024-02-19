@@ -4,11 +4,10 @@ import CoreData
 
 
 final class CoreDataManger {
-    static let shared = CoreDataManger()
     
+    static let shared = CoreDataManger()
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
-    
     /// CoreData 초기설정
     private init() {
         container = NSPersistentContainer(name: "SYMCoreData")
@@ -21,7 +20,6 @@ final class CoreDataManger {
         }
 
         context = container.viewContext
-                
         // 기존에 저장되어있던 항목에 병합할건지 여부.
         context.automaticallyMergesChangesFromParent = true
     }
@@ -56,15 +54,11 @@ final class CoreDataManger {
                                  value: Value? = nil) -> [Entity] where Entity: NSManagedObject {
         print("📝 CoreDataManager Retrieve")
         let request = NSFetchRequest<Entity>(entityName: "\(type.self)")
-
-        print("\(value)")
         // 조건이 있는 경우.
         if let column, let value {
             let predicateFormat = "%K \(comparision.rawValue) %@"
             let predicate = NSPredicate(format: predicateFormat, column.toKeyName, "\(value)")
             request.predicate = predicate
-
-            print("\(value)")
         }
         // 현재는 이렇게 조회된 NSMangedObject를 직접 쓰는게 아니기때문에 Sort를 줘도 의미가 없음.
         if let sortkey = sortkey {
@@ -75,17 +69,12 @@ final class CoreDataManger {
         
         do {
             let results = try self.context.fetch(request)
-            print("\(results)")
             return results
         } catch {
             print("\(error.localizedDescription)☹️")
         }
 
         return []
-        
-        // 1. toKeyName
-        // 2. value optional
-        // 3. 타입
     }
     
     /// 데이터 조회 (전체조회)
