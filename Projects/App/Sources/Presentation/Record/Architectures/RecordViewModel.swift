@@ -51,8 +51,6 @@ final class RecordViewModel: RecordConditionFetch {
         updateCurrentText()
     }
     
-
-    
     func recordSpecificFetch() {
         recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
