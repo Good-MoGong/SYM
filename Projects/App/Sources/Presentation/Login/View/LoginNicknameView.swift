@@ -76,7 +76,6 @@ struct LoginNicknameView: View {
             withAnimation(.easeInOut) {
                 authViewModel.authenticationState = .authenticated
             }
-            
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)

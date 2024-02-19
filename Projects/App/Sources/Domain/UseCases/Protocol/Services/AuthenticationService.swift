@@ -36,6 +36,7 @@ protocol AuthenticationServiceType {
 }
 
 class AuthenticationService: AuthenticationServiceType {
+    
     func checkAuthenticationState() -> String? {
         if let user = Auth.auth().currentUser {
             return user.uid
@@ -52,6 +53,8 @@ class AuthenticationService: AuthenticationServiceType {
     }
     
     func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, none: String) -> AnyPublisher<User, ServiceError> {
+        // - 최종적으로 하나의 값을 생성한 후 완료되거나 실패하는 Publisher
+        // - 어떤 작업을 수행하고 비동기적으로 결과값을 방출할 수 있음
         Future { [weak self] promise in
             self?.handleSignInWithAppleCompletion(authorization, nonce: none) { result in
                 switch result {
