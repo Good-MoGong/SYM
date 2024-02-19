@@ -238,6 +238,11 @@ struct DateButton: View {
     
     var value: DateValue
     
+    @ObservedObject var calendarViewModel = CalendarViewModel(
+        calendarUseCase: CalendarUseCase(
+            calendarRepository: CalendarRepository()))
+    
+    
     @State var isShowingRecordView = false
     
     @Binding var selectDate: Date
@@ -258,6 +263,8 @@ struct DateButton: View {
     var body: some View {
         Button {
             selectDate = value.date
+            calendarViewModel.recordDiary.date = selectDate.formatToString()
+            calendarViewModel.recordSpecificFetch()
             isShowingRecordView = true
         } label: {
             VStack(spacing: 3) {
