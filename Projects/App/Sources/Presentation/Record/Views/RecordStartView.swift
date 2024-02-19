@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct RecordStartView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @Binding var isShowingRecordView: Bool
     var body: some View {
@@ -113,7 +113,7 @@ struct RecordStartView: View {
                title: "계속 일기를 작성할까요?",
                boldDesc: "잠깐! 여기서 그만두면 지금까지 작성한 글이 모두 사라져요. 정말 일기 작성을 그만 둘까요?",
                desc: "") {
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()
         }
