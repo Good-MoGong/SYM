@@ -40,7 +40,7 @@ struct LoginNicknameView: View {
                                 nickname = removeSpecialCharacters(from: nickname)
                             }
                         })
-                            .customTF(type: .normal)
+                        .customTF(type: .normal)
                         checkNicknameRules()
                     }
                 }
@@ -128,8 +128,8 @@ extension Text {
 
 #Preview {
     NavigationStack {
-//        LoginNicknameView()
-//            .environmentObject(AuthenticationViewModel(container: .init(services: Services())))
-//        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
+        //        LoginNicknameView()
+        //            .environmentObject(AuthenticationViewModel(container: .init(services: Services())))
+        //        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }
