@@ -20,7 +20,9 @@ struct AuthenticatedView: View {
                 LoginIntroView()
                     .environmentObject(authViewModel)
             case .authenticated:
-                LoginNicknameView(authViewModel: authViewModel)
+//                MainView()
+                LoginNicknameView()
+                    .environmentObject(authViewModel)
 //                TabBarView(tabBarViewModel: tabBarViewModel)
             }
         }

@@ -1,5 +1,5 @@
 //
-//  DIContainerUseCase.swift
+//  DIContainer.swift
 //  SYM
 //
 //  Created by 박서연 on 2024/01/29.
