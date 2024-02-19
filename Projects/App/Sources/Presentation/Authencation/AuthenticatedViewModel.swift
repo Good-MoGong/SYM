@@ -84,6 +84,7 @@ class AuthenticationViewModel: ObservableObject {
             
             // 로그아웃
         case .logout:
+            container.services.authService.logoutWithKakao()
             container.services.authService.logout()
                 .sink { completion in
                     //
