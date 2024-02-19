@@ -69,6 +69,8 @@ extension Target {
         }
         
         let bundleId: String = "com.Mogong.SYM"
+        // target 2개로 늘어서 번들아이디 겹쳐서 수정
+//        let bundleId: String = "com.Mogong.SYM.\(name)"
         
         //infoPlist 경로로 설정
         var infoPlist: InfoPlist {

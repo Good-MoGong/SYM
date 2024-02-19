@@ -65,10 +65,13 @@ struct LoginNicknameView: View {
             if let userInfo = authViewModel.userId {
                 user.id = userInfo
                 user.name = nickname
-                user.diary = []
-                
+                // MARK: - Diary 데이터 추가방법 결정 필요함!!
+                user.diary = []//[.init(date: "", event: "", idea: "", emotions: [""], action: "")]
                 firebaseService.createUserInFirebase(user: user)
             }
+            
+            // home으로 페이지 이동
+            
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)
