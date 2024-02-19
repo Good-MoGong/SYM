@@ -8,16 +8,16 @@
 
 import SwiftUI
 
-struct RecordOrganizeView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var recordViewModel: RecordViewModel
+struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var recordViewModel: viewModel
     @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
             ZStack {
                 HStack {
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
                     }
