@@ -36,7 +36,6 @@ protocol AuthenticationServiceType {
 }
 
 class AuthenticationService: AuthenticationServiceType {
-    
     func checkAuthenticationState() -> String? {
         if let user = Auth.auth().currentUser {
             return user.uid
@@ -157,6 +156,10 @@ extension AuthenticationService {
             }
         }
     }
+    
+    // MARK: - 카카오 로그인
+    
+    
     
     /// Firebase 인증 함수, 'AuthCredential'(Google 로그인에서 획득)을 가져와 Firebase 인증 프로세스를 완료
     private func authenticateUserWithFirebase(credential: AuthCredential,
