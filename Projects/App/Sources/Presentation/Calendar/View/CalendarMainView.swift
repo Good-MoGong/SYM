@@ -12,16 +12,23 @@ struct CalendarMainView: View {
     @State var currentDate: Date = Date()
     @State var selectDate: Date = Date()
     @State private var nickname: String = "모공모공"
+    @StateObject var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
     
     var body: some View {
-        ScrollView {
-            CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate)
-                .padding(20)
-            RecordView(beforeRecord: true, nickname: nickname)
-                .padding(.horizontal, 20)
+        NavigationStack {
+            ScrollView {
+                CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate, calendarViewModel: calendarViewModel)
+                    .padding(20)
+                RecordView(beforeRecord: calendarViewModel.completeRecord, nickname: nickname)
+                    .padding(.horizontal, 20)
+            }
+            .padding(.bottom, 20)
+            .scrollIndicators(.hidden)
+            .onAppear {
+                calendarViewModel.recordDiary.date = Date().formatToString()
+                calendarViewModel.recordSpecificFetch()
+            }
         }
-        .padding(.bottom, 20)
-        .scrollIndicators(.hidden)
     }
 }
 
