@@ -10,10 +10,7 @@ import Foundation
 
 extension KeyPath {
     var toKeyName: String {
-        let keyPathString = String(reflecting: self)
-        let components = keyPathString.components(separatedBy: ".")
-        
-        guard let lastComponent = components.last else { return "" }
-        return lastComponent
+        guard let propertyName = self.debugDescription.split(separator: ".").last else { return "" }
+        return String(propertyName)
     }
 }
