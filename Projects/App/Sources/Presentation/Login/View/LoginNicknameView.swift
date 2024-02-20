@@ -41,6 +41,7 @@ struct LoginNicknameView: View {
                             }
                         })
                         .customTF(type: .normal)
+                        
                         checkNicknameRules()
                     }
                 }

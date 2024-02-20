@@ -55,13 +55,12 @@ class AuthenticationViewModel: ObservableObject {
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
             
-            // 애플로그인 완료 -> 인증 결과
         case let .appleLoginCompletion(result):
             if case let .success(authorization) = result {
                 guard let nonce = currentNonce else { return }
                 
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
-                    .sink { [weak self] completion in // 생성자에게 구독증 신청
+                    .sink { [weak self] completion in
                         if case .failure = completion {
                             self?.isLoading = false
                         }
@@ -84,7 +83,7 @@ class AuthenticationViewModel: ObservableObject {
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
-            
+
         case .kakaoLogin:
             container.services.authService.checkKakaoToken()
                 .sink { completion in
