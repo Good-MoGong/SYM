@@ -11,7 +11,7 @@ extension Target {
     public static func makeTarget(name: String,
                                   platform: Platform = .iOS,
                                   product: Product,
-                                  deploymentTarget: DeploymentTarget = .iOS(targetVersion: "16.0",
+                                  deploymentTarget: DeploymentTarget = .iOS(targetVersion: "16.4",
                                                                             devices: [.iphone, .ipad],
                                                                             supportsMacDesignedForIOS: true),
                                   dependencies: [TargetDependency] = [],
