@@ -26,6 +26,7 @@ struct ChatBubble: View {
             }
             Text(animatedMessage)
                 .font(PretendardFont.bodyMedium)
+                .lineSpacing(5.0)
         }
         .padding()
         .background(Color.bright)

@@ -9,7 +9,9 @@
 import Foundation
 import Combine
 
-class ChatRequestManager: ObservableObject {
+class ChatGPTManager: ObservableObject {
+    
+    static let shared = ChatGPTManager()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -27,7 +29,7 @@ class ChatRequestManager: ObservableObject {
         let topP = 1
         let frequencyPenalty = 0.0
         let presencePenalty = 0.6
-
+        
         // requestBody
         let requestBody : [String : Any] = [
             "model": model,
@@ -53,19 +55,19 @@ class ChatRequestManager: ObservableObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.httpBody = jsonData
-
+        
         return URLSession.shared
-               .dataTaskPublisher(for: request)
-               .tryMap { data, response in
-                   guard let httpResponse = response as? HTTPURLResponse,
-                         httpResponse.statusCode == 200 else {
-                       throw URLError(.badServerResponse)
-                   }
-                   return data
-               }
-               .map { self.getContentFromData(data: $0)}
-               .mapError { $0 as Error }
-               .eraseToAnyPublisher()
+            .dataTaskPublisher(for: request)
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .map { self.getContentFromData(data: $0)}
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
     }
     
     private func getContentFromData(data: Data) -> String? {
@@ -77,13 +79,8 @@ class ChatRequestManager: ObservableObject {
                let message = firstChoice["message"] as? [String: Any],
                let content = message["content"] as? String {
                 
-                var trimmedContent = content.prefix(200)
-
-                if let lastPeriodIndex = trimmedContent.lastIndex(of: ".") {
-                    trimmedContent = trimmedContent[...lastPeriodIndex]
-                }
-                return String(trimmedContent)
-
+                return content
+                
             } else {
                 return nil
             }
