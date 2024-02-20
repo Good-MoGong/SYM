@@ -29,7 +29,6 @@ class AuthenticationViewModel: ObservableObject {
     
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
-    // userId를 받아서 닉네임 설정 뷰로 넘어가고, 해당 뷰에서 닉넴이과 합쳐서 create firestore해야함
     @Published var userId: String?
     
     private var currentNonce: String?
@@ -90,47 +89,23 @@ class AuthenticationViewModel: ObservableObject {
                 .sink { completion in
                     //
                 } receiveValue: { [weak self] result in
-                    print("🥶 \(result)")
-                    if result {
-                        if let checkUser = self?.container.services.authService.checkAuthenticationState() {
-                            print("🥶 \(checkUser)")
-                            self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
-                                if userExists {
-                                    print("🥶🥶 \(checkUser)")
-                                    self?.userId = checkUser
-                                    self?.authenticationState = .authenticated
-                                    return
-                                } else {
-                                    self?.userId = checkUser
-                                    self?.authenticationState = .unauthenticated
-                                }
-                            })
-                        } else {
-                    } else {
-                        self?.authenticationState = .initial
+                    if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+                        print("🥶 \(checkUser)")
+                        self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+                            if userExists {
+                                print("🥶🥶 \(checkUser)")
+                                self?.userId = checkUser
+                                self?.authenticationState = .authenticated
+                                return
+                            } else {
+                                self?.userId = checkUser
+                                self?.authenticationState = .unauthenticated
+                            }
+                        })
                     }
-//                    if let checkUser = self?.container.services.authService.checkAuthenticationState() {
-//                        print("🥶 \(checkUser)")
-//                        self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
-//                            if userExists {
-//                                print("🥶🥶 \(checkUser)")
-//                                self?.userId = checkUser
-//                                self?.authenticationState = .authenticated
-//                                return
-//                            } else {
-//                                self?.userId = checkUser
-//                                self?.authenticationState = .unauthenticated
-//                            }
-//                        })
-//                    }
-//                    if result {
-////                        self?.authenticationState = .unauthenticated
-//
-//                    } else {
-//                        self?.authenticationState = .initial
-//                    }
                 }.store(in: &subscritpions)
-            
+
+
             // 로그아웃
         case .logout:
             container.services.authService.logoutWithKakao()
@@ -139,7 +114,6 @@ class AuthenticationViewModel: ObservableObject {
                     //
                 } receiveValue: { [weak self] _ in
                     self?.authenticationState = .initial
-//                    self?.authenticationState = .unauthenticated
                     self?.userId = nil
                 }.store(in: &subscritpions)
         }
