@@ -84,7 +84,6 @@ struct RecordCompletionView: View {
         .navigationBarBackButtonHidden()
         .onAppear(perform: {
             recordViewModel.makeGPTRequest()
-            
         })
     }
 }
