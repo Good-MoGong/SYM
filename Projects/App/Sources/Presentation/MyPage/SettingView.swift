@@ -11,6 +11,7 @@ import SwiftUI
 struct SettingView: View {
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         NavigationStack {
@@ -70,6 +71,8 @@ struct SettingView: View {
                title: "로그아웃 하시겠어요?",
                boldDesc: "",
                desc: "") {
+            print("로그아웃")
+            authViewModel.send(action: .logout)
             self.isShowingLogoutPopup.toggle()
         } cancelHandler: {
             self.isShowingLogoutPopup.toggle()

@@ -16,7 +16,7 @@ final class FirebaseService {
     private init() { }
     
     let db = Firestore.firestore()
-//    
+
     // firestore에 유저 데이터 추가하기
     func createUserInFirebase(user: User) {
         let documentRef = db.collection("User").document(user.id)
@@ -26,5 +26,21 @@ final class FirebaseService {
         } catch let error{
             print("\(error.localizedDescription)")
         }
+    }
+    
+    // firebase 에 닉네임이 저장되어 있는지 아닌지 확인하기
+    func checkUserNickname(userID: String) -> Bool {
+        let checkDB = db.collection("User").document(userID)
+        var returnValue = false
+        checkDB.getDocument { (document, error) in
+            if let document = document, document.exists {
+                returnValue = true
+            } else {
+                returnValue = false
+            }
+        }
+        
+        print("returnValue: \(returnValue)")
+        return returnValue
     }
 }

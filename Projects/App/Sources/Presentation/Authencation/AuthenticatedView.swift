@@ -16,12 +16,14 @@ struct AuthenticatedView: View {
     var body: some View {
         VStack {
             switch authViewModel.authenticationState {
-            case .unauthenticated:
+            case .initial:
                 LoginIntroView()
                     .environmentObject(authViewModel)
-            case .authenticated:
-//                MainView()
+            case .unauthenticated:
                 LoginNicknameView()
+                    .environmentObject(authViewModel)
+            case .authenticated:
+                MainView()
                     .environmentObject(authViewModel)
 //                TabBarView(tabBarViewModel: tabBarViewModel)
             }

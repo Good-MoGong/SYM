@@ -12,6 +12,7 @@ struct LoginIntroView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
