@@ -55,7 +55,8 @@ struct HeaderView: View {
 
 // MARK: - YearMonthHeaderView: 연도, 월
 struct YearMonthHeaderView: View {
-    
+    @State var selectedYear: Int = Calendar.current.component(.year, from: .now)
+    @State var selectedMonth: Int = Calendar.current.component(.month, from: .now)
     @Binding var currentMonth: Int
     @Binding var currentDate: Date
     @Binding var isShowingDateChangeSheet: Bool
@@ -75,7 +76,7 @@ struct YearMonthHeaderView: View {
             })
         }
         .sheet(isPresented: $isShowingDateChangeSheet,
-               content: { DatePicker(isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
+               content: { DatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
                .presentationDetents([.fraction(0.4)])
         })
     }
