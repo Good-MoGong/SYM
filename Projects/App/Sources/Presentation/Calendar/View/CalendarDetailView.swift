@@ -21,18 +21,15 @@ struct CalendarDetailView: View {
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    
     private let weekday: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
         VStack {
             HeaderView(nickname: $nickname)
-<<<<<<< HEAD
-            YearMonthHeaderView(currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
-=======
             YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, weekday: weekday)
->>>>>>> fc326ff (Feat: CalenderView Gesture 이동 제한 조건 설정과 Picker 이동과의 상태 연동)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
@@ -84,7 +81,7 @@ struct YearMonthHeaderView: View {
         }
         .sheet(isPresented: $isShowingDateChangeSheet,
                content: { DatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
-               .presentationDetents([.fraction(0.4)])
+                .presentationDetents([.fraction(0.4)])
         })
     }
     
@@ -110,6 +107,8 @@ struct CalendarView: View {
     @Binding var selectedYear: Int
     @Binding var selectedMonth: Int
     @Binding var isShowingOrganizeView: Bool
+    
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -147,7 +146,7 @@ struct CalendarView: View {
                         }
                     } else if gesture.translation.width > 100 {
                         if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
-            
+                            
                         } else {
                             currentMonth -= 1
                             selectedMonth -= 1
@@ -199,6 +198,8 @@ struct DatesGridView: View {
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
     @Binding var isShowingOrganizeView: Bool
+    
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
