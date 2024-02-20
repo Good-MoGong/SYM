@@ -13,6 +13,7 @@ final class CalendarViewModel: RecordConditionFetch {
     private let calendarUseCase: CalendarUseCase
     
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @Published var completeRecord: Bool = true
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
@@ -22,7 +23,8 @@ final class CalendarViewModel: RecordConditionFetch {
         calendarUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
                 self.recordDiary = diary
-                // isSuccess Bool 값 받아서 어떻게 할건지
+                // RecordView의 beforeRecord랑 반대로 동작해서 반대로 값 넣어줘야함
+                self.completeRecord = !isSuccess
             }
         }
     }
