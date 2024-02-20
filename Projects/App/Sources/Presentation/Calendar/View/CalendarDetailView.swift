@@ -238,8 +238,6 @@ struct DateButton: View {
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
-    @State var isShowingRecordView = false
-    
     @Binding var selectDate: Date
     
     // 오늘인지 아닌지
@@ -261,8 +259,6 @@ struct DateButton: View {
                 selectDate = value.date
                 calendarViewModel.recordDiary.date = selectDate.formatToString()
                 calendarViewModel.recordSpecificFetch()
-                isShowingRecordView = true
-                print(isShowingRecordView)
             } label: {
                 VStack(spacing: 3) {
                     Text(isToday ? "오늘" : "")
@@ -286,8 +282,8 @@ struct DateButton: View {
                 )
             }
         }
-        .navigationDestination(isPresented: $isShowingRecordView) {
-            RecordOrganizeView(recordViewModel: calendarViewModel, isShowingRecordView: $isShowingRecordView)
+        .navigationDestination(isPresented: $calendarViewModel.isShowingRecordView) {
+            RecordOrganizeView(recordViewModel: calendarViewModel, isShowingRecordView: $calendarViewModel.isShowingRecordView)
         }
     }
     
@@ -299,7 +295,5 @@ struct DateButton: View {
 }
 
 #Preview {
-    NavigationStack {
-        CalendarMainView()
-    }
+    CalendarMainView()
 }
