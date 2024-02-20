@@ -15,9 +15,8 @@ struct SYMApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CalendarMainView()
-//            AuthenticatedView(authViewModel: .init(container: container))
-//                .environmentObject(container)
+            AuthenticatedView(authViewModel: .init(container: container))
+                .environmentObject(container)
         }
     }
 }
