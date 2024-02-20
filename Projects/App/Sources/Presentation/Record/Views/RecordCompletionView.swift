@@ -20,7 +20,7 @@ struct RecordCompletionView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: .symHeight * 0.05) {
                     ZStack {
                         HStack {
@@ -29,10 +29,8 @@ struct RecordCompletionView: View {
                             } label: {
                                 Image(systemName: "xmark")
                             }
-                            .buttonStyle(.plain)
-                            Spacer()
-                            
-                            
+                            .frame(height: 44)
+                            .frame(maxWidth: .infinity)
                         }
                         .frame(height: 44)
                         .frame(maxWidth: .infinity)
@@ -45,17 +43,19 @@ struct RecordCompletionView: View {
                             
                             Spacer()
                         }
+                        Text("기록이 완료되었어요!")
+                            .font(PretendardFont.h3Bold)
+                        Image("SimiSmile2")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: .symWidth * 0.6)
                     }
-                    Text("기록이 완료되었어요!")
-                        .font(PretendardFont.h3Bold)
-                    Image("SimiSmile2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: .symWidth * 0.6)
                     
                     VStack(alignment: .leading) {
                         if recordViewModel.gptAnswerText != "" {
                             ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
+                        } else {
+                            ProgressView()
                         }
                     }
                     
@@ -76,7 +76,6 @@ struct RecordCompletionView: View {
                     }
                 }
                 .padding()
-                
             }
             .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
                 RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
@@ -84,7 +83,7 @@ struct RecordCompletionView: View {
         }
         .navigationBarBackButtonHidden()
         .onAppear(perform: {
-            recordViewModel.makeRequest()
+            recordViewModel.makeGPTRequest()
             
         })
     }
