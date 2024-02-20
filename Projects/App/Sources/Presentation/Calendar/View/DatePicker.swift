@@ -10,8 +10,8 @@ import SwiftUI
 import UIKit
 
 struct DatePicker: View {
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: .now)
-    @State private var selectedMonth: Int = Calendar.current.component(.month, from: .now)
+    @Binding var selectedYear: Int
+    @Binding var selectedMonth: Int
     @Binding var isShowingDateChangeSheet: Bool
     @Binding var currentMonth: Int
     @Binding var currentDate: Date
@@ -19,11 +19,6 @@ struct DatePicker: View {
     var body: some View {
         VStack {
             CustomDatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
-            
-            Text("\(selectedYear)")
-            Text("\(selectedMonth)")
-            Text("\(currentMonth)")
-            Text("\(currentDate)")
             
             Button {
                 let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
@@ -38,16 +33,12 @@ struct DatePicker: View {
             .buttonStyle(MainButtonStyle(isButtonEnabled: true))
             .padding(20)
         }
-        .onAppear {
-            selectedYear = Calendar.current.component(.year, from: currentDate)
-            selectedMonth = Calendar.current.component(.month, from: currentDate)
-        }
     }
     
     private func createNewDate(year: Int, month: Int) -> Date {
         var components = DateComponents()
         components.year = year
-        components.month = month + 1
+        components.month = month
         components.day = 1
         
         guard let selectDate = Calendar.current.date(from: components) else {
@@ -66,21 +57,21 @@ struct CustomDatePicker: UIViewRepresentable { // UIKit의 UIView를 SwiftUI에�
         picker.dataSource = context.coordinator
         picker.delegate = context.coordinator
         
-        let yearDateFormatter = DateFormatter()
-        yearDateFormatter.dateFormat = "yyyy"
-        let currentYear = Int(yearDateFormatter.string(from: Date()))!
+//        let yearDateFormatter = DateFormatter()
+//        yearDateFormatter.dateFormat = "yyyy"
+//        let currentYear = Int(yearDateFormatter.string(from: Date()))!
+//        
+//        var availableYear: [Int] = []
+//        for i in 2024...Int(currentYear) {
+//            availableYear.append(i)
+//        }
+//        
+//        let monthDateFormatter = DateFormatter()
+//        monthDateFormatter.dateFormat = "MM"
+//        let currentMonth = Int(monthDateFormatter.string(from: Date()))!
         
-        var availableYear: [Int] = []
-        for i in 2024...Int(currentYear) {
-            availableYear.append(i)
-        }
-        
-        let monthDateFormatter = DateFormatter()
-        monthDateFormatter.dateFormat = "MM"
-        let currentMonth = Int(monthDateFormatter.string(from: Date()))!
-        
-        picker.selectRow(availableYear.count - 1, inComponent: 0, animated: false)
-        picker.selectRow(currentMonth - 1, inComponent: 1, animated: false)
+        picker.selectRow(selectedYear - 1, inComponent: 0, animated: false)
+        picker.selectRow(selectedMonth - 1, inComponent: 1, animated: false)
         return picker
     }
     
@@ -178,5 +169,5 @@ struct CustomDatePicker: UIViewRepresentable { // UIKit의 UIView를 SwiftUI에�
 
 
 #Preview {
-    DatePicker(isShowingDateChangeSheet: .constant(false), currentMonth: .constant(0), currentDate: .constant(Date()))
+    DatePicker(selectedYear: .constant(Calendar.current.component(.year, from: .now)), selectedMonth: .constant(Calendar.current.component(.month, from: .now)), isShowingDateChangeSheet: .constant(false), currentMonth: .constant(0), currentDate: .constant(Date()))
 }
