@@ -54,8 +54,11 @@ struct RecordCompletionView: View {
                         .frame(width: .symWidth * 0.6)
                     
                     VStack(alignment: .leading) {
-                        ChatBubble(message: "\(recordViewModel.recordDiary)", animatedMessage: $animatedMessage)
+                        if recordViewModel.gptAnswerText != "" {
+                            ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
+                        }
                     }
+                    
                     Spacer()
                     HStack {
                         Button("홈") {
@@ -80,6 +83,10 @@ struct RecordCompletionView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear(perform: {
+            recordViewModel.makeRequest()
+            
+        })
     }
 }
 
