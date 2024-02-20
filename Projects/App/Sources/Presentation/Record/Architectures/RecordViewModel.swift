@@ -11,7 +11,6 @@ import Combine
 
 final class RecordViewModel: RecordConditionFetch {
     
-    private let chatRequestManager = ChatRequestManager()
     private let recordUseCase: RecordUseCase
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
@@ -24,8 +23,6 @@ final class RecordViewModel: RecordConditionFetch {
     @Published var isShowingCompletionView: Bool = false
     @Published var isShowingOrganizeView: Bool = false
     @Published var isShowingToastMessage: Toast? = nil
-    
-    private var cancellables = Set<AnyCancellable>()
     
     init(recordUseCase: RecordUseCase) {
         self.recordUseCase = recordUseCase
@@ -113,38 +110,11 @@ final class RecordViewModel: RecordConditionFetch {
         }
     }
     
-    func makeRequest() {
-        let text = makeText()
-        
-        chatRequestManager.makeRequest(text: text)?
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error: \(error)")
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [weak self] stringData in
-                if let gptAnswer = stringData {
-                    self?.gptAnswerText = gptAnswer
-                } else {
-                    self?.gptAnswerText = "Failed to get response from GPT"
-                }
-            })
-            .store(in: &cancellables)
-    }
-    
-    func makeText() -> String {
-        // 일기 작성 전 원하는 응답을 위한 고정 텍스트
-        let constantText = "다음 문장에 대해 공감해줘. 친근한 말투의 반말로 해줘."
-        // 감정 부분 문자열로 생성
-        let emotionsText = "나는" + recordDiary.emotions.joined(separator: ", ") + "감정을 느꼈어."
-        
-        let mainText = recordDiary.event + "." + recordDiary.action + "." + recordDiary.idea + "."
-        
-        let text = constantText + mainText + emotionsText
-        return text
+    func makeGPTRequest() {
+        recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
+            self.gptAnswerText = gptAnswer
+            
+        }
     }
 }
 

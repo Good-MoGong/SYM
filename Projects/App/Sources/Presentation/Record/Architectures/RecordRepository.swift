@@ -7,16 +7,20 @@
 //
 
 import Foundation
+import Combine
 
 protocol RecordRepositoryProtocal {
     func saveRecord(diary: Diary) async -> Bool
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
+    func makeGPTRequest(text: String, completion: @escaping (String) -> Void)
 }
 
 final class RecordRepository: RecordRepositoryProtocal {
     
     private let coreDataManager = CoreDataManger.shared
+    private let chatGPTManager = ChatGPTManager.shared
     private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    private var cancellables = Set<AnyCancellable>()
    
     func saveRecord(diary: Diary) async -> Bool {
         let context = coreDataManager.newContextForBackgroundThread()
@@ -44,5 +48,26 @@ final class RecordRepository: RecordRepositoryProtocal {
         }
 
         completion(fetchDiary,isFetchSuccess)
+    }
+    
+    func makeGPTRequest(text: String, completion: @escaping (String) -> Void)  {
+        ChatGPTManager.shared.makeRequest(text: text)?
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error: \(error)")
+                case .finished:
+                    break
+                }
+            }, receiveValue: {  stringData in
+                if let gptAnswer = stringData {
+                    completion(gptAnswer)
+                } else {
+                    completion("Failed to get response from GPT")
+                }
+            })
+            .store(in: &cancellables)
+    
     }
 }
