@@ -13,6 +13,7 @@ struct CalendarMainView: View {
     @State var selectDate: Date = Date()
     @State private var nickname: String = "모공모공"
     @State var isShowingOrganizeView: Bool = false
+    
     @StateObject var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
     
     var body: some View {
