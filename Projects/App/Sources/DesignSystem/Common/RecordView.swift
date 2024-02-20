@@ -33,6 +33,8 @@ struct RecordView: View {
     var nickname: String = ""
     var recordCount: Int = 0
     
+    @State private var isShowingRecordView: Bool = false
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -56,21 +58,26 @@ struct RecordView: View {
                 
                 VStack(alignment: .leading) {
                     Text(isShowingMainView ? (beforeRecord ?? false ?
-                          RecordViewText.beforeRecord.stringValue : RecordViewText.afterRecord.stringValue
+                                              RecordViewText.beforeRecord.stringValue : RecordViewText.afterRecord.stringValue
                                              ) :
-                         RecordViewText.mypageRecord(count: recordCount).stringValue)
+                            RecordViewText.mypageRecord(count: recordCount).stringValue)
                 }
                 .lineSpacing(8)
                 .font(PretendardFont.smallMedium)
                 .padding(.bottom, 12)
                 if beforeRecord ?? true {
                     Button {
-                        print(isShowingMainView ? (beforeRecord ?? false ? "기록하기" : "보러가기") : "의견 보내기")
+                        if isShowingMainView && beforeRecord ?? true {
+                            isShowingRecordView = true
+                        }
                     } label: {
                         Text(isShowingMainView ? (beforeRecord ?? false ? "감정 기록하기" : "기록 보러가기") : "시미에게 의견 보내기")
                             .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
                     }
                     .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
+                    .navigationDestination(isPresented: $isShowingRecordView) {
+                        RecordStartView(isShowingRecordView: $isShowingRecordView)
+                    }
                 }
             }
             .padding(.trailing, 23)
@@ -92,5 +99,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: true)
+    RecordView(beforeRecord: false)
 }
