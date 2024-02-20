@@ -12,6 +12,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var recordViewModel: viewModel
     @Binding var isShowingRecordView: Bool
+    
     var body: some View {
         NavigationStack {
             ZStack {
