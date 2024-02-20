@@ -9,9 +9,11 @@
 import Foundation
 import Combine
 import AuthenticationServices
+import FirebaseAuth
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
+    case initial 
     case unauthenticated
     case authenticated
 }
@@ -19,19 +21,14 @@ enum AuthenticationState {
 class AuthenticationViewModel: ObservableObject {
     enum Action {
         case checkAuthenticationState
-        // 연관값 사용
         case appleLogin(ASAuthorizationAppleIDRequest) // 인증 요청할때
         case appleLoginCompletion(Result<ASAuthorization, Error>) // 인증이 된 후
-        
-        // 카카오로그인
         case kakaoLogin
-//        case kakaologout
         case logout
     }
     
     @Published var isLoading = false
-    @Published var authenticationState: AuthenticationState = .unauthenticated
-    
+    @Published var authenticationState: AuthenticationState = .initial
     // userId를 받아서 닉네임 설정 뷰로 넘어가고, 해당 뷰에서 닉넴이과 합쳐서 create firestore해야함
     @Published var userId: String?
     
@@ -51,36 +48,88 @@ class AuthenticationViewModel: ObservableObject {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
                 self.authenticationState = .authenticated
+            } else {
+                self.authenticationState = .initial
             }
             
-            // 애플로그인 진행 -> 인증 요청
-        case let .appleLogin(requeset): // ASAuthorizationAppleIDRequest라는 연관값을 request로써 사용하기 위해서 바인딩 진행
+        case let .appleLogin(requeset):
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
             
-            // 애플로그인 완료 -> 인증 결과
         case let .appleLoginCompletion(result):
             if case let .success(authorization) = result {
                 guard let nonce = currentNonce else { return }
                 
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
-                    .sink { [weak self] completion in // 생성자에게 구독증 신청
+                    .sink { [weak self] completion in
                         if case .failure = completion {
                             self?.isLoading = false
                         }
                     } receiveValue: { [weak self] user in
-                        self?.isLoading = false
-                        self?.userId = user.id // firebase auth의 유저별 ID
-                        self?.authenticationState = .authenticated
-                    
-                    }.store(in: &subscritpions) // 리턴되는 구독증 관리
-                
+                        if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+                            print("🥶 \(checkUser)")
+                            self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+                                if userExists {
+                                    print("🥶🥶 \(checkUser)")
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .authenticated
+                                    return
+                                } else {
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .unauthenticated
+                                }
+                            })
+                        }
+                    }.store(in: &subscritpions)
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
-            
+
         case .kakaoLogin:
             container.services.authService.checkKakaoToken()
+                .sink { completion in
+                    //
+                } receiveValue: { [weak self] result in
+                    print("🥶 \(result)")
+                    if result {
+                        if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+                            print("🥶 \(checkUser)")
+                            self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+                                if userExists {
+                                    print("🥶🥶 \(checkUser)")
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .authenticated
+                                    return
+                                } else {
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .unauthenticated
+                                }
+                            })
+                        } else {
+                    } else {
+                        self?.authenticationState = .initial
+                    }
+//                    if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+//                        print("🥶 \(checkUser)")
+//                        self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+//                            if userExists {
+//                                print("🥶🥶 \(checkUser)")
+//                                self?.userId = checkUser
+//                                self?.authenticationState = .authenticated
+//                                return
+//                            } else {
+//                                self?.userId = checkUser
+//                                self?.authenticationState = .unauthenticated
+//                            }
+//                        })
+//                    }
+//                    if result {
+////                        self?.authenticationState = .unauthenticated
+//
+//                    } else {
+//                        self?.authenticationState = .initial
+//                    }
+                }.store(in: &subscritpions)
             
             // 로그아웃
         case .logout:
@@ -89,7 +138,8 @@ class AuthenticationViewModel: ObservableObject {
                 .sink { completion in
                     //
                 } receiveValue: { [weak self] _ in
-                    self?.authenticationState = .unauthenticated
+                    self?.authenticationState = .initial
+//                    self?.authenticationState = .unauthenticated
                     self?.userId = nil
                 }.store(in: &subscritpions)
         }
