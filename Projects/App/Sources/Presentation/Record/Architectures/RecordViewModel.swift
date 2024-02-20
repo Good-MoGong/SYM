@@ -25,6 +25,8 @@ final class RecordViewModel: RecordConditionFetch {
     @Published var isShowingOrganizeView: Bool = false
     @Published var isShowingToastMessage: Toast? = nil
     
+    private var cancellables = Set<AnyCancellable>()
+    
     init(recordUseCase: RecordUseCase) {
         self.recordUseCase = recordUseCase
     }
