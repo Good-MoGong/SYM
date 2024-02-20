@@ -23,6 +23,8 @@ struct CalendarDetailView: View {
             HeaderView(nickname: $nickname)
             YearMonthHeaderView(currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
             CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, weekday: weekday)
+            Text("\(currentMonth)")
+            Text("\(currentDate)")
         }
     }
 }
@@ -72,11 +74,7 @@ struct YearMonthHeaderView: View {
             })
         }
         .sheet(isPresented: $isShowingDateChangeSheet,
-               content: { DateChangeSheetView(
-                isShowingDateChangeSheet: $isShowingDateChangeSheet,
-                currentMonth: $currentMonth,
-                currentDate: $currentDate
-               )
+               content: { DatePicker(isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
                .presentationDetents([.fraction(0.4)])
         })
     }
@@ -295,83 +293,83 @@ struct DateButton: View {
 
 
 // MARK: - DateChangeSheetView: 날짜 변경 sheet
-struct DateChangeSheetView: View {
-    
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
-    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
-    
-    let years = [2024, 2025, 2026, 2027, 2028]
-    
-    var months: [String] {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 로케일 설정
-        return dateFormatter.monthSymbols
-    }
-    
-    @Binding var isShowingDateChangeSheet: Bool
-    @Binding var currentMonth: Int
-    @Binding var currentDate: Date
-    
-    var body: some View {
-        VStack {
-            Spacer()
-            HStack(spacing: 0) {
-                Picker(selection: $selectedYear, label: Text("Year")) {
-                    ForEach(years, id: \.self) { year in
-                        Text("\(year.formatterStyle(.none)!)년").tag(year)
-                    }
-                }
-                .pickerStyle(.wheel)
-                .clipShape(.rect.offset(x: -16))
-                .padding(.trailing, -16)
-                
-                Picker(selection: $selectedMonth, label: Text("Month")) {
-                    ForEach(1...12, id: \.self) { month in
-                        Text("\(months[month - 1])").tag(month)
-                    }
-                }
-                .pickerStyle(.wheel)
-                .clipShape(.rect.offset(x: 16))
-                .padding(.leading, -16)
-            }
-            Spacer()
-            
-            Button(action: {
-                // 선택된 날짜를 생성
-                let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
-                // 현재 날짜와 선택된 날짜 사이의 차이(개월 수)를 계산
-                let difference = Calendar.current.dateComponents([.month], from: Calendar.current.startOfDay(for: Date()), to: selectedDate).month ?? 0
-                // 계산된 차이를 currentMonth에 반영
-                currentMonth = difference
-                // 현재 날짜 업데이트
-                currentDate = selectedDate
-                // 날짜 변경 시트 닫기
-                isShowingDateChangeSheet.toggle()
-            }, label: {
-                Text("완료")
-            })
-            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
-        }
-        .padding(20)
-        .onAppear {
-            selectedYear = Calendar.current.component(.year, from: currentDate)
-            selectedMonth = Calendar.current.component(.month, from: currentDate)
-        }
-    }
-    
-    /// 선택된 연도와 월로 새로운 Date를 생성
-    private func createNewDate(year: Int, month: Int) -> Date {
-        var components = DateComponents()
-        components.year = year
-        components.month = month + 1
-        components.day = 1
-        
-        guard let newDate = Calendar.current.date(from: components) else {
-            fatalError("Failed to create a new date.")
-        }
-        return newDate
-    }
-}
+//struct DateChangeSheetView: View {
+//    
+//    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
+//    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+//    
+//    let years = [2024, 2025, 2026, 2027, 2028]
+//    
+//    var months: [String] {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.locale = Locale(identifier: "ko_KR") // 한국어 로케일 설정
+//        return dateFormatter.monthSymbols
+//    }
+//    
+//    @Binding var isShowingDateChangeSheet: Bool
+//    @Binding var currentMonth: Int
+//    @Binding var currentDate: Date
+//    
+//    var body: some View {
+//        VStack {
+//            Spacer()
+//            HStack(spacing: 0) {
+//                Picker(selection: $selectedYear, label: Text("Year")) {
+//                    ForEach(years, id: \.self) { year in
+//                        Text("\(year.formatterStyle(.none)!)년").tag(year)
+//                    }
+//                }
+//                .pickerStyle(.wheel)
+//                .clipShape(.rect.offset(x: -16))
+//                .padding(.trailing, -16)
+//                
+//                Picker(selection: $selectedMonth, label: Text("Month")) {
+//                    ForEach(1...12, id: \.self) { month in
+//                        Text("\(months[month - 1])").tag(month)
+//                    }
+//                }
+//                .pickerStyle(.wheel)
+//                .clipShape(.rect.offset(x: 16))
+//                .padding(.leading, -16)
+//            }
+//            Spacer()
+//            
+//            Button(action: {
+//                // 선택된 날짜를 생성
+//                let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
+//                // 현재 날짜와 선택된 날짜 사이의 차이(개월 수)를 계산
+//                let difference = Calendar.current.dateComponents([.month], from: Calendar.current.startOfDay(for: Date()), to: selectedDate).month ?? 0
+//                // 계산된 차이를 currentMonth에 반영
+//                currentMonth = difference
+//                // 현재 날짜 업데이트
+//                currentDate = selectedDate
+//                // 날짜 변경 시트 닫기
+//                isShowingDateChangeSheet.toggle()
+//            }, label: {
+//                Text("완료")
+//            })
+//            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+//        }
+//        .padding(20)
+//        .onAppear {
+//            selectedYear = Calendar.current.component(.year, from: currentDate)
+//            selectedMonth = Calendar.current.component(.month, from: currentDate)
+//        }
+//    }
+//    
+//    /// 선택된 연도와 월로 새로운 Date를 생성
+//    private func createNewDate(year: Int, month: Int) -> Date {
+//        var components = DateComponents()
+//        components.year = year
+//        components.month = month + 1
+//        components.day = 1
+//        
+//        guard let newDate = Calendar.current.date(from: components) else {
+//            fatalError("Failed to create a new date.")
+//        }
+//        return newDate
+//    }
+//}
 
 #Preview {
     NavigationStack {
