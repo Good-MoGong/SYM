@@ -104,7 +104,8 @@ class AuthenticationViewModel: ObservableObject {
                         })
                     }
                 }.store(in: &subscritpions)
-            
+
+
             // 로그아웃
         case .logout:
             container.services.authService.logoutWithKakao()
