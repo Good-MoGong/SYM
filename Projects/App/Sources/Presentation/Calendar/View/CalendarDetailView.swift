@@ -74,6 +74,10 @@ struct YearMonthHeaderView: View {
                     .foregroundStyle(Color.black)
             })
         }
+        .sheet(isPresented: $isShowingDateChangeSheet,
+               content: { DatePicker(isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
+               .presentationDetents([.fraction(0.4)])
+        })
     }
     
     /// 현재 연도, 월 String으로 변경하는 formatter로 배열 구하는 함수
