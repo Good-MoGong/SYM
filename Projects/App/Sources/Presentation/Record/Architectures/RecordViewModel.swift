@@ -11,7 +11,7 @@ import Combine
 
 final class RecordViewModel: RecordConditionFetch {
     
-    private let recordUseCase: RecordUseCase 
+    private let recordUseCase: RecordUseCase
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var currentText: String = ""
@@ -107,6 +107,13 @@ final class RecordViewModel: RecordConditionFetch {
         case .idea: currentText = recordDiary.idea
         case .emotions: self.selectedDatailEmotion = recordDiary.emotions
         case .action: currentText = recordDiary.action
+        }
+    }
+    
+    func makeGPTRequest() {
+        recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
+            self.gptAnswerText = gptAnswer
+            
         }
     }
 }
