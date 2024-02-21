@@ -8,16 +8,16 @@
 
 import SwiftUI
 
-struct RecordOrganizeView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var recordViewModel: RecordViewModel
+struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var recordViewModel: viewModel
     @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
             ZStack {
                 HStack {
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
                     }
@@ -50,7 +50,7 @@ struct RecordOrganizeView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: Array(repeating: GridItem(), count: 1)) {
-                            ForEach(recordViewModel.selectedDatailEmotion, id: \.self) { feeling in
+                            ForEach(recordViewModel.recordDiary.emotions, id: \.self) { feeling in
                                 Text(feeling)
                                     .setTextBackground(.brightWithStroke)
                                     .padding(.horizontal, 2)
@@ -134,5 +134,5 @@ struct RecordOrganizeView: View {
 }
 
 #Preview {
-    RecordOrganizeView(recordViewModel: RecordViewModel(), isShowingRecordView: .constant(false))
+    RecordOrganizeView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingRecordView: .constant(false))
 }
