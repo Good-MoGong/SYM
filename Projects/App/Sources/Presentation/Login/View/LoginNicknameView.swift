@@ -9,6 +9,7 @@
 import SwiftUI
 import AuthenticationServices
 import Combine
+import FirebaseAuth
 
 enum NickNameRules: String, CaseIterable {
     case allow = "사용가능한 닉네임이에요"
@@ -17,38 +18,43 @@ enum NickNameRules: String, CaseIterable {
 }
 
 struct LoginNicknameView: View {
-    @State var nickname = ""
-    @State var isPressed: Bool = false
-    @State var nicknameRules = NickNameRules.defult
-    @ObservedObject var authViewModel: AuthenticationViewModel
+    @State private var nickname = ""
+    @State private var isPressed: Bool = false
+    @State private var user: User = .init(id: "", name: "")
+    @State private var nicknameRules = NickNameRules.defult
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("환영해요! \n닉네임을 입력해주세요")
-                    .font(PretendardFont.h4Medium)
-                    .lineSpacing(8)
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    TextField("닉네임을 입력해주세요", text: $nickname, onEditingChanged: { editing in
-                        if !editing {
-                            nickname = removeSpecialCharacters(from: nickname)
-                        }
-                    })
-                        .customTF(type: .normal)
-                    checkNicknameRules()
+        NavigationStack {
+            VStack {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("환영해요! \n닉네임을 입력해주세요")
+                        .font(PretendardFont.h4Medium)
+                        .lineSpacing(8)
+                    
+                    VStack(alignment: .leading, spacing: 10) {
+                        TextField("닉네임을 입력해주세요", text: $nickname, onEditingChanged: { editing in
+                            if !editing {
+                                nickname = removeSpecialCharacters(from: nickname)
+                            }
+                        })
+                            .customTF(type: .normal)
+                        checkNicknameRules()
+                    }
                 }
+                Spacer()
+                doneButton()
+                
+                // 로그아웃 임시 버튼
+                Button{
+                    authViewModel.send(action: .logout)
+                } label: {
+                    Text("로그아웃")
+                }
+                
             }
-            Spacer()
-            doneButton()
-            
-            // 로그아웃 임시 버튼
-            Button{
-                authViewModel.send(action: .logout)
-            } label: {
-                Text("로그아웃")
-            }
-            
         }
         .padding(24)
         .navigationTitle("닉네임 설정")
@@ -58,7 +64,19 @@ struct LoginNicknameView: View {
     @ViewBuilder
     private func doneButton() -> some View {
         Button {
-            //
+            // currentUser 정보로 변경
+            if let userID = Auth.auth().currentUser?.uid {
+                user.id = userID
+                user.name = nickname
+                user.diary = []
+                firebaseService.createUserInFirebase(user: user)
+            }
+            
+            // home으로 페이지 이동
+            withAnimation(.easeInOut) {
+                authViewModel.authenticationState = .authenticated
+            }
+            
         } label: {
             Text("완료")
                 .font(PretendardFont.h4Medium)
@@ -86,8 +104,8 @@ struct LoginNicknameView: View {
     }
     
     func removeSpecialCharacters(from string: String) -> String {
-        let allowedCharacters = CharacterSet.alphanumerics // Set of allowed characters
-        return string.components(separatedBy: allowedCharacters.inverted).joined() // Remove characters not in the set
+        let allowedCharacters = CharacterSet.alphanumerics
+        return string.components(separatedBy: allowedCharacters.inverted).joined()
     }
 }
 
@@ -111,6 +129,8 @@ extension Text {
 
 #Preview {
     NavigationStack {
-        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
+//        LoginNicknameView()
+//            .environmentObject(AuthenticationViewModel(container: .init(services: Services())))
+//        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }

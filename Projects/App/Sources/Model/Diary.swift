@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Diary {
+struct Diary: Codable {
     /// 날짜
     var date: String
     /// 사건

@@ -9,9 +9,11 @@
 import Foundation
 import Combine
 import AuthenticationServices
+import FirebaseAuth
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
+    case initial 
     case unauthenticated
     case authenticated
 }
@@ -19,16 +21,16 @@ enum AuthenticationState {
 class AuthenticationViewModel: ObservableObject {
     enum Action {
         case checkAuthenticationState
-        // 연관값 사용
         case appleLogin(ASAuthorizationAppleIDRequest) // 인증 요청할때
-        case appleLoginCompletion(Result<ASAuthorization, Error>)// 인증이 된 후
+        case appleLoginCompletion(Result<ASAuthorization, Error>) // 인증이 된 후
+        case kakaoLogin
         case logout
     }
     
     @Published var isLoading = false
-    @Published var authenticationState: AuthenticationState = .unauthenticated
+    @Published var authenticationState: AuthenticationState = .initial
+    @Published var userId: String?
     
-    var userId: String?
     private var currentNonce: String?
     private var container: DIContainer
     private var subscritpions = Set<AnyCancellable>()
@@ -39,12 +41,17 @@ class AuthenticationViewModel: ObservableObject {
     
     func send(action: Action) {
         switch action {
+            // 로그인 정보 확인하기
         case .checkAuthenticationState:
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
+                print("🔺 userID : \(userId)")
                 self.authenticationState = .authenticated
+            } else {
+                self.authenticationState = .initial
             }
-        case let .appleLogin(requeset): // ASAuthorizationAppleIDRequest라는 연관값을 request로써 사용하기 위해서 바인딩 진행
+            
+        case let .appleLogin(requeset):
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
             
@@ -58,19 +65,55 @@ class AuthenticationViewModel: ObservableObject {
                             self?.isLoading = false
                         }
                     } receiveValue: { [weak self] user in
-                        self?.isLoading = false
-                        self?.userId = user.id
-                        self?.authenticationState = .authenticated
+                        if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+                            print("🥶 \(checkUser)")
+                            self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+                                if userExists {
+                                    print("🥶🥶 \(checkUser)")
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .authenticated
+                                    return
+                                } else {
+                                    self?.userId = checkUser
+                                    self?.authenticationState = .unauthenticated
+                                }
+                            })
+                        }
                     }.store(in: &subscritpions)
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
+
+        case .kakaoLogin:
+            container.services.authService.checkKakaoToken()
+                .sink { completion in
+                    //
+                } receiveValue: { [weak self] result in
+                    if let checkUser = self?.container.services.authService.checkAuthenticationState() {
+                        print("🥶 \(checkUser)")
+                        self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
+                            if userExists {
+                                print("🥶🥶 \(checkUser)")
+                                self?.userId = checkUser
+                                self?.authenticationState = .authenticated
+                                return
+                            } else {
+                                self?.userId = checkUser
+                                self?.authenticationState = .unauthenticated
+                            }
+                        })
+                    }
+                }.store(in: &subscritpions)
+
+
+            // 로그아웃
         case .logout:
+            container.services.authService.logoutWithKakao()
             container.services.authService.logout()
                 .sink { completion in
                     //
                 } receiveValue: { [weak self] _ in
-                    self?.authenticationState = .unauthenticated
+                    self?.authenticationState = .initial
                     self?.userId = nil
                 }.store(in: &subscritpions)
         }

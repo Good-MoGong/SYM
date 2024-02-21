@@ -45,7 +45,12 @@ extension Target {
             entitlements = "SYM.entitlements"
             // 빌드 세팅 (xcconfig 있을경우)
 //            setting = Settings.settings(configurations: [
-            setting = Settings.settings(base: ["OTHER_LDFLAGS":"-Xlinker -no_warn_duplicate_libraries"],
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Xlinker -no_warn_duplicate_libraries", "-ObjC"]],
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
+//                                               "MACH_O_TYPE" : ["staticlib"]], //staticFramework
+//                                               "EXCLUDED_ARCHS" : ["arm64"]],
+//                                        configurations: [
                                         configurations: [
                                             .debug(name: "Debug",
                                                    xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
@@ -64,6 +69,8 @@ extension Target {
         }
         
         let bundleId: String = "com.Mogong.SYM"
+        // target 2개로 늘어서 번들아이디 겹쳐서 수정
+//        let bundleId: String = "com.Mogong.SYM.\(name)"
         
         //infoPlist 경로로 설정
         var infoPlist: InfoPlist {
