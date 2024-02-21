@@ -92,5 +92,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: false)
+    RecordView(beforeRecord: true)
 }

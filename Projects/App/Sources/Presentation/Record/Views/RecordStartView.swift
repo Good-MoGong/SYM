@@ -10,8 +10,8 @@ import SwiftUI
 
 
 struct RecordStartView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject private var recordViewModel: RecordViewModel = RecordViewModel()
+    @Environment(\.dismiss) var dismiss
+    @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @Binding var isShowingRecordView: Bool
     var body: some View {
         NavigationStack {
@@ -85,7 +85,7 @@ struct RecordStartView: View {
                             .frame(height: 200)
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                             .frame(maxHeight: .infinity)
-                        Button("다음으로") {
+                        Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
                             recordViewModel.movePage(to: .next)
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
@@ -96,6 +96,7 @@ struct RecordStartView: View {
                             .frame(width: 200, height: 220)
                         emotionSelectView
                             .frame(maxHeight: .infinity)
+                            .animation(nil)
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
                             recordViewModel.movePage(to: .next)
@@ -112,7 +113,7 @@ struct RecordStartView: View {
                title: "계속 일기를 작성할까요?",
                boldDesc: "잠깐! 여기서 그만두면 지금까지 작성한 글이 모두 사라져요. 정말 일기 작성을 그만 둘까요?",
                desc: "") {
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()
         }
