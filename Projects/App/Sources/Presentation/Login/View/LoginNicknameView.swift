@@ -48,7 +48,7 @@ struct LoginNicknameView: View {
         .navigationTitle("닉네임 설정")
         .navigationBarTitleDisplayMode(.inline)
         .overlay {
-            LoginPopupViewTest()
+            LoginQualificationView()
         }
     }
     
