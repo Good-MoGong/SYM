@@ -19,7 +19,7 @@ struct DatePicker: View {
     var body: some View {
         VStack {
             CustomDatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
-            
+
             Button {
                 let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
                 let difference = Calendar.current.dateComponents([.month], from: Calendar.current.startOfDay(for: Date()), to: selectedDate).month ?? 0
@@ -56,19 +56,6 @@ struct CustomDatePicker: UIViewRepresentable { // UIKit의 UIView를 SwiftUI에�
         let picker = UIPickerView()
         picker.dataSource = context.coordinator
         picker.delegate = context.coordinator
-        
-//        let yearDateFormatter = DateFormatter()
-//        yearDateFormatter.dateFormat = "yyyy"
-//        let currentYear = Int(yearDateFormatter.string(from: Date()))!
-//        
-//        var availableYear: [Int] = []
-//        for i in 2024...Int(currentYear) {
-//            availableYear.append(i)
-//        }
-//        
-//        let monthDateFormatter = DateFormatter()
-//        monthDateFormatter.dateFormat = "MM"
-//        let currentMonth = Int(monthDateFormatter.string(from: Date()))!
         
         picker.selectRow(selectedYear - 1, inComponent: 0, animated: false)
         picker.selectRow(selectedMonth - 1, inComponent: 1, animated: false)
