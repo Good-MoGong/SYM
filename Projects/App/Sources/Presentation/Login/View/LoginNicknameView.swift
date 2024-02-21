@@ -13,7 +13,7 @@ import FirebaseAuth
 
 enum NickNameRules: String, CaseIterable {
     case allow = "사용가능한 닉네임이에요"
-    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
+    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요"
     case reject = "특수문자와 숫자는 사용이 불가능해요"
 }
 
