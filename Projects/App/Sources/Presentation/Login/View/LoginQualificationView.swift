@@ -46,6 +46,7 @@ struct LoginQualificationView: View {
                             Text("완료")
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: termsConditionToggle && personalToggle))
+                        .disabled(termsConditionToggle && personalToggle ? false : true)
                         Spacer().frame(height: 30)
                     }
                     .padding(.horizontal, 28)
