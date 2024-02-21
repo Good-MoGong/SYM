@@ -10,22 +10,21 @@ import SwiftUI
 
 /// 팝업 뷰 생성시 겹치는 색상 뷰
 struct CommonDoubleBtnView: View {
-    @Binding var title: String
-    @Binding var boldDesc: String
-    @Binding var desc: String
+    let title: String
+    let boldDesc: String
+    let desc: String
     
     var body: some View {
-        VStack {
-            Spacer().frame(height: 12)
+        VStack(spacing: 15) {
+//            Spacer().frame(height: 12)
             Text(title)
-                .font(PretendardFont.h3Bold)
+                .font(PretendardFont.h4Bold)
             
             if !boldDesc.isEmpty {
-                Spacer().frame(height: 10)
                 Text(boldDesc)
                     .font(PretendardFont.h5Bold)
                     .foregroundColor(Color.errorRed)
-                Spacer().frame(height: 10)
+              
             }
             
             if !desc.isEmpty {
@@ -33,15 +32,16 @@ struct CommonDoubleBtnView: View {
                     .font(PretendardFont.bodyMedium)
                     .foregroundColor(Color.errorRed)
                     .lineSpacing(1.5)
-                    .multilineTextAlignment(.leading)
+                    .multilineTextAlignment(.center)
             }
-            Spacer().frame(height: 40)
+//            Spacer().frame(height: 40)
         }
+        .padding()
     }
 }
 
 #Preview {
-    CommonDoubleBtnView(title: .constant("title"), boldDesc: .constant("boldDesc"), desc: .constant("desc"))
+    CommonDoubleBtnView(title: "title", boldDesc: "boldDesc", desc: "desc")
 }
 
 struct CustomPopupModifier: ViewModifier {
