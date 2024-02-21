@@ -56,6 +56,7 @@ struct LoginPopupViewTest: View {
                 }
             }
             .opacity(isShowing ? 1 : 0)
+            .animation(.easeIn, value: isShowing)
         }
     }
 }
