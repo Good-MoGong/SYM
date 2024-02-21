@@ -20,42 +20,46 @@ struct RecordCompletionView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-                
-                VStack(spacing: .symHeight * 0.05) {
-                    ZStack {
-                        HStack {
-                            Button {
-                               isShowingRecordView = false
-                            } label: {
-                                Image(systemName: "xmark")
+                VStack {
+                    VStack(spacing: .symHeight * 0.05) {
+                        ZStack {
+                            HStack {
+                                Button {
+                                    isShowingRecordView = false
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                                .buttonStyle(.plain)
+                                Spacer()
                             }
-                            .buttonStyle(.plain)
-                            Spacer()
+                            .frame(height: 44)
+                            .frame(maxWidth: .infinity)
                             
-                           
+                            HStack {
+                                Spacer()
+                                
+                                Text("감정일기")
+                                    .font(PretendardFont.h4Medium)
+                                
+                                Spacer()
+                            }
                         }
-                        .frame(height: 44)
-                        .frame(maxWidth: .infinity)
-                        
-                        HStack {
-                            Spacer()
-                            
-                            Text("감정일기")
-                                .font(PretendardFont.h4Medium)
-                            
-                            Spacer()
-                        }
+                        Text("기록이 완료되었어요!")
+                            .font(PretendardFont.h3Bold)
+                        Image("SimiSmile2")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: .symWidth * 0.6)
                     }
-                    Text("기록이 완료되었어요!")
-                        .font(PretendardFont.h3Bold)
-                    Image("SimiSmile2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: .symWidth * 0.6)
                     
                     VStack(alignment: .leading) {
-                        ChatBubble(message: "\(recordViewModel.recordDiary)", animatedMessage: $animatedMessage)
+                        if recordViewModel.gptAnswerText != "" {
+                            ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
+                        } else {
+                            ProgressView()
+                        }
                     }
+                    
                     Spacer()
                     HStack {
                         Button("홈") {
@@ -73,13 +77,16 @@ struct RecordCompletionView: View {
                     }
                 }
                 .padding()
-                
             }
             .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
                 RecordOrganizeView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear(perform: {
+            recordViewModel.makeGPTRequest()
+            
+        })
     }
 }
 
