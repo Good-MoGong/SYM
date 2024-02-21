@@ -27,6 +27,7 @@ struct CalendarMainView: View {
             .onAppear {
                 calendarViewModel.recordDiary.date = Date().formatToString()
                 calendarViewModel.recordSpecificFetch()
+                calendarViewModel.recordWholeFetch()
             }
         }
     }
