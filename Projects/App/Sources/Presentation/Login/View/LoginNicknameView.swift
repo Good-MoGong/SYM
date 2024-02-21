@@ -35,36 +35,27 @@ struct LoginNicknameView: View {
                         .lineSpacing(8)
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        TextField("닉네임을 입력해주세요", text: $nickname, onEditingChanged: { editing in
-                            if !editing {
-                                nickname = removeSpecialCharacters(from: nickname)
-                            }
-                        })
+                        TextField("닉네임을 입력해주세요", text: $nickname)
                             .customTF(type: .normal)
                         checkNicknameRules()
                     }
                 }
                 Spacer()
                 doneButton()
-                
-                // 로그아웃 임시 버튼
-                Button{
-                    authViewModel.send(action: .logout)
-                } label: {
-                    Text("로그아웃")
-                }
-                
             }
         }
         .padding(24)
         .navigationTitle("닉네임 설정")
         .navigationBarTitleDisplayMode(.inline)
+        .overlay {
+            LoginPopupViewTest()
+        }
     }
     
     @ViewBuilder
     private func doneButton() -> some View {
         Button {
-            // currentUser 정보로 변경
+            // 유저 정보 닉네임까지 받아서 firestore에 추가
             if let userID = Auth.auth().currentUser?.uid {
                 user.id = userID
                 user.name = nickname
@@ -129,7 +120,7 @@ extension Text {
 
 #Preview {
     NavigationStack {
-//        LoginNicknameView()
+        LoginNicknameView()
 //            .environmentObject(AuthenticationViewModel(container: .init(services: Services())))
 //        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
