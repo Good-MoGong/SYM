@@ -31,7 +31,7 @@ import ProjectDescriptionHelpers
 let firebaseTarget = Target.makeTarget(name: "FirebaseSPM",
                                        platform: .iOS,
                                        product: .staticFramework,
-                                       deploymentTarget: .iOS(targetVersion: "16.0",
+                                       deploymentTarget: .iOS(targetVersion: "16.4",
                                                               devices: [.iphone, .ipad],
                                                               supportsMacDesignedForIOS: true),
                                        dependencies: [.SPM.fireAuth,
