@@ -21,11 +21,11 @@ struct PopupView: ViewModifier {
     /// 팝업 타입
     let type: PopupType
     /// 팝업뷰 제목
-    @State var title: String
+    let title: String
     /// 팝업뷰 소제목
-    @State var boldDesc: String
+    let boldDesc: String
     /// 팝업뷰 내용
-    @State var desc: String
+    let desc: String
     /// 팝업뷰 확인 버튼 함수
     let confirmHandler: () -> Void
     /// 팝업뷰 취소 버튼 함수
@@ -58,7 +58,7 @@ struct PopupView: ViewModifier {
                     case .doubleButton(_, _):
                         ZStack {
                             VStack {
-                                CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
+                                CommonDoubleBtnView(title: title, boldDesc: boldDesc, desc: desc)
                                 bottomView
                             }
                             .customPopupModifier()
@@ -67,10 +67,10 @@ struct PopupView: ViewModifier {
                         ZStack {
                             VStack(alignment: .center) {
                                 Text(title)
-                                    .font(PretendardFont.h5Bold)
+                                    .font(PretendardFont.h4Bold)
                                 Spacer().frame(height: 15)
                                 Text(desc)
-                                    .font(PretendardFont.smallMedium)
+                                    .font(PretendardFont.bodyMedium)
                                     .lineSpacing(1.5)
                                     .multilineTextAlignment(.center)
                                 Spacer().frame(height: 32)
@@ -82,7 +82,7 @@ struct PopupView: ViewModifier {
                     case .switchColorDoubleBtn(_, _):
                         ZStack {
                             VStack {
-                                CommonDoubleBtnView(title: $title, boldDesc: $boldDesc, desc: $desc)
+                                CommonDoubleBtnView(title: title, boldDesc: boldDesc, desc: desc)
                                 bottomView
                             }
                             .customPopupModifier()
@@ -134,11 +134,12 @@ struct PopupView: ViewModifier {
     func guideView(title: String) -> some View {
         VStack {
             Text(title)
-                .padding(.vertical, 11)
+                .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
-                .background(Color.bright)
+                .foregroundColor(Color.white)
+                .background(Color.main)
                 .font(PretendardFont.bodyBold)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .onTapGesture {
                     cancelHandler()
                 }
