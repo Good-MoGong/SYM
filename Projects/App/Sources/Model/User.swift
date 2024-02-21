@@ -6,9 +6,9 @@
 //  Copyright © 2024 Mogong. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
-struct User {
+struct User: Codable {
     var id: String
     var name: String
     var diary: [Diary]?

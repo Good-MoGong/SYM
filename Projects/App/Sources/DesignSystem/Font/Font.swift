@@ -43,6 +43,8 @@ struct PretendardFont {
     static let h2Bold = Font.custom(PretendardFont.bold, size: 25)
     /// 20
     static let h3Bold = Font.custom(PretendardFont.bold, size: 20)
+    /// 18
+    static let bold18 = Font.custom(PretendardFont.bold, size: 18)
     /// 17
     static let h4Bold = Font.custom(PretendardFont.bold, size: 18)
     /// 16

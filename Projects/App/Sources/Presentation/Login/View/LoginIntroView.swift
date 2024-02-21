@@ -12,6 +12,7 @@ struct LoginIntroView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
@@ -19,11 +20,16 @@ struct LoginIntroView: View {
                 Spacer()
                 VStack(spacing: 20) {
                     Image("SimiSmile")
+                        .resizable()
+                        .padding(.horizontal, 70)
+                        .scaledToFit()
                     VStack(spacing: 4) {
                         Text("SYM")
+                            .foregroundColor(Color.main)
                             .font(PretendardFont.h1Bold)
                         Text("Speak Your Mind")
-                            .font(PretendardFont.h2Medium)
+                            .foregroundColor(.main)
+                            .font(PretendardFont.bold18)
                     }
                     .foregroundColor(.main)
                 }
@@ -32,6 +38,7 @@ struct LoginIntroView: View {
                 VStack(spacing: 12) {
                     Button {
                         print("🟨 카카오톡 로그인 진행")
+                        authViewModel.send(action: .kakaoLogin)
                     } label: {
                         HStack(spacing: 35) {
                             Image("KaKaoLogo")
