@@ -259,6 +259,7 @@ struct DateButton: View {
                 selectDate = value.date
                 calendarViewModel.recordDiary.date = selectDate.formatToString()
                 calendarViewModel.recordSpecificFetch()
+                calendarViewModel.isShowingRecordView = true
             } label: {
                 VStack(spacing: 3) {
                     Text(isToday ? "오늘" : "")
@@ -269,9 +270,12 @@ struct DateButton: View {
                     Text("\(value.day)")
                         .font(PretendardFont.h4Bold)
                         .fontWeight(.bold)
-                        .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
+                        .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
+                                         Color.symBlack : (dayOfWeek == 1 ? .red : .gray))
+                    
                     Circle()
-                        .fill(isToday ? Color.main : Color.white)
+                        .fill(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
+                              Color.main : Color.white)
                         .frame(width: 6, height: 6)
                 }
                 .background(
@@ -281,9 +285,13 @@ struct DateButton: View {
                         .opacity(isSelected ? 1 : 0)
                 )
             }
+            .disabled(!calendarViewModel.diaryExists(on: value.date.formatToString()))
         }
         .navigationDestination(isPresented: $calendarViewModel.isShowingRecordView) {
-            RecordOrganizeView(recordViewModel: calendarViewModel, isShowingRecordView: $calendarViewModel.isShowingRecordView)
+            RecordOrganizeView(
+                recordViewModel: calendarViewModel,
+                isShowingRecordView: $calendarViewModel.isShowingRecordView
+            )
         }
     }
     
