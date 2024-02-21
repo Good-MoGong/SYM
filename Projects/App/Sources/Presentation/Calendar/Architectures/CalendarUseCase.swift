@@ -17,7 +17,6 @@ final class CalendarUseCase: CalendarUseCaseProtocol {
     
     private let calendarRepository: CalendarRepository
     
-    
     init(calendarRepository: CalendarRepository) {
         self.calendarRepository = calendarRepository
     }
@@ -25,6 +24,12 @@ final class CalendarUseCase: CalendarUseCaseProtocol {
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {
         calendarRepository.fetchRecord(date: date) { diary, isSuccess in
             completion(diary, isSuccess)
+        }
+    }
+    
+    func fetchWholeRecord(completion: @escaping ([Diary]) -> Void) {
+        calendarRepository.fetchWholeRecord { diaryArray in
+            completion(diaryArray)
         }
     }
 }

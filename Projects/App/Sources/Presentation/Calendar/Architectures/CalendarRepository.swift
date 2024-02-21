@@ -16,7 +16,9 @@ final class CalendarRepository: CalendarRepositoryProtocol {
     
     private let coreDataManager = CoreDataManger.shared
     private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    private var fetchDiaryArray: [Diary] = []
     
+    /// 특정 날짜 기록 불러오기
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {
         let diaryEntitys = coreDataManager.retrieve(type: DiaryEntity.self, column: \.date, comparision: .equal, value: date)
         let isFetchSuccess = diaryEntitys.isEmpty ? false : true
@@ -33,5 +35,15 @@ final class CalendarRepository: CalendarRepositoryProtocol {
         }
 
         completion(fetchDiary, isFetchSuccess)
+    }
+    
+    /// 전체 기록 불러오기
+    func fetchWholeRecord(completion: @escaping ([Diary]) -> Void) {
+        let diaryEntitys = coreDataManager.retrieve(type: DiaryEntity.self)
+        for diary in diaryEntitys {
+            let fetchDiary = Diary(date: diary.date, event: diary.event, idea: diary.idea, emotions: diary.emotion, action: diary.action)
+            self.fetchDiaryArray.append(fetchDiary)
+        }
+        completion(fetchDiaryArray)
     }
 }
