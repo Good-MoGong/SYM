@@ -6,7 +6,7 @@
 //  Copyright © 2024 Mogong. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 final class RecordViewModel: RecordConditionFetch {
@@ -20,6 +20,7 @@ final class RecordViewModel: RecordConditionFetch {
     @Published var gptAnswerText: String = ""
     
     @Published var isShowingOutPopUp: Bool = false
+    @Published var isShowingGuidePopUp: Bool = false
     @Published var isShowingCompletionView: Bool = false
     @Published var isShowingOrganizeView: Bool = false
     @Published var isShowingToastMessage: Toast? = nil
@@ -42,21 +43,15 @@ final class RecordViewModel: RecordConditionFetch {
                 self.isShowingCompletionView = await recordUseCase.saveRecord(diary: recordDiary)
             }
         } else {
-            let indexOffset = direction == .previous ? -1 : 1
-            recordOrder = RecordOrder.allCases[currentIndex + indexOffset]
+            withAnimation {
+                let indexOffset = direction == .previous ? -1 : 1
+                self.recordOrder = RecordOrder.allCases[currentIndex + indexOffset]
+            }
         }
         updateCurrentText()
     }
     
-    
-    
-    func validateRecord() -> Bool {
-        var isShowingValidatePopup: Bool = false
-        recordUseCase.fetchRecord(date: Date().formatToString()) { diary, isSuccess in
-            isShowingValidatePopup = !isSuccess
-        }
-        return isShowingValidatePopup
-    }
+
     
     func recordSpecificFetch() {
         recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
@@ -69,6 +64,10 @@ final class RecordViewModel: RecordConditionFetch {
     
     func writeLater() {
         isShowingOutPopUp = true
+    }
+    
+    func showGuide() {
+        isShowingGuidePopUp = true
     }
     
     func selectEmotion(selected: EmotionType) {
@@ -114,54 +113,6 @@ final class RecordViewModel: RecordConditionFetch {
         recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
             self.gptAnswerText = gptAnswer
             
-        }
-    }
-}
-
-enum RecordOrder: CaseIterable {
-    case event
-    case idea
-    case emotions
-    case action
-    
-    var symMent: String {
-        switch self {
-        case .event:
-            "오늘 무슨 일이 있으셨나요?"
-        case .idea:
-            "그 일에 대해 어떤 생각이 들었나요?"
-        case .emotions:
-            "당시 내가 느낀 감정은 무엇인가요?"
-        case .action:
-            "어떤 행동을 하셨나요?"
-        }
-    }
-}
-
-enum PageDirection {
-    case previous
-    case next
-}
-
-enum EmotionType: String, CaseIterable {
-    case joy = "기쁨"
-    case sadness = "슬픔"
-    case fear = "두려움"
-    case disgust = "불쾌"
-    case anger = "분노"
-    
-    var detailEmotion: [String] {
-        switch self {
-        case .joy:
-            ["감동적인","감사한","자신있는","재미있는","편안한","행복한","휼가분한","활기찬","자랑스러운","설레는","신나는","사랑스러운"]
-        case .sadness:
-            ["서운한","그리운","막막한","미안한","서러운","실망한","안타까운","후회스러운","허전한","우울한","외로운","괴로운"]
-        case .fear:
-            ["걱정스러운","긴장하는","무서운","깜짝놀란","불안한","혼란스러운","당황한","메스꺼운","좌절스러운","의기소침한","비참한","조마조마한"]
-        case .disgust:
-            ["곤란한","불편한","귀찮은","어색한","부끄러운","지루한","부담스러운","피곤한","부러운","황당한","찝찝한","매스꺼운"]
-        case .anger:
-            ["답답한","미운","원망스러운","지긋지긋한","짜증나는","억울한","화가나는","역겨운","신경질나는","기분이상한","눈물나는","우려스러운"]
         }
     }
 }
