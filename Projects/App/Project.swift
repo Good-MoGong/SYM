@@ -16,7 +16,7 @@ import ProjectDescriptionHelpers
 let appTarget = Target.makeTarget(name: "SYM",
                                   platform: .iOS,
                                   product: .app,
-                                  deploymentTarget: .iOS(targetVersion: "16.0",
+                                  deploymentTarget: .iOS(targetVersion: "16.4",
                                                          devices: [.iphone, .ipad],
                                                          supportsMacDesignedForIOS: true),
                                   dependencies: [.project(target: "FirebaseSPM", 
