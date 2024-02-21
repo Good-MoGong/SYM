@@ -25,7 +25,6 @@ struct SYMApp: App {
     
     var body: some Scene {
         WindowGroup {
-            // View, VM <-> DIContainer <-> Service, View, VM 사용시 외부에서 DIContainer 주입받아야함
             AuthenticatedView(authViewModel: .init(container: container))
                 .environmentObject(container)
                 .onOpenURL { url in // 뷰가 속한 Window에 대한 URL을 받았을 때 호출할 Handler를 등록하는 함수
