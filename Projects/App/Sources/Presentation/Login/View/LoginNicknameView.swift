@@ -13,8 +13,8 @@ import FirebaseAuth
 
 enum NickNameRules: String, CaseIterable {
     case allow = "사용가능한 닉네임이에요"
-    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요."
-    case reject = "특수문자는 사용이 불가능해요"
+    case defult = "한글, 영문을 포함하여 최대 5자까지 입력 가능해요"
+    case reject = "특수문자와 숫자는 사용이 불가능해요"
 }
 
 struct LoginNicknameView: View {
@@ -26,46 +26,59 @@ struct LoginNicknameView: View {
     
     private let firebaseService = FirebaseService.shared
     
+    @State private var containsSpecialCharacter = false
+    
     var body: some View {
         NavigationStack {
             VStack {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("환영해요! \n닉네임을 입력해주세요")
-                        .font(PretendardFont.h4Medium)
+                        .font(PretendardFont.h3Medium)
                         .lineSpacing(8)
                     
-                    VStack(alignment: .leading, spacing: 10) {
-                        TextField("닉네임을 입력해주세요", text: $nickname, onEditingChanged: { editing in
-                            if !editing {
-                                nickname = removeSpecialCharacters(from: nickname)
+                    VStack(alignment: .leading, spacing: 13) {
+                        TextField("닉네임을 입력해주세요", text: $nickname)
+                            .customTF(type: .normal)
+                            .onChange(of: nickname) { newValue in
+                                if koreaLangCheck(newValue) {
+                                    nicknameRules = .allow
+                                } else {
+                                    nicknameRules = .reject
+                                }
+                                if newValue.count > 5 || newValue.count < 1 {
+                                    nicknameRules = .defult
+                                }
                             }
-                        })
-                        .customTF(type: .normal)
-                        
-                        checkNicknameRules()
+                                    
+                        switch nicknameRules {
+                        case .allow :
+                            Text(NickNameRules.allow.rawValue)
+                                .settingNicknameRules(.errorGreen)
+                        case .defult:
+                            Text(NickNameRules.defult.rawValue)
+                                .settingNicknameRules(.errorRed)
+                        case .reject:
+                            Text(NickNameRules.reject.rawValue)
+                                .settingNicknameRules(.errorRed)
+                        }
                     }
                 }
                 Spacer()
                 doneButton()
-                
-                // 로그아웃 임시 버튼
-                Button{
-                    authViewModel.send(action: .logout)
-                } label: {
-                    Text("로그아웃")
-                }
-                
             }
         }
         .padding(24)
         .navigationTitle("닉네임 설정")
         .navigationBarTitleDisplayMode(.inline)
+        .overlay {
+            LoginQualificationView()
+        }
     }
     
     @ViewBuilder
     private func doneButton() -> some View {
         Button {
-            // currentUser 정보로 변경
+            // 유저 정보 닉네임까지 받아서 firestore에 추가
             if let userID = Auth.auth().currentUser?.uid {
                 user.id = userID
                 user.name = nickname
@@ -81,31 +94,19 @@ struct LoginNicknameView: View {
             Text("완료")
                 .font(PretendardFont.h4Medium)
         }
-        .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
+        .buttonStyle(MainButtonStyle(isButtonEnabled: nicknameRules == .allow))
         .disabled(1 > nickname.count || nickname.count >= 6)
     }
     
-    @ViewBuilder /// 닉네임 규칙 룰을 그리는 뷰
-    private func checkNicknameRules() -> some View {
-        if nickname.isEmpty {
-            Text(NickNameRules.defult.rawValue)
-                .settingNicknameRules(.errorRed)
-        } else if nickname.count <= 5, nickname.count >= 1 {
-            HStack {
-                Text(NickNameRules.allow.rawValue)
-                    .settingNicknameRules(.errorGreen)
-            }
-        } else if nickname.count > 5 {
-            HStack(alignment: .top) {
-                Text(NickNameRules.defult.rawValue)
-                    .settingNicknameRules(.errorRed)
+    func koreaLangCheck(_ input: String) -> Bool {
+        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: input.utf16.count)
+            if regex.firstMatch(in: input, options: [], range: range) != nil {
+                return true
             }
         }
-    }
-    
-    func removeSpecialCharacters(from string: String) -> String {
-        let allowedCharacters = CharacterSet.alphanumerics
-        return string.components(separatedBy: allowedCharacters.inverted).joined()
+        return false
     }
 }
 
@@ -114,9 +115,15 @@ struct SignupNickNameRuleView: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(PretendardFont.smallMedium)
+            .font(PretendardFont.bodyMedium)
             .foregroundColor(color)
             .lineSpacing(1.5)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        LoginNicknameView()
     }
 }
 
@@ -124,13 +131,5 @@ extension Text {
     /// 회원가입시 닉네임 관련 modifier 일괄 적용
     func settingNicknameRules(_ color: Color) -> some View {
         self.modifier(SignupNickNameRuleView(color: color))
-    }
-}
-
-#Preview {
-    NavigationStack {
-        //        LoginNicknameView()
-        //            .environmentObject(AuthenticationViewModel(container: .init(services: Services())))
-        //        LoginNicknameView(authViewModel: AuthenticationViewModel(container: .init(services: Services())))
     }
 }

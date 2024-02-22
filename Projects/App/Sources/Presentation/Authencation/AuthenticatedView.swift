@@ -20,8 +20,10 @@ struct AuthenticatedView: View {
                 LoginIntroView()
                     .environmentObject(authViewModel)
             case .unauthenticated:
-                LoginNicknameView()
-                    .environmentObject(authViewModel)
+                NavigationStack {
+                    LoginNicknameView()
+                        .environmentObject(authViewModel)
+                }
             case .authenticated:
                 MainView()
                     .environmentObject(authViewModel)
