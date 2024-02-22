@@ -1,13 +1,26 @@
 import SwiftUI
 import Firebase
 import FirebaseCore
+import FirebaseMessaging
 import KakaoSDKCommon
 import KakaoSDKAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        
+        // Apns에 앱 등록 요청
+        application.registerForRemoteNotifications()
+        
+        // 알림 허용 설정
+        UNUserNotificationCenter.current().delegate = self
+        
         return true
+    }
+    
+    // device token
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
     }
 }
 
@@ -34,4 +47,17 @@ struct SYMApp: App {
                 }
         }
     }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // foreground 일때
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .badge])
+    }
+    
+    // 푸시를 눌렀을 때 어떤 처리를 할 것인지
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+    
 }
