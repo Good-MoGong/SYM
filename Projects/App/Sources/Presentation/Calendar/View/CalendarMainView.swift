@@ -35,9 +35,7 @@ struct CalendarMainView: View {
                     RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingOrganizeView)
                 }
                 .onAppear {
-                    calendarViewModel.recordDiary.date = Date().formatToString()
-                    // 오늘 날짜 데이터 페치, 이걸로 RecordView가 바뀜
-                    calendarViewModel.recordSpecificFetch()
+                    calendarViewModel.todayrecordFetch()
                     // 데이터 전체 페치
                     calendarViewModel.recordWholeFetch()
                 }

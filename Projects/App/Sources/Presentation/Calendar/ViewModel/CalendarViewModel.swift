@@ -26,6 +26,15 @@ final class CalendarViewModel: RecordConditionFetch {
         calendarUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
                 self.recordDiary = diary
+            }
+        }
+    }
+    
+    ///  오늘 날짜 기록 불러오기
+    func todayrecordFetch() {
+        calendarUseCase.fetchRecord(date: Date().formatToString()) { diary, isSuccess in
+            DispatchQueue.main.async {
+                self.recordDiary = diary
                 // RecordView의 beforeRecord랑 반대로 동작해서 반대로 값 넣어줘야함
                 self.completeRecord = !isSuccess
             }
