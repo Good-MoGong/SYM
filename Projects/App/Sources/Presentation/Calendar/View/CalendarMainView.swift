@@ -36,6 +36,7 @@ struct CalendarMainView: View {
                     RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingOrganizeView)
                 }
                 .onAppear {
+                    // 오늘날짜 페치해서 RecordView 어떻게 나타낼지
                     calendarViewModel.todayrecordFetch()
                     // 데이터 전체 페치
                     calendarViewModel.recordWholeFetch()
