@@ -11,6 +11,8 @@ import SwiftUI
 struct CalendarDetailView: View {
     @State private var currentMonth: Int = 0
     @State private var isShowingDateChangeSheet: Bool = false
+    @State var selectedYear: Int = Calendar.current.component(.year, from: .now)
+    @State var selectedMonth: Int = Calendar.current.component(.month, from: .now)
     
     @Binding var nickname: String
     @Binding var currentDate: Date
@@ -21,8 +23,8 @@ struct CalendarDetailView: View {
     var body: some View {
         VStack {
             HeaderView(nickname: $nickname)
-            YearMonthHeaderView(currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, weekday: weekday)
+            YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, weekday: weekday)
         }
     }
 }
@@ -52,8 +54,8 @@ struct HeaderView: View {
 
 // MARK: - YearMonthHeaderView: 연도, 월
 struct YearMonthHeaderView: View {
-    @State var selectedYear: Int = Calendar.current.component(.year, from: .now)
-    @State var selectedMonth: Int = Calendar.current.component(.month, from: .now)
+    @Binding var selectedYear: Int
+    @Binding var selectedMonth: Int
     @Binding var currentMonth: Int
     @Binding var currentDate: Date
     @Binding var isShowingDateChangeSheet: Bool
@@ -97,6 +99,8 @@ struct CalendarView: View {
     @Binding var currentMonth: Int
     @Binding var currentDate: Date
     @Binding var selectDate: Date
+    @Binding var selectedYear: Int
+    @Binding var selectedMonth: Int
     
     let weekday: [String]
     
@@ -118,10 +122,25 @@ struct CalendarView: View {
                     self.offset = gesture.translation
                 }
                 .onEnded { gesture in
+                    let calender = Calendar.current
+                    let selectyear = calender.component(.year, from: currentDate) // currentDate = 현재 Calender의 Date
+                    let selectMonth = calender.component(.month, from: currentDate)
+                    let presentMonth = calender.component(.month, from: Date())
+                    
                     if gesture.translation.width < -100 {
-                        currentMonth += 1
+                        if selectMonth == presentMonth { // Calender의 Month와 현재 Month가 같으면 다음 Month로 넘어가지 않음
+                            
+                        } else {
+                            currentMonth += 1
+                            selectedMonth += 1
+                        }
                     } else if gesture.translation.width > 100 {
-                        currentMonth -= 1
+                        if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
+            
+                        } else {
+                            currentMonth -= 1
+                            selectedMonth -= 1
+                        }
                     }
                     self.offset = CGSize()
                 }
