@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct RecordCompletionView: View {
-
+    
     @ObservedObject var recordViewModel: RecordViewModel
     @State private var animatedMessage: String = ""
-    @Binding var isShowingRecordView: Bool
+    @Binding var isShowingOrganizeView: Bool
     
     var body: some View {
         NavigationStack {
@@ -25,14 +25,14 @@ struct RecordCompletionView: View {
                     ZStack {
                         HStack {
                             Button {
-                               isShowingRecordView = false
+                                isShowingOrganizeView = false
                             } label: {
                                 Image(systemName: "xmark")
                             }
                             .buttonStyle(.plain)
                             Spacer()
                             
-                           
+                            
                         }
                         .frame(height: 44)
                         .frame(maxWidth: .infinity)
@@ -59,7 +59,7 @@ struct RecordCompletionView: View {
                     Spacer()
                     HStack {
                         Button("홈") {
-                            isShowingRecordView = false
+                            isShowingOrganizeView = false
                         }
                         // .buttonStyle에 적용
                         .buttonStyle(smallGrayButtonStyle())
@@ -76,7 +76,7 @@ struct RecordCompletionView: View {
                 
             }
             .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
-                RecordOrganizeView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
+                RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
             }
         }
         .navigationBarBackButtonHidden()
@@ -84,5 +84,5 @@ struct RecordCompletionView: View {
 }
 
 #Preview {
-    RecordCompletionView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingRecordView: .constant(false))
+    RecordCompletionView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingOrganizeView: .constant(false))
 }

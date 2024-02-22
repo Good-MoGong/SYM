@@ -12,7 +12,8 @@ import SwiftUI
 struct RecordStartView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
-    @Binding var isShowingRecordView: Bool
+    @Binding var isShowingOrganizeView: Bool
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -73,7 +74,7 @@ struct RecordStartView: View {
                             
                             Spacer()
                         }
-                    } 
+                    }
                     Spacer().frame(maxHeight: .symHeight * 0.03)
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
@@ -121,7 +122,7 @@ struct RecordStartView: View {
         .navigationBarBackButtonHidden(true)
         .animation(.default)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
-            RecordCompletionView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
+            RecordCompletionView(recordViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         })
     }
 }
