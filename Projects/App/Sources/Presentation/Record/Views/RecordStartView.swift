@@ -10,9 +10,10 @@ import SwiftUI
 
 
 struct RecordStartView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @Binding var isShowingRecordView: Bool
+    @State private var isAppearAnimation: Bool = false
     var body: some View {
         NavigationStack {
             ZStack {
@@ -61,8 +62,12 @@ struct RecordStartView: View {
                         Text(recordViewModel.recordOrder.symMent)
                             .font(PretendardFont.h3Bold)
                         
-                        Image(systemName: "questionmark.circle.fill")
-                            .foregroundColor(.symGray3)
+                        Button {
+                            recordViewModel.showGuide()
+                        } label: {
+                            Image(systemName: "questionmark.circle.fill")
+                                .foregroundColor(.symGray3)
+                        }
                         Spacer()
                     }
                     Spacer().frame(maxHeight: .symHeight * 0.01)
@@ -96,7 +101,7 @@ struct RecordStartView: View {
                             .frame(width: 200, height: 220)
                         emotionSelectView
                             .frame(maxHeight: .infinity)
-                            .animation(nil)
+                    
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
                             recordViewModel.movePage(to: .next)
@@ -109,20 +114,29 @@ struct RecordStartView: View {
             }
         }
         .popup(isShowing: $recordViewModel.isShowingOutPopUp,
-               type: .doubleButton(leftTitle: "그만 쓸래", rightTitle: "다시 써볼게!"),
-               title: "계속 일기를 작성할까요?",
-               boldDesc: "잠깐! 여기서 그만두면 지금까지 작성한 글이 모두 사라져요. 정말 일기 작성을 그만 둘까요?",
-               desc: "") {
+               type: .doubleButton(leftTitle: "그만두기", rightTitle: "이어쓰기"),
+               title: "잠깐! 일기 작성을 중단하시나요??",
+               boldDesc: "",
+               desc: "여기서 그만두면 지금까지 작성한 글이 모두 사라집니다!") {
             dismiss()
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()
         }
+        .popup(isShowing: $recordViewModel.isShowingGuidePopUp, type: .guide(title: "닫기"), title: "[\(recordViewModel.recordOrder.rawValue)] 쓰기 꿀팁!", boldDesc: "", desc: "\(recordViewModel.recordOrder.guideMent)", confirmHandler: {
+            
+        }, cancelHandler: {
+            recordViewModel.isShowingGuidePopUp.toggle()
+        })
         .toastView(toast: $recordViewModel.isShowingToastMessage)
         .navigationBarBackButtonHidden(true)
-        .animation(.default)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
             RecordCompletionView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
         })
+        .onAppear {
+            withAnimation {
+                isAppearAnimation = true
+            }
+        }
     }
 }
 
@@ -137,9 +151,7 @@ extension RecordStartView {
                             .foregroundColor(Color.bright)
                             .frame(height: 8)
                         Button {
-                            withAnimation {
-                                recordViewModel.selectEmotion(selected: emotion)
-                            }
+                            recordViewModel.selectEmotion(selected: emotion)
                             
                         } label: {
                             Text("\(emotion.rawValue)")
