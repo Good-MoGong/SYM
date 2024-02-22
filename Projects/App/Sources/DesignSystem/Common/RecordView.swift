@@ -76,18 +76,26 @@ struct RecordView: View {
                     }
                     .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
                     .navigationDestination(isPresented: $isShowingRecordView) {
-                        RecordStartView(isShowingRecordView: $isShowingRecordView)
+                        RecordStartView(isShowingOrganizeView: $isShowingRecordView)
                     }
                 }
             }
-            .padding(.trailing, 23)
+            .padding(.trailing, 20)
             
             Spacer()
             
-            Image("SimiSmile")
-                .resizable()
-                .frame(width: 100, height: 100)
-                .scaledToFill()
+            
+            if beforeRecord ?? false {
+                Image("SimiSad")
+                    .resizable()
+                    .frame(width: 130, height: 120)
+                    .scaledToFill()
+            } else {
+                Image("SimiSmile")
+                    .resizable()
+                    .frame(width: 110, height: 130)
+                    .scaledToFill()
+            }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 18)
