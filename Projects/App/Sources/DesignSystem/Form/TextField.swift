@@ -21,7 +21,7 @@ struct CustomTextFieldStyle: ViewModifier {
         switch type {
         case .normal:
             content
-                .padding(.vertical, 17)
+                .padding(.vertical, 20)
                 .padding(.leading, 20)
                 .background(Color.symGray1)
                 .font(PretendardFont.bodyMedium)
@@ -29,7 +29,7 @@ struct CustomTextFieldStyle: ViewModifier {
             
         case .error:
             content
-                .padding(.vertical, 17)
+                .padding(.vertical, 20)
                 .padding(.leading, 20)
                 .font(PretendardFont.bodyMedium)
                 .background(Color.white)
