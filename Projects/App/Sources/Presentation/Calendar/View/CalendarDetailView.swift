@@ -290,14 +290,15 @@ struct DateButton: View {
                 )
             }
         }
-        
-        /// 두 날짜가 같은 날인지 확인하는 함수
-        private func isSameDay(date1: Date, date2: Date) -> Bool {
-            let calendar = Calendar.current
-            return calendar.isDate(date1, inSameDayAs: date2)
-        }
     }
     
-    #Preview {
-        CalendarMainView()
+    /// 두 날짜가 같은 날인지 확인하는 함수
+    private func isSameDay(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(date1, inSameDayAs: date2)
     }
+}
+
+#Preview {
+    CalendarMainView()
+}

@@ -208,5 +208,5 @@ struct EmotionButton: View {
 }
 
 #Preview {
-    RecordStartView(isShowingRecordView: .constant(false))
+    RecordStartView(isShowingOrganizeView: .constant(false))
 }
