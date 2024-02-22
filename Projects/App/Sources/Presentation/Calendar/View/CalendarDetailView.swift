@@ -19,8 +19,6 @@ struct CalendarDetailView: View {
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
-    @ObservedObject var calendarViewModel: CalendarViewModel
-    
     private let weekday: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -106,8 +104,6 @@ struct CalendarView: View {
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
-    @ObservedObject var calendarViewModel: CalendarViewModel
-    
     let weekday: [String]
     
     var body: some View {
@@ -179,8 +175,6 @@ struct DatesGridView: View {
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
     @Binding var isShowingOrganizeView: Bool
-    
-    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
