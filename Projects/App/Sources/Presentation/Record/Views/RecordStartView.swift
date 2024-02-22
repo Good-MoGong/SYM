@@ -13,8 +13,8 @@ struct RecordStartView: View {
     
     @Environment(\.dismiss) private var dismiss
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
-    @Binding var isShowingRecordView: Bool
     @State private var isAppearAnimation: Bool = false
+    @Binding var isShowingOrganizeView: Bool
 
     var body: some View {
         NavigationStack {

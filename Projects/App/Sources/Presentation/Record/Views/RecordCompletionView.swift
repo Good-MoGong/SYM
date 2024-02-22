@@ -20,7 +20,7 @@ struct RecordCompletionView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-
+                
                 VStack(spacing: .symHeight * 0.05) {
                     ZStack {
                         HStack {

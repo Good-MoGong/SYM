@@ -20,7 +20,6 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-
                 }
                 .buttonStyle(.plain)
                 .padding()
