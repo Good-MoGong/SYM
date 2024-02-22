@@ -16,9 +16,7 @@ struct SYMApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var container: DIContainer = .init(services: Services())
     
-    // 카카오로그인 작업
     init() {
-        // Kakao SDK 초기화
         let kakaoKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY")
         KakaoSDK.initSDK(appKey: kakaoKey as? String ?? "")
     }
