@@ -19,7 +19,7 @@ struct DatePicker: View {
     var body: some View {
         VStack {
             CustomDatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
-            
+
             Button {
                 let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
                 let difference = Calendar.current.dateComponents([.month], from: Calendar.current.startOfDay(for: Date()), to: selectedDate).month ?? 0

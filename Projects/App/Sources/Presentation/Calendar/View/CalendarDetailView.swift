@@ -57,7 +57,6 @@ struct HeaderView: View {
 
 // MARK: - YearMonthHeaderView: 연도, 월
 struct YearMonthHeaderView: View {
-
     @Binding var selectedYear: Int
     @Binding var selectedMonth: Int
     @Binding var currentMonth: Int
@@ -143,7 +142,6 @@ struct CalendarView: View {
                         }
                     } else if gesture.translation.width > 100 {
                         if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
-                            
                         } else {
                             currentMonth -= 1
                             selectedMonth -= 1
