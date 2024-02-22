@@ -116,6 +116,7 @@ class AuthenticationViewModel: ObservableObject {
                     self?.authenticationState = .initial
                     self?.userId = nil
                 }.store(in: &subscritpions)
+            self.authenticationState = .initial
         }
     }
 }
