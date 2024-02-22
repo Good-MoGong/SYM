@@ -261,9 +261,11 @@ struct DateButton: View {
         VStack {
             Button {
                 selectDate = value.date
-                calendarViewModel.recordDiary.date = selectDate.formatToString()
-                calendarViewModel.recordSpecificFetch()
-                isShowingOrganizeView = true
+                if calendarViewModel.diaryExists(on: value.date.formatToString()) {
+                    calendarViewModel.recordDiary.date = selectDate.formatToString()
+                    calendarViewModel.recordSpecificFetch()
+                    isShowingOrganizeView = true
+                }
             } label: {
                 VStack(spacing: 3) {
                     Text(isToday ? "오늘" : "")
