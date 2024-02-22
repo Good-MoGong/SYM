@@ -94,7 +94,7 @@ struct LoginNicknameView: View {
             Text("완료")
                 .font(PretendardFont.h4Medium)
         }
-        .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
+        .buttonStyle(MainButtonStyle(isButtonEnabled: nicknameRules == .allow))
         .disabled(1 > nickname.count || nickname.count >= 6)
     }
     
