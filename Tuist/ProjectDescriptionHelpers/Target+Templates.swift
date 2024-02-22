@@ -47,7 +47,7 @@ extension Target {
 //            setting = Settings.settings(configurations: [
 //            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Xlinker -no_warn_duplicate_libraries", "-ObjC"]],
 //            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
-            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
 //                                               "MACH_O_TYPE" : ["staticlib"]], //staticFramework
 //                                               "EXCLUDED_ARCHS" : ["arm64"]],
 //                                        configurations: [
