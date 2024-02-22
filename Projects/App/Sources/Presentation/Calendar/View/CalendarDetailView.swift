@@ -15,6 +15,7 @@ struct CalendarDetailView: View {
     @Binding var nickname: String
     @Binding var currentDate: Date
     @Binding var selectDate: Date
+    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -24,7 +25,7 @@ struct CalendarDetailView: View {
         VStack {
             HeaderView(nickname: $nickname)
             YearMonthHeaderView(currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, calendarViewModel: calendarViewModel, weekday: weekday)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
@@ -94,6 +95,7 @@ struct CalendarView: View {
     @Binding var currentMonth: Int
     @Binding var currentDate: Date
     @Binding var selectDate: Date
+    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -102,7 +104,7 @@ struct CalendarView: View {
     var body: some View {
         VStack {
             WeekdayHeaderView(weekday: weekday)
-            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth, calendarViewModel: calendarViewModel)
+            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
         }
         .padding(.top, 20)
         // currentMonth 바뀔 때 마다
@@ -167,6 +169,7 @@ struct DatesGridView: View {
     
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
+    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -177,7 +180,7 @@ struct DatesGridView: View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
                 if value.day != -1 {
-                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate)
+                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView)
                 } else {
                     // 날짜 공백때문에 -1이 있을경우 숨긴다
                     Text("\(value.day)").hidden()
@@ -239,6 +242,7 @@ struct DateButton: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     
     @Binding var selectDate: Date
+    @Binding var isShowingOrganizeView: Bool
     
     // 오늘인지 아닌지
     private var isToday: Bool {
@@ -259,7 +263,7 @@ struct DateButton: View {
                 selectDate = value.date
                 calendarViewModel.recordDiary.date = selectDate.formatToString()
                 calendarViewModel.recordSpecificFetch()
-                calendarViewModel.isShowingRecordView = true
+                isShowingOrganizeView = true
             } label: {
                 VStack(spacing: 3) {
                     Text(isToday ? "오늘" : "")
@@ -271,7 +275,7 @@ struct DateButton: View {
                         .font(PretendardFont.h4Bold)
                         .fontWeight(.bold)
                         .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
-                                         Color.symBlack : (dayOfWeek == 1 ? .red : .gray))
+                                         Color.symGray5 : (dayOfWeek == 1 ? Color.errorRed : Color.symGray4))
                     
                     Circle()
                         .fill(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
@@ -285,23 +289,15 @@ struct DateButton: View {
                         .opacity(isSelected ? 1 : 0)
                 )
             }
-            .disabled(!calendarViewModel.diaryExists(on: value.date.formatToString()))
         }
-        .navigationDestination(isPresented: $calendarViewModel.isShowingRecordView) {
-            RecordOrganizeView(
-                recordViewModel: calendarViewModel,
-                isShowingRecordView: $calendarViewModel.isShowingRecordView
-            )
+        
+        /// 두 날짜가 같은 날인지 확인하는 함수
+        private func isSameDay(date1: Date, date2: Date) -> Bool {
+            let calendar = Calendar.current
+            return calendar.isDate(date1, inSameDayAs: date2)
         }
     }
     
-    /// 두 날짜가 같은 날인지 확인하는 함수
-    private func isSameDay(date1: Date, date2: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(date1, inSameDayAs: date2)
+    #Preview {
+        CalendarMainView()
     }
-}
-
-#Preview {
-    CalendarMainView()
-}

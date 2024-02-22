@@ -23,13 +23,17 @@ struct CalendarMainView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate, calendarViewModel: calendarViewModel)
+                    CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
                         .padding(20)
                     RecordView(beforeRecord: calendarViewModel.completeRecord, nickname: nickname)
                         .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 20)
                 .scrollIndicators(.hidden)
+                // 하위뷰 말고 상위뷰에 있어야함.. main에서 OrganizeView를 보내니까 올때도 mainView로,,
+                .navigationDestination(isPresented: $isShowingOrganizeView) {
+                    RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+                }
                 .onAppear {
                     calendarViewModel.recordDiary.date = Date().formatToString()
                     // 오늘 날짜 데이터 페치, 이걸로 RecordView가 바뀜
