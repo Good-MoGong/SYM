@@ -18,7 +18,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .diary:
             Text("diary")
         case .alarm:
-            Text("alarm")
+            AlarmMainView()
         case .mypage:
             MypageView()
         }
