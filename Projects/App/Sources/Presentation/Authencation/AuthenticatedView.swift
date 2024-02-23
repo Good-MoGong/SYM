@@ -11,7 +11,6 @@ import Combine
 
 struct AuthenticatedView: View {
     @StateObject var authViewModel: AuthenticationViewModel
-//    @StateObject private var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
         VStack {
@@ -25,7 +24,10 @@ struct AuthenticatedView: View {
             case .authenticated:
                 MainView()
                     .environmentObject(authViewModel)
-//                TabBarView(tabBarViewModel: tabBarViewModel)
+                    // FCM 관련 허용 여부 선택
+                    .onAppear {
+                        authViewModel.send(action: .requestPushNotification)
+                    }
             }
         }
         .onAppear {

@@ -24,6 +24,7 @@ class AuthenticationViewModel: ObservableObject {
         case appleLogin(ASAuthorizationAppleIDRequest) // 인증 요청할때
         case appleLoginCompletion(Result<ASAuthorization, Error>) // 인증이 된 후
         case kakaoLogin
+        case requestPushNotification
         case logout
     }
     
@@ -105,7 +106,14 @@ class AuthenticationViewModel: ObservableObject {
                     }
                 }.store(in: &subscritpions)
 
-
+        case .requestPushNotification:
+            container.services.pushNotificationService.requestAuthorization { granted in
+                if granted {
+                    // 알림 허용일 때 디폴트 알람 값 설정하기
+                    self.container.services.pushNotificationService.settingPushNotification()
+                }
+            }
+            
             // 로그아웃
         case .logout:
             container.services.authService.logoutWithKakao()
