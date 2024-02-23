@@ -9,22 +9,6 @@
 import Foundation
 import FirebaseMessaging
 
-struct AlarmInfo {
-    let weekday: Int
-    let hour: Int
-    let minute : Int
-    let title: String = "마음을 기록한지 \(PushNotificationService().checkUserAccessDate())일 이 지났어요"
-    let subtitle: String = subTitleList.randomElement() ?? "시미를 확인해주세요!"
-    let body: String = bodyList.randomElement() ?? "오늘 하루를 기록해보는건 어떤가요?"
-    
-    static let TitleList = ["Title First1", "Title First2", "Title First3", "Title First4"]
-    static let subTitleList = ["subTitleList1", "subTitleList2", "subTitleList3", "subTitleList4"]
-    static let bodyList = ["body1", "body2", "body3", "body4"]
-    
-    static let firdayAlarm = AlarmInfo(weekday: 6, hour: 21, minute: 46)
-    static let SaturdayAlarm = AlarmInfo(weekday: 6, hour: 21, minute: 46)
-}
-
 protocol PushNotificationServiceType {
     // 권한추가 메서드
     func requestAuthorization(completion: @escaping (Bool) -> Void)
@@ -33,6 +17,8 @@ protocol PushNotificationServiceType {
 }
 
 class PushNotificationService: NSObject, PushNotificationServiceType {
+    // 데이터 저장 테스트
+    private let firebaseService = FirebaseService.shared
     
     // 오늘 날짜
     let todayDate: String
