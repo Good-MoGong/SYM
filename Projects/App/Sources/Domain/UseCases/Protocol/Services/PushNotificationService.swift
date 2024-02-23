@@ -18,9 +18,7 @@ protocol PushNotificationServiceType {
 
 class PushNotificationService: NSObject, PushNotificationServiceType {
     private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting")
-    // 알람 중복처리
-    private let alarmSetKey = "alarmsSet"
-    private let notificationCenter = UNUserNotificationCenter.current()
+    
     // 오늘 날짜
     let todayDate: String
     let dateFormatter: DateFormatter = {
@@ -36,12 +34,6 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         return formatter
     }()
     
-    override init() {
-        self.todayDate = dateFormatter.string(from: Date())
-        self.todayWeek = weekFormatter.string(from: Date())
-    }
-    
-    // Define a mapping from day of the week to weekday number
     let dayOfWeekMapping: [String: Int] = [
         "Sunday": 1,
         "Monday": 2,
@@ -60,11 +52,13 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         return weekday
     }
     
-    
-    
+    override init() {
+        self.todayDate = dateFormatter.string(from: Date())
+        self.todayWeek = weekFormatter.string(from: Date())
+    }
     
     /// 실질적인 알림 세팅 함수
-    func settingPushNotification() -> Void {
+    func settingPushNotification() {
         print("⏰ setting값: \(userAlarmSetting)")
         // setting = true 라면 유저의 알람상태는 이미 세팅되어 있는 상태임!!
         
