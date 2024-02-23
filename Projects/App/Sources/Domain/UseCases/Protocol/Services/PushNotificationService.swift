@@ -58,7 +58,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
             if let error {
                 completion(false)
-                print("🔔 DEBUG: Push Notification ERROR \(error.localizedDescription)")
+                print("⏰ ALARM DEBUG: Push Notification 권한 설정에서 에러 발생 \(error.localizedDescription)")
             } else {
                 completion(true)
             }
@@ -74,14 +74,10 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day], from: lastAccessDate, to: todayAccessDate)
-        
-        print("⏰⏰ 유저의 최근 값 \(userLastAccessedDate)")
-        print("⏰⏰ 유저의 최근 값 \(todayDate)")
-        
         return components.day ?? 1000000
     }
     
-    // 알람 조건 세팅
+    // 알람 생성
     func settingNotification(alarmInfo: AlarmInfo) {
         if self.checkUserAccessDate() < 7 {
             var dateComponents = DateComponents()
