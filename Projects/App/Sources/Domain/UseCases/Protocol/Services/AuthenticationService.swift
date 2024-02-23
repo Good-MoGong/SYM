@@ -63,7 +63,7 @@ class AuthenticationService: AuthenticationServiceType {
             }
         }.eraseToAnyPublisher()
     }
-    
+
     /// 카카오 로그인 시작점
     func checkKakaoToken() -> AnyPublisher<User, ServiceError> {
         Future { [weak self] promise in
@@ -274,7 +274,7 @@ class StubAuthenticationService: AuthenticationServiceType {
     func checkAuthenticationState() -> String? {
         return nil
     }
-
+    
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String {
         return ""
     }

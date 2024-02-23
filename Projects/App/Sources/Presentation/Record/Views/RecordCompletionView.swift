@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct RecordCompletionView: View {
-
+    
     @ObservedObject var recordViewModel: RecordViewModel
     @State private var animatedMessage: String = ""
-    @Binding var isShowingRecordView: Bool
+    @Binding var isShowingOrganizeView: Bool
     
     var body: some View {
         NavigationStack {
@@ -20,29 +20,28 @@ struct RecordCompletionView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
-                VStack {
-                    VStack(spacing: .symHeight * 0.05) {
-                        ZStack {
-                            HStack {
-                                Button {
-                                    isShowingRecordView = false
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
-                                .buttonStyle(.plain)
-                                Spacer()
+
+                VStack(spacing: .symHeight * 0.05) {
+                    ZStack {
+                        HStack {
+                            Button {
+                                isShowingOrganizeView = false
+                            } label: {
+                                Image(systemName: "xmark")
                             }
                             .frame(height: 44)
                             .frame(maxWidth: .infinity)
+                        }
+                        .frame(height: 44)
+                        .frame(maxWidth: .infinity)
+                        
+                        HStack {
+                            Spacer()
                             
-                            HStack {
-                                Spacer()
-                                
-                                Text("감정일기")
-                                    .font(PretendardFont.h4Medium)
-                                
-                                Spacer()
-                            }
+                            Text("감정일기")
+                                .font(PretendardFont.h4Medium)
+                            
+                            Spacer()
                         }
                         Text("기록이 완료되었어요!")
                             .font(PretendardFont.h3Bold)
@@ -63,7 +62,7 @@ struct RecordCompletionView: View {
                     Spacer()
                     HStack {
                         Button("홈") {
-                            isShowingRecordView = false
+                            isShowingOrganizeView = false
                         }
                         // .buttonStyle에 적용
                         .buttonStyle(smallGrayButtonStyle())
@@ -79,17 +78,16 @@ struct RecordCompletionView: View {
                 .padding()
             }
             .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
-                RecordOrganizeView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
+                RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
             }
         }
         .navigationBarBackButtonHidden()
         .onAppear(perform: {
             recordViewModel.makeGPTRequest()
-            
         })
     }
 }
 
 #Preview {
-    RecordCompletionView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingRecordView: .constant(false))
+    RecordCompletionView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingOrganizeView: .constant(false))
 }

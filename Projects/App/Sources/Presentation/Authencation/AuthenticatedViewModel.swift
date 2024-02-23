@@ -13,7 +13,7 @@ import FirebaseAuth
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
-    case initial 
+    case initial
     case unauthenticated
     case authenticated
 }

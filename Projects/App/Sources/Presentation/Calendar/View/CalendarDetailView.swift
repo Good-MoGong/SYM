@@ -17,6 +17,9 @@ struct CalendarDetailView: View {
     @Binding var nickname: String
     @Binding var currentDate: Date
     @Binding var selectDate: Date
+    @Binding var isShowingOrganizeView: Bool
+    
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     private let weekday: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
@@ -24,7 +27,7 @@ struct CalendarDetailView: View {
         VStack {
             HeaderView(nickname: $nickname)
             YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, weekday: weekday)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
@@ -76,7 +79,7 @@ struct YearMonthHeaderView: View {
         }
         .sheet(isPresented: $isShowingDateChangeSheet,
                content: { DatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
-               .presentationDetents([.fraction(0.4)])
+                .presentationDetents([.fraction(0.4)])
         })
     }
     
@@ -101,13 +104,16 @@ struct CalendarView: View {
     @Binding var selectDate: Date
     @Binding var selectedYear: Int
     @Binding var selectedMonth: Int
+    @Binding var isShowingOrganizeView: Bool
+    
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     let weekday: [String]
     
     var body: some View {
         VStack {
             WeekdayHeaderView(weekday: weekday)
-            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth)
+            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
         }
         .padding(.top, 20)
         // currentMonth 바뀔 때 마다
@@ -136,7 +142,6 @@ struct CalendarView: View {
                         }
                     } else if gesture.translation.width > 100 {
                         if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
-            
                         } else {
                             currentMonth -= 1
                             selectedMonth -= 1
@@ -187,6 +192,9 @@ struct DatesGridView: View {
     
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
+    @Binding var isShowingOrganizeView: Bool
+    
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     private let columns = Array(repeating: GridItem(.flexible()), count: 7)
     
@@ -195,7 +203,7 @@ struct DatesGridView: View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
                 if value.day != -1 {
-                    DateButton(value: value, selectDate: $selectDate)
+                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView)
                 } else {
                     // 날짜 공백때문에 -1이 있을경우 숨긴다
                     Text("\(value.day)").hidden()
@@ -254,9 +262,10 @@ struct DateButton: View {
     
     var value: DateValue
     
-    @State var isShowingRecordView = false
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @Binding var selectDate: Date
+    @Binding var isShowingOrganizeView: Bool
     
     // 오늘인지 아닌지
     private var isToday: Bool {
@@ -272,33 +281,38 @@ struct DateButton: View {
     }
     
     var body: some View {
-        Button {
-            selectDate = value.date
-            isShowingRecordView = true
-        } label: {
-            VStack(spacing: 3) {
-                Text(isToday ? "오늘" : "")
-                    .font(PretendardFont.smallMedium)
-                    .foregroundStyle(Color.errorRed)
-                    .padding(.bottom, -5)
-                
-                Text("\(value.day)")
-                    .font(PretendardFont.h4Bold)
-                    .fontWeight(.bold)
-                    .foregroundStyle(dayOfWeek == 1 ? Color.errorRed : Color.symGray4)
-                Circle()
-                    .fill(isToday ? Color.main : Color.white)
-                    .frame(width: 6, height: 6)
+        VStack {
+            Button {
+                selectDate = value.date
+                if calendarViewModel.diaryExists(on: value.date.formatToString()) {
+                    calendarViewModel.recordDiary.date = selectDate.formatToString()
+                    calendarViewModel.recordSpecificFetch()
+                    isShowingOrganizeView = true
+                }
+            } label: {
+                VStack(spacing: 3) {
+                    Text(isToday ? "오늘" : "")
+                        .font(PretendardFont.smallMedium)
+                        .foregroundStyle(Color.errorRed)
+                        .padding(.bottom, -5)
+                    
+                    Text("\(value.day)")
+                        .font(PretendardFont.h4Bold)
+                        .fontWeight(.bold)
+                        .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ? Color.symGray5 : (dayOfWeek == 1 ? Color.errorRed : Color.symGray4))
+                    
+                    Circle()
+                        .fill(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
+                              Color.main : Color.white)
+                        .frame(width: 6, height: 6)
+                }
+                .background(
+                    Circle()
+                        .fill(isSelected ? Color.medium : Color.white)
+                        .frame(width: 50, height: 50)
+                        .opacity(isSelected ? 1 : 0)
+                )
             }
-            .background(
-                Circle()
-                    .fill(isSelected ? Color.medium : Color.white)
-                    .frame(width: 50, height: 50)
-                    .opacity(isSelected ? 1 : 0)
-            )
-        }
-        .navigationDestination(isPresented: $isShowingRecordView) {
-//            RecordOrganizeView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
         }
     }
     
@@ -310,7 +324,5 @@ struct DateButton: View {
 }
 
 #Preview {
-    NavigationStack {
-        CalendarMainView()
-    }
+    CalendarMainView()
 }

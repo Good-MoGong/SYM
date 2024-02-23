@@ -10,10 +10,12 @@ import SwiftUI
 
 
 struct RecordStartView: View {
+    
     @Environment(\.dismiss) private var dismiss
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
-    @Binding var isShowingRecordView: Bool
     @State private var isAppearAnimation: Bool = false
+    @Binding var isShowingOrganizeView: Bool
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -78,7 +80,7 @@ struct RecordStartView: View {
                             
                             Spacer()
                         }
-                    } 
+                    }
                     Spacer().frame(maxHeight: .symHeight * 0.03)
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
@@ -130,7 +132,7 @@ struct RecordStartView: View {
         .toastView(toast: $recordViewModel.isShowingToastMessage)
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
-            RecordCompletionView(recordViewModel: recordViewModel, isShowingRecordView: $isShowingRecordView)
+            RecordCompletionView(recordViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         })
         .onAppear {
             withAnimation {
@@ -219,5 +221,5 @@ struct EmotionButton: View {
 }
 
 #Preview {
-    RecordStartView(isShowingRecordView: .constant(false))
+    RecordStartView(isShowingOrganizeView: .constant(false))
 }
