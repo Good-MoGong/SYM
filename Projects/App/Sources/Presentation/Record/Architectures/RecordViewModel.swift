@@ -51,8 +51,6 @@ final class RecordViewModel: RecordConditionFetch {
         updateCurrentText()
     }
     
-
-    
     func recordSpecificFetch() {
         recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
@@ -112,7 +110,6 @@ final class RecordViewModel: RecordConditionFetch {
     func makeGPTRequest() {
         recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
             self.gptAnswerText = gptAnswer
-            
         }
     }
 }

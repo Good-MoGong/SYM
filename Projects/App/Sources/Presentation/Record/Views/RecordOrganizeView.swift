@@ -10,95 +10,94 @@ import SwiftUI
 
 struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var recordViewModel: viewModel
-    @Binding var isShowingRecordView: Bool
+    @ObservedObject var organizeViewModel: viewModel
+    @Binding var isShowingOrganizeView: Bool
+    
     var body: some View {
-        NavigationStack {
-            ZStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                    }
-                    .buttonStyle(.plain)
-                    .padding()
-                    Spacer()
-                    
-                   
+        ZStack {
+            HStack {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
                 }
-                .frame(height: 44)
-                .frame(maxWidth: .infinity)
+                .buttonStyle(.plain)
+                .padding()
+                Spacer()
                 
-                HStack {
-                    Spacer()
-                    
-                    Text("\(recordViewModel.recordDiary.date) 일기")
-                        .font(PretendardFont.h4Medium)
-                    
-                    Spacer()
-                }
+                
             }
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    Spacer(minLength: 33)
-                    
-                    Text("나의 감정")
-                        .font(PretendardFont.h4Bold)
-                        .padding(.leading, 20)
-                        .padding(.bottom, -10)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHGrid(rows: Array(repeating: GridItem(), count: 1)) {
-                            ForEach(recordViewModel.recordDiary.emotions, id: \.self) { feeling in
-                                Text(feeling)
-                                    .setTextBackground(.brightWithStroke)
-                                    .padding(.horizontal, 2)
-                            }
-                        }
-                        .padding(.leading, 2)
-                        .padding()
-                    }
-                    .padding(.bottom, 15)
-                    
-                    Text("나의 기록")
-                        .font(PretendardFont.h4Bold)
-                        .padding(.leading, 20)
-                        .padding(.bottom, 7)
-                    
-                    ZStack {
-                        Text(recordViewModel.recordDiary.event) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
-                        
-                        isResolutionSentenceTitle(title: "사건")
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    ZStack {
-                        Text(recordViewModel.recordDiary.idea) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
-                        
-                        isResolutionSentenceTitle(title: "생각")
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    ZStack {
-                        Text(recordViewModel.recordDiary.action) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
-                        
-                        isResolutionSentenceTitle(title: "행동")
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    Button("완료") {
-                        isShowingRecordView = false
-                    }
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
-                    .padding(.horizontal, 20)
-                }
+            .frame(height: 44)
+            .frame(maxWidth: .infinity)
+            
+            HStack {
+                Spacer()
+                
+                Text("\(organizeViewModel.recordDiary.date) 일기")
+                    .font(PretendardFont.h4Medium)
+                
+                Spacer()
             }
-            .navigationBarBackButtonHidden()
         }
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading) {
+                Spacer(minLength: 33)
+                
+                Text("나의 감정")
+                    .font(PretendardFont.h4Bold)
+                    .padding(.leading, 20)
+                    .padding(.bottom, -10)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHGrid(rows: Array(repeating: GridItem(), count: 1)) {
+                        ForEach(organizeViewModel.recordDiary.emotions, id: \.self) { feeling in
+                            Text(feeling)
+                                .setTextBackground(.brightWithStroke)
+                                .padding(.horizontal, 2)
+                        }
+                    }
+                    .padding(.leading, 2)
+                    .padding()
+                }
+                .padding(.bottom, 15)
+                
+                Text("나의 기록")
+                    .font(PretendardFont.h4Bold)
+                    .padding(.leading, 20)
+                    .padding(.bottom, 7)
+                
+                ZStack {
+                    Text(organizeViewModel.recordDiary.event) // 추후에 실제 기록으로 변경 필요
+                        .setTextBackground(.sentenceField)
+                    
+                    isResolutionSentenceTitle(title: "사건")
+                }
+                .padding(.horizontal, 20)
+                
+                ZStack {
+                    Text(organizeViewModel.recordDiary.idea) // 추후에 실제 기록으로 변경 필요
+                        .setTextBackground(.sentenceField)
+                    
+                    isResolutionSentenceTitle(title: "생각")
+                }
+                .padding(.horizontal, 20)
+                
+                ZStack {
+                    Text(organizeViewModel.recordDiary.action) // 추후에 실제 기록으로 변경 필요
+                        .setTextBackground(.sentenceField)
+                    
+                    isResolutionSentenceTitle(title: "행동")
+                }
+                .padding(.horizontal, 20)
+                
+                Button("완료") {
+                    isShowingOrganizeView = false
+                }
+                .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+                .padding(.horizontal, 20)
+            }
+        }
+        .navigationBarBackButtonHidden()
     }
     
     let screenSize = UIScreen.main.bounds.size.width
@@ -134,5 +133,5 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
 }
 
 #Preview {
-    RecordOrganizeView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingRecordView: .constant(false))
+    RecordOrganizeView(organizeViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())), isShowingOrganizeView: .constant(false))
 }
