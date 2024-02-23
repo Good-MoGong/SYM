@@ -17,21 +17,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
-    
-    // device token
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-    }
 }
 
 @main
 struct SYMApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var container: DIContainer = .init(services: Services())
+    @AppStorage("lastAccessedDateString") var lastAccessedDateString: String = "" // 유저의 최근 접속일 저장값
     
-    // 카카오로그인 작업
     init() {
-        // Kakao SDK 초기화
         let kakaoKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY")
         KakaoSDK.initSDK(appKey: kakaoKey as? String ?? "")
     }
@@ -40,12 +34,23 @@ struct SYMApp: App {
         WindowGroup {
             AuthenticatedView(authViewModel: .init(container: container))
                 .environmentObject(container)
-                .onOpenURL { url in // 뷰가 속한 Window에 대한 URL을 받았을 때 호출할 Handler를 등록하는 함수
+                .onOpenURL { url in
                     if AuthApi.isKakaoTalkLoginUrl(url) {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
                 }
+                .onAppear {
+                    updateLastAccessedDate()
+                }
         }
+    }
+        
+    private func updateLastAccessedDate() {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd" // 2024.01.01
+        lastAccessedDateString = dateFormatter.string(from: currentDate)
+        
     }
 }
 
