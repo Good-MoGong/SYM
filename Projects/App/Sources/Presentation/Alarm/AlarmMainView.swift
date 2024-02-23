@@ -41,16 +41,17 @@ struct AlarmMainView: View {
         .navigationTitle("알림")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            self.todayAlarm = AlarmInfo.sampleAlarm.filter { alarmInfo in
-                var mutableAlarmInfo = alarmInfo
-                return mutableAlarmInfo.alarmInitTime == alarmViewModel.currentTime
-            }
-            
-            self.pastAlarm = AlarmInfo.sampleAlarm.filter { alarmInfo in
-                var mutableAlarmInfo = alarmInfo
-                return mutableAlarmInfo.alarmInitTime != alarmViewModel.currentTime
-            }
+//            self.todayAlarm = AlarmInfo.sampleAlarm.filter { alarmInfo in
+//                let mutableAlarmInfo = alarmInfo
+//                return mutableAlarmInfo.alarmInitTime == alarmViewModel.currentTime
+//            }
+//            
+//            self.pastAlarm = AlarmInfo.sampleAlarm.filter { alarmInfo in
+//                let mutableAlarmInfo = alarmInfo
+//                return mutableAlarmInfo.alarmInitTime != alarmViewModel.currentTime
+//            }
         }
+        .padding(.horizontal, 20)
     }
 }
 

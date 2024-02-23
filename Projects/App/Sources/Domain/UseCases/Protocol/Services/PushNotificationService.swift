@@ -17,9 +17,10 @@ protocol PushNotificationServiceType {
 }
 
 class PushNotificationService: NSObject, PushNotificationServiceType {
-    // 데이터 저장 테스트
-    private let firebaseService = FirebaseService.shared
-    
+    private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting")
+    // 알람 중복처리
+    private let alarmSetKey = "alarmsSet"
+    private let notificationCenter = UNUserNotificationCenter.current()
     // 오늘 날짜
     let todayDate: String
     let dateFormatter: DateFormatter = {
@@ -28,14 +29,54 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         return formatter
     }()
     
+    let todayWeek: String
+    let weekFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        return formatter
+    }()
+    
     override init() {
         self.todayDate = dateFormatter.string(from: Date())
+        self.todayWeek = weekFormatter.string(from: Date())
     }
+    
+    // Define a mapping from day of the week to weekday number
+    let dayOfWeekMapping: [String: Int] = [
+        "Sunday": 1,
+        "Monday": 2,
+        "Tuesday": 3,
+        "Wednesday": 4,
+        "Thursday": 5,
+        "Friday": 6,
+        "Saturday": 7
+    ]
+    
+    var weekday: Int {
+        guard let weekday = dayOfWeekMapping[todayWeek] else {
+            // 매칭값 없으면 무조건 일요일
+            return 1
+        }
+        return weekday
+    }
+    
+    
+    
     
     /// 실질적인 알림 세팅 함수
     func settingPushNotification() -> Void {
-        settingNotification(alarmInfo: AlarmInfo.firdayAlarm)
-        settingNotification(alarmInfo: AlarmInfo.SaturdayAlarm)
+        print("⏰ setting값: \(userAlarmSetting)")
+        // setting = true 라면 유저의 알람상태는 이미 세팅되어 있는 상태임!!
+        
+        if !userAlarmSetting {
+            // 이렇게 분기처리를 해주지 않으면 앱을 껐다 킬때마다 알람이 누적돼서 쌓이기 때문에 최조 시점때 bool 타입을 변경하여 처리해놓음
+            settingNotification(alarmInfo: AlarmInfo(weekday: weekday,
+                                                     hour: 0,
+                                                     minute: 23))
+            
+            print("⏰ 알람 세팅함수 실행완료")
+            UserDefaults.standard.set(true, forKey: "userAlarmSetting")
+        }
     }
     
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
