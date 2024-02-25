@@ -21,7 +21,7 @@ struct RecordDemo: View {
                 }
             }
             .navigationDestination(isPresented: $isShowingRecordView) {
-                RecordStartView(isShowingRecordView: $isShowingRecordView)
+//                RecordStartView(isShowingRecordView: $isShowingRecordView)
             }
         }
     }
