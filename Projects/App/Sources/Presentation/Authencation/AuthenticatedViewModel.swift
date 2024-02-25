@@ -25,6 +25,9 @@ class AuthenticationViewModel: ObservableObject {
         case appleLoginCompletion(Result<ASAuthorization, Error>) // 인증이 된 후
         case kakaoLogin
         case logout
+        
+        // MARK: - 카카오 탈퇴
+        case unlinkKakao
     }
     
     @Published var isLoading = false
@@ -117,6 +120,12 @@ class AuthenticationViewModel: ObservableObject {
                     self?.userId = nil
                 }.store(in: &subscritpions)
             self.authenticationState = .initial
+            
+        case .unlinkKakao:
+            container.services.authService.unlinkKakao()
+            container.services.authService.deleteFirebaseAuth()
+            self.authenticationState = .initial
+
         }
     }
 }
