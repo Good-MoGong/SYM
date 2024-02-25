@@ -59,7 +59,8 @@ struct SettingView: View {
                boldDesc: "탈퇴 전 유의 사항",
                desc: "• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다.",
                confirmHandler: {
-            print("확인")
+            print("탈퇴하기")
+            authViewModel.send(action: .unlinkKakao)
             self.isShowingWithdrawalPopup.toggle()
         },
                cancelHandler: {
