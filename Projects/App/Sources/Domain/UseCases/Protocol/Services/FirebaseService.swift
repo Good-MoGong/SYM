@@ -27,4 +27,7 @@ final class FirebaseService {
             print("\(error.localizedDescription)")
         }
     }
+    
+    // 탈퇴시 삭제되는 유저 정보를 찾는 함수
+    
 }
