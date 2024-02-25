@@ -100,7 +100,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
     
     // 알람 생성
     func settingNotification(alarmInfo: AlarmInfo) {
-        if self.checkUserAccessDate() < 7 {
+        if self.checkUserAccessDate() > 7 {
             var dateComponents = DateComponents()
             dateComponents.calendar = Calendar.current
             dateComponents.weekday = alarmInfo.weekday
@@ -113,7 +113,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
             content.subtitle = alarmInfo.subtitle
             content.body = alarmInfo.body
             
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) { error in
