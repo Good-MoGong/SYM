@@ -14,11 +14,11 @@ enum MainTab: Int, CaseIterable, Identifiable {
     var view: some View {
         switch self {
         case .home:
-            Text("home")
+            CalendarMainView()
         case .diary:
-            Text("diary")
+            RecordDemo()
         case .alarm:
-            Text("alarm")
+            AlarmMainView()
         case .mypage:
             MypageView()
         }
