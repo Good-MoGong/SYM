@@ -12,6 +12,7 @@ import SwiftUI
 struct RecordStartView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @State private var isAppearAnimation: Bool = false
     @Binding var isShowingOrganizeView: Bool
@@ -135,6 +136,7 @@ struct RecordStartView: View {
             RecordCompletionView(recordViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         })
         .onAppear {
+            recordViewModel.userID = authViewModel.userId ?? ""
             withAnimation {
                 isAppearAnimation = true
             }

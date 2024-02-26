@@ -6,7 +6,6 @@
         <attribute name="emotion" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="[String]"/>
         <attribute name="event" attributeType="String"/>
         <attribute name="idea" attributeType="String"/>
-        <attribute name="userId" attributeType="String"/>
     </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String"/>
