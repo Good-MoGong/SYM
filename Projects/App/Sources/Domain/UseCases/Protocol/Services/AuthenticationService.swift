@@ -33,6 +33,12 @@ protocol AuthenticationServiceType {
     func logout() -> AnyPublisher<Void, ServiceError>
     func logoutWithKakao()
     func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void)
+    
+    // MARK: - 카카오톡 탈퇴 구현하기
+    func unlinkKakao()
+    
+    // 파베에서 유저 삭제
+    func deleteFirebaseAuth()
 }
 
 class AuthenticationService: AuthenticationServiceType {
@@ -117,6 +123,34 @@ class AuthenticationService: AuthenticationServiceType {
                     completion(false) // Call completion with false if documents are nil
                 }
             }
+        }
+    }
+    
+    
+    // MARK: - 카카오톡 탈퇴
+    /// 카카오톡 탈퇴
+    func unlinkKakao() {
+        UserApi.shared.unlink { error in
+            if let error = error {
+                print("🟨 Auth DEBUG: 카카오톡 탈퇴 중 에러 발생 \(error.localizedDescription)")
+            } else {
+                print("🟨 Auth DEBUG: 카카오톡 탈퇴 성공")
+            }
+        }
+    }
+    
+    /// 파베의 auth에서 유저 정보 삭제
+    func deleteFirebaseAuth() {
+        if let user = Auth.auth().currentUser {
+            user.delete { error in
+                if let error = error {
+                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 중 에러 발생 \(error.localizedDescription)")
+                } else {
+                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 성공")
+                }
+            }
+        } else {
+            print("🔥 Firebase DEBUG: firebase auth에 회원정보가 존재하지 않습니다.")
         }
     }
 }
@@ -296,4 +330,8 @@ class StubAuthenticationService: AuthenticationServiceType {
     func logoutWithKakao() { }
     
     func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void) { }
+    
+    func unlinkKakao() { }
+    
+    func deleteFirebaseAuth() { }
 }
