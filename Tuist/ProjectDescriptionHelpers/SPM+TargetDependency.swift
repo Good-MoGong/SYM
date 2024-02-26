@@ -25,4 +25,7 @@ public extension TargetDependency.SPM {
     static let kakaoSDKTemplate = TargetDependency.external(name: "KakaoSDKTemplate")
     static let kakaoSDKShare = TargetDependency.external(name: "KakaoSDKShare")
 
+    // FCM 추가
+    static let firebaseAnalytics: TargetDependency = .external(name: "FirebaseAnalytics")
+    static let firebaseMessaging: TargetDependency = .external(name: "FirebaseMessaging")
 }
