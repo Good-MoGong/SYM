@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var nickname = "모공모공" // 기존 닉네임이 뜨도록
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
@@ -72,13 +74,19 @@ struct MyAccountInfo: View {
             
             Spacer()
         }
-        .customNavigationBar(
-            centerView: {
-                Text("닉네임 수정")
-            }, rightView: {
-                EmptyView()
-            }, isShowingBackButton: true
-        )
+        .navigationTitle("닉네임 수정")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.black)
+                }
+            }
+        }
     }
     
     @ViewBuilder
