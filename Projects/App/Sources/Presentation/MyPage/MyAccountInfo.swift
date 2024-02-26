@@ -34,7 +34,27 @@ struct MyAccountInfo: View {
                         VStack(alignment: .leading) {
                             TextField("닉네임을 입력해주세요", text: $nickname)
                                 .customTF(type: .normal)
-                            checkNicknameRules()
+                                .onChange(of: nickname) { newValue in
+                                    if koreaLangCheck(newValue) {
+                                        nicknameRules = .allow
+                                    } else {
+                                        nicknameRules = .reject
+                                    }
+                                    if newValue.count > 5 || newValue.count < 1 {
+                                        nicknameRules = .defult
+                                    }
+                                }
+                            switch nicknameRules {
+                            case .allow :
+                                Text(NickNameRules.allow.rawValue)
+                                    .settingNicknameRules(.errorGreen)
+                            case .defult:
+                                Text(NickNameRules.defult.rawValue)
+                                    .settingNicknameRules(.errorRed)
+                            case .reject:
+                                Text(NickNameRules.reject.rawValue)
+                                    .settingNicknameRules(.errorRed)
+                            }
                         }
                     }
                     .padding(.bottom, 32)
@@ -89,23 +109,15 @@ struct MyAccountInfo: View {
         }
     }
     
-    @ViewBuilder
-    /// 닉네임 규칙 룰을 그리는 뷰
-    private func checkNicknameRules() -> some View {
-        if nickname.isEmpty {
-            Text(NickNameRules.defult.rawValue)
-                .settingNicknameRules(.errorRed)
-        } else if nickname.count < 6, nickname.count >= 1 {
-            HStack {
-                Text(NickNameRules.allow.rawValue)
-                    .settingNicknameRules(.errorGreen)
-            }
-        } else if nickname.count >= 5 {
-            HStack(alignment: .top) {
-                Text(NickNameRules.defult.rawValue)
-                    .settingNicknameRules(.errorRed)
+    func koreaLangCheck(_ input: String) -> Bool {
+        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: input.utf16.count)
+            if regex.firstMatch(in: input, options: [], range: range) != nil {
+                return true
             }
         }
+        return false
     }
 }
 
