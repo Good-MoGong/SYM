@@ -19,23 +19,41 @@ final class RecordRepository: RecordRepositoryProtocal {
     
     private let coreDataManager = CoreDataManger.shared
     private let chatGPTManager = ChatGPTManager.shared
+    private let fireBaseManager = FirebaseManager.shared
+    private let userID = ""
     private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     private var cancellables = Set<AnyCancellable>()
-   
+    
     func saveRecord(diary: Diary) async -> Bool {
-        let context = coreDataManager.newContextForBackgroundThread()
-        return await context.perform {
-            self.coreDataManager.create(contextValue: context) {
-                let diaryInfo = DiaryEntity(context: context)
-                print("\(diary)")
-                diaryInfo.userId = ""
-                diaryInfo.date = diary.date
-                diaryInfo.event = diary.event
-                diaryInfo.idea = diary.idea
-                diaryInfo.emotion = diary.emotions
-                diaryInfo.action = diary.action
-            }
+        do {
+            // Core Data에 저장하는 비동기 코드
+            try await saveToCoreData(diary: diary)
+            // Firebase에 저장하는 비동기 코드
+            try await saveToFirebase(diary: diary)
+            // 두 작업이 모두 완료되면 true를 반환
+            return true
+        } catch {
+            // 실패한 경우에는 false를 반환
+            return false
         }
+    }
+    
+    private func saveToFirebase(diary: Diary) async throws {
+        try await fireBaseManager.saveDiaryFireStore(userID: "", data: diary)
+        print("Firebase 저장 성공")
+    }
+    
+    private func saveToCoreData(diary: Diary) async throws {
+        let context = coreDataManager.newContextForBackgroundThread()
+        coreDataManager.create(contextValue: context) {
+            let diaryInfo = DiaryEntity(context: context)
+            diaryInfo.date = diary.date
+            diaryInfo.event = diary.event
+            diaryInfo.idea = diary.idea
+            diaryInfo.emotion = diary.emotions
+            diaryInfo.action = diary.action
+        }
+        print("CoreData 저장 성공")
     }
     
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {
@@ -46,7 +64,7 @@ final class RecordRepository: RecordRepositoryProtocal {
         } else {
             self.fetchDiary = Diary(date: "", event: "", idea: "", emotions: [], action: "")
         }
-
+        
         completion(fetchDiary,isFetchSuccess)
     }
     
@@ -68,6 +86,5 @@ final class RecordRepository: RecordRepositoryProtocal {
                 }
             })
             .store(in: &cancellables)
-    
     }
 }
