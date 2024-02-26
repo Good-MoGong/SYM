@@ -16,7 +16,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .home:
             CalendarMainView()
         case .diary:
-            RecordDemo()
+            EmptyView()
         case .alarm:
             AlarmMainView()
         case .mypage:
