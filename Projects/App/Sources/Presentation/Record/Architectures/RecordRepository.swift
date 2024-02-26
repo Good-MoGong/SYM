@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 protocol RecordRepositoryProtocal {
-    func saveRecord(diary: Diary) async -> Bool
+    func saveRecord(userID: String, diary: Diary) async -> Bool
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
     func makeGPTRequest(text: String, completion: @escaping (String) -> Void)
 }
@@ -24,12 +24,12 @@ final class RecordRepository: RecordRepositoryProtocal {
     private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     private var cancellables = Set<AnyCancellable>()
     
-    func saveRecord(diary: Diary) async -> Bool {
+    func saveRecord(userID: String, diary: Diary) async -> Bool {
         do {
             // Core Data에 저장하는 비동기 코드
             try await saveToCoreData(diary: diary)
             // Firebase에 저장하는 비동기 코드
-            try await saveToFirebase(diary: diary)
+            try await saveToFirebase(userID: userID, diary: diary)
             // 두 작업이 모두 완료되면 true를 반환
             return true
         } catch {
@@ -38,20 +38,22 @@ final class RecordRepository: RecordRepositoryProtocal {
         }
     }
     
-    private func saveToFirebase(diary: Diary) async throws {
-        try await fireBaseManager.saveDiaryFireStore(userID: "", data: diary)
+    private func saveToFirebase(userID: String, diary: Diary) async throws {
+        try await fireBaseManager.saveDiaryFireStore(userID: userID, data: diary)
         print("Firebase 저장 성공")
     }
     
     private func saveToCoreData(diary: Diary) async throws {
         let context = coreDataManager.newContextForBackgroundThread()
-        coreDataManager.create(contextValue: context) {
-            let diaryInfo = DiaryEntity(context: context)
-            diaryInfo.date = diary.date
-            diaryInfo.event = diary.event
-            diaryInfo.idea = diary.idea
-            diaryInfo.emotion = diary.emotions
-            diaryInfo.action = diary.action
+        _ = await context.perform {
+            self.coreDataManager.create(contextValue: context) {
+                let diaryInfo = DiaryEntity(context: context)
+                diaryInfo.date = diary.date
+                diaryInfo.event = diary.event
+                diaryInfo.idea = diary.idea
+                diaryInfo.emotion = diary.emotions
+                diaryInfo.action = diary.action
+            }
         }
         print("CoreData 저장 성공")
     }

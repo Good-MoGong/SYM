@@ -12,6 +12,7 @@ import Combine
 final class RecordViewModel: RecordConditionFetch {
     
     private let recordUseCase: RecordUseCase
+    var userID: String = ""
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var currentText: String = ""
@@ -24,6 +25,7 @@ final class RecordViewModel: RecordConditionFetch {
     @Published var isShowingCompletionView: Bool = false
     @Published var isShowingOrganizeView: Bool = false
     @Published var isShowingToastMessage: Toast? = nil
+    @Published var isGPTLoading: Bool = false
     
     init(recordUseCase: RecordUseCase) {
         self.recordUseCase = recordUseCase
@@ -40,7 +42,7 @@ final class RecordViewModel: RecordConditionFetch {
         else if recordOrder == .action && direction == .next {
             recordDiary.date = Date().formatToString()
             Task {
-                self.isShowingCompletionView = await recordUseCase.saveRecord(diary: recordDiary)
+                self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
             }
         } else {
             withAnimation {
@@ -57,6 +59,14 @@ final class RecordViewModel: RecordConditionFetch {
                 self.recordDiary = diary
                 self.isShowingOrganizeView = isSuccess
             }
+        }
+    }
+    
+    func makeGPTRequest() {
+        isGPTLoading = true
+        recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
+            self.gptAnswerText = gptAnswer
+            self.isGPTLoading = false
         }
     }
     
@@ -104,12 +114,6 @@ final class RecordViewModel: RecordConditionFetch {
         case .idea: currentText = recordDiary.idea
         case .emotions: self.selectedDatailEmotion = recordDiary.emotions
         case .action: currentText = recordDiary.action
-        }
-    }
-    
-    func makeGPTRequest() {
-        recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
-            self.gptAnswerText = gptAnswer
         }
     }
 }
