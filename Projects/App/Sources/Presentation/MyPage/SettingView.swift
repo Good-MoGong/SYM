@@ -62,9 +62,15 @@ struct SettingView: View {
                desc: "• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다.",
                confirmHandler: {
             print("탈퇴하기")
-            firebaseService.deleteUserData(user: userId)
-            authViewModel.send(action: .unlinkKakao)
-            self.isShowingWithdrawalPopup.toggle()
+            
+            if let userId = authViewModel.userId {
+                firebaseService.deleteUserData(user: userId)
+                authViewModel.send(action: .unlinkKakao)
+                self.isShowingWithdrawalPopup.toggle()
+            } else {
+                print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
+            }
+            
         },
                cancelHandler: {
             print("취소 버튼")
