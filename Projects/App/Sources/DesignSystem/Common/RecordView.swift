@@ -82,22 +82,25 @@ struct RecordView: View {
             }
             .padding(.trailing, 20)
             
+            
             Spacer()
             
             // 기록 전
             if beforeRecord ?? false {
                 Image("SimiSad")
                     .resizable()
-                    .frame(width: 130, height: 120)
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.25)
             } else {
                 // 기록 후
                 Image("SimiSmile")
                     .resizable()
-                // 크기를... 이게 괜찮나..
-                    .frame(width: 110, height: 130)
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.25)
+                    
+                    
             }
+            Spacer()
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 18)
