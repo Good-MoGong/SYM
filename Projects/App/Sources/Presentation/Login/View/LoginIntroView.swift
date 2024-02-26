@@ -67,6 +67,7 @@ struct LoginIntroView: View {
                             }
                         )
                         .blendMode(.overlay)
+                        .signupTextBackground(.black)
                     }
                 }
             }
