@@ -26,6 +26,9 @@ class AuthenticationViewModel: ObservableObject {
         case kakaoLogin
         case requestPushNotification
         case logout
+        
+        // MARK: - 카카오 탈퇴
+        case unlinkKakao
     }
     
     @Published var isLoading = false
@@ -125,6 +128,12 @@ class AuthenticationViewModel: ObservableObject {
                     self?.userId = nil
                 }.store(in: &subscritpions)
             self.authenticationState = .initial
+            
+        case .unlinkKakao:
+            container.services.authService.unlinkKakao()
+            container.services.authService.deleteFirebaseAuth()
+            self.authenticationState = .initial
+
         }
     }
 }

@@ -18,8 +18,8 @@ final class RecordUseCase {
         self.recordRepository = recordRepository
     }
     
-    func saveRecord(diary: Diary) async -> Bool {
-        return await recordRepository.saveRecord(diary: diary)
+    func saveRecord(userID: String, diary: Diary) async -> Bool {
+        return await recordRepository.saveRecord(userID: userID, diary: diary)
     }
     
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {

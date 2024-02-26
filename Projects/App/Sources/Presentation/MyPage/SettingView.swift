@@ -11,8 +11,11 @@ import SwiftUI
 struct SettingView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
+    
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
@@ -64,17 +67,26 @@ struct SettingView: View {
         }
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
-               title: "로그아웃 하시겠어요?",
+               title: "탈퇴하시겠어요?",
                boldDesc: "탈퇴 전 유의 사항",
                desc: "• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다.",
                confirmHandler: {
-            print("확인")
-            self.isShowingWithdrawalPopup.toggle()
+            print("탈퇴하기")
+            
+            if let userId = authViewModel.userId {
+                firebaseService.deleteUserData(user: userId)
+                authViewModel.send(action: .unlinkKakao)
+                self.isShowingWithdrawalPopup.toggle()
+            } else {
+                print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
+            }
+            
         },
                cancelHandler: {
             print("취소 버튼")
             self.isShowingWithdrawalPopup.toggle()
         })
+        
         .popup(isShowing: $isShowingLogoutPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: "로그아웃 하시겠어요?",

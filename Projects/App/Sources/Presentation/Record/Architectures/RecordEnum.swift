@@ -30,7 +30,7 @@ enum RecordOrder: String, CaseIterable {
     var guideMent: String {
         switch self {
         case .event:
-            "언제, 어디서, 누가 관련되었는지 기록하며 사건을 요약하는 제목을 붙여보세요! 고민하지 말고 생각나는대로 적어봐요:)"
+            "언제, 어디서, 누가 관련되었는지 기록하며 사건을 요약하는 제목을 붙여보세요!\n고민하지 말고 생각나는대로 적어봐요:)"
         case .idea:
             "긍정, 부정적인 생각 모두 있는 그대로 적으며 ~하다고 생각했다, 왜~일까?와 같은 표현을 활용하면 더욱 명확히 표현할 수 있어요!"
         case .emotions:
