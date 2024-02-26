@@ -27,15 +27,14 @@ struct MypageView: View {
             Spacer()
         }
         .padding(.horizontal, 20)
-        .customNavigationBar(centerView: {
-            Text("마이페이지")
-        }, rightView: {
-            NavigationLink {
-                SettingView()
-            } label: {
+        .navigationTitle("마이페이지")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            NavigationLink(destination: SettingView()) {
                 Image(systemName: "gearshape")
+                    .foregroundStyle(Color.black)
             }
-        }, isShowingBackButton: false)
+        }
     }
     
     @ViewBuilder

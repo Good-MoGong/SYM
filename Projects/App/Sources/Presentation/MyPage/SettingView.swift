@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct SettingView: View {
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         NavigationStack {
@@ -48,11 +49,19 @@ struct SettingView: View {
             
             Spacer()
         }
-        .customNavigationBar(centerView: {
-            Text("설정")
-        }, rightView: {
-            EmptyView()
-        })
+        .navigationTitle("설정")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.black)
+                }
+            }
+        }
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: "로그아웃 하시겠어요?",
