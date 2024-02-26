@@ -11,7 +11,6 @@ import Combine
 
 struct AuthenticatedView: View {
     @StateObject var authViewModel: AuthenticationViewModel
-//    @StateObject private var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
         VStack {
@@ -27,12 +26,23 @@ struct AuthenticatedView: View {
             case .authenticated:
                 MainView()
                     .environmentObject(authViewModel)
-//                TabBarView(tabBarViewModel: tabBarViewModel)
+                    // FCM 관련 허용 여부 선택
+                    .onAppear {
+                        authViewModel.send(action: .requestPushNotification)
+                    }
             }
         }
         .onAppear {
             authViewModel.send(action: .checkAuthenticationState)
         }
+        
+        // MARK: - 다른거 뷰 실기기 테스트하고 돌아오는 경우 사용하는 로그아웃 버튼
+//        Button {
+//            authViewModel.send(action: .logout)
+//            print("ddd")
+//        } label: {
+//            Text("로그아웃")
+//        }
     }
 }
 
