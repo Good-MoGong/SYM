@@ -30,10 +30,10 @@ struct RecordView: View {
     var isShowingMainView: Bool = true
     /// 기록 전, 후를 bool로 구분
     var beforeRecord: Bool?
-    var nickname: String = ""
     var recordCount: Int = 0
     
     @State private var isShowingRecordView: Bool = false
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         HStack {
@@ -47,7 +47,7 @@ struct RecordView: View {
                         MyAccountInfo()
                     } label: {
                         HStack {
-                            Text("\(nickname)님")
+                            Text("\(authViewModel.nickName ?? "모공")님")
                                 .font(PretendardFont.h4Bold)
                             Image(systemName: "chevron.right")
                         }
@@ -110,4 +110,5 @@ struct RecordView: View {
 
 #Preview {
     RecordView(beforeRecord: false)
+        .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
