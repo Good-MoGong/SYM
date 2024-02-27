@@ -63,7 +63,8 @@ struct RecordView: View {
                             RecordViewText.mypageRecord(count: recordCount).stringValue)
                 }
                 .lineSpacing(8)
-                .font(PretendardFont.smallMedium)
+                .font(PretendardFont.bodyMedium)
+                .fixedSize(horizontal: true, vertical: false)
                 .padding(.bottom, 12)
                 if beforeRecord ?? true {
                     Button {
@@ -80,8 +81,6 @@ struct RecordView: View {
                     }
                 }
             }
-            .padding(.trailing, 20)
-            
             
             Spacer()
             
@@ -90,17 +89,16 @@ struct RecordView: View {
                 Image("SimiSad")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.25)
+                    .frame(width: .symWidth * 0.3)
             } else {
                 // 기록 후
                 Image("SimiSmile")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.25)
+                    .frame(width: .symWidth * 0.3)
                     
                     
             }
-            Spacer()
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 18)
@@ -112,5 +110,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: false)
+    RecordView(beforeRecord: true)
 }
