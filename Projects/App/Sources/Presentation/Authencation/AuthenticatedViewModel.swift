@@ -10,6 +10,7 @@ import Foundation
 import Combine
 import AuthenticationServices
 import FirebaseAuth
+import SwiftUI
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
@@ -37,6 +38,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
+    @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
     private var container: DIContainer
