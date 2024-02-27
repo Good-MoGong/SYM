@@ -24,6 +24,7 @@ struct SYMApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var container: DIContainer = .init(services: Services())
     @AppStorage("lastAccessedDateString") var lastAccessedDateString: String = "" // 유저의 최근 접속일 저장값
+    var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount")
     
     init() {
         let kakaoKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY")
@@ -41,6 +42,9 @@ struct SYMApp: App {
                 }
                 .onAppear {
                     updateLastAccessedDate()
+                    
+                    // 유저 접속시 알람 값 초기화
+                    UserDefaults.standard.set(0, forKey: "alarmCount")
                 }
         }
     }

@@ -19,6 +19,9 @@ protocol PushNotificationServiceType {
 class PushNotificationService: NSObject, PushNotificationServiceType {
     private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting")
     
+    // 알람 횟수 체킹 userDefault
+    private var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount")
+    
     // 오늘 날짜
     let todayDate: String
     let dateFormatter: DateFormatter = {
@@ -98,9 +101,9 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         return components.day ?? 1000000
     }
     
-    // 알람 생성
+    // 알람 생성 - 3일 이상일 경우 랜덤 문구로 한번씩 보내기, 10번 이상 보냈는데 미 접속시 알람 그만 보내기
     func settingNotification(alarmInfo: AlarmInfo) {
-        if self.checkUserAccessDate() > 7 {
+        if self.checkUserAccessDate() == 3, self.alarmCount <= 10 {
             var dateComponents = DateComponents()
             dateComponents.calendar = Calendar.current
             dateComponents.weekday = alarmInfo.weekday
@@ -119,6 +122,11 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
             UNUserNotificationCenter.current().add(request) { error in
                 guard error == nil else { return }
                 print("⏰ ALARM DEBUG: 알림 생성 완료!")
+                
+                // MARK: - 알람 카운팅하기
+                self.alarmCount = self.alarmCount + 1
+                UserDefaults.standard.set(self.alarmCount, forKey: "alarmCount")
+                print("⏰ ALARM DEBUG: 알림 카운트+1 완료!")
             }
         }
     }
