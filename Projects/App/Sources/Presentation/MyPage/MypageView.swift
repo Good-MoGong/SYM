@@ -20,7 +20,7 @@ struct MypageView: View {
     var body: some View {
         NavigationStack {
             RecordView(isShowingMainView: false, nickname: nickname)
-                .padding(.bottom, 64)
+                .padding(.vertical, 25)
             
             CustomerSupport()
             
@@ -29,10 +29,12 @@ struct MypageView: View {
         .padding(.horizontal, 20)
         .navigationTitle("마이페이지")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar{
-            NavigationLink(destination: SettingView()) {
-                Image(systemName: "gearshape")
-                    .foregroundStyle(Color.black)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: SettingView()) {
+                    Image(systemName: "gearshape")
+                        .foregroundStyle(.black)
+                }
             }
         }
     }
