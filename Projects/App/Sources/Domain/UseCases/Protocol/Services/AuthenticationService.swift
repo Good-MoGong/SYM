@@ -37,10 +37,15 @@ protocol AuthenticationServiceType {
     func getUserLoginEmail() -> String
     
     // MARK: - 카카오톡 탈퇴 구현하기
-    func unlinkKakao()
+    func removeKakaoAccount()
     
     // 파베에서 유저 삭제
     func deleteFirebaseAuth()
+    // combing
+//    func deleteFirebaseAuth() -> AnyPublisher<Void, ServiceError>
+    
+    // MARK: - 애플 탈퇴 구현하기
+    func removeAppleAccount()
 }
 
 class AuthenticationService: AuthenticationServiceType {
@@ -128,10 +133,8 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    
-    // MARK: - 카카오톡 탈퇴
     /// 카카오톡 탈퇴
-    func unlinkKakao() {
+    func removeKakaoAccount() {
         UserApi.shared.unlink { error in
             if let error = error {
                 print("🟨 Auth DEBUG: 카카오톡 탈퇴 중 에러 발생 \(error.localizedDescription)")
@@ -155,6 +158,27 @@ class AuthenticationService: AuthenticationServiceType {
             print("🔥 Firebase DEBUG: firebase auth에 회원정보가 존재하지 않습니다.")
         }
     }
+    
+    // MARK: - 애플 탈퇴 기능 구현
+    // https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken
+    func removeAppleAccount() {
+        let token = UserDefaults.standard.string(forKey: "refreshToken")
+        
+        if let token = token {
+            let url = URL(string: "https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard data != nil else { return }
+            }
+            task.resume()
+        }
+        
+        // db 데이터 지우기
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print("🍎 APPLE DEBUG: Apple 탈퇴/로그아웃 에러 발생 \(signOutError.localizedDescription)")
+        }
+    }
 }
 
 extension AuthenticationService {
@@ -176,6 +200,42 @@ extension AuthenticationService {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
+        
+        // MARK: - 애플 로그인 탈퇴를 위한 token
+        // appleIDCredential : token값
+        // Function URL (getRefreshToken(us-central1)): https://us-central1-speakyourmind-5001b.cloudfunctions.net/getRefreshToken
+        // Function URL (revokeToken(us-central1)): https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken
+        print("🍎 APPLE DEBUG, idTokenString: \(idTokenString)🍎")
+        print("🍎 APPLE DEBUG, appleIDToken: \(appleIDToken)🍎")
+        
+        if let authorizationCode = appleIDCredential.authorizationCode, let codeString = String(data: authorizationCode, encoding: .utf8) {
+            print("🍎 APPLE DEBUG, codeString: \(codeString)🍎")
+            let url = URL(string: "https://us-central1-speakyourmind-5001b.cloudfunctions.net/getRefreshToken?code=\(codeString)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
+            print("🍎 APPLE DEBUG, URL \(url.absoluteString)")
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                print("🍎 APPLE DEBUG: response \(response.debugDescription)")
+                print("🍎🍎 APPLE DEBUG: response \(response)")
+                if let error = error as NSError? {
+                    print("🍎 APPLE DEBUG 토큰 에러 발생 : \(error.localizedDescription)")
+                } else {
+                    if let data = data {
+                        print("🍎 APPLE DEBUG: data - \(data)")
+                        let refreshToken = String(data: data, encoding: .utf8) ?? ""
+                        print("🍎 APPLE DEBUG: refreshToken - \(refreshToken)")
+                        
+                        // token -> userDefault에 저장
+                        UserDefaults.standard.set(refreshToken, forKey: "refreshToken")
+                        UserDefaults.standard.synchronize()
+                    } else {
+                        print("🍎 APPLE DEBUG: refreshToken 없음")
+                    }
+                }
+            }
+            task.resume()
+        }
+        
+        
         
         // firebase에 인증하는 함수 실행해서 apple login 추가
         authenticateUserWithFirebase(credential: credential) { result in
@@ -373,7 +433,7 @@ class StubAuthenticationService: AuthenticationServiceType {
     
     func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void) { }
     
-    func unlinkKakao() { }
+    func removeKakaoAccount() { }
     
     func deleteFirebaseAuth() { }
     
@@ -383,4 +443,7 @@ class StubAuthenticationService: AuthenticationServiceType {
     func getUserLoginEmail() -> String {
         return ""
     }
+//    func deleteFirebaseAuth() -> AnyPublisher<Void, ServiceError> { Empty().eraseToAnyPublisher() }
+    
+    func removeAppleAccount() { }
 }

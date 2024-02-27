@@ -152,6 +152,12 @@ GoogleService-Info.plist
 Signing/
 master.key
 
+# Apple Login
+**.p8
+index.js
+.firebaserc
+functions/**
+
 # Swift Package Manager
 **/*.package.resolved
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.

@@ -86,6 +86,8 @@ struct LoginNicknameView: View {
                 firebaseService.createUserInFirebase(user: user)
             }
             
+            authViewModel.nickName = nickname
+            
             // home으로 페이지 이동
             withAnimation(.easeInOut) {
                 authViewModel.authenticationState = .authenticated
