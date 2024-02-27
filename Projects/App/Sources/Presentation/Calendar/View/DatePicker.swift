@@ -145,7 +145,7 @@ struct CustomDatePicker: UIViewRepresentable { // UIKit의 UIView를 SwiftUI에�
         }
         
         func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-            return UIScreen.main.bounds.width/4
+            return .symWidth/3.5
         }
         
         func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
