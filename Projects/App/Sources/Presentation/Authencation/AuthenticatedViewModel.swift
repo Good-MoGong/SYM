@@ -29,6 +29,9 @@ class AuthenticationViewModel: ObservableObject {
         
         // MARK: - 카카오 탈퇴
         case unlinkKakao
+        
+        // MARK: - 애플 탈퇴
+        case unlinkApple
     }
     
     @Published var isLoading = false
@@ -130,10 +133,14 @@ class AuthenticationViewModel: ObservableObject {
             self.authenticationState = .initial
             
         case .unlinkKakao:
-            container.services.authService.unlinkKakao()
+            container.services.authService.removeKakaoAccount()
             container.services.authService.deleteFirebaseAuth()
             self.authenticationState = .initial
 
+        case .unlinkApple:
+            container.services.authService.removeAppleAccount()
+            container.services.authService.deleteFirebaseAuth()
+            self.authenticationState = .initial
         }
     }
 }
