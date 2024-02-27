@@ -29,6 +29,8 @@ struct AuthenticatedView: View {
                     // FCM 관련 허용 여부 선택
                     .onAppear {
                         authViewModel.send(action: .requestPushNotification)
+                        authViewModel.send(action: .getUserLoginEmail)
+                        authViewModel.send(action: .getUserLoginProvider)
                     }
             }
         }

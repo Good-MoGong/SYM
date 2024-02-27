@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MyAccountInfo: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     @State private var nickname = "모공모공" // 기존 닉네임이 뜨도록
     @State var isPressed: Bool = false
@@ -18,12 +19,10 @@ struct MyAccountInfo: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Image("SimiSmile")
-                    .resizable()
-                    .frame(width: 120, height: 120)
-                    .scaledToFill()
+                Image("SimiSmile").resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.4)
                     .padding(.top, 24)
-                    .padding(.bottom, 37)
                 
                 VStack {
                     VStack(alignment: .leading) {
@@ -65,17 +64,23 @@ struct MyAccountInfo: View {
                             .font(PretendardFont.h5Bold)
                         
                         ZStack(alignment: .trailing) {
-                            TextField("아이디", text: .constant("abcd123@kakako.com"))
+                            TextField("아이디", text: $authViewModel.userEmail)
                                 .customTF(type: .normal)
                                 .disabled(true)
                             
-                            Image("KaKaoLogo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                                .frame(width: 38, height: 32)
-                                .clipped()
-                                .padding(.trailing, 8) // 이미지와 텍스트 필드 간의 간격 조절
+                            ZStack {
+                                Circle()
+                                    .foregroundStyle(Color.kakao)
+                                    .frame(width: .symWidth * 0.08)
+                                
+                                Image("KaKaoLogo")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .frame(width: .symWidth * 0.05)
+                                    .clipped()
+                            }
+                            .padding(.trailing, 8)
                         }
                     }
                     
@@ -107,6 +112,12 @@ struct MyAccountInfo: View {
                 }
             }
         }
+        .onAppear(perform: {
+            //            print("-----------------------")
+            //            print(authViewModel.userEmail)
+            //            print(authViewModel.loginInfo)
+            //            print("-----------------------")
+        })
     }
     
     func koreaLangCheck(_ input: String) -> Bool {
@@ -119,10 +130,11 @@ struct MyAccountInfo: View {
         }
         return false
     }
+    
 }
 
-#Preview {
-    NavigationStack {
-        MyAccountInfo()
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        MyAccountInfo()
+//    }
+//}
