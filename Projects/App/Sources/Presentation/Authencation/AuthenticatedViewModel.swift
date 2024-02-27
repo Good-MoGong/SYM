@@ -10,6 +10,7 @@ import Foundation
 import Combine
 import AuthenticationServices
 import FirebaseAuth
+import SwiftUI
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
@@ -31,6 +32,9 @@ class AuthenticationViewModel: ObservableObject {
         
         // MARK: - 카카오 탈퇴
         case unlinkKakao
+        
+        // MARK: - 애플 탈퇴
+        case unlinkApple
     }
     
     @Published var isLoading = false
@@ -38,6 +42,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var userId: String?
     @Published var loginInfo: String = ""
     @Published var userEmail: String = ""
+    @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
     private var container: DIContainer
@@ -134,12 +139,18 @@ class AuthenticationViewModel: ObservableObject {
             self.authenticationState = .initial
             
         case .unlinkKakao:
-            container.services.authService.unlinkKakao()
+            container.services.authService.removeKakaoAccount()
+            container.services.authService.deleteFirebaseAuth()
+            self.authenticationState = .initial
+
+        case .unlinkApple:
+            container.services.authService.removeAppleAccount()
             container.services.authService.deleteFirebaseAuth()
             self.authenticationState = .initial
             
         case .getUserLoginProvider:
             loginInfo = container.services.authService.getUserLoginProvider()
+            
         case .getUserLoginEmail:
             userEmail = container.services.authService.getUserLoginEmail()
         }

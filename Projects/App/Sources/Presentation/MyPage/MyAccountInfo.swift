@@ -12,9 +12,11 @@ struct MyAccountInfo: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     
-    @State private var nickname = "모공모공" // 기존 닉네임이 뜨도록
+    @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -87,7 +89,8 @@ struct MyAccountInfo: View {
                     Spacer()
                     
                     Button("완료") {
-                        print("MainButtonStyle 버튼 눌림")
+                        authViewModel.nickName = nickname
+                        dismiss()
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
                     // disabled 추가해서 비활성화 가능

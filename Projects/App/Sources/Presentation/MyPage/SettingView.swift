@@ -74,8 +74,22 @@ struct SettingView: View {
             print("탈퇴하기")
             
             if let userId = authViewModel.userId {
-                firebaseService.deleteUserData(user: userId)
-                authViewModel.send(action: .unlinkKakao)
+                // 이거는 애플 로그인 탈퇴
+                firebaseService.deleteUserData(user: userId) { result in
+                    if result {
+                        authViewModel.send(action: .unlinkApple)
+                    }
+                }
+                
+                // 이거는 카카오 로그인 탈퇴
+//                firebaseService.deleteUserData(user: userId) { result in
+//                    if result {
+//                        authViewModel.send(action: .unlinkApple)
+//                    }
+//                }
+//                firebaseService.deleteUserData(user: userId)
+//                authViewModel.send(action: .unlinkKakao)
+                
                 self.isShowingWithdrawalPopup.toggle()
             } else {
                 print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")

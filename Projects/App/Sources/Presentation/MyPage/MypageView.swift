@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct MypageView: View {
-    @State var nickname = "모공모공"
-    
     var appVersion: String? {
         guard let dictionary = Bundle.main.infoDictionary,
               let version = dictionary["CFBundleShortVersionString"] as? String else { return nil }
@@ -21,7 +19,7 @@ struct MypageView: View {
         NavigationStack {
             RecordView(isShowingMainView: false, nickname: nickname)
                 .padding(.vertical, 25)
-            
+
             CustomerSupport()
             
             Spacer()
@@ -89,5 +87,6 @@ private struct CustomerSupportButton: View {
 #Preview {
     NavigationStack {
         MypageView()
+            .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
     }
 }
