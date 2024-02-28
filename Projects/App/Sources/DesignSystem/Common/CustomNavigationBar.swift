@@ -43,7 +43,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     
                     self.rightView?()
                         .foregroundStyle(Color.symBlack)
-                        .frame(width: 24, height: 24)
+                        .font(PretendardFont.h3Medium)
                 }
                 .frame(height: 44)
                 .frame(maxWidth: .infinity)
