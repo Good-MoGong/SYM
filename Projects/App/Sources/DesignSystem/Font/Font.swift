@@ -8,17 +8,23 @@
 
 import SwiftUI
 
+extension Font {
+    static func bold(_ size: CGFloat) -> Font {
+        return SYMFontFamily.Pretendard.bold.swiftUIFont(size: size)
+    }
+}
+
 /// 디폴트 폰트 (PretendardFont)
 struct PretendardFont {
     static let medium = "Pretendard-Medium"
     static let black = "Pretendard-Black"
     static let bold = "Pretendard-Bold"
     static let extrBold = "Pretendard-ExtraBold"
-    static let extraLight = "Pretendard-ExtraLight.otf"
-    static let light = "Pretendard-Light.otf"
-    static let regular = "Pretendard-Regular.otf"
-    static let semiBold = "Pretendard-SemiBold.otf"
-    static let thin = "Pretendard-Thin.otf"
+    static let extraLight = "Pretendard-ExtraLight"
+    static let light = "Pretendard-Light"
+    static let regular = "Pretendard-Regular"
+    static let semiBold = "Pretendard-SemiBold"
+    static let thin = "Pretendard-Thin"
     
     // MARK: - Medium+글꼴
     /// 28
@@ -37,6 +43,8 @@ struct PretendardFont {
     static let smallMedium = Font.custom(PretendardFont.medium, size: 12)
     
     // MARK: - Bold+글꼴
+    /// 30
+    static let bold30 = Font.custom(PretendardFont.bold, size: 30)
     /// 28
     static let h1Bold = Font.custom(PretendardFont.bold, size: 28)
     /// 25
