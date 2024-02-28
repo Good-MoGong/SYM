@@ -9,14 +9,11 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
-    
     @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
@@ -70,19 +67,8 @@ struct MyAccountInfo: View {
                                 .customTF(type: .normal)
                                 .disabled(true)
                             
-                            ZStack {
-                                Circle()
-                                    .foregroundStyle(Color.kakao)
-                                    .frame(width: .symWidth * 0.08)
-                                
-                                Image("KaKaoLogo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                                    .frame(width: .symWidth * 0.05)
-                                    .clipped()
-                            }
-                            .padding(.trailing, 8)
+                            userProviderLogo()
+                                .padding(.trailing, 8)
                         }
                     }
                     
@@ -102,28 +88,14 @@ struct MyAccountInfo: View {
             
             Spacer()
         }
-        .navigationTitle("닉네임 수정")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(.black)
-                }
-            }
-        }
-        .onAppear(perform: {
-            //            print("-----------------------")
-            //            print(authViewModel.userEmail)
-            //            print(authViewModel.loginInfo)
-            //            print("-----------------------")
-        })
+        .customNavigationBar(centerView: {
+            Text("닉네임 수정")
+        }, rightView: {
+            EmptyView()
+        }, isShowingBackButton: true)
     }
     
-    func koreaLangCheck(_ input: String) -> Bool {
+    private func koreaLangCheck(_ input: String) -> Bool {
         let pattern = "^[가-힣a-zA-Z\\s]*$"
         if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
             let range = NSRange(location: 0, length: input.utf16.count)
@@ -134,10 +106,35 @@ struct MyAccountInfo: View {
         return false
     }
     
+    @ViewBuilder
+    func userProviderLogo()  -> some View {
+        let imageSize: CGFloat = .symWidth * 0.05
+        let circleSize: CGFloat = .symWidth * 0.08
+
+        ZStack {
+            Circle()
+                .foregroundStyle(authViewModel.loginInfo == "Kakao" ? Color.kakao : Color.black)
+                .frame(width: circleSize)
+            
+            if authViewModel.loginInfo == "Apple" {
+                 Image("AppleLogo")
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: .symWidth * 0.05)
+                     .offset(x: -0.8, y: -0.5)
+             } else {
+                 Image("KaKaoLogo")
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: imageSize)
+             }
+        }
+    }
 }
 
-//#Preview {
-//    NavigationStack {
-//        MyAccountInfo()
-//    }
-//}
+#Preview {
+    NavigationStack {
+        MyAccountInfo()
+            .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
+    }
+}

@@ -52,19 +52,12 @@ struct SettingView: View {
             
             Spacer()
         }
-        .navigationTitle("설정")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(.black)
-                }
-            }
-        }
+        .customNavigationBar(centerView: {
+            Text("설정")
+        }, rightView: {
+            EmptyView()
+
+        }, isShowingBackButton: true)
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: "탈퇴하시겠어요?",
