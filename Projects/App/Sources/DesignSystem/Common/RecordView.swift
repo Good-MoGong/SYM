@@ -74,6 +74,7 @@ struct RecordView: View {
                     } label: {
                         Text(isShowingMainView ? (beforeRecord ?? false ? "감정 기록하기" : "기록 보러가기") : "시미에게 의견 보내기")
                             .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
+                            .padding(.vertical, -5)
                     }
                     .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
                     .navigationDestination(isPresented: $isShowingRecordView) {
@@ -108,6 +109,6 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: false)
+    RecordView(beforeRecord: true)
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
