@@ -69,7 +69,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
             // 이렇게 분기처리를 해주지 않으면 앱을 껐다 킬때마다 알람이 누적돼서 쌓이기 때문에 최조 시점때 bool 타입을 변경하여 처리해놓음
             settingNotification(alarmInfo: AlarmInfo(weekday: weekday,
                                                      hour: 0,
-                                                     minute: 23))
+                                                     minute: 1))
             
             print("⏰ 알람 세팅함수 실행완료")
             UserDefaults.standard.set(true, forKey: "userAlarmSetting")
@@ -103,7 +103,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
     
     // 알람 생성 - 3일 이상일 경우 랜덤 문구로 한번씩 보내기, 10번 이상 보냈는데 미 접속시 알람 그만 보내기
     func settingNotification(alarmInfo: AlarmInfo) {
-        if self.checkUserAccessDate() == 3, self.alarmCount <= 10 {
+        if self.checkUserAccessDate() == 1, self.alarmCount <= 10 { // 하루 지나면 12시 1분에 알람 와야함.
             var dateComponents = DateComponents()
             dateComponents.calendar = Calendar.current
             dateComponents.weekday = alarmInfo.weekday
@@ -121,12 +121,12 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
             
             UNUserNotificationCenter.current().add(request) { error in
                 guard error == nil else { return }
-                print("⏰ ALARM DEBUG: 알림 생성 완료!")
+                print("⏰ ALARM DEBUG: 디폴트 알람 생성 완료!")
                 
                 // MARK: - 알람 카운팅하기
                 self.alarmCount = self.alarmCount + 1
                 UserDefaults.standard.set(self.alarmCount, forKey: "alarmCount")
-                print("⏰ ALARM DEBUG: 알림 카운트+1 완료!")
+                print("⏰ ALARM DEBUG: 알림 카운트 + 1 완료!")
             }
         }
     }

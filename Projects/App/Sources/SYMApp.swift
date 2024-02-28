@@ -45,6 +45,7 @@ struct SYMApp: App {
                     
                     // 유저 접속시 알람 값 초기화
                     UserDefaults.standard.set(0, forKey: "alarmCount")
+                    print("🔄 alarmCount \(alarmCount)")
                 }
         }
     }
