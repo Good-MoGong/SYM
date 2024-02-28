@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MyAccountInfo: View {
     @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
+//    @State private var loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
@@ -78,9 +79,9 @@ struct MyAccountInfo: View {
                         authViewModel.nickName = nickname
                         dismiss()
                     }
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6 && nicknameRules == .allow))
                     // disabled 추가해서 비활성화 가능
-                    .disabled(1 > nickname.count || nickname.count >= 6)
+                    .disabled(1 > nickname.count || nickname.count >= 6 || nicknameRules == .reject)
                 }
                 .padding(.horizontal)
             }
@@ -113,10 +114,10 @@ struct MyAccountInfo: View {
 
         ZStack {
             Circle()
-                .foregroundStyle(authViewModel.loginInfo == "Kakao" ? Color.kakao : Color.black)
+                .foregroundStyle(authViewModel.loginProvider == "Kakao" ? Color.kakao : Color.black)
                 .frame(width: circleSize)
             
-            if authViewModel.loginInfo == "Apple" {
+            if authViewModel.loginProvider == "Apple" {
                  Image("AppleLogo")
                      .resizable()
                      .aspectRatio(contentMode: .fit)
