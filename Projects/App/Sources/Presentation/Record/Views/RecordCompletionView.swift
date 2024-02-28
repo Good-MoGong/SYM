@@ -15,7 +15,6 @@ struct RecordCompletionView: View {
     @Binding var isShowingOrganizeView: Bool
     
     var body: some View {
-//                NavigationStack {
         ZStack {
             Image("RecordBackground")
                 .resizable()
@@ -53,20 +52,15 @@ struct RecordCompletionView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: .symWidth * 0.6)
                 
-                
                 VStack(alignment: .leading) {
                     if recordViewModel.isGPTLoading {
-                        ProgressView()
-                            
+                        ProgressView() 
                     } else {
                         ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
                     }
                     Spacer()
                 }
-//                .animation(.easeIn)
-                
-                Spacer()
-                 
+            
                 HStack {
                     Button("홈") {
                         isShowingOrganizeView = false
@@ -87,7 +81,6 @@ struct RecordCompletionView: View {
         .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
             RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         }
-//                }
         .navigationBarBackButtonHidden()
                 .onAppear(perform: {
                     recordViewModel.makeGPTRequest()

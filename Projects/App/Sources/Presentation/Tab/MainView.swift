@@ -13,13 +13,12 @@ struct MainView: View {
     @StateObject private var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
+        NavigationStack {
             TabView(selection: $tabBarViewModel.selected) {
                 ForEach(MainTab.allCases) { tab in
-                    NavigationStack {
-                        tab.view
-                    }
-                    .toolbarBackground(.hidden, for: .tabBar)
+                    tab.view
                 }
+                .toolbarBackground(.hidden, for: .tabBar)
             }
             .overlay {
                 VStack {
@@ -30,6 +29,7 @@ struct MainView: View {
             .onAppear() {
                 UITabBar.appearance().barTintColor = .white
             }
+        }
     }
 }
 #Preview {

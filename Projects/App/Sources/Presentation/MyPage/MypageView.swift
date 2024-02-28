@@ -17,7 +17,7 @@ struct MypageView: View {
     
     var body: some View {
         NavigationStack {
-            RecordView(isShowingMainView: false, nickname: nickname)
+            RecordView(isShowingMainView: false)
                 .padding(.vertical, 25)
 
             CustomerSupport()
@@ -25,16 +25,16 @@ struct MypageView: View {
             Spacer()
         }
         .padding(.horizontal, 20)
-        .navigationTitle("마이페이지")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: SettingView()) {
-                    Image(systemName: "gearshape")
-                        .foregroundStyle(.black)
-                }
+        .customNavigationBar(centerView: {
+            Text("마이페이지")
+        }, rightView: {
+            NavigationLink {
+                SettingView()
+            } label: {
+                Image(systemName: "gearshape")
+                    .foregroundStyle(.black)
             }
-        }
+        }, isShowingBackButton: false)
     }
     
     @ViewBuilder
