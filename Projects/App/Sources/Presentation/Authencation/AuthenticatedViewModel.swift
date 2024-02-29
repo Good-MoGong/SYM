@@ -84,10 +84,14 @@ class AuthenticationViewModel: ObservableObject {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
                                     self?.authenticationState = .authenticated
+                                    self?.send(action: .getUserLoginProvider)
+                                    self?.send(action: .getUserLoginEmail)
                                     return
                                 } else {
                                     self?.userId = checkUser
                                     self?.authenticationState = .unauthenticated
+                                    self?.send(action: .getUserLoginProvider)
+                                    self?.send(action: .getUserLoginEmail)
                                 }
                             })
                         }
@@ -108,6 +112,8 @@ class AuthenticationViewModel: ObservableObject {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
                                 self?.authenticationState = .authenticated
+                                self?.send(action: .getUserLoginProvider)
+                                self?.send(action: .getUserLoginEmail)
                                 return
                             } else {
                                 self?.userId = checkUser
