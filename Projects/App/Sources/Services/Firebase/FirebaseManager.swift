@@ -16,6 +16,26 @@ final class FirebaseManager {
     static let shared = FirebaseManager()
     private let db = Firestore.firestore()
     
+    func fetchDiaryID(userID: String, date: String, completion: (String) -> Void) async throws {
+        guard !date.isEmpty else { return }
+        
+        let collectionRef = db.collection("User").document(userID).collection("Diary")
+        var diaryID = ""
+        
+        do {
+          let querySnapshot = try await collectionRef.whereField("date", isEqualTo: date)
+            .getDocuments()
+          for document in querySnapshot.documents {
+              diaryID = document.documentID
+          }
+            
+            completion(diaryID)
+            
+        } catch {
+          print("Error getting documents: \(error)")
+        }
+    }
+    
     ///기록 저장
     func saveDiaryFireStore<T: Codable>(userID: String, data: T) async throws {
         
@@ -25,6 +45,30 @@ final class FirebaseManager {
         
         do {
             try collectionRef.addDocument(from: data.self)
+        } catch {
+            throw error
+        }
+    }
+    
+    func updateDiaryFireStore(userID: String, data: Diary) async throws {
+        guard !userID.isEmpty else { return }
+        
+        print(data.date)
+        
+        var collectionRef = db.collection("User").document(userID)
+        
+        try await fetchDiaryID(userID: userID, date: data.date) { diaryID in
+            collectionRef = db.collection("User").document(userID).collection("Diary").document(diaryID)
+            print(diaryID)
+        }
+        
+        do {
+            try await collectionRef.setData([
+                "event": data.event,
+                "idea": data.idea,
+                "emotions": data.emotions,
+                "action" : data.action
+              ], merge: true)
         } catch {
             throw error
         }

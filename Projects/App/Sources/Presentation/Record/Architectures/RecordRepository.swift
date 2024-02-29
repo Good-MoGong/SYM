@@ -12,6 +12,7 @@ import Combine
 protocol RecordRepositoryProtocal {
     func saveRecord(userID: String, diary: Diary) async -> Bool
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
+    func updateRecord(userID: String, diary: Diary) async -> Bool
     func makeGPTRequest(text: String, completion: @escaping (String) -> Void)
 }
 
@@ -38,6 +39,20 @@ final class RecordRepository: RecordRepositoryProtocal {
         }
     }
     
+    func updateRecord(userID: String, diary: Diary) async -> Bool {
+        do {
+            // Core Data에 업데이트하는 비동기 코드
+            try await updateToCoreData(diary: diary)
+            // Firebase에 업데이트하는 비동기 코드
+            try await updateToFirebase(userID: userID, diary: diary)
+            // 두 작업이 모두 완료되면 true를 반환
+            return true
+        } catch {
+            // 실패한 경우에는 false를 반환
+            return false
+        }
+    }
+    
     private func saveToFirebase(userID: String, diary: Diary) async throws {
         try await fireBaseManager.saveDiaryFireStore(userID: userID, data: diary)
         print("Firebase 저장 성공")
@@ -56,6 +71,25 @@ final class RecordRepository: RecordRepositoryProtocal {
             }
         }
         print("CoreData 저장 성공")
+    }
+    
+    private func updateToFirebase(userID: String, diary: Diary) async throws {
+        try await fireBaseManager.updateDiaryFireStore(userID: userID, data: diary)
+        print("Firebase 업데이트 성공")
+    }
+    
+    private func updateToCoreData(diary: Diary) async throws {
+        let context = coreDataManager.newContextForBackgroundThread()
+        _ = await context.perform {
+            self.coreDataManager.update(type: DiaryEntity.self, column: \.date, value: diary.date, contextValue: context) {
+                let diaryInfo = DiaryEntity(context: context)
+                diaryInfo.date = diary.date
+                diaryInfo.event = diary.event
+                diaryInfo.idea = diary.idea
+                diaryInfo.emotion = diary.emotions
+                diaryInfo.action = diary.action
+            }
+        }
     }
     
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {
