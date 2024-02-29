@@ -24,8 +24,13 @@ struct CalendarMainView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    CalendarDetailView(nickname: $nickname, currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
+                    CalendarDetailView(nickname: $nickname,
+                                       currentDate: $currentDate,
+                                       selectDate: $selectDate,
+                                       isShowingOrganizeView: $isShowingOrganizeView,
+                                       calendarViewModel: calendarViewModel)
                         .padding(20)
+                    
                     RecordView(beforeRecord: calendarViewModel.completeRecord, nickname: nickname)
                         .padding(.horizontal, 20)
                 }
@@ -41,6 +46,8 @@ struct CalendarMainView: View {
                     // 데이터 전체 페치
                     calendarViewModel.recordWholeFetch()
                 }
+                .animation(.easeIn, value: currentDate)
+                .toastView(toast: $calendarViewModel.impossibleMessage)
             }
         }
     }

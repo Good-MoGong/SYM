@@ -26,8 +26,19 @@ struct CalendarDetailView: View {
     var body: some View {
         VStack {
             HeaderView(nickname: $nickname)
-            YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
+            YearMonthHeaderView(selectedYear: $selectedYear,
+                                selectedMonth: $selectedMonth,
+                                currentMonth: $currentMonth,
+                                currentDate: $currentDate,
+                                isShowingDateChangeSheet: $isShowingDateChangeSheet)
+            
+            CalendarView(currentMonth: $currentMonth,
+                         currentDate: $currentDate,
+                         selectDate: $selectDate,
+                         selectedYear: $selectedYear,
+                         selectedMonth: $selectedMonth,
+                         isShowingOrganizeView: $isShowingOrganizeView,
+                         calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
@@ -78,7 +89,12 @@ struct YearMonthHeaderView: View {
             })
         }
         .sheet(isPresented: $isShowingDateChangeSheet,
-               content: { DatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingDateChangeSheet: $isShowingDateChangeSheet, currentMonth: $currentMonth, currentDate: $currentDate)
+               content: { DatePicker(selectedYear: $selectedYear,
+                                     selectedMonth: $selectedMonth,
+                                     isShowingDateChangeSheet: $isShowingDateChangeSheet,
+                                     currentMonth: $currentMonth,
+                                     currentDate: $currentDate)
+            
                 .presentationDetents([.fraction(0.4)])
         })
     }
@@ -113,7 +129,10 @@ struct CalendarView: View {
     var body: some View {
         VStack {
             WeekdayHeaderView(weekday: weekday)
-            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
+            
+            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth,
+                          isShowingOrganizeView: $isShowingOrganizeView,
+                          calendarViewModel: calendarViewModel)
         }
         .padding(.top, 20)
         // currentMonth 바뀔 때 마다
@@ -133,14 +152,14 @@ struct CalendarView: View {
                     let selectMonth = calender.component(.month, from: currentDate)
                     let presentMonth = calender.component(.month, from: Date())
                     
-                    if gesture.translation.width < -100 {
+                    if gesture.translation.width < -80 {
                         if selectMonth == presentMonth { // Calender의 Month와 현재 Month가 같으면 다음 Month로 넘어가지 않음
                             
                         } else {
                             currentMonth += 1
                             selectedMonth += 1
                         }
-                    } else if gesture.translation.width > 100 {
+                    } else if gesture.translation.width > 80 {
                         if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
                         } else {
                             currentMonth -= 1
@@ -203,7 +222,14 @@ struct DatesGridView: View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
                 if value.day != -1 {
-                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView)
+                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate,
+                               isShowingOrganizeView: $isShowingOrganizeView)
+                        .onTapGesture {
+                            calendarViewModel.checkingDate = value.date
+                            calendarViewModel.popupDate = true
+                            calendarViewModel.checkingDateFuture()
+                        }
+                    
                 } else {
                     // 날짜 공백때문에 -1이 있을경우 숨긴다
                     Text("\(value.day)").hidden()
@@ -261,9 +287,7 @@ struct DatesGridView: View {
 struct DateButton: View {
     
     var value: DateValue
-    
     @ObservedObject var calendarViewModel: CalendarViewModel
-    
     @Binding var selectDate: Date
     @Binding var isShowingOrganizeView: Bool
     
@@ -313,6 +337,7 @@ struct DateButton: View {
                         .opacity(isSelected ? 1 : 0)
                 )
             }
+            .disabled(value.date > Date() ? true : false)
         }
     }
     

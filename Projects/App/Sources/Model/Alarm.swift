@@ -18,7 +18,7 @@ struct AlarmInfo: Hashable {
     
     let title: String = "오늘 하루 어떤 감정을 느끼셨나요?"// "마음을 기록한지 \(PushNotificationService().checkUserAccessDate())일 이 지났어요"
     let subtitle: String = subTitleList.randomElement() ?? "오늘의 감정을 기록하고 내일의 나를 발견해보세요"
-    let body: String = bodyList.randomElement() ?? "오늘 하루를 기록해보는건 어떤가요?"
+    // let body: String = bodyList.randomElement() ?? "오늘 하루를 기록해보는건 어떤가요?"
     
     // 나중에 랜덤 데이터 들어갈 자리
     static let TitleList = ["Title First1", "Title First2", "Title First3", "Title First4"]
@@ -28,7 +28,7 @@ struct AlarmInfo: Hashable {
                                "시미는 언제든지 기록을 시작할 준비가 되어있어요!",
                                "subTitleList4"]
     
-    static let bodyList = ["body1", "body2", "body3", "body4"]
+    // static let bodyList = ["body1", "body2", "body3", "body4"]
         
     static let sampleAlarm = [AlarmInfo(weekday: 6, hour: 21, minute: 00),
                               AlarmInfo(weekday: 4, hour: 22, minute: 00),
