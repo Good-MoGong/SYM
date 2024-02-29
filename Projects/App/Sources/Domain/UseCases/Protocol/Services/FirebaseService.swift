@@ -16,7 +16,7 @@ final class FirebaseService {
     private init() { }
     
     let db = Firestore.firestore()
-
+    
     // firestore에 유저 데이터 추가하기
     func createUserInFirebase(user: User) {
         let documentRef = db.collection("User").document(user.id)
@@ -38,6 +38,25 @@ final class FirebaseService {
             } else {
                 print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 완료")
                 completion(true)
+            }
+        }
+    }
+    
+    // 서버에서 닉네임 값 가져오기
+    func checkingUserNickname(userID: String, completion: @escaping (Bool) -> Void) {
+        let documentRef = db.collection("User").document(userID).getDocument { document, error in
+            if let error = error {
+                print("🔥 Firebase DEBUG: Nickname 정보 패치 중 에러 발생")
+                completion(false)
+            } else {
+                if let document = document, document.exists {
+                    if let nickname = document.data()?["name"] as? String {
+                        UserDefaults.standard.set(nickname, forKey: "nickname")
+                        completion(true)
+                    }
+                } else {
+                    completion(false)
+                }
             }
         }
     }
