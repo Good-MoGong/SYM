@@ -24,7 +24,6 @@ struct CalendarDetailView: View {
     
     var body: some View {
         VStack {
-            HeaderView()
             YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
             CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
