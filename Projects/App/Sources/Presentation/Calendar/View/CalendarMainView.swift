@@ -11,7 +11,6 @@ import SwiftUI
 struct CalendarMainView: View {
     @State var currentDate: Date = Date()
     @State var selectDate: Date = Date()
-    @State private var nickname: String = "모공모공"
     @State var isShowingOrganizeView: Bool = false
     
     @StateObject var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
@@ -24,14 +23,9 @@ struct CalendarMainView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    CalendarDetailView(nickname: $nickname,
-                                       currentDate: $currentDate,
-                                       selectDate: $selectDate,
-                                       isShowingOrganizeView: $isShowingOrganizeView,
-                                       calendarViewModel: calendarViewModel)
+                    CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
                         .padding(20)
-                    
-                    RecordView(beforeRecord: calendarViewModel.completeRecord, nickname: nickname)
+                    RecordView(beforeRecord: calendarViewModel.completeRecord)
                         .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 20)
@@ -55,4 +49,5 @@ struct CalendarMainView: View {
 
 #Preview {
     CalendarMainView()
+        .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
