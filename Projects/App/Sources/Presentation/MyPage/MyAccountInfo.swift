@@ -10,7 +10,8 @@ import SwiftUI
 
 struct MyAccountInfo: View {
     @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
-//    @State private var loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
+    private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
+    @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
@@ -64,7 +65,7 @@ struct MyAccountInfo: View {
                             .font(PretendardFont.h5Bold)
                         
                         ZStack(alignment: .trailing) {
-                            TextField("아이디", text: $authViewModel.userEmail)
+                            TextField("아이디", text: $loginEmail)
                                 .customTF(type: .normal)
                                 .disabled(true)
                             
@@ -114,10 +115,10 @@ struct MyAccountInfo: View {
 
         ZStack {
             Circle()
-                .foregroundStyle(authViewModel.loginProvider == "Kakao" ? Color.kakao : Color.black)
+                .foregroundStyle(loginProvider == "Kakao" ? Color.kakao : Color.black)
                 .frame(width: circleSize)
             
-            if authViewModel.loginProvider == "Apple" {
+            if loginProvider == "Apple" {
                  Image("AppleLogo")
                      .resizable()
                      .aspectRatio(contentMode: .fit)

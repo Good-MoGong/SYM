@@ -40,8 +40,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
-    @Published var loginInfo: String = ""
-    @Published var userEmail: String = ""
+    @Published var loginProvider: String = (UserDefaults.standard.string(forKey: "loginProvider") ?? "")
     @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
@@ -113,6 +112,8 @@ class AuthenticationViewModel: ObservableObject {
                             } else {
                                 self?.userId = checkUser
                                 self?.authenticationState = .unauthenticated
+                                self?.send(action: .getUserLoginProvider)
+                                self?.send(action: .getUserLoginEmail)
                             }
                         })
                     }
@@ -149,10 +150,11 @@ class AuthenticationViewModel: ObservableObject {
             self.authenticationState = .initial
             
         case .getUserLoginProvider:
-            loginInfo = container.services.authService.getUserLoginProvider()
+            UserDefaults.standard.set(container.services.authService.getUserLoginProvider(), forKey: "loginProvider")
             
         case .getUserLoginEmail:
-            userEmail = container.services.authService.getUserLoginEmail()
+            UserDefaults.standard.set(container.services.authService.getUserLoginEmail(), forKey: "userEmail")
+            
         }
     }
 }
