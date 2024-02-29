@@ -9,8 +9,8 @@
 import Foundation
 
 final class CalendarViewModel: RecordConditionFetch {
-    
     private let calendarUseCase: CalendarUseCase
+    var userID: String = ""
     
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var recordDiaryArray: [Diary] = []
@@ -55,5 +55,15 @@ final class CalendarViewModel: RecordConditionFetch {
         return recordDiaryArray.contains(where: { diary -> Bool in
             return diary.date == dateString
         })
+    }
+    
+    func updateRecord(updateDiary: Diary) {
+        recordDiary.event = updateDiary.event
+        recordDiary.idea = updateDiary.idea
+        recordDiary.action = updateDiary.action
+        
+        Task {
+            await calendarUseCase.updateRecord(userID: userID, diary: recordDiary)
+        }
     }
 }

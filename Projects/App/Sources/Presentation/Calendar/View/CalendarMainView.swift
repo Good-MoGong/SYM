@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct CalendarMainView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State var currentDate: Date = Date()
     @State var selectDate: Date = Date()
     @State var isShowingOrganizeView: Bool = false
@@ -21,12 +22,18 @@ struct CalendarMainView: View {
                 Image("CalendarBackground")
                     .resizable()
                     .ignoresSafeArea()
-                
-                ScrollView {
-                    CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
-                        .padding(20)
-                    RecordView(beforeRecord: calendarViewModel.completeRecord)
+                VStack {
+                    HeaderView()
                         .padding(.horizontal, 20)
+                        .padding(.top)
+                        .padding(.bottom, -15)
+                    
+                    ScrollView {
+                        CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel)
+                            .padding(20)
+                        RecordView(beforeRecord: calendarViewModel.completeRecord)
+                            .padding(.horizontal, 20)
+                    }
                 }
                 .padding(.bottom, 20)
                 .scrollIndicators(.hidden)
@@ -39,9 +46,32 @@ struct CalendarMainView: View {
                     calendarViewModel.todayrecordFetch()
                     // 데이터 전체 페치
                     calendarViewModel.recordWholeFetch()
+                    calendarViewModel.userID = authViewModel.userId ?? ""
                 }
             }
         }
+    }
+}
+
+// MARK: - HeaderView: 환영글
+struct HeaderView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                // ~님 -> 나중에 닉네임으로 변경
+                Text("\(authViewModel.nickName ?? "모공")님, 반가워요!")
+                    .foregroundStyle(Color.symBlack)
+                Text("오늘의 기분은 어때요?")
+                    .foregroundStyle(Color.main)
+            }
+            .font(PretendardFont.h3Bold)
+            
+            Spacer(minLength: 0)
+        }
+        .padding(.leading, 15)
+        .padding(.bottom, 40)
     }
 }
 
