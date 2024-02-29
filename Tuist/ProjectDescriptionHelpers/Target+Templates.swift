@@ -46,7 +46,7 @@ extension Target {
             // 빌드 세팅 (xcconfig 있을경우)
 //            setting = Settings.settings(configurations: [
 //            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Xlinker -no_warn_duplicate_libraries", "-ObjC"]],
-            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
 //            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
 //                                               "MACH_O_TYPE" : ["staticlib"]], //staticFramework
 //                                               "EXCLUDED_ARCHS" : ["arm64"]],
@@ -62,7 +62,8 @@ extension Target {
             // 빌드 세팅 (기본)
 //            setting = nil
 //            entitlements = nil
-            setting = .settings(base: [:],
+//            setting = .settings(base: [:],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
                                 configurations: [.debug(name: .debug),
                                                  .release(name: .release)],
                                 defaultSettings: .recommended)

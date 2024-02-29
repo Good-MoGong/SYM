@@ -60,7 +60,9 @@ class AuthenticationViewModel: ObservableObject {
                     }
                 }
             } else {
+                print("🔺Here is userID is nil \(userId ?? "유저 아이디 없어요")")
                 self.authenticationState = .initial
+                print("🔺 유저 계정 상태 \(self.authenticationState)")
             }
             
         case let .appleLogin(requeset):
@@ -139,7 +141,7 @@ class AuthenticationViewModel: ObservableObject {
             
         case .unlinkKakao:
             container.services.authService.deleteFirebaseAuth()
-            container.services.authService.logoutWithKakao()
+//            container.services.authService.logoutWithKakao()
             container.services.authService.removeKakaoAccount()
             self.authenticationState = .initial
             
