@@ -13,8 +13,7 @@ struct CalendarDetailView: View {
     @State private var isShowingDateChangeSheet: Bool = false
     @State var selectedYear: Int = Calendar.current.component(.year, from: .now)
     @State var selectedMonth: Int = Calendar.current.component(.month, from: .now)
-    
-    @Binding var nickname: String
+ 
     @Binding var currentDate: Date
     @Binding var selectDate: Date
     @Binding var isShowingOrganizeView: Bool
@@ -25,34 +24,22 @@ struct CalendarDetailView: View {
     
     var body: some View {
         VStack {
-            HeaderView(nickname: $nickname)
-            YearMonthHeaderView(selectedYear: $selectedYear,
-                                selectedMonth: $selectedMonth,
-                                currentMonth: $currentMonth,
-                                currentDate: $currentDate,
-                                isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            
-            CalendarView(currentMonth: $currentMonth,
-                         currentDate: $currentDate,
-                         selectDate: $selectDate,
-                         selectedYear: $selectedYear,
-                         selectedMonth: $selectedMonth,
-                         isShowingOrganizeView: $isShowingOrganizeView,
-                         calendarViewModel: calendarViewModel, weekday: weekday)
+            HeaderView()
+            YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
 
 // MARK: - HeaderView: 환영글
 struct HeaderView: View {
-    
-    @Binding var nickname: String
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 // ~님 -> 나중에 닉네임으로 변경
-                Text("\(nickname)님, 반가워요!")
+                Text("\(authViewModel.nickName ?? "모공")님, 반가워요!")
                     .foregroundStyle(Color.symBlack)
                 Text("오늘의 기분은 어때요?")
                     .foregroundStyle(Color.main)
@@ -350,4 +337,5 @@ struct DateButton: View {
 
 #Preview {
     CalendarMainView()
+        .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }

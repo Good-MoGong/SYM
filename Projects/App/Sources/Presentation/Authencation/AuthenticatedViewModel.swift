@@ -10,6 +10,7 @@ import Foundation
 import Combine
 import AuthenticationServices
 import FirebaseAuth
+import SwiftUI
 
 // 인증 상태에 따른 분기처리
 enum AuthenticationState {
@@ -26,17 +27,14 @@ class AuthenticationViewModel: ObservableObject {
         case kakaoLogin
         case requestPushNotification
         case logout
-        
-        // MARK: - 카카오 탈퇴
         case unlinkKakao
-        
-        // MARK: - 애플 탈퇴
         case unlinkApple
     }
     
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
+    @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
     private var container: DIContainer
@@ -97,7 +95,7 @@ class AuthenticationViewModel: ObservableObject {
                     //
                 } receiveValue: { [weak self] result in
                     if let checkUser = self?.container.services.authService.checkAuthenticationState() {
-                        print("🥶 \(checkUser)")
+                        print("🥶 checkUser \(checkUser)")
                         self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
                             if userExists {
                                 print("🥶🥶 \(checkUser)")
@@ -133,13 +131,15 @@ class AuthenticationViewModel: ObservableObject {
             self.authenticationState = .initial
             
         case .unlinkKakao:
-            container.services.authService.removeKakaoAccount()
             container.services.authService.deleteFirebaseAuth()
+            container.services.authService.logoutWithKakao()
+            container.services.authService.removeKakaoAccount()
             self.authenticationState = .initial
 
         case .unlinkApple:
-            container.services.authService.removeAppleAccount()
+            // 삭제 순서는 파베에서 데이터 다 지우고 revoke Token 해야함
             container.services.authService.deleteFirebaseAuth()
+            container.services.authService.removeAppleAccount()
             self.authenticationState = .initial
         }
     }

@@ -11,9 +11,9 @@ import SwiftUI
 // App Color DesignSystem
 
 extension Color {
-    /// Main
+    /// Main / Gradient
     static let main = Color.init(hex: "FF7E7E")
-    /// Sub
+    /// Sub / main
     static let sub = Color.init(hex: "FF9A9A")
     /// Medium
     static let medium = Color.init(hex: "FFF0F0")
