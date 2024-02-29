@@ -20,6 +20,7 @@ enum NickNameRules: String, CaseIterable {
 struct LoginNicknameView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @StateObject var loginNicknameViewModel = LoginNicknameViewModel()
+    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     var body: some View {
         NavigationStack {
@@ -72,8 +73,7 @@ struct LoginNicknameView: View {
     private func doneButton() -> some View {
         Button {
             loginNicknameViewModel.addNicknametoFirebase()
-            authViewModel.nickName = loginNicknameViewModel.nickname
-            
+            UserDefaults.standard.set(loginNicknameViewModel.nickname, forKey: "nickname")
             withAnimation(.easeInOut) {
                 authViewModel.authenticationState = .authenticated
             }
