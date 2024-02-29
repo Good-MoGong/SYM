@@ -23,8 +23,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct SYMApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var container: DIContainer = .init(services: Services())
-    @AppStorage("lastAccessedDateString") var lastAccessedDateString: String = "" // 유저의 최근 접속일 저장값
-    @State private var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount") // 알람 카운팅
     
     init() {
         let kakaoKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY")
@@ -40,23 +38,7 @@ struct SYMApp: App {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
                 }
-                .onAppear {
-                    updateLastAccessedDate()
-                    
-                    // 유저 접속시 알람 값 초기화
-                    UserDefaults.standard.set(0, forKey: "alarmCount")
-                    alarmCount = UserDefaults.standard.integer(forKey: "alarmCount")
-                    print("🔄 alarmCount \(alarmCount)")
-                }
         }
-    }
-        
-    private func updateLastAccessedDate() {
-        let currentDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd" // 2024.01.01
-        lastAccessedDateString = dateFormatter.string(from: currentDate)
-        
     }
 }
 

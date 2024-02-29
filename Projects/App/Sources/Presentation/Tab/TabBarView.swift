@@ -19,6 +19,7 @@ struct TabBarView: View {
         HStack {
             ForEach(MainTab.allCases) { item in
                 Spacer()
+                
                 Button {
                     tabBarViewModel.selected = item
                     print(item)
@@ -28,6 +29,7 @@ struct TabBarView: View {
                             .resizable()
                             .frame(width: 22, height: 22)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
+                        
                         Text(item.title)
                             .font(PretendardFont.smallMedium)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
@@ -37,7 +39,6 @@ struct TabBarView: View {
             }
         }
         .frame(maxWidth: .infinity)
-//        .frame(height: UIScreen.main.bounds.height * 0.07)
         .frame(height: 60)
         .background(
             Rectangle()
