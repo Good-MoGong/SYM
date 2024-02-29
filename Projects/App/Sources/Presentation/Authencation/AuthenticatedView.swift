@@ -33,7 +33,7 @@ struct AuthenticatedView: View {
             }
         }
         .onAppear {
-            authViewModel.send(action: .checkAuthenticationState)
+            authViewModel.send(action: .checkAuthenticationState)            
         }
         
         // MARK: - 다른거 뷰 실기기 테스트하고 돌아오는 경우 사용하는 로그아웃 버튼

@@ -17,62 +17,6 @@ protocol PushNotificationServiceType {
 }
 
 class PushNotificationService: NSObject, PushNotificationServiceType {
-    private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting") // 알람 세팅 유무 확인
-    private var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount") // 알람 카운팅
-    
-    // 오늘 날짜
-    let todayDate: String
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        return formatter
-    }()
-    
-    let todayWeek: String
-    let weekFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE"
-        return formatter
-    }()
-    
-    let dayOfWeekMapping: [String: Int] = [
-        "일요일": 1,
-        "월요일": 2,
-        "화요일": 3,
-        "수요일": 4,
-        "목요일": 5,
-        "금요일": 6,
-        "토요일": 7
-    ]
-    
-    var weekday: Int {
-        guard let weekday = dayOfWeekMapping[todayWeek] else {
-            // 매칭값 없으면 무조건 일요일
-            return 1
-        }
-        return weekday
-    }
-    
-    override init() {
-        self.todayDate = dateFormatter.string(from: Date())
-        self.todayWeek = weekFormatter.string(from: Date())
-    }
-    
-    /// 실질적인 알림 세팅 함수
-    func settingPushNotification() {
-        print("⏰ setting값: \(userAlarmSetting)")
-        // setting = true 라면 유저의 알람상태는 이미 세팅되어 있는 상태임!!
-        
-//        if !userAlarmSetting {
-            // 이렇게 분기처리를 해주지 않으면 앱을 껐다 킬때마다 알람이 누적돼서 쌓이기 때문에 최조 시점때 bool 타입을 변경하여 처리해놓음
-            settingNotification(alarmInfo: AlarmInfo(weekday: weekday,
-                                                     hour: 0,
-                                                     minute: 1))
-            
-//            print("⏰ 알람 세팅함수 실행완료")
-//            UserDefaults.standard.set(true, forKey: "userAlarmSetting")
-//        }
-    }
     
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -87,43 +31,73 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         }
     }
     
-    /// 오늘 날짜와 appstorge에 저장된 날짜 가져와서 비교하기
-    func checkUserAccessDate() -> Int {
-        let userLastAccessedDate = UserDefaults.standard.string(forKey: "lastAccessedDate") ?? ""
+    // 알람 세팅 함수 테스트용
+//    func settingPushNotification() {
+//        let center = UNUserNotificationCenter.current()
+//        
+//        // 알림 콘텐츠 생성
+//        let content = UNMutableNotificationContent()
+//        content.title = AlarmInfo.title
+//        content.body = AlarmInfo.body
+//        
+//        // 반복되는 알림 예약을 위한 반복 횟수
+//        let repeatCount = 5
+//        
+//        // 반복문을 사용하여 여러 알림을 예약
+//        for i in 1...repeatCount {
+//            // i분 후의 날짜 계산
+//            let triggerDate = Calendar.current.date(byAdding: .second, value: i * 30, to: Date())!
+//            
+//            // 알림 요청 생성
+//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerDate.timeIntervalSinceNow, repeats: false)
+//            let request = UNNotificationRequest(identifier: "\(i)Later", content: content, trigger: trigger)
+//            
+//            // 알림 예약
+//            center.add(request) { error in
+//                if let error = error {
+//                    print("⏰ 알림 설정 실패: \(error.localizedDescription)")
+//                } else {
+//                    print("⏰ 알림 설정 완료\(i) later")
+//                }
+//            }
+//        }
+//    }
+
+    // 알람 세팅 함수
+    func settingPushNotification() {
+        let center = UNUserNotificationCenter.current()
         
-        guard let lastAccessDate = dateFormatter.date(from: userLastAccessedDate),
-              let todayAccessDate = dateFormatter.date(from: todayDate) else { return 0 }
+        let content = UNMutableNotificationContent()
+        content.title = AlarmInfo.title
+        content.body = AlarmInfo.body
         
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: lastAccessDate, to: todayAccessDate)
-        return components.day ?? 1000000
-    }
-    
-    // 알람 생성 - 3일 이상일 경우 랜덤 문구로 한번씩 보내기, 10번 이상 보냈는데 미 접속시 알람 그만 보내기
-    func settingNotification(alarmInfo: AlarmInfo) {
-        if self.checkUserAccessDate() >= 1 { 
+        let repeatCount = 10
+            
+        // 반복문을 사용하여 여러 알림을 예약
+        for i in 1...repeatCount {
+            // 저녁 7시
             var dateComponents = DateComponents()
-            dateComponents.calendar = Calendar.current
-            dateComponents.weekday = alarmInfo.weekday
-            dateComponents.hour = alarmInfo.hour
-            dateComponents.minute = alarmInfo.minute
+            dateComponents.hour = 19 // 저녁 7시
+            dateComponents.minute = 0
+            dateComponents.second = 0
             
-            let content = UNMutableNotificationContent()
-            content.title = alarmInfo.title
-            content.subtitle = alarmInfo.subtitle
-            content.sound = UNNotificationSound.default
+            // i일 후의 날짜 계산 -> 오늘 날짜를 기준으로 3일 후를 계산하기
+            let triggerDate = Calendar.current.date(byAdding: .day, value: i * 3, to: Date())!
             
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            // triggerDate에 시간을 설정
+            let triggerDateWithTime = Calendar.current.date(bySettingHour: dateComponents.hour!, minute: dateComponents.minute!, second: dateComponents.second!, of: triggerDate)!
             
-            UNUserNotificationCenter.current().add(request) { error in
-                guard error == nil else { return }
-                print("⏰ ALARM DEBUG: 디폴트 알람 생성 완료!")
-                
-                // MARK: - 알람 카운팅하기
-                self.alarmCount = self.alarmCount + 1
-                UserDefaults.standard.set(self.alarmCount, forKey: "alarmCount")
-                print("⏰ ALARM DEBUG: 알림 카운트 + 1 완료!")
+            // 알림 요청 생성 -> 식별자로 인하여 중복 안 됨
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerDateWithTime.timeIntervalSinceNow, repeats: false)
+            let request = UNNotificationRequest(identifier: "\(i)Days Later", content: content, trigger: trigger)
+            
+            // 알림 예약
+            center.add(request) { error in
+                if let error = error {
+                    print("⏰ 알림 설정 실패: \(error.localizedDescription)")
+                } else {
+                    print("⏰ 알림 설정 완료 \(i)일 후")
+                }
             }
         }
     }
