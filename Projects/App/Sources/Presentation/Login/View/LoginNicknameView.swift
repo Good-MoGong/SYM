@@ -74,6 +74,8 @@ struct LoginNicknameView: View {
         Button {
             loginNicknameViewModel.addNicknametoFirebase()
             UserDefaults.standard.set(loginNicknameViewModel.nickname, forKey: "nickname")
+            print("🔅 DEBUG: Nickname UserDefault에 재저장")
+            
             withAnimation(.easeInOut) {
                 authViewModel.authenticationState = .authenticated
             }

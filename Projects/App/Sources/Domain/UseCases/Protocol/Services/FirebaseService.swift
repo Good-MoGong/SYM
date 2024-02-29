@@ -50,8 +50,10 @@ final class FirebaseService {
                 completion(false)
             } else {
                 if let document = document, document.exists {
+                    print("🔥 Firebase DEBUG: Nickname 정보 서버에 있음!!")
                     if let nickname = document.data()?["name"] as? String {
                         UserDefaults.standard.set(nickname, forKey: "nickname")
+                        print("🔥 Firebase DEBUG: Nickname 정보 UserDefault에 저장 \(nickname)")
                         completion(true)
                     }
                 } else {
