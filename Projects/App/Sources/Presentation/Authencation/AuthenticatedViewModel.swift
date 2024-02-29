@@ -34,11 +34,12 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
-//    @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
     private var container: DIContainer
     private var subscritpions = Set<AnyCancellable>()
+    private let firebaseService = FirebaseService.shared
+    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     init(container: DIContainer) {
         self.container = container
@@ -51,7 +52,13 @@ class AuthenticationViewModel: ObservableObject {
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
-                self.authenticationState = .authenticated
+                firebaseService.checkingUserNickname(userID: userId) { result in
+                    if result {
+                        self.authenticationState = .authenticated
+                    } else {
+                        self.authenticationState = .unauthenticated
+                    }
+                }
             } else {
                 self.authenticationState = .initial
             }
@@ -88,7 +95,7 @@ class AuthenticationViewModel: ObservableObject {
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
-
+            
         case .kakaoLogin:
             container.services.authService.checkKakaoToken()
                 .sink { completion in
@@ -109,7 +116,7 @@ class AuthenticationViewModel: ObservableObject {
                         })
                     }
                 }.store(in: &subscritpions)
-
+            
         case .requestPushNotification:
             container.services.pushNotificationService.requestAuthorization { granted in
                 if granted {
@@ -135,7 +142,7 @@ class AuthenticationViewModel: ObservableObject {
             container.services.authService.logoutWithKakao()
             container.services.authService.removeKakaoAccount()
             self.authenticationState = .initial
-
+            
         case .unlinkApple:
             // 삭제 순서는 파베에서 데이터 다 지우고 revoke Token 해야함
             container.services.authService.deleteFirebaseAuth()
