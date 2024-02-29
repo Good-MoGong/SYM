@@ -34,7 +34,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
-    @AppStorage("nickName") var nickName: String?
+//    @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
     private var container: DIContainer
