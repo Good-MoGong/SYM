@@ -17,10 +17,8 @@ protocol PushNotificationServiceType {
 }
 
 class PushNotificationService: NSObject, PushNotificationServiceType {
-    private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting")
-    
-    // 알람 횟수 체킹 userDefault
-    private var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount")
+    private var userAlarmSetting = UserDefaults.standard.bool(forKey: "userAlarmSetting") // 알람 세팅 유무 확인
+    private var alarmCount = UserDefaults.standard.integer(forKey: "alarmCount") // 알람 카운팅
     
     // 오늘 날짜
     let todayDate: String
@@ -38,13 +36,13 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
     }()
     
     let dayOfWeekMapping: [String: Int] = [
-        "Sunday": 1,
-        "Monday": 2,
-        "Tuesday": 3,
-        "Wednesday": 4,
-        "Thursday": 5,
-        "Friday": 6,
-        "Saturday": 7
+        "일요일": 1,
+        "월요일": 2,
+        "화요일": 3,
+        "수요일": 4,
+        "목요일": 5,
+        "금요일": 6,
+        "토요일": 7
     ]
     
     var weekday: Int {
@@ -65,15 +63,15 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
         print("⏰ setting값: \(userAlarmSetting)")
         // setting = true 라면 유저의 알람상태는 이미 세팅되어 있는 상태임!!
         
-        if !userAlarmSetting {
+//        if !userAlarmSetting {
             // 이렇게 분기처리를 해주지 않으면 앱을 껐다 킬때마다 알람이 누적돼서 쌓이기 때문에 최조 시점때 bool 타입을 변경하여 처리해놓음
             settingNotification(alarmInfo: AlarmInfo(weekday: weekday,
                                                      hour: 0,
                                                      minute: 1))
             
-            print("⏰ 알람 세팅함수 실행완료")
-            UserDefaults.standard.set(true, forKey: "userAlarmSetting")
-        }
+//            print("⏰ 알람 세팅함수 실행완료")
+//            UserDefaults.standard.set(true, forKey: "userAlarmSetting")
+//        }
     }
     
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
@@ -103,7 +101,7 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
     
     // 알람 생성 - 3일 이상일 경우 랜덤 문구로 한번씩 보내기, 10번 이상 보냈는데 미 접속시 알람 그만 보내기
     func settingNotification(alarmInfo: AlarmInfo) {
-        if self.checkUserAccessDate() == 1, self.alarmCount <= 10 { // 하루 지나면 12시 1분에 알람 와야함.
+        if self.checkUserAccessDate() >= 1 { 
             var dateComponents = DateComponents()
             dateComponents.calendar = Calendar.current
             dateComponents.weekday = alarmInfo.weekday
@@ -112,11 +110,10 @@ class PushNotificationService: NSObject, PushNotificationServiceType {
             
             let content = UNMutableNotificationContent()
             content.title = alarmInfo.title
-            content.sound = UNNotificationSound.default
             content.subtitle = alarmInfo.subtitle
-            content.body = alarmInfo.body
+            content.sound = UNNotificationSound.default
             
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) { error in
