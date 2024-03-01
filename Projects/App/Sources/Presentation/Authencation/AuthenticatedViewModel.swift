@@ -159,7 +159,7 @@ class AuthenticationViewModel: ObservableObject {
                     self.container.services.authService.removeKakaoAccount()
                 }
                 .sink(receiveCompletion: { completion in
-                    // 에러 처리 등을 수행할 수 있습니다.
+                    //
                 }, receiveValue: { _ in
                     self.authenticationState = .initial
                     self.container.services.authService.removeAllUserDefaults()
@@ -172,7 +172,7 @@ class AuthenticationViewModel: ObservableObject {
                     self.container.services.authService.removeAppleAccount()
                 }
                 .sink(receiveCompletion: { completion in
-                    // 에러 처리 등을 수행할 수 있습니다.
+                    //
                 }, receiveValue: { _ in
                     self.authenticationState = .initial
                     self.container.services.authService.removeAllUserDefaults()
