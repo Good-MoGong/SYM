@@ -16,8 +16,7 @@ enum SettingConent: String {
 }
 
 struct SettingView: View {
- 
-    private let firebaseService = FirebaseService.shared
+    
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var isShowingLogoutPopup = false

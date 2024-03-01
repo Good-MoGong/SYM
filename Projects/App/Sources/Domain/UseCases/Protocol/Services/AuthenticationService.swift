@@ -34,6 +34,10 @@ protocol AuthenticationServiceType {
     
     func removeKakaoAccount() -> AnyPublisher<Void, Error>
     func removeAppleAccount() -> AnyPublisher<Void, Error>
+    
+    // 계정정보
+    func getUserLoginProvider()
+    func getUserLoginEmail()
 }
 
 class AuthenticationService: AuthenticationServiceType {
@@ -345,12 +349,16 @@ extension AuthenticationService {
     }
 }
 
+// MARK: - 유저 로그인 및 계정정보 extenstion
 extension AuthenticationService {
-    func getUserLoginProvider() -> String {
+    
+    func getUserLoginProvider() {
         var provider: String = ""
+        
         if let user = Auth.auth().currentUser {
             if let providerData = user.providerData.first {
                 let providerID = providerData.providerID
+            
                 switch providerID {
                 case "google.com":
                     provider = "Google"
@@ -358,35 +366,35 @@ extension AuthenticationService {
                     provider = "Apple"
                 case "password":
                     provider = "Kakao"
-                // 다른 제공업체에 대한 처리 추가 가능
                 default:
                     provider = "Unknown"
                 }
                 
-                print("🔥 User logged in using: \(provider)")
+                print("🔥 Firebase DEBUD: 로그인 정보 \(provider)")
+                UserDefaults.standard.set(provider, forKey: "loginProvider")
             }
         } else {
-            print("🔥 No user is currently signed in.")
+            print("🔥 Firebase DEBUD: 로그인 로그인 정보 없음")
         }
-        return provider
     }
     
-    func getUserLoginEmail() -> String {
+    func getUserLoginEmail() {
         var email: String = ""
+        
         if let user = Auth.auth().currentUser {
             if let emailData = user.email {
                 email = emailData
-                print("🔥 User logged in using: \(email)")
+                print("🔥 Firebase DEBUD: 유저 메일 정보  \(email)")
+                UserDefaults.standard.set(email, forKey: "userEmail")
             }
         } else {
-            print("🔥 No user is currently signed in.")
+            print("🔥 Firebase DEBUD: 로그인한 유저 없음")
         }
-        return email
     }
 }
 
 // 프리뷰 용 프로토콜
-class StubAuthenticationService: AuthenticationServiceType
+class StubAuthenticationService: AuthenticationServiceType {
     func checkAuthenticationState() -> String? { return nil }
     
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String { return "" }
@@ -410,4 +418,8 @@ class StubAuthenticationService: AuthenticationServiceType
     func deleteFirebaseAuth() -> AnyPublisher<Void, Error> { Empty().eraseToAnyPublisher() }
 
     func removeAllUserDefaults() { }
+    
+    func getUserLoginProvider() { }
+    
+    func getUserLoginEmail() { }
 }

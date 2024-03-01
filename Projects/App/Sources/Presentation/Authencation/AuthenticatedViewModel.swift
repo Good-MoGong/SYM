@@ -27,8 +27,6 @@ class AuthenticationViewModel: ObservableObject {
         case kakaoLogin
         case requestPushNotification
         case logout
-        case getUserLoginProvider
-        case getUserLoginEmail
         case unlinkKakao
         case unlinkApple
     }
@@ -90,14 +88,14 @@ class AuthenticationViewModel: ObservableObject {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
                                     self?.authenticationState = .authenticated
-                                    self?.send(action: .getUserLoginProvider)
-                                    self?.send(action: .getUserLoginEmail)
+                                    self?.container.services.authService.getUserLoginEmail()
+                                    self?.container.services.authService.getUserLoginProvider()
                                     return
                                 } else {
                                     self?.userId = checkUser
                                     self?.authenticationState = .unauthenticated
-                                    self?.send(action: .getUserLoginProvider)
-                                    self?.send(action: .getUserLoginEmail)
+                                    self?.container.services.authService.getUserLoginEmail()
+                                    self?.container.services.authService.getUserLoginProvider()
                                 }
                             }
                         }
@@ -118,14 +116,16 @@ class AuthenticationViewModel: ObservableObject {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
                                 self?.authenticationState = .authenticated
-                                self?.send(action: .getUserLoginProvider)
-                                self?.send(action: .getUserLoginEmail)
+                                self?.container.services.authService.getUserLoginEmail()
+                                self?.container.services.authService.getUserLoginProvider()
+                                
                                 return
                             } else {
                                 self?.userId = checkUser
                                 self?.authenticationState = .unauthenticated
-                                self?.send(action: .getUserLoginProvider)
-                                self?.send(action: .getUserLoginEmail)
+                                self?.container.services.authService.getUserLoginEmail()
+                                self?.container.services.authService.getUserLoginProvider()
+                                
                             }
                         }
                     }
@@ -178,12 +178,6 @@ class AuthenticationViewModel: ObservableObject {
                     self.container.services.authService.removeAllUserDefaults()
                 })
                 .store(in: &subscritpions)
-            
-        case .getUserLoginProvider:
-            UserDefaults.standard.set(container.services.authService.getUserLoginProvider(), forKey: "loginProvider")
-            
-        case .getUserLoginEmail:
-            UserDefaults.standard.set(container.services.authService.getUserLoginEmail(), forKey: "userEmail")
         }
     }
 }
