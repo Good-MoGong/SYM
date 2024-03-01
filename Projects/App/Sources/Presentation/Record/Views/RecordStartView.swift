@@ -119,13 +119,14 @@ struct RecordStartView: View {
         .popup(isShowing: $recordViewModel.isShowingOutPopUp,
                type: .doubleButton(leftTitle: "그만두기", rightTitle: "이어쓰기"),
                title: "잠깐! 일기 작성을 중단하시나요??",
-               boldDesc: "",
                desc: "여기서 그만두면 지금까지 작성한 글이 모두 사라집니다!") {
             dismiss()
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()
         }
-        .popup(isShowing: $recordViewModel.isShowingGuidePopUp, type: .guide(title: "닫기"), title: "[\(recordViewModel.recordOrder.rawValue)] 쓰기 꿀팁!", boldDesc: "", desc: "\(recordViewModel.recordOrder.guideMent)", confirmHandler: {
+        .popup(isShowing: $recordViewModel.isShowingGuidePopUp, type: .guide(title: "닫기"),
+               title: "[\(recordViewModel.recordOrder.rawValue)] 쓰기 꿀팁!",
+               desc: "\(recordViewModel.recordOrder.guideMent)", confirmHandler: {
             
         }, cancelHandler: {
             recordViewModel.isShowingGuidePopUp.toggle()
