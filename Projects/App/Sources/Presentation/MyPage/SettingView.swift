@@ -8,15 +8,6 @@
 
 import SwiftUI
 
-class SettingViewModel: ObservableObject {
-    
-    func removeAllUserDefaults() {
-        for key in UserDefaults.standard.dictionaryRepresentation().keys {
-            UserDefaults.standard.removeObject(forKey: key.description)
-        }
-    }
-}
-
 enum SettingConent: String {
     case logoutTitle = "로그아웃 하시겠어요?"
     case removeTitle = "탈퇴하시겠어요?"
@@ -25,9 +16,7 @@ enum SettingConent: String {
 }
 
 struct SettingView: View {
-    @StateObject var settingViewModel = SettingViewModel()
     private let firebaseService = FirebaseService.shared
-    
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
     @EnvironmentObject var authViewModel: AuthenticationViewModel
@@ -79,18 +68,18 @@ struct SettingView: View {
                     
                     if let userId = authViewModel.userId {
                         // 이거는 애플 로그인 탈퇴
-//                        firebaseService.deleteUserData(user: userId) { result in
-//                            if result {
-//                                authViewModel.send(action: .unlinkApple)
-//                            }
-//                        }
-                        
-                       // 이거는 카카오
                         firebaseService.deleteUserData(user: userId) { result in
                             if result {
-                                authViewModel.send(action: .unlinkKakao)
+                                authViewModel.send(action: .unlinkApple)
                             }
                         }
+                        
+                       // 이거는 카카오
+//                        firebaseService.deleteUserData(user: userId) { result in
+//                            if result {
+//                                authViewModel.send(action: .unlinkKakao)
+//                            }
+//                        }
                         
                         // 팝업 버튼 토글
                         self.isShowingWithdrawalPopup.toggle()
@@ -112,8 +101,6 @@ struct SettingView: View {
                desc: "",
                confirmHandler: {
                     print("로그아웃")
-            
-//                    settingViewModel.removeAllUserDefaults() // userDefault 지우기
                     authViewModel.send(action: .logout) // 로그아웃
                     self.isShowingLogoutPopup.toggle()
             }, cancelHandler: {

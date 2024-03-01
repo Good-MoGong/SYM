@@ -30,14 +30,14 @@ protocol AuthenticationServiceType {
     func checkKakaoToken() -> AnyPublisher<User, ServiceError>
     func logout() -> AnyPublisher<Void, ServiceError>
     func logoutWithKakao()
-    func removeKakaoAccount(completion: @escaping (Bool) -> Void)
-    func removeAppleAccount(completion: @escaping (Bool) -> Void)
-    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void)
     func removeAllUserDefaults()
     
+    func removeKakaoAccount() -> AnyPublisher<Void, Error>
+    func removeAppleAccount() -> AnyPublisher<Void, Error>
 }
 
 class AuthenticationService: AuthenticationServiceType {
+
     func checkAuthenticationState() -> String? {
         if let user = Auth.auth().currentUser {
             return user.uid
@@ -66,7 +66,8 @@ class AuthenticationService: AuthenticationServiceType {
         }.eraseToAnyPublisher()
     }
 
-    /// 카카오 로그인 시작점
+
+    // MARK: - 카카오톡 로그인 AuthenticationServiceType 구현
     func checkKakaoToken() -> AnyPublisher<User, ServiceError> {
         Future { [weak self] promise in
             self?.checkKakaoToken { result in
@@ -80,6 +81,7 @@ class AuthenticationService: AuthenticationServiceType {
         }.eraseToAnyPublisher()
     }
     
+    // MARK: - 로그아웃 AuthenticationServiceType 구현
     func logout() -> AnyPublisher<Void, ServiceError> {
         Future { promise in
             do {
@@ -101,36 +103,41 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    /// 카카오톡 탈퇴
-    func removeKakaoAccount(completion: @escaping (Bool) -> Void) {
-        UserApi.shared.unlink { error in
-            if let error = error {
-                print("🟨 Auth DEBUG: 카카오톡 탈퇴 중 에러 발생 \(error.localizedDescription)")
-                completion(false)
-            } else {
-                print("🟨 Auth DEBUG: 카카오톡 탈퇴 성공")
-                completion(true)
-            }
-        }
-    }
-    
-    /// 파베의 auth에서 유저 정보 삭제
-    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) {
-        if let user = Auth.auth().currentUser {
-            user.delete { error in
-                if let error = error {
-                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 중 에러 발생 \(error.localizedDescription)")
-                    completion(false)
+    // MARK: - 탈퇴 AuthenticationServiceType 구현
+    func removeKakaoAccount() -> AnyPublisher<Void, Error> {
+        Future { promise in
+            self.removeKakaoAccount { result in
+                if result {
+                    promise(.success(()))
                 } else {
-                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 성공")
-                    completion(true)
+                    promise(.failure(() as! Error))
                 }
             }
-        } else {
-            print("🔥 Firebase DEBUG: firebase auth에 회원정보가 존재하지 않습니다.")
-        }
+        }.eraseToAnyPublisher()
     }
     
+    func removeAppleAccount() -> AnyPublisher<Void, Error> {
+        Future { promise in
+            self.removeAppleAccount { result in
+                if result {
+                    promise(.success(()))
+                } else {
+                    promise(.failure(() as! Error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    // MARK: - UserDefault 관련 AuthenticationServiceType 구현
+    func removeAllUserDefaults() {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
+        }
+    }
+}
+
+// MARK: - 로그아웃 및 탈퇴 extenstion
+extension AuthenticationService {
     func removeAppleAccount(completion: @escaping (Bool) -> Void) {
         let token = UserDefaults.standard.string(forKey: "refreshToken")
         
@@ -152,13 +159,21 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    func removeAllUserDefaults() {
-        for key in UserDefaults.standard.dictionaryRepresentation().keys {
-            UserDefaults.standard.removeObject(forKey: key.description)
+    
+    func removeKakaoAccount(completion: @escaping (Bool) -> Void) {
+        UserApi.shared.unlink { error in
+            if let error = error {
+                print("🟨 Auth DEBUG: 카카오톡 탈퇴 중 에러 발생 \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("🟨 Auth DEBUG: 카카오톡 탈퇴 성공")
+                completion(true)
+            }
         }
     }
 }
 
+// MARK: - Apple 로그인 및 및 파베 계정 생성 extension
 extension AuthenticationService {
     
     private func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, //credential 생성
@@ -238,8 +253,10 @@ extension AuthenticationService {
             completion(.success(user))
         }
     }
-    
-    // MARK: - 카카오 로그인 시작점
+}
+
+// MARK: - 카카오 로그인 시작점 extenstion
+extension AuthenticationService {
     func checkKakaoToken(completion: @escaping (Result<User, Error>) -> Void) {
         if AuthApi.hasToken() {
             UserApi.shared.accessTokenInfo { accessTokenInfo, error in
@@ -257,7 +274,7 @@ extension AuthenticationService {
         if UserApi.isKakaoTalkLoginAvailable() {
             signInWithKakaoApp(completion: completion)
         } else {
-            signInWithKakaoWeb(completion: completion) 
+            signInWithKakaoWeb(completion: completion)
         }
     }
     
@@ -329,44 +346,28 @@ extension AuthenticationService {
 }
 
 // 프리뷰 용 프로토콜
-class StubAuthenticationService: AuthenticationServiceType {
-    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) { }
+class StubAuthenticationService: AuthenticationServiceType
+    func checkAuthenticationState() -> String? { return nil }
     
-    func removeKakaoAccount(completion: @escaping (Bool) -> Void) { }
+    func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String { return "" }
     
-    func removeAppleAccount(completion: @escaping (Bool) -> Void) {  }
+    func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, none: String) -> AnyPublisher<User, ServiceError> { Empty().eraseToAnyPublisher() }
     
-    func checkAuthenticationState() -> String? {
-        return nil
-    }
+    func logout() -> AnyPublisher<Void, ServiceError>  { Empty().eraseToAnyPublisher() }
     
-    func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String {
-        return ""
-    }
-    
-    func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, none: String) -> AnyPublisher<User, ServiceError> {
-        Empty().eraseToAnyPublisher()
-    }
-    
-    func logout() -> AnyPublisher<Void, ServiceError>  {
-        Empty().eraseToAnyPublisher()
-    }
-    
-    func checkKakaoToken() -> AnyPublisher<User, ServiceError> {
-        Empty().eraseToAnyPublisher()
-    }
+    func checkKakaoToken() -> AnyPublisher<User, ServiceError> { Empty().eraseToAnyPublisher() }
     
     func kakaoLogin() { }
     
     func logoutWithKakao() { }
     
     func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void) { }
-    
-    func removeKakaoAccount() { }
-    
-    func deleteFirebaseAuth() { }
-    
-    func removeAppleAccount() { }
-    
+
+    func removeKakaoAccount() -> AnyPublisher<Void, Error> { Empty().eraseToAnyPublisher() }
+
+    func removeAppleAccount() -> AnyPublisher<Void, Error> { Empty().eraseToAnyPublisher() }
+
+    func deleteFirebaseAuth() -> AnyPublisher<Void, Error> { Empty().eraseToAnyPublisher() }
+
     func removeAllUserDefaults() { }
 }

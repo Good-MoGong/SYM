@@ -143,34 +143,30 @@ class AuthenticationViewModel: ObservableObject {
             
             
         case .unlinkKakao:
-            container.services.authService.deleteFirebaseAuth { result in
-                if result {
-                    self.container.services.authService.removeKakaoAccount { result in
-                        if result {
-                            self.authenticationState = .initial
-                            self.container.services.authService.removeAllUserDefaults()
-                        } else {
-                            self.authenticationState = .authenticated
-                        }
-                    }
+            firebaseService.deleteFriebaseAuth()
+                .flatMap { _ in
+                    self.container.services.authService.removeKakaoAccount()
                 }
-            }
+                .sink(receiveCompletion: { completion in
+                    // 에러 처리 등을 수행할 수 있습니다.
+                }, receiveValue: { _ in
+                    self.authenticationState = .initial
+                    self.container.services.authService.removeAllUserDefaults()
+                })
+                .store(in: &subscritpions)
             
         case .unlinkApple:
-            // 삭제 순서는 파베에서 데이터 다 지우고 revoke Token 해야함
-            container.services.authService.deleteFirebaseAuth { result in
-                if result {
-                    self.container.services.authService.removeAppleAccount { result in
-                        if result {
-                            self.authenticationState = .initial
-                            self.container.services.authService.removeAllUserDefaults()
-                            print("애플탈퇴완료")
-                        } else {
-                            self.authenticationState = .authenticated
-                        }
-                    }
+            firebaseService.deleteFriebaseAuth()
+                .flatMap { _ in
+                    self.container.services.authService.removeAppleAccount()
                 }
-            }
+                .sink(receiveCompletion: { completion in
+                    // 에러 처리 등을 수행할 수 있습니다.
+                }, receiveValue: { _ in
+                    self.authenticationState = .initial
+                    self.container.services.authService.removeAllUserDefaults()
+                })
+                .store(in: &subscritpions)
         }
     }
 }

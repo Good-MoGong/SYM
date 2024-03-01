@@ -9,6 +9,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import Combine
 import FirebaseFirestoreSwift
 
 final class FirebaseService {
@@ -64,17 +65,32 @@ final class FirebaseService {
     }
     
     // Firebase Auth에서 삭제
-    func deleteFirebaseAuth() {
+    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) {
         if let user = Auth.auth().currentUser {
             user.delete { error in
                 if let error = error {
                     print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 중 에러 발생 \(error.localizedDescription)")
+                    completion(false)
                 } else {
                     print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 성공")
+                    completion(true)
                 }
             }
         } else {
             print("🔥 Firebase DEBUG: firebase auth에 회원정보가 존재하지 않습니다.")
         }
     }
+    
+    func deleteFriebaseAuth() -> AnyPublisher<Void, Error> {
+        Future { promise in
+            self.deleteFirebaseAuth { result in
+                if result {
+                    promise(.success(()))
+                } else {
+                    promise(.failure(() as! Error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
 }
