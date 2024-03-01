@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
     private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
+    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
@@ -77,7 +77,7 @@ struct MyAccountInfo: View {
                     Spacer()
                     
                     Button("완료") {
-                        authViewModel.nickName = nickname
+                        UserDefaults.standard.set(nickname, forKey: "nickname")
                         dismiss()
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6 && nicknameRules == .allow))
