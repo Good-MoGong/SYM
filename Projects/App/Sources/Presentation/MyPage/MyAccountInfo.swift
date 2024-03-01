@@ -9,28 +9,29 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? "" // 기존 닉네임이 뜨도록
-    private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
-    @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
+    @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? ""
+    @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? "mogong2024@gmail.com"
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Environment(\.dismiss) private var dismiss
     
+    private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
+    
     var body: some View {
         NavigationStack {
             VStack {
+                Spacer().frame(height: 30)
+                
                 Image("SimiSmile").resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.4)
-                    .padding(.top, 24)
+                    .padding(.horizontal, 95)
                 
                 VStack {
                     VStack(alignment: .leading) {
-                        //TODO: - 닉네임 글자수에 따른 조건 처리
                         Text("닉네임")
-                            .padding(.leading, 20)
                             .font(PretendardFont.h5Bold)
+                        
                         VStack(alignment: .leading) {
                             TextField("닉네임을 입력해주세요", text: $nickname)
                                 .customTF(type: .normal)
@@ -44,6 +45,7 @@ struct MyAccountInfo: View {
                                         nicknameRules = .defult
                                     }
                                 }
+                            
                             switch nicknameRules {
                             case .allow :
                                 Text(NickNameRules.allow.rawValue)
@@ -61,17 +63,10 @@ struct MyAccountInfo: View {
                     
                     VStack(alignment: .leading) {
                         Text("가입계정")
-                            .padding(.leading, 20)
                             .font(PretendardFont.h5Bold)
                         
-                        ZStack(alignment: .trailing) {
-                            TextField("아이디", text: $loginEmail)
-                                .customTF(type: .normal)
-                                .disabled(true)
-                            
-                            userProviderLogo()
-                                .padding(.trailing, 8)
-                        }
+                        UserProvider(userEmail: "\(loginEmail)", providerType: "Apple")
+   
                     }
                     
                     Spacer()
@@ -84,12 +79,13 @@ struct MyAccountInfo: View {
                     // disabled 추가해서 비활성화 가능
                     .disabled(1 > nickname.count || nickname.count >= 6 || nicknameRules == .reject)
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal, 20)
             .font(PretendardFont.bodyBold)
             
             Spacer()
         }
+        
         .customNavigationBar(centerView: {
             Text("닉네임 수정")
         }, rightView: {
@@ -106,31 +102,6 @@ struct MyAccountInfo: View {
             }
         }
         return false
-    }
-    
-    @ViewBuilder
-    func userProviderLogo()  -> some View {
-        let imageSize: CGFloat = .symWidth * 0.05
-        let circleSize: CGFloat = .symWidth * 0.08
-
-        ZStack {
-            Circle()
-                .foregroundStyle(loginProvider == "Kakao" ? Color.kakao : Color.black)
-                .frame(width: circleSize)
-            
-            if loginProvider == "Apple" {
-                 Image("AppleLogo")
-                     .resizable()
-                     .aspectRatio(contentMode: .fit)
-                     .frame(width: .symWidth * 0.05)
-                     .offset(x: -0.8, y: -0.5)
-             } else {
-                 Image("KaKaoLogo")
-                     .resizable()
-                     .aspectRatio(contentMode: .fit)
-                     .frame(width: imageSize)
-             }
-        }
     }
 }
 
