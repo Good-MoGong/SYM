@@ -18,7 +18,7 @@ enum RecordViewText {
         case .beforeRecord:
             "오늘의 감정이 기록되지 않았어요\n시미가 당신을 기다리고 있어요!"
         case .afterRecord:
-            "꾸준한 감정일기는 자신을 단단히 만들어준답니다! 내일도 와주실거죠?"
+            "꾸준한 감정일기는 자신을 단단히\n 만들어준답니다! 내일도 와주실거죠?"
         case let .mypageRecord(count):
             "\(count)개의 감정기록이 담겨있네요!\n시미가 당신의 의견을 기다리고 있어요"
         }
@@ -63,7 +63,8 @@ struct RecordView: View {
                             RecordViewText.mypageRecord(count: recordCount).stringValue)
                 }
                 .lineSpacing(8)
-                .font(PretendardFont.smallMedium)
+                .font(PretendardFont.bodyMedium)
+                .fixedSize(horizontal: true, vertical: false)
                 .padding(.bottom, 12)
                 if beforeRecord ?? true {
                     Button {
@@ -73,6 +74,7 @@ struct RecordView: View {
                     } label: {
                         Text(isShowingMainView ? (beforeRecord ?? false ? "감정 기록하기" : "기록 보러가기") : "시미에게 의견 보내기")
                             .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
+                            .padding(.vertical, isShowingMainView ? -5 : 5)
                     }
                     .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
                     .navigationDestination(isPresented: $isShowingRecordView) {
@@ -80,7 +82,6 @@ struct RecordView: View {
                     }
                 }
             }
-            .padding(.trailing, 20)
             
             Spacer()
             
@@ -88,15 +89,14 @@ struct RecordView: View {
             if beforeRecord ?? false {
                 Image("SimiSad")
                     .resizable()
-                    .frame(width: 130, height: 120)
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.3)
             } else {
                 // 기록 후
                 Image("SimiSmile")
                     .resizable()
-                // 크기를... 이게 괜찮나..
-                    .frame(width: 110, height: 130)
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.3)
             }
         }
         .padding(.horizontal, 20)
@@ -109,6 +109,6 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(beforeRecord: false)
+    RecordView(beforeRecord: true)
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
