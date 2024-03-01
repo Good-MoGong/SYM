@@ -27,6 +27,8 @@ class AuthenticationViewModel: ObservableObject {
         case kakaoLogin
         case requestPushNotification
         case logout
+        case getUserLoginProvider
+        case getUserLoginEmail
         case unlinkKakao
         case unlinkApple
     }
@@ -34,6 +36,7 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
+    @Published var loginProvider: String = (UserDefaults.standard.string(forKey: "loginProvider") ?? "")
     @AppStorage("nickName") var nickName: String?
     
     private var currentNonce: String?
@@ -77,10 +80,14 @@ class AuthenticationViewModel: ObservableObject {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
                                     self?.authenticationState = .authenticated
+                                    self?.send(action: .getUserLoginProvider)
+                                    self?.send(action: .getUserLoginEmail)
                                     return
                                 } else {
                                     self?.userId = checkUser
                                     self?.authenticationState = .unauthenticated
+                                    self?.send(action: .getUserLoginProvider)
+                                    self?.send(action: .getUserLoginEmail)
                                 }
                             })
                         }
@@ -101,10 +108,14 @@ class AuthenticationViewModel: ObservableObject {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
                                 self?.authenticationState = .authenticated
+                                self?.send(action: .getUserLoginProvider)
+                                self?.send(action: .getUserLoginEmail)
                                 return
                             } else {
                                 self?.userId = checkUser
                                 self?.authenticationState = .unauthenticated
+                                self?.send(action: .getUserLoginProvider)
+                                self?.send(action: .getUserLoginEmail)
                             }
                         })
                     }
@@ -141,6 +152,13 @@ class AuthenticationViewModel: ObservableObject {
             container.services.authService.deleteFirebaseAuth()
             container.services.authService.removeAppleAccount()
             self.authenticationState = .initial
+            
+        case .getUserLoginProvider:
+            UserDefaults.standard.set(container.services.authService.getUserLoginProvider(), forKey: "loginProvider")
+            
+        case .getUserLoginEmail:
+            UserDefaults.standard.set(container.services.authService.getUserLoginEmail(), forKey: "userEmail")
+            
         }
     }
 }
