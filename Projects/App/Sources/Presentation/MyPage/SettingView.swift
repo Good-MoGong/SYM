@@ -64,7 +64,6 @@ struct SettingView: View {
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: SettingConent.removeTitle.rawValue,
-               boldDesc: SettingConent.removeBoldDesc.rawValue,
                desc: SettingConent.removeDesc.rawValue,
                confirmHandler: {
                     print("탈퇴하기")
@@ -100,7 +99,6 @@ struct SettingView: View {
         .popup(isShowing: $isShowingLogoutPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: SettingConent.logoutTitle.rawValue,
-               boldDesc: "",
                desc: "",
                confirmHandler: {
                     print("로그아웃")
