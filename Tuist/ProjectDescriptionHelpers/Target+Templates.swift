@@ -40,8 +40,12 @@ extension Target {
         
         if isProductApp {
             entitlements = "SYM.entitlements"
-//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
-            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
+
+            // 빌드 세팅 (xcconfig 있을경우)
+//            setting = Settings.settings(configurations: [
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Xlinker -no_warn_duplicate_libraries", "-ObjC"]],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
                                         configurations: [
                                             .debug(name: "Debug",
                                                    xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
@@ -50,7 +54,11 @@ extension Target {
                                         ],
                                         defaultSettings: .recommended)
         } else {
-            setting = .settings(base: [:],
+            // 빌드 세팅 (기본)
+//            setting = nil
+//            entitlements = nil
+//            setting = .settings(base: [:],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
                                 configurations: [.debug(name: .debug),
                                                  .release(name: .release)],
                                 defaultSettings: .recommended)
