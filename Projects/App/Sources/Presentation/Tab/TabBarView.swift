@@ -28,6 +28,7 @@ struct TabBarView: View {
                             .resizable()
                             .frame(width: 25, height: 25)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
+                        
                         Text(item.title)
                             .font(PretendardFont.smallMedium)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
