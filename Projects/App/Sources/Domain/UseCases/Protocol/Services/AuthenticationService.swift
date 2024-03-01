@@ -24,26 +24,17 @@ enum AuthenticationError: Error {
 
 // 인증을 담당할 서비스
 protocol AuthenticationServiceType {
-    // 로그인 세션
     func checkAuthenticationState() -> String?
-    
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) -> String
     func handleSignInWithAppleCompletion(_ authorization: ASAuthorization, none: String) -> AnyPublisher<User, ServiceError>
     func checkKakaoToken() -> AnyPublisher<User, ServiceError>
     func logout() -> AnyPublisher<Void, ServiceError>
     func logoutWithKakao()
-    func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void)
+    func removeKakaoAccount(completion: @escaping (Bool) -> Void)
+    func removeAppleAccount(completion: @escaping (Bool) -> Void)
+    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void)
+    func removeAllUserDefaults()
     
-    // MARK: - 카카오톡 탈퇴 구현하기
-    func removeKakaoAccount()
-    
-    // 파베에서 유저 삭제
-    func deleteFirebaseAuth()
-    // combing
-//    func deleteFirebaseAuth() -> AnyPublisher<Void, ServiceError>
-    
-    // MARK: - 애플 탈퇴 구현하기
-    func removeAppleAccount()
 }
 
 class AuthenticationService: AuthenticationServiceType {
@@ -67,7 +58,7 @@ class AuthenticationService: AuthenticationServiceType {
             self?.handleSignInWithAppleCompletion(authorization, nonce: none) { result in
                 switch result {
                 case let .success(user):
-                    promise(.success(user)) // 작업 완료 시 작업값 방출해주는 operator == future
+                    promise(.success(user))
                 case let .failure(error):
                     promise(.failure(.error(error)))
                 }
@@ -110,46 +101,29 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    /// 닉네임 유저 유무 확인해서 바로 홈으로 보낼지 말지 확인
-    func checkUserNickname(userID: String, completion: @escaping (Bool) -> Void) {
-        var checkDB: [DocumentSnapshot] = []
-        
-        Firestore.firestore().collection("User").getDocuments { querySnapshot, error in
-            if let error = error {
-                print("Error retrieving documents: \(error)")
-                completion(false)
-            } else {
-                if let documents = querySnapshot?.documents {
-                    checkDB.append(contentsOf: documents)
-                    // Check if userID exists in checkDB
-                    let userExists = checkDB.contains { $0.documentID == userID }
-                    completion(userExists) // Call completion with the result
-                } else {
-                    completion(false) // Call completion with false if documents are nil
-                }
-            }
-        }
-    }
-    
     /// 카카오톡 탈퇴
-    func removeKakaoAccount() {
+    func removeKakaoAccount(completion: @escaping (Bool) -> Void) {
         UserApi.shared.unlink { error in
             if let error = error {
                 print("🟨 Auth DEBUG: 카카오톡 탈퇴 중 에러 발생 \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("🟨 Auth DEBUG: 카카오톡 탈퇴 성공")
+                completion(true)
             }
         }
     }
     
     /// 파베의 auth에서 유저 정보 삭제
-    func deleteFirebaseAuth() {
+    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) {
         if let user = Auth.auth().currentUser {
             user.delete { error in
                 if let error = error {
                     print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 중 에러 발생 \(error.localizedDescription)")
+                    completion(false)
                 } else {
                     print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 성공")
+                    completion(true)
                 }
             }
         } else {
@@ -157,24 +131,30 @@ class AuthenticationService: AuthenticationServiceType {
         }
     }
     
-    // MARK: - 애플 탈퇴 기능 구현
-    // https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken
-    func removeAppleAccount() {
+    func removeAppleAccount(completion: @escaping (Bool) -> Void) {
         let token = UserDefaults.standard.string(forKey: "refreshToken")
         
         if let token = token {
             let url = URL(string: "https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard data != nil else { return }
+                print("🍎 APPLE DEBUG: 탈퇴 성공 !! ")
             }
             task.resume()
         }
         
-        // db 데이터 지우기
         do {
             try Auth.auth().signOut()
+            completion(true)
         } catch let signOutError as NSError {
             print("🍎 APPLE DEBUG: Apple 탈퇴/로그아웃 에러 발생 \(signOutError.localizedDescription)")
+            completion(false)
+        }
+    }
+    
+    func removeAllUserDefaults() {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
         }
     }
 }
@@ -199,32 +179,20 @@ extension AuthenticationService {
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
         
-        // MARK: - 애플 로그인 탈퇴를 위한 token
-        // appleIDCredential : token값
-        // Function URL (getRefreshToken(us-central1)): https://us-central1-speakyourmind-5001b.cloudfunctions.net/getRefreshToken
-        // Function URL (revokeToken(us-central1)): https://us-central1-speakyourmind-5001b.cloudfunctions.net/revokeToken
-        print("🍎 APPLE DEBUG, idTokenString: \(idTokenString)🍎")
-        print("🍎 APPLE DEBUG, appleIDToken: \(appleIDToken)🍎")
-        
         if let authorizationCode = appleIDCredential.authorizationCode, let codeString = String(data: authorizationCode, encoding: .utf8) {
-            print("🍎 APPLE DEBUG, codeString: \(codeString)🍎")
             let url = URL(string: "https://us-central1-speakyourmind-5001b.cloudfunctions.net/getRefreshToken?code=\(codeString)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
-            print("🍎 APPLE DEBUG, URL \(url.absoluteString)")
             
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                print("🍎 APPLE DEBUG: response \(response.debugDescription)")
-                print("🍎🍎 APPLE DEBUG: response \(response)")
                 if let error = error as NSError? {
                     print("🍎 APPLE DEBUG 토큰 에러 발생 : \(error.localizedDescription)")
                 } else {
                     if let data = data {
-                        print("🍎 APPLE DEBUG: data - \(data)")
                         let refreshToken = String(data: data, encoding: .utf8) ?? ""
-                        print("🍎 APPLE DEBUG: refreshToken - \(refreshToken)")
                         
                         // token -> userDefault에 저장
                         UserDefaults.standard.set(refreshToken, forKey: "refreshToken")
                         UserDefaults.standard.synchronize()
+                        print("🍎 APPLE DEBUG: 성공!")
                     } else {
                         print("🍎 APPLE DEBUG: refreshToken 없음")
                     }
@@ -232,7 +200,6 @@ extension AuthenticationService {
             }
             task.resume()
         }
-        
         
         
         // firebase에 인증하는 함수 실행해서 apple login 추가
@@ -266,8 +233,7 @@ extension AuthenticationService {
             let firebaseUser = result.user
             // 추후 User 값 수정이 필요함
             let user: User = .init(id: firebaseUser.uid,
-                                   name: firebaseUser.displayName ?? "",
-                                   diary: nil) // 통신을 통한 diary 객체 값 전달 예정
+                                   name: firebaseUser.displayName ?? "")
             
             completion(.success(user))
         }
@@ -289,9 +255,9 @@ extension AuthenticationService {
     
     func kakaoLogin(completion: @escaping (Result<User, Error>) -> Void) {
         if UserApi.isKakaoTalkLoginAvailable() {
-            signInWithKakaoApp(completion: completion) // 카카오톡 앱이 있다면 앱으로 로그인
+            signInWithKakaoApp(completion: completion)
         } else {
-            signInWithKakaoWeb(completion: completion) // 앱이 없다면 웹으로 로그인 (시뮬레이터)
+            signInWithKakaoWeb(completion: completion) 
         }
     }
     
@@ -302,7 +268,7 @@ extension AuthenticationService {
                 print("🟨 DEBUG: 카카오톡 로그인 에러 \(error.localizedDescription)")
                 completion(.failure(error))
             } else {
-                print("DEBUG: 카카오톡 로그인 Success")
+                print("🟨 DEBUG: 카카오톡 로그인 Success")
                 if let token = oauthToken {
                     print("🟨 DEBUG: 카카오톡 토큰 \(token)")
                     self.signupWithFirebase(completion: completion)
@@ -364,6 +330,11 @@ extension AuthenticationService {
 
 // 프리뷰 용 프로토콜
 class StubAuthenticationService: AuthenticationServiceType {
+    func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) { }
+    
+    func removeKakaoAccount(completion: @escaping (Bool) -> Void) { }
+    
+    func removeAppleAccount(completion: @escaping (Bool) -> Void) {  }
     
     func checkAuthenticationState() -> String? {
         return nil
@@ -394,7 +365,8 @@ class StubAuthenticationService: AuthenticationServiceType {
     func removeKakaoAccount() { }
     
     func deleteFirebaseAuth() { }
-//    func deleteFirebaseAuth() -> AnyPublisher<Void, ServiceError> { Empty().eraseToAnyPublisher() }
     
     func removeAppleAccount() { }
+    
+    func removeAllUserDefaults() { }
 }

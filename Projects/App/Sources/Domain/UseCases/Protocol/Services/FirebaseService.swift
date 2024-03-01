@@ -31,7 +31,7 @@ final class FirebaseService {
     // 탈퇴시 삭제되는 유저 정보를 찾는 함수 일단 User 디비만 삭제
     // (만약 일기 데이터로 인하여 하위 컬렉션 생성시.. 하위 컬렉션은 삭제되지 않음(파베에서 제공x)
     func deleteUserData(user: String, completion: @escaping (Bool) -> Void) {
-        let documentRef = db.collection("User").document(user).delete() { error in
+        let _ = db.collection("User").document(user).delete() { error in
             if let error = error {
                 print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 중 에러 발생 \(error.localizedDescription)")
                 completion(false)
@@ -44,9 +44,9 @@ final class FirebaseService {
     
     // 서버에서 닉네임 값 가져오기
     func checkingUserNickname(userID: String, completion: @escaping (Bool) -> Void) {
-        let documentRef = db.collection("User").document(userID).getDocument { document, error in
+        let _ = db.collection("User").document(userID).getDocument { document, error in
             if let error = error {
-                print("🔥 Firebase DEBUG: Nickname 정보 패치 중 에러 발생")
+                print("🔥 Firebase DEBUG: Nickname 정보 패치 중 에러 발생\(error.localizedDescription)")
                 completion(false)
             } else {
                 if let document = document, document.exists {
@@ -60,6 +60,21 @@ final class FirebaseService {
                     completion(false)
                 }
             }
+        }
+    }
+    
+    // Firebase Auth에서 삭제
+    func deleteFirebaseAuth() {
+        if let user = Auth.auth().currentUser {
+            user.delete { error in
+                if let error = error {
+                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 중 에러 발생 \(error.localizedDescription)")
+                } else {
+                    print("🔥 Firebase DEBUG: firebase auth에서 회원 삭제 성공")
+                }
+            }
+        } else {
+            print("🔥 Firebase DEBUG: firebase auth에 회원정보가 존재하지 않습니다.")
         }
     }
 }
