@@ -28,7 +28,7 @@ final class CalendarViewModel: RecordConditionFetch {
     // 서연 추가
     func checkingDateFuture() {
         if popupDate {
-            self.impossibleMessage = .init(message: "미래는 기록이 불가능해요!")
+            self.impossibleMessage = .init(message: "미래 날짜는 아직 기록할 수 없어요")
         } else {
             self.impossibleMessage = nil
         }

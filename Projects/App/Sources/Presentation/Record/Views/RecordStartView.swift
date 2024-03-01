@@ -118,8 +118,8 @@ struct RecordStartView: View {
         }
         .popup(isShowing: $recordViewModel.isShowingOutPopUp,
                type: .doubleButton(leftTitle: "그만두기", rightTitle: "이어쓰기"),
-               title: "잠깐! 일기 작성을 중단하시나요??",
-               desc: "여기서 그만두면 지금까지 작성한 글이 모두 사라집니다!") {
+               title: PopupContent.stop.title,
+               desc: PopupContent.stop.desc) {
             dismiss()
         } cancelHandler: {
             recordViewModel.isShowingOutPopUp.toggle()

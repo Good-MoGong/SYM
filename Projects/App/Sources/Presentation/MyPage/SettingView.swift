@@ -8,47 +8,45 @@
 
 import SwiftUI
 
-enum SettingConent: String {
-    case logoutTitle = "로그아웃 하시겠어요?"
-    case removeTitle = "탈퇴하시겠어요?"
-    case removeBoldDesc = "탈퇴 전 유의 사항"
-    case removeDesc = "• 탈퇴 후 7일간은 재가입이 불가합니다. \n• 탈퇴 시 계정의 모든 정보는 삭제되며, \n   재가입후에도 복구 되지 않습니다."
+class SettingViewModel: ObservableObject {
+    @Published var isShowingLogoutPopup = false
+    @Published var isShowingWithdrawalPopup = false
+    @Published var notificationToggle = false
 }
 
 struct SettingView: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var authViewModel: AuthenticationViewModel
-    @State private var isShowingLogoutPopup = false
-    @State private var isShowingWithdrawalPopup = false
+    @StateObject var settingViewModel = SettingViewModel()
     
     private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 26) {
-                Toggle(isOn: .constant(true), label: {
+                Spacer().frame(height: 30)
+                
+                Toggle(isOn: $settingViewModel.notificationToggle, label: {
                     Text("푸시 알림 설정")
                 })
                 .tint(Color.main)
-                .padding(.top, 32)
-                
+
+                                
                 VStack(spacing: 26) {
                     Button {
-                        isShowingLogoutPopup.toggle()
+                        settingViewModel.isShowingLogoutPopup.toggle()
                     } label: {
-                        Text("로그아웃")
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text("로그아웃").frame(maxWidth: .infinity, alignment: .leading)
                     }
                     
                     Button {
-                        isShowingWithdrawalPopup.toggle()
+                        settingViewModel.isShowingWithdrawalPopup.toggle()
                     } label: {
-                        Text("회원탈퇴")
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text("회원탈퇴").frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
-                .font(PretendardFont.h5Medium)
+                .font(.medium(17))
                 .foregroundStyle(Color.symGray4)
             }
             .padding(.horizontal, 20)
@@ -61,51 +59,45 @@ struct SettingView: View {
             EmptyView()
         }, isShowingBackButton: true)
       
-        .popup(isShowing: $isShowingWithdrawalPopup,
+        .popup(isShowing: $settingViewModel.isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
-               title: SettingConent.removeTitle.rawValue,
-               desc: SettingConent.removeDesc.rawValue,
+               title: PopupContent.remove.title,
+               desc: PopupContent.remove.desc,
                confirmHandler: {
-                    print("탈퇴하기")
-                    
                     if let userId = authViewModel.userId {
-                        // 이거는 애플 로그인 탈퇴
-                        firebaseService.deleteUserData(user: userId) { result in
-                            if result {
-                                authViewModel.send(action: .unlinkApple)
+                        if authViewModel.loginProvider == "Apple" {
+                            firebaseService.deleteUserData(user: userId) { result in
+                                if result {
+                                    authViewModel.send(action: .unlinkApple)
+                                }
                             }
+                        } else {
+                             firebaseService.deleteUserData(user: userId) { result in
+                                 if result {
+                                     authViewModel.send(action: .unlinkKakao)
+                                 }
+                             }
                         }
                         
-                       // 이거는 카카오
-//                        firebaseService.deleteUserData(user: userId) { result in
-//                            if result {
-//                                authViewModel.send(action: .unlinkKakao)
-//                            }
-//                        }
-                        
-                        // 팝업 버튼 토글
-                        self.isShowingWithdrawalPopup.toggle()
-                        
-                } else {
-                    print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
-                }
-            
+                        settingViewModel.isShowingWithdrawalPopup.toggle()
+                    } else {
+                        print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
+                    }
         },
                cancelHandler: {
-            print("취소 버튼")
-            self.isShowingWithdrawalPopup.toggle()
+                    settingViewModel.isShowingWithdrawalPopup.toggle()
         })
         
-        .popup(isShowing: $isShowingLogoutPopup,
+        .popup(isShowing: $settingViewModel.isShowingLogoutPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
-               title: SettingConent.logoutTitle.rawValue,
-               desc: "",
+               title: PopupContent.logout.title,
+               desc: PopupContent.logout.title,
                confirmHandler: {
                     print("로그아웃")
-                    authViewModel.send(action: .logout) // 로그아웃
-                    self.isShowingLogoutPopup.toggle()
+                    authViewModel.send(action: .logout)
+                    settingViewModel.isShowingLogoutPopup.toggle()
             }, cancelHandler: {
-                self.isShowingLogoutPopup.toggle()
+                    settingViewModel.isShowingLogoutPopup.toggle()
             })
     }
 }

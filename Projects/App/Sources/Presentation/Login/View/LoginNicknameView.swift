@@ -20,7 +20,7 @@ enum NickNameRules: String, CaseIterable {
 struct LoginNicknameView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @StateObject var loginNicknameViewModel = LoginNicknameViewModel()
-    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    @State private var nickname: String = UserDefaultsKeys.nickname
     
     var body: some View {
         NavigationStack {

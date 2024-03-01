@@ -33,7 +33,7 @@ struct CalendarDetailView: View {
 
 // MARK: - HeaderView: 환영글
 struct HeaderView: View {
-    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    private var nickname: String = UserDefaultsKeys.nickname
     
     var body: some View {
         HStack {
