@@ -38,6 +38,12 @@ struct CustomTextEditorStyle: ViewModifier {
                 .foregroundColor(Color.symGray4)
                 .padding(.trailing, 15)
                 .padding(.bottom, 15)
+                .onChange(of: text) { newValue in
+                    if newValue.count > 200 {
+                        text = String(newValue.prefix(200))
+                    }
+                }
+                
         }
     }
 }
