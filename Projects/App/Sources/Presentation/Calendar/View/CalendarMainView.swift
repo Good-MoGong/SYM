@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CalendarMainView: View {
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @ObservedObject var authViewModel: AuthenticationViewModel
     @State var currentDate: Date = Date()
     @State var selectDate: Date = Date()
     @State var isShowingOrganizeView: Bool = false
@@ -57,13 +57,13 @@ struct CalendarMainView: View {
 
 // MARK: - HeaderView: 환영글
 struct HeaderView: View {
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 // ~님 -> 나중에 닉네임으로 변경
-                Text("\(authViewModel.nickName ?? "모공")님, 반가워요!")
+                Text("\(nickname)님, 반가워요!")
                     .foregroundStyle(Color.symBlack)
                 Text("오늘의 기분은 어때요?")
                     .foregroundStyle(Color.main)
@@ -78,6 +78,6 @@ struct HeaderView: View {
 }
 
 #Preview {
-    CalendarMainView()
+    CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
