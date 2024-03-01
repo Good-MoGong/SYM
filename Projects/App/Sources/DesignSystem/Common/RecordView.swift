@@ -33,7 +33,7 @@ struct RecordView: View {
     var recordCount: Int = 0
     
     @State private var isShowingRecordView: Bool = false
-    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    @State private var nickname: String = UserDefaultsKeys.nickname
     
     var body: some View {
         HStack {

@@ -13,7 +13,7 @@ struct LoginIntroView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
     @State private var yOffset: CGFloat = 0
-    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    private var nickname: String = UserDefaultsKeys.nickname
     
     var body: some View {
         ZStack {

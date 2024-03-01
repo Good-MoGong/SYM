@@ -10,14 +10,14 @@ import SwiftUI
 
 struct MyAccountInfo: View {
     
-    @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? ""
-    @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? "mogong2024@gmail.com"
+    @State private var nickname = UserDefaultsKeys.nickname
+    @State private var loginEmail = UserDefaultsKeys.userEmail
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Environment(\.dismiss) private var dismiss
     
-    private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
+    private let loginProvider = UserDefaultsKeys.loginProvider
     
     var body: some View {
         NavigationStack {
@@ -65,7 +65,7 @@ struct MyAccountInfo: View {
                     VStack(alignment: .leading) {
                         Text("가입계정")
                             .font(PretendardFont.h5Bold)
-                        UserProvider(userEmail: "\(loginEmail)", providerType: "Apple")
+                        UserProvider(userEmail: "\(loginEmail)", providerType: authViewModel.loginProvider)
                     }
                     
                     Spacer()

@@ -362,10 +362,13 @@ extension AuthenticationService {
                 switch providerID {
                 case "google.com":
                     provider = "Google"
+                
                 case "apple.com":
                     provider = "Apple"
+                
                 case "password":
                     provider = "Kakao"
+                
                 default:
                     provider = "Unknown"
                 }
