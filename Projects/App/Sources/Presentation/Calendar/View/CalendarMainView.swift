@@ -40,6 +40,8 @@ struct CalendarMainView: View {
                     // 데이터 전체 페치
                     calendarViewModel.recordWholeFetch()
                 }
+                .animation(.easeIn, value: currentDate)
+                .toastView(toast: $calendarViewModel.impossibleMessage)
             }
         }
     }

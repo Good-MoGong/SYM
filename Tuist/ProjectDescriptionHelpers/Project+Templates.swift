@@ -56,7 +56,11 @@ extension Project {
         
         return Project(name: name,
                        organizationName: orgaizationName,
-                       options: Project.Options.options(),
+                       options: .options(
+                        // localization 설정
+                        defaultKnownRegions: ["en", "ko"],
+                        developmentRegion: "ko"
+                       ),
                        packages: packages, // -> project 자체에 라이브러리 주입 x -> 타겟 단위로 라이브러리 주입하여 타겟끼리 의존성 생성해야함
                        settings: setting,
                        targets: targets,
