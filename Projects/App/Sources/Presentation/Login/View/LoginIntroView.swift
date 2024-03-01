@@ -27,12 +27,8 @@ struct LoginIntroView: View {
                         .resizable()
                         .scaledToFit()
                         .padding(.horizontal, 50)
-                        .modifier(CloudFloatingAnimation(offset: yOffset))
-                        .onAppear {
-                            withAnimation(Animation.easeInOut(duration: 0.8).repeatForever()) {
-                                self.yOffset = 10
-                            }
-                        }
+                        .animationSimi(yOffset: yOffset)
+                    
                     VStack(spacing: 4) {
                         Text("SYM")
                             .foregroundColor(Color.main)
@@ -107,5 +103,25 @@ struct CloudFloatingAnimation: GeometryEffect {
 
     func effectValue(size: CGSize) -> ProjectionTransform {
         return ProjectionTransform(CGAffineTransform(translationX: 0, y: offset))
+    }
+}
+
+extension View {
+    func animationSimi(yOffset: CGFloat) -> some View {
+        self.modifier(AnimationSimi(yOffset: yOffset))
+    }
+}
+
+struct AnimationSimi: ViewModifier {
+    @State var yOffset: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .modifier(CloudFloatingAnimation(offset: yOffset))
+            .onAppear {
+                withAnimation(Animation.easeInOut(duration: 0.7).repeatForever()) {
+                    self.yOffset = 10
+                }
+            }
     }
 }
