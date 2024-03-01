@@ -49,9 +49,11 @@ struct LoginIntroView: View {
                     Button {
                         authViewModel.send(action: .kakaoLogin)
                     } label: {
-                        HStack(spacing: 35) {
+                        HStack(spacing: 6) {
                             Image("KaKaoLogo")
-                                .padding(.leading, 47)
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .padding(.leading, .symWidth * 0.17)
                             Text("카카오톡으로 로그인")
                                 .font(PretendardFont.h4Medium)
                                 .foregroundColor(.symBlack)
@@ -59,9 +61,11 @@ struct LoginIntroView: View {
                         .signupTextBackground(Color.kakao)
                     }
                     
-                    HStack(spacing: 35) {
+                    HStack(spacing: 6) {
                         Image("AppleLogo")
-                            .padding(.leading, 47)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .padding(.leading, .symWidth * 0.17)
                         Text("Apple로 로그인")
                             .font(PretendardFont.h4Medium)
                             .foregroundColor(.white)
@@ -79,6 +83,7 @@ struct LoginIntroView: View {
                         .signupTextBackground(.black)
                         .blendMode(.overlay)
                     }
+                    
                 }
                 Spacer().frame(height: 20)
             }
