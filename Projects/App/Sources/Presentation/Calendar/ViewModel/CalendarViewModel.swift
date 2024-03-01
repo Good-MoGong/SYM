@@ -11,6 +11,10 @@ import Foundation
 final class CalendarViewModel: RecordConditionFetch {
     
     private let calendarUseCase: CalendarUseCase
+    // 서연 추가
+    @Published var impossibleMessage: Toast?
+    @Published var checkingDate: Date = Date()
+    @Published var popupDate: Bool = false
     
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     @Published var recordDiaryArray: [Diary] = []
@@ -19,6 +23,15 @@ final class CalendarViewModel: RecordConditionFetch {
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
+    }
+    
+    // 서연 추가
+    func checkingDateFuture() {
+        if popupDate {
+            self.impossibleMessage = .init(message: "미래는 기록이 불가능해요!")
+        } else {
+            self.impossibleMessage = nil
+        }
     }
     
     ///  특정 날짜 기록 불러오기

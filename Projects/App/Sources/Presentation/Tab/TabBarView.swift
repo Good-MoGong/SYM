@@ -19,6 +19,7 @@ struct TabBarView: View {
         HStack {
             ForEach(MainTab.allCases) { item in
                 Spacer()
+                
                 Button {
                     tabBarViewModel.selected = item
                     print(item)

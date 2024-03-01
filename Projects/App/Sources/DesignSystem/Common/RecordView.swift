@@ -33,7 +33,7 @@ struct RecordView: View {
     var recordCount: Int = 0
     
     @State private var isShowingRecordView: Bool = false
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     var body: some View {
         HStack {
@@ -47,7 +47,7 @@ struct RecordView: View {
                         MyAccountInfo()
                     } label: {
                         HStack {
-                            Text("\(authViewModel.nickName ?? "모공")님")
+                            Text("\(nickname)님")
                                 .font(PretendardFont.h4Bold)
                             Image(systemName: "chevron.right")
                         }

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
+    
     @State private var nickname = UserDefaults.standard.string(forKey: "nickName") ?? ""
     @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? "mogong2024@gmail.com"
     @State var isPressed: Bool = false
@@ -64,19 +65,16 @@ struct MyAccountInfo: View {
                     VStack(alignment: .leading) {
                         Text("가입계정")
                             .font(PretendardFont.h5Bold)
-                        
                         UserProvider(userEmail: "\(loginEmail)", providerType: "Apple")
-   
                     }
                     
                     Spacer()
                     
                     Button("완료") {
-                        authViewModel.nickName = nickname
+                        UserDefaults.standard.set(nickname, forKey: "nickname")
                         dismiss()
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6 && nicknameRules == .allow))
-                    // disabled 추가해서 비활성화 가능
                     .disabled(1 > nickname.count || nickname.count >= 6 || nicknameRules == .reject)
                 }
             }
