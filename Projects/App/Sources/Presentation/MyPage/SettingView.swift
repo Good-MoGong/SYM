@@ -16,10 +16,14 @@ enum SettingConent: String {
 }
 
 struct SettingView: View {
+ 
     private let firebaseService = FirebaseService.shared
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
@@ -56,8 +60,8 @@ struct SettingView: View {
             Text("설정")
         }, rightView: {
             EmptyView()
-        })
-        
+        }, isShowingBackButton: true)
+      
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: SettingConent.removeTitle.rawValue,
