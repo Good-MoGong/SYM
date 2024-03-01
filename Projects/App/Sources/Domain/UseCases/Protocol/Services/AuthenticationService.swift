@@ -345,6 +345,46 @@ extension AuthenticationService {
     }
 }
 
+extension AuthenticationService {
+    func getUserLoginProvider() -> String {
+        var provider: String = ""
+        if let user = Auth.auth().currentUser {
+            if let providerData = user.providerData.first {
+                let providerID = providerData.providerID
+                switch providerID {
+                case "google.com":
+                    provider = "Google"
+                case "apple.com":
+                    provider = "Apple"
+                case "password":
+                    provider = "Kakao"
+                // 다른 제공업체에 대한 처리 추가 가능
+                default:
+                    provider = "Unknown"
+                }
+                
+                print("🔥 User logged in using: \(provider)")
+            }
+        } else {
+            print("🔥 No user is currently signed in.")
+        }
+        return provider
+    }
+    
+    func getUserLoginEmail() -> String {
+        var email: String = ""
+        if let user = Auth.auth().currentUser {
+            if let emailData = user.email {
+                email = emailData
+                print("🔥 User logged in using: \(email)")
+            }
+        } else {
+            print("🔥 No user is currently signed in.")
+        }
+        return email
+    }
+}
+
 // 프리뷰 용 프로토콜
 class StubAuthenticationService: AuthenticationServiceType
     func checkAuthenticationState() -> String? { return nil }

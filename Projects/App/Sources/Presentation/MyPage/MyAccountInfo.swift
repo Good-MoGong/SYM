@@ -9,20 +9,21 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
+    private let loginProvider = UserDefaults.standard.string(forKey: "loginProvider")
     @State private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    @State private var loginEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             VStack {
-                Image("SimiSmile")
-                    .resizable()
-                    .frame(width: 120, height: 120)
-                    .scaledToFill()
+                Image("SimiSmile").resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: .symWidth * 0.4)
                     .padding(.top, 24)
-                    .padding(.bottom, 37)
                 
                 VStack {
                     VStack(alignment: .leading) {
@@ -33,7 +34,27 @@ struct MyAccountInfo: View {
                         VStack(alignment: .leading) {
                             TextField("닉네임을 입력해주세요", text: $nickname)
                                 .customTF(type: .normal)
-                            checkNicknameRules()
+                                .onChange(of: nickname) { newValue in
+                                    if koreaLangCheck(newValue) {
+                                        nicknameRules = .allow
+                                    } else {
+                                        nicknameRules = .reject
+                                    }
+                                    if newValue.count > 5 || newValue.count < 1 {
+                                        nicknameRules = .defult
+                                    }
+                                }
+                            switch nicknameRules {
+                            case .allow :
+                                Text(NickNameRules.allow.rawValue)
+                                    .settingNicknameRules(.errorGreen)
+                            case .defult:
+                                Text(NickNameRules.defult.rawValue)
+                                    .settingNicknameRules(.errorRed)
+                            case .reject:
+                                Text(NickNameRules.reject.rawValue)
+                                    .settingNicknameRules(.errorRed)
+                            }
                         }
                     }
                     .padding(.bottom, 32)
@@ -44,17 +65,12 @@ struct MyAccountInfo: View {
                             .font(PretendardFont.h5Bold)
                         
                         ZStack(alignment: .trailing) {
-                            TextField("아이디", text: .constant("abcd123@kakako.com"))
+                            TextField("아이디", text: $loginEmail)
                                 .customTF(type: .normal)
                                 .disabled(true)
                             
-                            Image("KaKaoLogo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                                .frame(width: 38, height: 32)
-                                .clipped()
-                                .padding(.trailing, 8) // 이미지와 텍스트 필드 간의 간격 조절
+                            userProviderLogo()
+                                .padding(.trailing, 8)
                         }
                     }
                     
@@ -64,9 +80,9 @@ struct MyAccountInfo: View {
                         UserDefaults.standard.set(nickname, forKey: "nickname")
                         dismiss()
                     }
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6))
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: 1 <= nickname.count && nickname.count < 6 && nicknameRules == .allow))
                     // disabled 추가해서 비활성화 가능
-                    .disabled(1 > nickname.count || nickname.count >= 6)
+                    .disabled(1 > nickname.count || nickname.count >= 6 || nicknameRules == .reject)
                 }
                 .padding(.horizontal)
             }
@@ -74,31 +90,46 @@ struct MyAccountInfo: View {
             
             Spacer()
         }
-        .customNavigationBar(
-            centerView: {
-                Text("닉네임 수정")
-            }, rightView: {
-                EmptyView()
-            }, isShowingBackButton: true
-        )
+        .customNavigationBar(centerView: {
+            Text("닉네임 수정")
+        }, rightView: {
+            EmptyView()
+        }, isShowingBackButton: true)
+    }
+    
+    private func koreaLangCheck(_ input: String) -> Bool {
+        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: input.utf16.count)
+            if regex.firstMatch(in: input, options: [], range: range) != nil {
+                return true
+            }
+        }
+        return false
     }
     
     @ViewBuilder
-    /// 닉네임 규칙 룰을 그리는 뷰
-    private func checkNicknameRules() -> some View {
-        if nickname.isEmpty {
-            Text(NickNameRules.defult.rawValue)
-                .settingNicknameRules(.errorRed)
-        } else if nickname.count < 6, nickname.count >= 1 {
-            HStack {
-                Text(NickNameRules.allow.rawValue)
-                    .settingNicknameRules(.errorGreen)
-            }
-        } else if nickname.count >= 5 {
-            HStack(alignment: .top) {
-                Text(NickNameRules.defult.rawValue)
-                    .settingNicknameRules(.errorRed)
-            }
+    func userProviderLogo()  -> some View {
+        let imageSize: CGFloat = .symWidth * 0.05
+        let circleSize: CGFloat = .symWidth * 0.08
+
+        ZStack {
+            Circle()
+                .foregroundStyle(loginProvider == "Kakao" ? Color.kakao : Color.black)
+                .frame(width: circleSize)
+            
+            if loginProvider == "Apple" {
+                 Image("AppleLogo")
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: .symWidth * 0.05)
+                     .offset(x: -0.8, y: -0.5)
+             } else {
+                 Image("KaKaoLogo")
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: imageSize)
+             }
         }
     }
 }
@@ -106,5 +137,6 @@ struct MyAccountInfo: View {
 #Preview {
     NavigationStack {
         MyAccountInfo()
+            .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
     }
 }
