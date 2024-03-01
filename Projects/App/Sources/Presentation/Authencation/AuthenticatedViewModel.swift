@@ -44,6 +44,8 @@ class AuthenticationViewModel: ObservableObject {
     private var container: DIContainer
     private var subscritpions = Set<AnyCancellable>()
     
+    private let dataFetchManager = DataFetchManager.shared
+    
     init(container: DIContainer) {
         self.container = container
     }
@@ -55,7 +57,14 @@ class AuthenticationViewModel: ObservableObject {
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
-                self.authenticationState = .authenticated
+                // 지영 추가 - 받아온 userID로 data fetch
+                Task {
+                    await dataFetchManager.fetchData(userID: userId)
+                    
+                    DispatchQueue.main.async {
+                        self.authenticationState = .authenticated
+                    }
+                }
             } else {
                 self.authenticationState = .initial
             }
@@ -80,7 +89,19 @@ class AuthenticationViewModel: ObservableObject {
                                 if userExists {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
-                                    self?.authenticationState = .authenticated
+                                    // 지영 추가 - 첫 애플 로그인시에 타는 분기
+                                    Task { [weak self] in
+                                        // 강한참조 방지
+                                        guard let self = self else { return }
+                                        
+                                        // fetchData 함수 비동기 호출
+                                        await self.dataFetchManager.fetchData(userID: checkUser)
+                                        
+                                        // fetchData 완료 후 메인 스레드에서 상태 업데이트
+                                        DispatchQueue.main.async {
+                                            self.authenticationState = .authenticated
+                                        }
+                                    }
                                     return
                                 } else {
                                     self?.userId = checkUser
@@ -92,7 +113,7 @@ class AuthenticationViewModel: ObservableObject {
             } else if case let .failure(error) = result {
                 print(error.localizedDescription)
             }
-
+            
         case .kakaoLogin:
             container.services.authService.checkKakaoToken()
                 .sink { completion in
@@ -104,7 +125,19 @@ class AuthenticationViewModel: ObservableObject {
                             if userExists {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
-                                self?.authenticationState = .authenticated
+                                // 지영 추가 - 첫 카카오 로그인시에 타는 분기
+                                Task { [weak self] in
+                                    // 강한참조 방지
+                                    guard let self = self else { return }
+                                    
+                                    // fetchData 함수 비동기 호출
+                                    await self.dataFetchManager.fetchData(userID: checkUser)
+                                    
+                                    // fetchData 완료 후 메인 스레드에서 상태 업데이트
+                                    DispatchQueue.main.async {
+                                        self.authenticationState = .authenticated
+                                    }
+                                }
                                 return
                             } else {
                                 self?.userId = checkUser
@@ -113,7 +146,7 @@ class AuthenticationViewModel: ObservableObject {
                         })
                     }
                 }.store(in: &subscritpions)
-
+            
         case .requestPushNotification:
             container.services.pushNotificationService.requestAuthorization { granted in
                 if granted {
@@ -132,16 +165,19 @@ class AuthenticationViewModel: ObservableObject {
                     self?.authenticationState = .initial
                     self?.userId = nil
                 }.store(in: &subscritpions)
+            dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
         case .unlinkKakao:
             container.services.authService.removeKakaoAccount()
             container.services.authService.deleteFirebaseAuth()
+            dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
-
+            
         case .unlinkApple:
             container.services.authService.removeAppleAccount()
             container.services.authService.deleteFirebaseAuth()
+            dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
         }
     }
