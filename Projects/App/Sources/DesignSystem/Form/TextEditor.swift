@@ -16,46 +16,28 @@ struct CustomTextEditorStyle: ViewModifier {
     @Binding var text: String
     
     func body(content: Content) -> some View {
-        if text.isEmpty {
-            ZStack (alignment: .bottomTrailing) {
-                ZStack(alignment: .topLeading) {
-                    content
-                        .padding(15)
-                        .background(Color.symGray1)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .scrollContentBackground(.hidden)
-                        .font(PretendardFont.bodyMedium)
+        ZStack (alignment: .bottomTrailing) {
+            content
+                .padding(15)
+                .background(Color.symGray1)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .scrollContentBackground(.hidden)
+                .font(PretendardFont.bodyMedium)
+                .overlay(alignment: .topLeading) {
                     Text(placeholder)
                         .lineSpacing(10)
                         .padding(20)
                         .padding(.top, 2)
                         .font(PretendardFont.bodyMedium)
                         .foregroundColor(Color.symGray3)
+                        .opacity(text.isEmpty ? 1 : 0)
                     
                 }
-                Text("\(text.count) / 200")
-                    .font(PretendardFont.smallMedium)
-                    .foregroundColor(Color.symGray4)
-                    .padding(.trailing, 10)
-                    .padding(.bottom, 10)
-            }
-        } else {
-            ZStack(alignment: .bottomTrailing) {
-                content
-                    .padding(15)
-                    .background(Color.symGray1)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .scrollContentBackground(.hidden)
-                HStack(spacing: 0) {
-                    Text("\(text.count) ")
-                        .foregroundColor(Color.sub)
-                    Text("/ 200")
-                        .foregroundColor(Color.symGray4)
-                }
-                .padding(.trailing, 10)
-                .padding(.bottom, 10)
+            Text("\(text.count) / 200")
                 .font(PretendardFont.smallMedium)
-            }
+                .foregroundColor(Color.symGray4)
+                .padding(.trailing, 15)
+                .padding(.bottom, 15)
         }
     }
 }

@@ -48,6 +48,8 @@ struct CalendarMainView: View {
                     calendarViewModel.recordWholeFetch()
                     calendarViewModel.userID = authViewModel.userId ?? ""
                 }
+                .animation(.easeIn, value: currentDate)
+                .toastView(toast: $calendarViewModel.impossibleMessage)
             }
         }
     }
