@@ -9,7 +9,7 @@ import SwiftUI
 
 enum MainTab: Int, CaseIterable, Identifiable {
     case home, mypage
-    
+
     @ViewBuilder
     var view: some View {
         switch self {
