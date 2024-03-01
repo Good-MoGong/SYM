@@ -53,56 +53,32 @@ struct CustomTextEditorStyle2: ViewModifier {
     @Binding var text: String
     
     func body(content: Content) -> some View {
-        if text.isEmpty {
-            ZStack (alignment: .bottomTrailing) {
-                ZStack(alignment: .topLeading) {
-                    content
-                        .font(PretendardFont.bodyMedium)
-                        .lineSpacing(7)
-                        .padding(.horizontal, 17)
-                        .padding(.vertical, 23)
+        ZStack (alignment: .bottomTrailing) {
+            content
+                .font(PretendardFont.bodyMedium)
+                .lineSpacing(7)
+                .padding(.horizontal, 17)
+                .padding(.vertical, 23)
+                .frame(maxWidth: .infinity, minHeight: 214)
+                .background(Color.bright)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .scrollContentBackground(.hidden)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.sub, lineWidth: 1)
                         .frame(maxWidth: .infinity, minHeight: 214)
-                        .background(Color.bright)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .scrollContentBackground(.hidden)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.sub, lineWidth: 1)
-                                .frame(maxWidth: .infinity, minHeight: 214)
-                        )
-                }
-                Text("\(text.count) / 200")
+                )
+            
+            HStack {
+                Text("\(text.count)")
+                    .font(PretendardFont.smallMedium)
+                    .foregroundColor(Color.sub)
+                Text("/ 200")
                     .font(PretendardFont.smallMedium)
                     .foregroundColor(Color.symGray4)
-                    .padding(.trailing, 10)
-                    .padding(.bottom, 10)
             }
-        } else {
-            ZStack(alignment: .bottomTrailing) {
-                content
-                    .font(PretendardFont.bodyMedium)
-                    .lineSpacing(7)
-                    .padding(.horizontal, 17)
-                    .padding(.vertical, 23)
-                    .frame(maxWidth: .infinity, minHeight: 214)
-                    .background(Color.bright)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .scrollContentBackground(.hidden)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.sub, lineWidth: 1)
-                            .frame(maxWidth: .infinity, minHeight: 214)
-                    )
-                HStack(spacing: 0) {
-                    Text("\(text.count) ")
-                        .foregroundColor(Color.sub)
-                    Text("/ 200")
-                        .foregroundColor(Color.symGray4)
-                }
-                .padding(.trailing, 10)
-                .padding(.bottom, 10)
-                .font(PretendardFont.smallMedium)
-            }
+            .padding(.trailing, 10)
+            .padding(.bottom, 10)
         }
     }
 }

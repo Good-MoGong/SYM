@@ -51,7 +51,7 @@ struct BackgroundView: ViewModifier {
                 .lineSpacing(7)
                 .padding(.horizontal, 17)
                 .padding(.vertical, 23)
-                .frame(maxWidth: .infinity, minHeight: 214) // 아이폰 12, 13 mini로 실행하면 200자가 다 나오지 않고 잘려서 minHeight로 변경
+                .frame(maxWidth: .infinity, minHeight: 214, alignment: .topLeading) // 아이폰 12, 13 mini로 실행하면 200자가 다 나오지 않고 잘려서 minHeight로 변경
                 .background(Color.bright)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
