@@ -23,9 +23,9 @@ enum MainTab: Int, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .home:
-            return "홈"
+            return "감정일기"
         case .mypage:
-            return "마이페이지"
+            return "내정보"
         }
     }
     
