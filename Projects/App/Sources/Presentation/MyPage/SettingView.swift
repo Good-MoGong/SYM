@@ -9,11 +9,13 @@
 import SwiftUI
 
 struct SettingView: View {
-    private let firebaseService = FirebaseService.shared
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     @State private var isShowingLogoutPopup = false
     @State private var isShowingWithdrawalPopup = false
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
+    private let firebaseService = FirebaseService.shared
     
     var body: some View {
         NavigationStack {
@@ -54,7 +56,8 @@ struct SettingView: View {
             Text("설정")
         }, rightView: {
             EmptyView()
-        })
+
+        }, isShowingBackButton: true)
         .popup(isShowing: $isShowingWithdrawalPopup,
                type: .doubleButton(leftTitle: "확인", rightTitle: "취소"),
                title: "탈퇴하시겠어요?",
@@ -65,21 +68,18 @@ struct SettingView: View {
             
             if let userId = authViewModel.userId {
                 // 이거는 애플 로그인 탈퇴
-                firebaseService.deleteUserData(user: userId) { result in
-                    if result {
-                        authViewModel.send(action: .unlinkApple)
-                    }
-                }
-                
-                // 이거는 카카오 로그인 탈퇴
 //                firebaseService.deleteUserData(user: userId) { result in
 //                    if result {
 //                        authViewModel.send(action: .unlinkApple)
 //                    }
 //                }
-//                firebaseService.deleteUserData(user: userId)
-//                authViewModel.send(action: .unlinkKakao)
-                
+//                
+//                // 이거는 카카오
+                firebaseService.deleteUserData(user: userId) { result in
+                    if result {
+                        authViewModel.send(action: .unlinkKakao)
+                    }
+                }
                 self.isShowingWithdrawalPopup.toggle()
             } else {
                 print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
