@@ -10,6 +10,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @StateObject private var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
