@@ -14,7 +14,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
-    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
         ZStack {
