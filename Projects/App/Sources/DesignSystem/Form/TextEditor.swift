@@ -73,6 +73,11 @@ struct CustomTextEditorStyle2: ViewModifier {
             }
             .padding(.trailing, 10)
             .padding(.bottom, 10)
+            .onChange(of: text) { newValue in
+                if newValue.count > 200 {
+                    text = String(newValue.prefix(200))
+                }
+            }
         }
     }
 }
