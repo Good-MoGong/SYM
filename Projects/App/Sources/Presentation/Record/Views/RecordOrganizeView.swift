@@ -90,6 +90,14 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 }
                 .padding(.horizontal, 20)
                 
+                ZStack {
+                    Text(organizeViewModel.recordDiary.gptAnswer) // 추후에 실제 기록으로 변경 필요
+                        .setTextBackground(.sentenceField)
+                    
+                    isResolutionSentenceTitle(title: "시미의 공감")
+                }
+                .padding(.horizontal, 20)
+                
                 Button("완료") {
                     isShowingOrganizeView = false
                 }

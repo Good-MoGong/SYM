@@ -14,11 +14,10 @@ final class RecordViewModel: RecordConditionFetch {
     private let recordUseCase: RecordUseCase
     var userID: String = ""
     @Published var recordOrder: RecordOrder = .event
-    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     @Published var currentText: String = ""
     @Published var selectedEmotion: EmotionType = .joy
     @Published var selectedDatailEmotion: [String] = []
-    @Published var gptAnswerText: String = ""
     
     @Published var isShowingOutPopUp: Bool = false
     @Published var isShowingGuidePopUp: Bool = false
@@ -41,9 +40,10 @@ final class RecordViewModel: RecordConditionFetch {
         }
         else if recordOrder == .action && direction == .next {
             recordDiary.date = Date().formatToString()
-            Task {
-                self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
-            }
+            makeGPTRequest()
+//            Task {
+//                self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
+//            }
         } else {
             withAnimation {
                 let indexOffset = direction == .previous ? -1 : 1
@@ -64,9 +64,14 @@ final class RecordViewModel: RecordConditionFetch {
     
     func makeGPTRequest() {
         isGPTLoading = true
-        recordUseCase.makeGPTRequest(diary: recordDiary) { gptAnswer in
-            self.gptAnswerText = gptAnswer
+        isShowingCompletionView = true
+        recordUseCase.makeGPTRequest(diary: recordDiary) { [self] gptAnswer in
+            recordDiary.gptAnswer = gptAnswer
+            
             self.isGPTLoading = false
+            Task {
+                await recordUseCase.saveRecord(userID: self.userID, diary: recordDiary)
+            }
         }
     }
     

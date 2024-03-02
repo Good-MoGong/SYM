@@ -54,13 +54,13 @@ struct RecordCompletionView: View {
                 
                 VStack(alignment: .leading) {
                     if recordViewModel.isGPTLoading {
-                        ProgressView() 
+                        ProgressView()
                     } else {
-                        ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
+                        ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                     }
                     Spacer()
                 }
-            
+                
                 HStack {
                     Button("홈") {
                         isShowingOrganizeView = false
@@ -82,9 +82,6 @@ struct RecordCompletionView: View {
             RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         }
         .navigationBarBackButtonHidden()
-                .onAppear(perform: {
-                    recordViewModel.makeGPTRequest()
-                })
     }
 }
 
