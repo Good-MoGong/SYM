@@ -157,6 +157,12 @@ final class CoreDataManger {
         return self.save(context: context)
     }
     
+    func getAttributeCount() -> Int {
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context) else {
+            return 0
+        }
+        return entityDescription.attributesByName["action"] != nil ? 1 : 0
+    }
 }
 
 extension CoreDataManger {
