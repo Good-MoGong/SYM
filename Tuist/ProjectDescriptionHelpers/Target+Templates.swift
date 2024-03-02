@@ -39,18 +39,13 @@ extension Target {
         var entitlements: Entitlements?
         
         if isProductApp {
-//            setting = .settings(base: ["OTHER_LDFLAGS":"-ObjC"])
-//            setting = .settings(base: ["OTHER_LDFLAGS":"-Xlinker -no_warn_duplicate_libraries"])
-            
             entitlements = "SYM.entitlements"
+
             // 빌드 세팅 (xcconfig 있을경우)
 //            setting = Settings.settings(configurations: [
 //            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Xlinker -no_warn_duplicate_libraries", "-ObjC"]],
-            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
-//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
-//                                               "MACH_O_TYPE" : ["staticlib"]], //staticFramework
-//                                               "EXCLUDED_ARCHS" : ["arm64"]],
-//                                        configurations: [
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
+//            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-Objc"]],
                                         configurations: [
                                             .debug(name: "Debug",
                                                    xcconfig: .relativeToRoot("\(projectFolder)/App/Resources/Config/Secrets.xcconfig")),
@@ -62,15 +57,15 @@ extension Target {
             // 빌드 세팅 (기본)
 //            setting = nil
 //            entitlements = nil
-            setting = .settings(base: [:],
+//            setting = .settings(base: [:],
+            setting = Settings.settings(base: ["OTHER_LDFLAGS":["-all_load -Objc"]],
                                 configurations: [.debug(name: .debug),
                                                  .release(name: .release)],
                                 defaultSettings: .recommended)
         }
         
-        let bundleId: String = "com.Mogong.SYM"
-        // target 2개로 늘어서 번들아이디 겹쳐서 수정
-//        let bundleId: String = "com.Mogong.SYM.\(name)"
+        var bundleID: String?
+        let bundleId: String = isProductApp ? "com.Mogong.SYM" : "com.Mogong.SYM.\(name)"
         
         //infoPlist 경로로 설정
         var infoPlist: InfoPlist {
@@ -93,7 +88,7 @@ extension Target {
                                scripts: scripts,
                                dependencies: dependencies,
                                settings: setting)
-        
+
         var targets: [Target] = [addTarget]
         
         return targets

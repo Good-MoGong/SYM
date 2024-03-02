@@ -18,8 +18,8 @@ struct MypageView: View {
     var body: some View {
         NavigationStack {
             RecordView(isShowingMainView: false)
-                .padding(.bottom, 64)
-            
+                .padding(.vertical, 25)
+
             CustomerSupport()
             
             Spacer()
@@ -32,6 +32,7 @@ struct MypageView: View {
                 SettingView()
             } label: {
                 Image(systemName: "gearshape")
+                    .foregroundStyle(.black)
             }
         }, isShowingBackButton: false)
     }
