@@ -10,6 +10,8 @@ import Foundation
 
 final class CalendarViewModel: RecordConditionFetch {
     private let calendarUseCase: CalendarUseCase
+    var userID: String = ""
+    
     // 서연 추가
     @Published var impossibleMessage: Toast?
     @Published var checkingDate: Date = Date()
