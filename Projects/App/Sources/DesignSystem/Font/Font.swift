@@ -12,6 +12,10 @@ extension Font {
     static func bold(_ size: CGFloat) -> Font {
         return SYMFontFamily.Pretendard.bold.swiftUIFont(size: size)
     }
+    
+    static func medium(_ size: CGFloat) -> Font {
+        return SYMFontFamily.Pretendard.medium.swiftUIFont(size: size)
+    }
 }
 
 /// 디폴트 폰트 (PretendardFont)
