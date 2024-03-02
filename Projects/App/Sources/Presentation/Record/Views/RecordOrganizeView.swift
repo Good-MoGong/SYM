@@ -10,8 +10,11 @@ import SwiftUI
 
 struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
+    @State var editToggle = false
+    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
     
     var body: some View {
         ZStack {
@@ -61,40 +64,91 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 }
                 .padding(.bottom, 15)
                 
-                Text("나의 기록")
-                    .font(PretendardFont.h4Bold)
-                    .padding(.leading, 20)
-                    .padding(.bottom, 7)
-                
-                ZStack {
-                    Text(organizeViewModel.recordDiary.event) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
+                HStack {
+                    Text("나의 기록")
+                        .font(PretendardFont.h4Bold)
                     
-                    isResolutionSentenceTitle(title: "사건")
-                }
-                .padding(.horizontal, 20)
-                
-                ZStack {
-                    Text(organizeViewModel.recordDiary.idea) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
+                    Spacer()
                     
-                    isResolutionSentenceTitle(title: "생각")
+                    Button {
+                        bindingText()
+                        editToggle = true
+                    } label: {
+                        Text("편집")
+                            .font(PretendardFont.h4Bold)
+                            .foregroundColor(Color.symGray3)
+                    }
                 }
+                .padding(.bottom, 7)
                 .padding(.horizontal, 20)
                 
-                ZStack {
-                    Text(organizeViewModel.recordDiary.action) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
+                if editToggle == false {
+                    ZStack {
+                        Text(organizeViewModel.recordDiary.event)
+                            .setTextBackground(.sentenceField)
+                        
+                        isResolutionSentenceTitle(title: "사건")
+                    }
+                    .padding(.horizontal, 20)
                     
-                    isResolutionSentenceTitle(title: "행동")
+                    ZStack {
+                        Text(organizeViewModel.recordDiary.idea)
+                            .setTextBackground(.sentenceField)
+                        
+                        isResolutionSentenceTitle(title: "생각")
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        Text(organizeViewModel.recordDiary.action)
+                            .setTextBackground(.sentenceField)
+                        
+                        isResolutionSentenceTitle(title: "행동")
+                    }
+                    .padding(.horizontal, 20)
+                } else {
+                    ZStack {
+                        TextEditor(text: $updateDiary.event)
+                            .customStyle2(userInput: $updateDiary.event)
+                            .frame(maxHeight: 214)
+                        
+                        isResolutionSentenceTitle(title: "사건")
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        TextEditor(text: $updateDiary.idea)
+                            .customStyle2(userInput: $updateDiary.idea)
+                            .frame(maxHeight: 214)
+                        
+                        isResolutionSentenceTitle(title: "생각")
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        TextEditor(text: $updateDiary.action)
+                            .customStyle2(userInput: $updateDiary.action)
+                            .frame(maxHeight: 214)
+                        
+                        isResolutionSentenceTitle(title: "행동")
+                    }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
                 
-                Button("완료") {
-                    isShowingOrganizeView = false
+                if editToggle == false {
+                    Button("완료") {
+                        isShowingOrganizeView = false
+                    }
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+                    .padding(.horizontal, 20)
+                } else {
+                    Button("수정완료") {
+                        organizeViewModel.updateRecord(updateDiary: updateDiary)
+                        editToggle = false
+                    }
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+                    .padding(.horizontal, 20)
                 }
-                .buttonStyle(MainButtonStyle(isButtonEnabled: true))
-                .padding(.horizontal, 20)
             }
         }
         .navigationBarBackButtonHidden()
@@ -129,6 +183,12 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 .padding(.trailing, 165)
                 .padding(.bottom, 230)
         }
+    }
+    
+    func bindingText() {
+        updateDiary.event = organizeViewModel.recordDiary.event
+        updateDiary.idea = organizeViewModel.recordDiary.idea
+        updateDiary.action = organizeViewModel.recordDiary.action
     }
 }
 
