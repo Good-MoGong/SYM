@@ -70,24 +70,13 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     
                     Spacer()
                     
-                    if editToggle == false {
-                        Button {
-                            bindingText()
-                            editToggle = true
-                        } label: {
-                            Text("편집")
-                                .font(PretendardFont.h4Bold)
-                                .foregroundColor(Color.symGray3)
-                        }
-                    } else {
-                        Button {
-                            organizeViewModel.updateRecord(updateDiary: updateDiary)
-                            editToggle = false
-                        } label: {
-                            Text("완료")
-                                .font(PretendardFont.h4Bold)
-                                .foregroundColor(Color.sub)
-                        }
+                    Button {
+                        bindingText()
+                        editToggle = true
+                    } label: {
+                        Text("편집")
+                            .font(PretendardFont.h4Bold)
+                            .foregroundColor(Color.symGray3)
                     }
                 }
                 .padding(.bottom, 7)
@@ -146,11 +135,20 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     .padding(.horizontal, 20)
                 }
                 
-                Button("완료") {
-                    isShowingOrganizeView = false
+                if editToggle == false {
+                    Button("완료") {
+                        isShowingOrganizeView = false
+                    }
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+                    .padding(.horizontal, 20)
+                } else {
+                    Button("수정완료") {
+                        organizeViewModel.updateRecord(updateDiary: updateDiary)
+                        editToggle = false
+                    }
+                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
+                    .padding(.horizontal, 20)
                 }
-                .buttonStyle(MainButtonStyle(isButtonEnabled: true))
-                .padding(.horizontal, 20)
             }
         }
         .navigationBarBackButtonHidden()
