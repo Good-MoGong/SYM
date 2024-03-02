@@ -34,11 +34,13 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
-    @AppStorage("nickName") var nickName: String?
+    @Published var loginProvider: String = (UserDefaults.standard.string(forKey: "loginProvider") ?? "")
     
     private var currentNonce: String?
     private var container: DIContainer
     private var subscritpions = Set<AnyCancellable>()
+    private let firebaseService = FirebaseService.shared
+    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     private let dataFetchManager = DataFetchManager.shared
     
@@ -57,11 +59,17 @@ class AuthenticationViewModel: ObservableObject {
                 Task {
                     await dataFetchManager.fetchData(userID: userId)
                     
-                    DispatchQueue.main.async {
-                        self.authenticationState = .authenticated
+                    firebaseService.checkingUserNickname(userID: userId) { result in
+                        if result {
+                            self.authenticationState = .authenticated
+                        } else {
+                            self.authenticationState = .unauthenticated
+                        }
                     }
                 }
             } else {
+                print("🔺Here is userID is nil \(userId ?? "유저 아이디 없어요")")
+                print("🔺 유저 계정 상태 \(self.authenticationState)")
                 self.authenticationState = .initial
             }
             
@@ -80,9 +88,10 @@ class AuthenticationViewModel: ObservableObject {
                         }
                     } receiveValue: { [weak self] user in
                         if let checkUser = self?.container.services.authService.checkAuthenticationState() {
-                            print("🥶 \(checkUser)")
-                            self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
-                                if userExists {
+                            print("🥶 애플 checkUser \(checkUser)")
+                            
+                            self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
+                                if result {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
                                     // 지영 추가 - 첫 애플 로그인시에 타는 분기
@@ -92,18 +101,18 @@ class AuthenticationViewModel: ObservableObject {
                                         
                                         // fetchData 함수 비동기 호출
                                         await self.dataFetchManager.fetchData(userID: checkUser)
-                                        
-                                        // fetchData 완료 후 메인 스레드에서 상태 업데이트
-                                        DispatchQueue.main.async {
-                                            self.authenticationState = .authenticated
-                                        }
+                                        self.authenticationState = .authenticated
+                                        self.container.services.authService.getUserLoginEmail()
+                                        self.container.services.authService.getUserLoginProvider()
                                     }
                                     return
                                 } else {
                                     self?.userId = checkUser
                                     self?.authenticationState = .unauthenticated
+                                    self?.container.services.authService.getUserLoginEmail()
+                                    self?.container.services.authService.getUserLoginProvider()
                                 }
-                            })
+                            }
                         }
                     }.store(in: &subscritpions)
             } else if case let .failure(error) = result {
@@ -116,9 +125,9 @@ class AuthenticationViewModel: ObservableObject {
                     //
                 } receiveValue: { [weak self] result in
                     if let checkUser = self?.container.services.authService.checkAuthenticationState() {
-                        print("🥶 checkUser \(checkUser)")
-                        self?.container.services.authService.checkUserNickname(userID: checkUser, completion: { userExists in
-                            if userExists {
+                        print("🥶 카카오 checkUser \(checkUser)")
+                        self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
+                            if result {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
                                 // 지영 추가 - 첫 카카오 로그인시에 타는 분기
@@ -128,18 +137,19 @@ class AuthenticationViewModel: ObservableObject {
                                     
                                     // fetchData 함수 비동기 호출
                                     await self.dataFetchManager.fetchData(userID: checkUser)
-                                    
-                                    // fetchData 완료 후 메인 스레드에서 상태 업데이트
-                                    DispatchQueue.main.async {
-                                        self.authenticationState = .authenticated
-                                    }
+                                    self.authenticationState = .authenticated
+                                    self.container.services.authService.getUserLoginEmail()
+                                    self.container.services.authService.getUserLoginProvider()
                                 }
                                 return
                             } else {
                                 self?.userId = checkUser
                                 self?.authenticationState = .unauthenticated
+                                self?.container.services.authService.getUserLoginEmail()
+                                self?.container.services.authService.getUserLoginProvider()
+                                
                             }
-                        })
+                        }
                     }
                 }.store(in: &subscritpions)
             
@@ -160,23 +170,39 @@ class AuthenticationViewModel: ObservableObject {
                 } receiveValue: { [weak self] _ in
                     self?.authenticationState = .initial
                     self?.userId = nil
+                    self?.container.services.authService.removeAllUserDefaults()
                 }.store(in: &subscritpions)
             dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
+            
         case .unlinkKakao:
-            container.services.authService.deleteFirebaseAuth()
-            container.services.authService.logoutWithKakao()
-            container.services.authService.removeKakaoAccount()
-            dataFetchManager.deleteCoreData()
-            self.authenticationState = .initial
+            firebaseService.deleteFriebaseAuth()
+                .flatMap { _ in
+                    self.container.services.authService.removeKakaoAccount()
+                }
+                .sink(receiveCompletion: { completion in
+                    //
+                }, receiveValue: { _ in
+                    self.authenticationState = .initial
+                    self.container.services.authService.removeAllUserDefaults()
+                    self.dataFetchManager.deleteCoreData()
+                })
+                .store(in: &subscritpions)
             
         case .unlinkApple:
-            // 삭제 순서는 파베에서 데이터 다 지우고 revoke Token 해야함
-            container.services.authService.deleteFirebaseAuth()
-            container.services.authService.removeAppleAccount()
-            dataFetchManager.deleteCoreData()
-            self.authenticationState = .initial
+            firebaseService.deleteFriebaseAuth()
+                .flatMap { _ in
+                    self.container.services.authService.removeAppleAccount()
+                }
+                .sink(receiveCompletion: { completion in
+                    //
+                }, receiveValue: { _ in
+                    self.authenticationState = .initial
+                    self.container.services.authService.removeAllUserDefaults()
+                    self.dataFetchManager.deleteCoreData()
+                })
+                .store(in: &subscritpions)
         }
     }
 }

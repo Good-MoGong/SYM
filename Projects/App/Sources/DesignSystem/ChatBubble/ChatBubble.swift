@@ -11,21 +11,18 @@ import SwiftUI
 struct ChatBubble: View {
     let message: String
     var delay: CGFloat = 50
-    var userName: String = "모공모공"
-    var title: String = "님을 위한 시미의 답장이 도착했어요"
+    var title: String = "시미의 따뜻한 공감 한마디"
     @Binding var animatedMessage: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 0) {
-                Text(userName)
-                    .foregroundColor(.main)
-                    .font(PretendardFont.h5Bold)
                 Text(title)
                     .font(PretendardFont.h5Bold)
             }
             Text(animatedMessage)
                 .font(PretendardFont.bodyMedium)
+                .tracking(0.5)
                 .lineSpacing(5.0)
         }
         .padding()
