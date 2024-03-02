@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct MypageView: View {
+//    @ObservedObject var recordViewModel: RecordViewModel
+    
     var appVersion: String? {
         guard let dictionary = Bundle.main.infoDictionary,
               let version = dictionary["CFBundleShortVersionString"] as? String else { return nil }
@@ -17,7 +19,8 @@ struct MypageView: View {
     
     var body: some View {
         NavigationStack {
-            RecordView(isShowingMainView: false)
+            RecordView(isShowingMainView: false, recordCount: CoreDataManger.shared.getAttributeCount())
+            
                 .padding(.vertical, 20)
             CustomerSupport()
             
