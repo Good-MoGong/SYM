@@ -24,31 +24,9 @@ struct CalendarDetailView: View {
     
     var body: some View {
         VStack {
-            HeaderView()
             YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
             CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
         }
-    }
-}
-
-// MARK: - HeaderView: 환영글
-struct HeaderView: View {
-    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text("\(nickname)님, 반가워요!")
-                    .foregroundStyle(Color.symBlack)
-                Text("오늘의 기분은 어때요?")
-                    .foregroundStyle(Color.main)
-            }
-            .font(PretendardFont.h3Bold)
-            
-            Spacer(minLength: 0)
-        }
-        .padding(.leading, 15)
-        .padding(.bottom, 40)
     }
 }
 
@@ -335,6 +313,6 @@ struct DateButton: View {
 }
 
 #Preview {
-    CalendarMainView()
+    CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }

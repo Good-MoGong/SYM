@@ -22,6 +22,10 @@ final class RecordUseCase {
         return await recordRepository.saveRecord(userID: userID, diary: diary)
     }
     
+    func updateRecord(userID: String, diary: Diary) async -> Bool {
+        return await recordRepository.updateRecord(userID: userID, diary: diary)
+    }
+    
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void) {
         recordRepository.fetchRecord(date: date) { diary, isSuccess in
             completion(diary,isSuccess)

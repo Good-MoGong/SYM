@@ -11,7 +11,7 @@ import Combine
 
 final class RecordViewModel: RecordConditionFetch {
     
-    private let recordUseCase: RecordUseCase
+    let recordUseCase: RecordUseCase
     var userID: String = ""
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
@@ -59,6 +59,16 @@ final class RecordViewModel: RecordConditionFetch {
                 self.recordDiary = diary
                 self.isShowingOrganizeView = isSuccess
             }
+        }
+    }
+    
+    func updateRecord(updateDiary: Diary) {
+        recordDiary.event = updateDiary.event
+        recordDiary.idea = updateDiary.idea
+        recordDiary.action = updateDiary.action
+        
+        Task {
+            await recordUseCase.updateRecord(userID: userID, diary: recordDiary)
         }
     }
     

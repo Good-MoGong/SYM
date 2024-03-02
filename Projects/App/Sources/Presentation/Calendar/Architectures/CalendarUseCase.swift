@@ -10,7 +10,9 @@ import Foundation
 
 
 protocol CalendarUseCaseProtocol {
-   func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
+    func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
+    func fetchWholeRecord(completion: @escaping ([Diary]) -> Void)
+    func updateRecord(userID: String, diary: Diary) async -> Bool
 }
 
 final class CalendarUseCase: CalendarUseCaseProtocol {
@@ -31,5 +33,9 @@ final class CalendarUseCase: CalendarUseCaseProtocol {
         calendarRepository.fetchWholeRecord { diaryArray in
             completion(diaryArray)
         }
+    }
+    
+    func updateRecord(userID: String, diary: Diary) async -> Bool {
+        return await calendarRepository.updateRecord(userID: userID, diary: diary)
     }
 }
