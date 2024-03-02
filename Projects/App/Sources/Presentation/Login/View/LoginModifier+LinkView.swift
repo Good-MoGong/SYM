@@ -24,8 +24,8 @@ struct SignupBackground: ViewModifier {
     
     func body(content: Content) -> some View {
         content
+            .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 19)
             .background(color)
             .clipShape(RoundedRectangle(cornerRadius: 15))
     }

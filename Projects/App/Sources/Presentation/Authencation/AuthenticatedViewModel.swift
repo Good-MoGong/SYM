@@ -34,13 +34,13 @@ class AuthenticationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
-    @Published var loginProvider: String = (UserDefaults.standard.string(forKey: "loginProvider") ?? "")
+    @Published var loginProvider: String = UserDefaultsKeys.loginProvider
     
     private var currentNonce: String?
     private var container: DIContainer
     private var subscritpions = Set<AnyCancellable>()
     private let firebaseService = FirebaseService.shared
-    private var nickname: String = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    private var nickname: String = UserDefaultsKeys.nickname
     
     private let dataFetchManager = DataFetchManager.shared
     

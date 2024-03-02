@@ -24,10 +24,10 @@ struct TabBarView: View {
                     tabBarViewModel.selected = item
                     print(item)
                 } label: {
-                    VStack(spacing: 4) {
+                    VStack(spacing: 0) {
                         Image("\(tabBarViewModel.selected == item ? "\(item.imageName)" : "\(item.imageName)Default")")
                             .resizable()
-                            .frame(width: 22, height: 22)
+                            .frame(width: 39, height: 39)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                         
                         Text(item.title)
@@ -39,7 +39,9 @@ struct TabBarView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 60)
+        .frame(height: 50)
+        .padding(.top, 10)
+        .padding(.bottom, 8)
         .background(
             Rectangle()
                 .cornerRadius(30, corners: [.topLeft, .topRight])
@@ -50,7 +52,7 @@ struct TabBarView: View {
             color: .symGray2,
             radius: 4,
             x: 0,
-            y: -7
+            y: -6
         )
     }
 }
