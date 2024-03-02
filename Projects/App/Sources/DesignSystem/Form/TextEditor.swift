@@ -88,6 +88,46 @@ struct CustomTextEditorStyle2: ViewModifier {
     }
 }
 
+struct CustomTextEditorStyle2: ViewModifier {
+    
+    @Binding var text: String
+    
+    func body(content: Content) -> some View {
+        ZStack (alignment: .bottomTrailing) {
+            content
+                .font(PretendardFont.bodyMedium)
+                .lineSpacing(7)
+                .padding(.horizontal, 17)
+                .padding(.vertical, 23)
+                .frame(maxWidth: .infinity, minHeight: 214)
+                .background(Color.bright)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .scrollContentBackground(.hidden)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.sub, lineWidth: 1)
+                        .frame(maxWidth: .infinity, minHeight: 214)
+                )
+            
+            HStack {
+                Text("\(text.count)")
+                    .font(PretendardFont.smallMedium)
+                    .foregroundColor(Color.sub)
+                Text("/ 200")
+                    .font(PretendardFont.smallMedium)
+                    .foregroundColor(Color.symGray4)
+            }
+            .padding(.trailing, 10)
+            .padding(.bottom, 10)
+            .onChange(of: text) { newValue in
+                if newValue.count > 200 {
+                    text = String(newValue.prefix(200))
+                }
+            }
+        }
+    }
+}
+
 extension TextEditor {
     func customStyle(placeholder: String, userInput: Binding<String>) -> some View {
         self.modifier(CustomTextEditorStyle(placeholder: placeholder, text: userInput))
