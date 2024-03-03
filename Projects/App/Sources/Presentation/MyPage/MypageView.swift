@@ -17,7 +17,7 @@ struct MypageView: View {
     
     var body: some View {
         NavigationStack {
-            RecordView(isShowingMainView: false, recordCount: CoreDataManger.shared.getAttributeCount())
+            RecordView(isShowingMainView: false, recordCount: CoreDataManger.shared.getDiaryCount())
             
                 .padding(.vertical, 20)
             CustomerSupport()

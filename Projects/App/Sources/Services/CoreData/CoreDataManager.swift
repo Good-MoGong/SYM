@@ -157,11 +157,16 @@ final class CoreDataManger {
         return self.save(context: context)
     }
     
-    func getAttributeCount() -> Int {
-        guard let entityDescription = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context) else {
-            return 0
+    func getDiaryCount() -> Int {
+        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
+        do {
+            let count = try context.count(for: request)
+            print("📝 기록된 감정일기 수 : \(count)")
+            return count
+        } catch {
+            print(error)
+            return -1
         }
-        return entityDescription.attributesByName["action"] != nil ? 1 : 0
     }
 }
 
