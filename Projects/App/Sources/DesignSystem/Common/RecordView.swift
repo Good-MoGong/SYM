@@ -33,8 +33,8 @@ struct RecordView: View {
     var isShowingMainView: Bool = true
     /// 기록 전, 후를 bool로 구분
     var beforeRecord: Bool?
-    /// 감정이 기록되지 않았을 때 (과거, 오늘)
-    var isRecordPast: Bool?
+    /// 감정이 기록되지 않았을 때 (과거, 오늘) -> true면 과거에 기록이 된 것
+    var isRecordPast: Bool? = true
     var recordCount: Int = 0
     
     @State private var isShowingRecordView: Bool = false
@@ -57,7 +57,7 @@ struct RecordView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: .symWidth * 0.3)
         }
-        .padding(.horizontal, 14)
+        .padding(.horizontal, 15)
         .padding(.vertical, 18)
         .background(
             RoundedRectangle(cornerRadius: 15)
@@ -69,10 +69,12 @@ struct RecordView: View {
     private func titleTextView() -> some View {
         Group {
             if isShowingMainView {
-                if let beforeRecord = beforeRecord {
-                    Text( beforeRecord ? "기록이 없어요!" : "오늘의 기록")
+                if beforeRecord == true {
+                    if let isRecordPast = isRecordPast {
+                        Text(isRecordPast ? "오늘의 기록" : "기록이 없어요!")
+                    } else { }
                 } else {
-                    Text("감정일기 작성 완료")
+                    Text("오늘 일기 작성 완료!")
                 }
             } else {
                 NavigationLink {
@@ -150,6 +152,6 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(isShowingMainView: false,beforeRecord: false, isRecordPast: true)
+    RecordView(isShowingMainView: true,beforeRecord: true, isRecordPast: false)
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
