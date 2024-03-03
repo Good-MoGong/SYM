@@ -44,38 +44,14 @@ struct RecordView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(titleText)
-                    .font(.bold(18))
-                    .padding(.bottom, 12)
+                titleTextView()
                 
-                Text(contentText)
-                    .lineSpacing(8)
-                    .font(.medium(14))
-                    .fixedSize(horizontal: true, vertical: false)
-                    .padding(.bottom, 12)
+                contentTextView()
                 
-                if isRecordPast ?? true {
-                    Button {
-                        if isShowingMainView && beforeRecord ?? true {
-                            isShowingRecordView = true
-                        } else {
-                            isShowingOrganizeView = true
-                            
-                        }
-                    } label: {
-                        Text(actionButtonText)
-                            .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
-                            .padding(.vertical, isShowingMainView ? -5 : 5)
-                    }
-                    .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
-                    .navigationDestination(isPresented: $isShowingRecordView) {
-                        RecordStartView(isShowingOrganizeView: $isShowingRecordView)
-                    }
-                }
+                ButtonView()
             }
-            
             Spacer()
-            
+    
             Image(imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -89,34 +65,77 @@ struct RecordView: View {
         )
     }
     
-    private var titleText: String {
-        if isShowingMainView {
-            if let beforeRecord = beforeRecord {
-                return beforeRecord ? "기록이 없어요!" : "오늘의 기록"
-            } else {
-                return "감정일기 작성 완료"
-            }
-        } else {
-            return "\(nickname)님"
-        }
-    }
-    
-    private var contentText: String {
-        if isShowingMainView {
-            if beforeRecord == true {
-                if let isRecordPast = isRecordPast {
-                    return !isRecordPast ? RecordViewText.beforeRecordPast.stringValue : RecordViewText.beforeRecordToday.stringValue
+    @ViewBuilder
+    private func titleTextView() -> some View {
+        Group {
+            if isShowingMainView {
+                if let beforeRecord = beforeRecord {
+                    Text( beforeRecord ? "기록이 없어요!" : "오늘의 기록")
                 } else {
-                    return ""
+                    Text("감정일기 작성 완료")
                 }
             } else {
-                return RecordViewText.afterRecord.stringValue
+                NavigationLink {
+                    MyAccountInfo()
+                } label: {
+                    HStack {
+                        Text("\(nickname)님")
+                        Image(systemName: "chevron.right")
+                            .font(.medium(18))
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
             }
-        } else {
-            return RecordViewText.mypageRecord(count: recordCount).stringValue
         }
+        .padding(.bottom, 12)
+        .font(.bold(18))
     }
     
+    @ViewBuilder
+    private func contentTextView() -> some View {
+        Group {
+            if isShowingMainView {
+                if beforeRecord == true {
+                    if let isRecordPast = isRecordPast {
+                        Text(!isRecordPast ? RecordViewText.beforeRecordPast.stringValue : RecordViewText.beforeRecordToday.stringValue)
+                    }
+                } else {
+                    Text(RecordViewText.afterRecord.stringValue)
+                }
+            } else {
+                Text(RecordViewText.mypageRecord(count: recordCount).stringValue)
+            }
+        }
+        .lineSpacing(4)
+        .font(.medium(14))
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.bottom, 12)
+    }
+    
+    @ViewBuilder
+    private func ButtonView() -> some View {
+        Group {
+            if isRecordPast ?? true {
+                Button {
+                    if isShowingMainView && beforeRecord ?? true {
+                        isShowingRecordView = true
+                    } else {
+                        isShowingOrganizeView = true
+                        
+                    }
+                } label: {
+                    Text(actionButtonText)
+                        .font(.bold(15))
+                        .padding(.vertical, isShowingMainView ? -5 : 5)
+                }
+                .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
+                .navigationDestination(isPresented: $isShowingRecordView) {
+                    RecordStartView(isShowingOrganizeView: $isShowingRecordView)
+                }
+            }
+        }
+    }
+
     private var actionButtonText: String {
         if isShowingMainView {
             return beforeRecord ?? false ? "감정 기록하기" : "기록 보러가기"
@@ -126,11 +145,11 @@ struct RecordView: View {
     }
     
     private var imageName: String {
-        return beforeRecord ?? false ? "SimiSad" : "SimiSmile"
+        return isShowingMainView ? (beforeRecord ?? false ? "SimiSad" : "SimiSmile") : "SimiCurious"
     }
 }
 
 #Preview {
-    RecordView(beforeRecord: true, isRecordPast: true)
+    RecordView(isShowingMainView: false,beforeRecord: false, isRecordPast: true)
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
