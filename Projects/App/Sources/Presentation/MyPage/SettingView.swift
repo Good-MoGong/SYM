@@ -65,6 +65,7 @@ struct SettingView: View {
                desc: PopupContent.remove.desc,
                confirmHandler: {
                     if let userId = authViewModel.userId {
+                        authViewModel.progressImage = true
                         if authViewModel.loginProvider == "Apple" {
                             firebaseService.deleteUserData(user: userId) { result in
                                 if result {
@@ -94,6 +95,7 @@ struct SettingView: View {
                desc: PopupContent.logout.title,
                confirmHandler: {
                     print("로그아웃")
+                    authViewModel.progressImage = true
                     authViewModel.send(action: .logout)
                     settingViewModel.isShowingLogoutPopup.toggle()
             }, cancelHandler: {

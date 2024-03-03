@@ -31,10 +31,12 @@ class AuthenticationViewModel: ObservableObject {
         case unlinkApple
     }
     
-    @Published var isLoading = false
     @Published var authenticationState: AuthenticationState = .initial
     @Published var userId: String?
     @Published var loginProvider: String = UserDefaultsKeys.loginProvider
+    
+    // MARK: - 프로그래스뷰 추가
+    @Published var progressImage: Bool = false
     
     private var currentNonce: String?
     private var container: DIContainer
@@ -52,6 +54,7 @@ class AuthenticationViewModel: ObservableObject {
         switch action {
             // 로그인 정보 확인하기
         case .checkAuthenticationState:
+            self.progressImage = true
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
@@ -62,14 +65,17 @@ class AuthenticationViewModel: ObservableObject {
                     firebaseService.checkingUserNickname(userID: userId) { result in
                         if result {
                             self.authenticationState = .authenticated
+                            self.progressImage = false
                         } else {
                             self.authenticationState = .unauthenticated
+                            self.progressImage = false
                         }
                     }
                 }
             } else {
                 print("🔺Here is userID is nil \(userId ?? "유저 아이디 없어요")")
                 print("🔺 유저 계정 상태 \(self.authenticationState)")
+                self.progressImage = false
                 self.authenticationState = .initial
             }
             
@@ -84,7 +90,7 @@ class AuthenticationViewModel: ObservableObject {
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
                     .sink { [weak self] completion in
                         if case .failure = completion {
-                            self?.isLoading = false
+//                            self?.isLoading = false
                         }
                     } receiveValue: { [weak self] user in
                         if let checkUser = self?.container.services.authService.checkAuthenticationState() {
@@ -98,19 +104,21 @@ class AuthenticationViewModel: ObservableObject {
                                     Task { [weak self] in
                                         // 강한참조 방지
                                         guard let self = self else { return }
-                                        
+                                        self.progressImage = true
                                         // fetchData 함수 비동기 호출
                                         await self.dataFetchManager.fetchData(userID: checkUser)
-                                        self.authenticationState = .authenticated
                                         self.container.services.authService.getUserLoginEmail()
                                         self.container.services.authService.getUserLoginProvider()
+                                        self.progressImage = false
+                                        self.authenticationState = .authenticated
                                     }
                                     return
                                 } else {
                                     self?.userId = checkUser
-                                    self?.authenticationState = .unauthenticated
                                     self?.container.services.authService.getUserLoginEmail()
                                     self?.container.services.authService.getUserLoginProvider()
+                                    self?.progressImage = false
+                                    self?.authenticationState = .unauthenticated
                                 }
                             }
                         }
@@ -137,17 +145,18 @@ class AuthenticationViewModel: ObservableObject {
                                     
                                     // fetchData 함수 비동기 호출
                                     await self.dataFetchManager.fetchData(userID: checkUser)
-                                    self.authenticationState = .authenticated
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
+                                    self.progressImage = false
+                                    self.authenticationState = .authenticated
                                 }
                                 return
                             } else {
                                 self?.userId = checkUser
-                                self?.authenticationState = .unauthenticated
                                 self?.container.services.authService.getUserLoginEmail()
                                 self?.container.services.authService.getUserLoginProvider()
-                                
+                                self?.progressImage = false
+                                self?.authenticationState = .unauthenticated
                             }
                         }
                     }
@@ -168,9 +177,10 @@ class AuthenticationViewModel: ObservableObject {
                 .sink { completion in
                     //
                 } receiveValue: { [weak self] _ in
-                    self?.authenticationState = .initial
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
+                    self?.progressImage = false
+                    self?.authenticationState = .initial
                 }.store(in: &subscritpions)
             dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
@@ -183,10 +193,11 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { completion in
                     //
-                }, receiveValue: { _ in
-                    self.authenticationState = .initial
-                    self.container.services.authService.removeAllUserDefaults()
-                    self.dataFetchManager.deleteCoreData()
+                }, receiveValue: { [weak self] _ in
+                    self?.container.services.authService.removeAllUserDefaults()
+                    self?.dataFetchManager.deleteCoreData()
+                    self?.progressImage = false
+                    self?.authenticationState = .initial
                 })
                 .store(in: &subscritpions)
             
@@ -197,10 +208,11 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { completion in
                     //
-                }, receiveValue: { _ in
-                    self.authenticationState = .initial
-                    self.container.services.authService.removeAllUserDefaults()
-                    self.dataFetchManager.deleteCoreData()
+                }, receiveValue: { [weak self] _ in
+                    self?.container.services.authService.removeAllUserDefaults()
+                    self?.dataFetchManager.deleteCoreData()
+                    self?.progressImage = false
+                    self?.authenticationState = .initial
                 })
                 .store(in: &subscritpions)
         }
