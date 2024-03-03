@@ -14,7 +14,6 @@ public enum BackgroundType {
     case brightWithStroke
     case sentenceField
     case sentenceTitle
-//    case subColorTextEditor
 }
 
 struct BackgroundView: ViewModifier {
@@ -39,7 +38,7 @@ struct BackgroundView: ViewModifier {
         case .brightWithStroke:
             content
                 .frame(width: 99, height: 41) // subColor, WhiteWithStroke는 padding 값만 넣어서 글자 수에 따라서 크기가 변하지만,
-                                              // 여기에만 frame 값을 넣어서 글자 수에 상관 없이 고정되게 해보았습니다.
+                                              // 여기에만 frame 값을 넣어서 글자 수에 상관 없이 고정
                 .background(Color.bright)
                 .cornerRadius(30)
                 .overlay(
@@ -49,10 +48,10 @@ struct BackgroundView: ViewModifier {
         case .sentenceField:
             content
                 .font(PretendardFont.bodyMedium)
-                .lineSpacing(7) // 피그마에는 4로 되어있는데 너무 좁아보여서 일단 7로 설정함
+                .lineSpacing(7)
                 .padding(.horizontal, 17)
                 .padding(.vertical, 23)
-                .frame(maxWidth: .infinity, minHeight: 214) // 아이폰 12, 13 mini로 실행하면 200자가 다 나오지 않고 잘려서 minHeight로 변경
+                .frame(maxWidth: .infinity, minHeight: 214, alignment: .topLeading) // 아이폰 12, 13 mini로 실행하면 200자가 다 나오지 않고 잘려서 minHeight로 변경
                 .background(Color.bright)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
@@ -67,15 +66,6 @@ struct BackgroundView: ViewModifier {
                 .background(Color.sub)
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
-//        case .subColorTextEditor:
-//            content
-//                .padding(.horizontal, 17)
-//                .padding(.top, 23)
-//                .background(
-//                    RoundedRectangle(cornerRadius: 20)
-//                        .stroke(Color.main, lineWidth: 1)
-//                )
-//                .background(Color.bright)
         }
     }
 }
