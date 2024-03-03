@@ -42,6 +42,8 @@ class AuthenticationViewModel: ObservableObject {
     private let firebaseService = FirebaseService.shared
     private var nickname: String = UserDefaultsKeys.nickname
     
+    private let dataFetchManager = DataFetchManager.shared
+    
     init(container: DIContainer) {
         self.container = container
     }
@@ -53,11 +55,16 @@ class AuthenticationViewModel: ObservableObject {
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
-                firebaseService.checkingUserNickname(userID: userId) { result in
-                    if result {
-                        self.authenticationState = .authenticated
-                    } else {
-                        self.authenticationState = .unauthenticated
+                // 지영 추가 - 받아온 userID로 data fetch
+                Task {
+                    await dataFetchManager.fetchData(userID: userId)
+                    
+                    firebaseService.checkingUserNickname(userID: userId) { result in
+                        if result {
+                            self.authenticationState = .authenticated
+                        } else {
+                            self.authenticationState = .unauthenticated
+                        }
                     }
                 }
             } else {
@@ -87,9 +94,17 @@ class AuthenticationViewModel: ObservableObject {
                                 if result {
                                     print("🥶🥶 \(checkUser)")
                                     self?.userId = checkUser
-                                    self?.authenticationState = .authenticated
-                                    self?.container.services.authService.getUserLoginEmail()
-                                    self?.container.services.authService.getUserLoginProvider()
+                                    // 지영 추가 - 첫 애플 로그인시에 타는 분기
+                                    Task { [weak self] in
+                                        // 강한참조 방지
+                                        guard let self = self else { return }
+                                        
+                                        // fetchData 함수 비동기 호출
+                                        await self.dataFetchManager.fetchData(userID: checkUser)
+                                        self.authenticationState = .authenticated
+                                        self.container.services.authService.getUserLoginEmail()
+                                        self.container.services.authService.getUserLoginProvider()
+                                    }
                                     return
                                 } else {
                                     self?.userId = checkUser
@@ -115,10 +130,17 @@ class AuthenticationViewModel: ObservableObject {
                             if result {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
-                                self?.authenticationState = .authenticated
-                                self?.container.services.authService.getUserLoginEmail()
-                                self?.container.services.authService.getUserLoginProvider()
-                                
+                                // 지영 추가 - 첫 카카오 로그인시에 타는 분기
+                                Task { [weak self] in
+                                    // 강한참조 방지
+                                    guard let self = self else { return }
+                                    
+                                    // fetchData 함수 비동기 호출
+                                    await self.dataFetchManager.fetchData(userID: checkUser)
+                                    self.authenticationState = .authenticated
+                                    self.container.services.authService.getUserLoginEmail()
+                                    self.container.services.authService.getUserLoginProvider()
+                                }
                                 return
                             } else {
                                 self?.userId = checkUser
@@ -150,6 +172,7 @@ class AuthenticationViewModel: ObservableObject {
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
                 }.store(in: &subscritpions)
+            dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
             
@@ -163,6 +186,7 @@ class AuthenticationViewModel: ObservableObject {
                 }, receiveValue: { _ in
                     self.authenticationState = .initial
                     self.container.services.authService.removeAllUserDefaults()
+                    self.dataFetchManager.deleteCoreData()
                 })
                 .store(in: &subscritpions)
             
@@ -176,6 +200,7 @@ class AuthenticationViewModel: ObservableObject {
                 }, receiveValue: { _ in
                     self.authenticationState = .initial
                     self.container.services.authService.removeAllUserDefaults()
+                    self.dataFetchManager.deleteCoreData()
                 })
                 .store(in: &subscritpions)
         }

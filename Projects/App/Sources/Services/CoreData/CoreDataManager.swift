@@ -103,7 +103,7 @@ final class CoreDataManger {
                                column: WritableKeyPath<Entity, Value>,
                                value: Value,
                                contextValue: NSManagedObjectContext? = nil,
-                               newValueHandler: ([Entity]) -> Void) -> Bool where Entity: NSManagedObject {
+                               newEntityDataHandler: () -> Void) -> Bool where Entity: NSManagedObject {
         print("📝 CoreDataManager Update")
         var context: NSManagedObjectContext
         if let contextValue {
@@ -112,10 +112,9 @@ final class CoreDataManger {
             context = self.context
         }
         
-        let beforeDatas = self.retrieve(type: type, column: column, comparision: .equal, value: value)
-        guard !beforeDatas.isEmpty else { return false }
-        
-        newValueHandler(beforeDatas)
+        let isResult = self.delete(type: type, column: column, value: value)
+        guard isResult else { return false }
+        newEntityDataHandler()
 
         return self.save(context: context)
     }
