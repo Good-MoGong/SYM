@@ -42,8 +42,9 @@ struct RecordView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     
     var selectDate: Date?
-    var yesterday: Bool {
-        Calendar.current.isDate(selectDate ?? Date(), inSameDayAs: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
+    
+    var isDateInYesterday: Bool {
+        Calendar.current.isDateInYesterday(selectDate ?? Date())
     }
     
     var body: some View {
@@ -52,7 +53,7 @@ struct RecordView: View {
                 if isShowingMainView {
                     Text(existRecord ?? false ? "감정 일기 작성 완료!" : (
                         selectDate == Date() ? "오늘의 기록" : (
-                            yesterday ? "어제의 기록" : "기록이 없어요!")))
+                            isDateInYesterday ? "어제의 기록" : "기록이 없어요!")))
                     .font(PretendardFont.h4Bold)
                     .padding(.bottom, 12)
                 } else {
@@ -71,7 +72,8 @@ struct RecordView: View {
                 
                 VStack(alignment: .leading) {
                     Text(isShowingMainView ? (existRecord ?? false ?
-                                              RecordViewText.afterRecord.stringValue : RecordViewText.beforeRecord.stringValue
+                                              RecordViewText.afterRecord.stringValue :
+                                                (isTodayOrYesterday(date: selectDate) ?  RecordViewText.beforeRecord.stringValue : RecordViewText.noRecord.stringValue)
                                              ) :
                             RecordViewText.mypageRecord(count: recordCount).stringValue)
                 }
@@ -79,20 +81,41 @@ struct RecordView: View {
                 .font(PretendardFont.bodyMedium)
                 .fixedSize(horizontal: true, vertical: false)
                 .padding(.bottom, 12)
-                Button {
-                    if isShowingMainView && existRecord == false {
-                        isShowingRecordView = true
-                        print(isShowingRecordView)
-                    } else if isShowingMainView && existRecord == true {
-                        isShowingCompleteRecordView = true
-                        print(isShowingCompleteRecordView)
+                
+                // 캘린더(메인)뷰일 경우
+                if isShowingMainView {
+                    if existRecord == true {
+                        // 기록이 있을 경우
+                        Button {
+                            isShowingCompleteRecordView = true
+                        } label: {
+                            Text("기록 보러가기")
+                                .font(PretendardFont.h4Bold)
+                                .padding(.vertical, -5)
+                        }
+                        .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
+                    } else if isTodayOrYesterday(date: selectDate) {
+                        // 기록이 없고, 날짜가 오늘 또는 어제인 경우
+                        Button {
+                            isShowingRecordView = true
+                        } label: {
+                            Text("감정 기록하기")
+                                .font(PretendardFont.h4Bold)
+                                .padding(.vertical, -5)
+                        }
+                        .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
                     }
-                } label: {
-                    Text(isShowingMainView ? (existRecord ?? false ? "기록 보러가기" : "감정 기록하기") : "시미에게 의견 보내기")
-                        .font(isShowingMainView ? PretendardFont.h4Bold : PretendardFont.h5Medium)
-                        .padding(.vertical, isShowingMainView ? -5 : 5)
+                    // 메인뷰 아닐경우 (== 마이페이지일경우)
+                } else {
+                    Button {
+                        // 시미에게 의견보내기 액션
+                    } label: {
+                        Text("시미에게 의견 보내기")
+                            .font(PretendardFont.h5Medium)
+                            .padding(.vertical, 5)
+                    }
+                    .buttonStyle(CustomButtonStyle(SubPinkButtonStyle()))
                 }
-                .buttonStyle(isShowingMainView ? CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)) : CustomButtonStyle(SubPinkButtonStyle()))
             }
             .navigationDestination(isPresented: $isShowingRecordView) {
                 RecordStartView(isShowingOrganizeView: $isShowingRecordView)
@@ -124,6 +147,13 @@ struct RecordView: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.bright)
         )
+    }
+    
+    func isTodayOrYesterday(date: Date?) -> Bool {
+        guard let date = date else { return false }
+        let today = Calendar.current.isDateInToday(date)
+        let yesterday = Calendar.current.isDateInYesterday(date)
+        return today || yesterday
     }
 }
 
