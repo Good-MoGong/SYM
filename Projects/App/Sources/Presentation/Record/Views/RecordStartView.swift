@@ -225,4 +225,5 @@ struct EmotionButton: View {
 
 #Preview {
     RecordStartView(isShowingOrganizeView: .constant(false))
+        .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
