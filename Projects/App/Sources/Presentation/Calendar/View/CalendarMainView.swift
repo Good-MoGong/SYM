@@ -10,10 +10,12 @@ import SwiftUI
 
 struct CalendarMainView: View {
     @ObservedObject var authViewModel: AuthenticationViewModel
-    @State var currentDate: Date = Date()
-    @State var selectDate: Date = Date()
+    @State private var currentDate: Date = Date()
+    @State private var selectDate: Date = Date()
+    @State private var isShowingOrganizeView: Bool = false
+    @State private var isShowingRecordView: Bool = false
     
-    @StateObject var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
+    @StateObject private var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
     
     var body: some View {
         NavigationStack {
@@ -28,15 +30,24 @@ struct CalendarMainView: View {
                         .padding(.bottom, -15)
                     
                     ScrollView {
-                        CalendarDetailView(currentDate: $currentDate, 
-                                           selectDate: $selectDate, 
+                        CalendarDetailView(currentDate: $currentDate,
+                                           selectDate: $selectDate,
                                            calendarViewModel: calendarViewModel)
-                            .padding(20)
-                        RecordView(existRecord: calendarViewModel.diaryExists(on: selectDate.formatToString()),
-                                   calendarViewModel: calendarViewModel,
-                                   selectDate: selectDate)
-                            .padding(.horizontal, 20)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 15)
+                        CalendarRecordView(calendarViewModel: calendarViewModel,
+                                           isShowingOrganizeView: $isShowingOrganizeView,
+                                           isShowingRecordView: $isShowingRecordView,
+                                           selectDate: $selectDate,
+                                           existRecord: calendarViewModel.diaryExists(on: selectDate.formatToString()))
+                        .padding(.horizontal, 20)
                     }
+                }
+                .navigationDestination(isPresented: $isShowingRecordView) {
+                    RecordStartView(isShowingOrganizeView: $isShowingRecordView, selectDate: selectDate)
+                }
+                .navigationDestination(isPresented: $isShowingOrganizeView) {
+                    RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingOrganizeView)
                 }
                 .padding(.bottom, 20)
                 .scrollIndicators(.hidden)

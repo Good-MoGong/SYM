@@ -23,8 +23,18 @@ struct CalendarDetailView: View {
     
     var body: some View {
         VStack {
-            YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, calendarViewModel: calendarViewModel, weekday: weekday)
+            YearMonthHeaderView(selectedYear: $selectedYear, 
+                                selectedMonth: $selectedMonth,
+                                currentMonth: $currentMonth,
+                                currentDate: $currentDate,
+                                isShowingDateChangeSheet: $isShowingDateChangeSheet)
+            CalendarView(currentMonth: $currentMonth, 
+                         currentDate: $currentDate,
+                         selectDate: $selectDate,
+                         selectedYear: $selectedYear,
+                         selectedMonth: $selectedMonth,
+                         calendarViewModel: calendarViewModel,
+                         weekday: weekday)
         }
     }
 }
@@ -161,7 +171,7 @@ struct WeekdayHeaderView: View {
                     .foregroundStyle(day == "일" ? Color.errorRed : Color.symBlack)
             }
         }
-        .padding(.bottom, 15)
+        .padding(.bottom, 5)
     }
 }
 
