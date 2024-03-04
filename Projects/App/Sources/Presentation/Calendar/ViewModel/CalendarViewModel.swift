@@ -40,6 +40,7 @@ final class CalendarViewModel: RecordConditionFetch {
         calendarUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
                 self.recordDiary = diary
+                self.completeRecord = isSuccess
             }
         }
     }
@@ -50,7 +51,7 @@ final class CalendarViewModel: RecordConditionFetch {
             DispatchQueue.main.async {
                 self.recordDiary = diary
                 // RecordView의 beforeRecord랑 반대로 동작해서 반대로 값 넣어줘야함
-                self.completeRecord = !isSuccess
+                self.completeRecord = isSuccess
             }
         }
     }

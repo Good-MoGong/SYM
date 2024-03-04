@@ -16,7 +16,6 @@ struct CalendarDetailView: View {
  
     @Binding var currentDate: Date
     @Binding var selectDate: Date
-    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -25,7 +24,7 @@ struct CalendarDetailView: View {
     var body: some View {
         VStack {
             YearMonthHeaderView(selectedYear: $selectedYear, selectedMonth: $selectedMonth, currentMonth: $currentMonth, currentDate: $currentDate, isShowingDateChangeSheet: $isShowingDateChangeSheet)
-            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, isShowingOrganizeView: $isShowingOrganizeView, calendarViewModel: calendarViewModel, weekday: weekday)
+            CalendarView(currentMonth: $currentMonth, currentDate: $currentDate, selectDate: $selectDate, selectedYear: $selectedYear, selectedMonth: $selectedMonth, calendarViewModel: calendarViewModel, weekday: weekday)
         }
     }
 }
@@ -84,7 +83,6 @@ struct CalendarView: View {
     @Binding var selectDate: Date
     @Binding var selectedYear: Int
     @Binding var selectedMonth: Int
-    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -94,8 +92,8 @@ struct CalendarView: View {
         VStack {
             WeekdayHeaderView(weekday: weekday)
             
-            DatesGridView(selectDate: $selectDate, currentMonth: $currentMonth,
-                          isShowingOrganizeView: $isShowingOrganizeView,
+            DatesGridView(selectDate: $selectDate, 
+                          currentMonth: $currentMonth,
                           calendarViewModel: calendarViewModel)
         }
         .padding(.top, 20)
@@ -175,7 +173,6 @@ struct DatesGridView: View {
     
     @Binding var selectDate: Date
     @Binding var currentMonth: Int
-    @Binding var isShowingOrganizeView: Bool
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -186,8 +183,9 @@ struct DatesGridView: View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(extractDate(currentMonth: currentMonth)) { value in
                 if value.day != -1 {
-                    DateButton(value: value, calendarViewModel: calendarViewModel, selectDate: $selectDate,
-                               isShowingOrganizeView: $isShowingOrganizeView)
+                    DateButton(value: value, 
+                               calendarViewModel: calendarViewModel,
+                               selectDate: $selectDate)
                         .onTapGesture {
                             calendarViewModel.checkingDate = value.date
                             calendarViewModel.popupDate = true
@@ -253,7 +251,6 @@ struct DateButton: View {
     var value: DateValue
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var selectDate: Date
-    @Binding var isShowingOrganizeView: Bool
     
     // 오늘인지 아닌지
     private var isToday: Bool {
@@ -275,7 +272,6 @@ struct DateButton: View {
                 if calendarViewModel.diaryExists(on: value.date.formatToString()) {
                     calendarViewModel.recordDiary.date = selectDate.formatToString()
                     calendarViewModel.recordSpecificFetch()
-                    isShowingOrganizeView = true
                 }
             } label: {
                 VStack(spacing: 3) {
