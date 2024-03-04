@@ -21,4 +21,5 @@ extension DiaryEntity {
     @NSManaged public var emotion: [String]
     @NSManaged public var event: String
     @NSManaged public var idea: String
+    @NSManaged public var gptAnswer: String
 }

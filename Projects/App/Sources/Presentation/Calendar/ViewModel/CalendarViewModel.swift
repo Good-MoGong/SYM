@@ -17,7 +17,7 @@ final class CalendarViewModel: RecordConditionFetch {
     @Published var checkingDate: Date = Date()
     @Published var popupDate: Bool = false
     
-    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     @Published var recordDiaryArray: [Diary] = []
     @Published var completeRecord: Bool = true
     @Published var isShowingRecordView = false
