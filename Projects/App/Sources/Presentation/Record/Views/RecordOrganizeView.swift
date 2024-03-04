@@ -160,6 +160,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .dismissKeyboardOnTap()
     }
     
     let screenSize = UIScreen.main.bounds.size.width
