@@ -118,6 +118,7 @@ struct RecordStartView: View {
                 .padding()
             }
         }
+        .dismissKeyboardOnTap()
         .popup(isShowing: $recordViewModel.isShowingOutPopUp,
                type: .doubleButton(leftTitle: "그만두기", rightTitle: "이어쓰기"),
                title: PopupContent.stop.title,
