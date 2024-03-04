@@ -22,7 +22,7 @@ final class RecordRepository: RecordRepositoryProtocal {
     private let chatGPTManager = ChatGPTManager.shared
     private let fireBaseManager = FirebaseManager.shared
     private let userID = ""
-    private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     private var cancellables = Set<AnyCancellable>()
     
     func saveRecord(userID: String, diary: Diary) async -> Bool {
@@ -68,6 +68,7 @@ final class RecordRepository: RecordRepositoryProtocal {
                 diaryInfo.idea = diary.idea
                 diaryInfo.emotion = diary.emotions
                 diaryInfo.action = diary.action
+                diaryInfo.gptAnswer = diary.gptAnswer
             }
         }
         print("CoreData 저장 성공")
@@ -96,9 +97,9 @@ final class RecordRepository: RecordRepositoryProtocal {
         let diaryEntitys = coreDataManager.retrieve(type: DiaryEntity.self, column: \.date, comparision: .equal, value: date)
         let isFetchSuccess = diaryEntitys.isEmpty ? false : true
         if let diaryEntity = diaryEntitys.first {
-            self.fetchDiary = Diary(date: diaryEntity.date , event: diaryEntity.event , idea: diaryEntity.idea, emotions: diaryEntity.emotion , action: diaryEntity.action)
+            self.fetchDiary = Diary(date: diaryEntity.date , event: diaryEntity.event , idea: diaryEntity.idea, emotions: diaryEntity.emotion , action: diaryEntity.action, gptAnswer: diaryEntity.gptAnswer)
         } else {
-            self.fetchDiary = Diary(date: "", event: "", idea: "", emotions: [], action: "")
+            self.fetchDiary = Diary(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
         }
         
         completion(fetchDiary,isFetchSuccess)

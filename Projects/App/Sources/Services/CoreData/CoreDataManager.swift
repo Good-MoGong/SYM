@@ -157,6 +157,17 @@ final class CoreDataManger {
         return self.save(context: context)
     }
     
+    func getDiaryCount() -> Int {
+        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
+        do {
+            let count = try context.count(for: request)
+            print("📝 기록된 감정일기 수 : \(count)")
+            return count
+        } catch {
+            print(error)
+            return -1
+        }
+    }
 }
 
 extension CoreDataManger {
