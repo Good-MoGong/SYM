@@ -131,9 +131,6 @@ struct CalendarView: View {
                     self.offset = CGSize()
                 }
         )
-        .onAppear() {
-            selectDate = Date()
-        }
     }
     /// 현재 캘린더에 보이는 month 구하는 함수
     private func getCurrentMonth(addingMonth: Int) -> Date {

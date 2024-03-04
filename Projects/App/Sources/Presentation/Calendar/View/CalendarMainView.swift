@@ -28,9 +28,13 @@ struct CalendarMainView: View {
                         .padding(.bottom, -15)
                     
                     ScrollView {
-                        CalendarDetailView(currentDate: $currentDate, selectDate: $selectDate, calendarViewModel: calendarViewModel)
+                        CalendarDetailView(currentDate: $currentDate, 
+                                           selectDate: $selectDate, 
+                                           calendarViewModel: calendarViewModel)
                             .padding(20)
-                        RecordView(existRecord: calendarViewModel.diaryExists(on: selectDate.formatToString()), calendarViewModel: calendarViewModel)
+                        RecordView(existRecord: calendarViewModel.diaryExists(on: selectDate.formatToString()),
+                                   calendarViewModel: calendarViewModel,
+                                   selectDate: selectDate)
                             .padding(.horizontal, 20)
                     }
                 }
