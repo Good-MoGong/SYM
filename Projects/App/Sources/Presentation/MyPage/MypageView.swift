@@ -18,8 +18,8 @@ struct MypageView: View {
     
     var body: some View {
         NavigationStack {
-            RecordView(isShowingMainView: false, calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository())))
-                .padding(.vertical, 20)
+//            RecordView(isShowingMainView: false, calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository())))
+//                .padding(.vertical, 20)
             CustomerSupport()
             
             Spacer()

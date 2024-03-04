@@ -41,7 +41,7 @@ struct RecordView: View {
     
     @ObservedObject var calendarViewModel: CalendarViewModel
     
-    var selectDate: Date?
+    var selectDate: Date
     
     var isDateInYesterday: Bool {
         Calendar.current.isDateInYesterday(selectDate ?? Date())
@@ -118,7 +118,7 @@ struct RecordView: View {
                 }
             }
             .navigationDestination(isPresented: $isShowingRecordView) {
-                RecordStartView(isShowingOrganizeView: $isShowingRecordView)
+                RecordStartView(isShowingOrganizeView: $isShowingRecordView, selectDate: selectDate)
             }
             .navigationDestination(isPresented: $isShowingCompleteRecordView) {
                 RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingCompleteRecordView)
