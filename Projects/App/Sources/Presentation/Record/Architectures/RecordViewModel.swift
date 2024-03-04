@@ -40,7 +40,6 @@ final class RecordViewModel: RecordConditionFetch {
             self.writeLater()
         }
         else if recordOrder == .action && direction == .next {
-            recordDiary.date = Date().formatToString()
             Task {
                 self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
             }
