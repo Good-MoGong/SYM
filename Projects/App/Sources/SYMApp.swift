@@ -38,7 +38,9 @@ struct SYMApp: App {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
                 }
+                .dismissKeyboardOnTap()
         }
+        
     }
 }
 
