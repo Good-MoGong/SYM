@@ -85,14 +85,16 @@ struct RecordStartView: View {
                     Spacer().frame(maxHeight: .symHeight * 0.03)
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
-                        Image("SimiSmile")
-                            .resizable()
-                            .frame(width: 200, height: 220)
-                        TextEditor(text: $recordViewModel.currentText)
-                            .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
-                            .frame(height: 200)
-                        Spacer().frame(maxHeight: .symHeight * 0.03)
-                            .frame(maxHeight: .infinity)
+                        ScrollView {
+                            Image("SimiSmile")
+                                .resizable()
+                                .frame(width: 200, height: 220)
+                            TextEditor(text: $recordViewModel.currentText)
+                                .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
+                                .frame(height: 200)
+                            Spacer().frame(maxHeight: .symHeight * 0.03)
+                                .frame(maxHeight: .infinity)
+                        }
                         Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
                             recordViewModel.movePage(to: .next)
                         }
@@ -140,6 +142,7 @@ struct RecordStartView: View {
             recordViewModel.userID = authViewModel.userId ?? ""
             withAnimation {
                 isAppearAnimation = true
+                
             }
         }
     }
