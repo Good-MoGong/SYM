@@ -14,7 +14,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
-    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
         ZStack {
@@ -134,6 +134,14 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     }
                     .padding(.horizontal, 20)
                 }
+                
+                ZStack {
+                    Text(organizeViewModel.recordDiary.gptAnswer) // 추후에 실제 기록으로 변경 필요
+                        .setTextBackground(.sentenceField)
+                    
+                    isResolutionSentenceTitle(title: "시미의 공감")
+                }
+                .padding(.horizontal, 20)
                 
                 if editToggle == false {
                     Button("완료") {

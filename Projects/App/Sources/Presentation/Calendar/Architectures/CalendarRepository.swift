@@ -17,7 +17,8 @@ final class CalendarRepository: CalendarRepositoryProtocol {
     
     private let coreDataManager = CoreDataManger.shared
     private let fireBaseManager = FirebaseManager.shared
-    private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    
+    private var fetchDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     private var fetchDiaryArray: [Diary] = []
     
     /// 특정 날짜 기록 불러오기
@@ -30,10 +31,11 @@ final class CalendarRepository: CalendarRepositoryProtocol {
                 event: diaryEntity.event,
                 idea: diaryEntity.idea,
                 emotions: diaryEntity.emotion,
-                action: diaryEntity.action
-        )
+                action: diaryEntity.action,
+                gptAnswer: diaryEntity.gptAnswer
+            )
         } else {
-            self.fetchDiary = Diary(date: "", event: "", idea: "", emotions: [], action: "")
+            self.fetchDiary = Diary(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
         }
 
         completion(fetchDiary, isFetchSuccess)
@@ -43,7 +45,7 @@ final class CalendarRepository: CalendarRepositoryProtocol {
     func fetchWholeRecord(completion: @escaping ([Diary]) -> Void) {
         let diaryEntitys = coreDataManager.retrieve(type: DiaryEntity.self)
         for diary in diaryEntitys {
-            let fetchDiary = Diary(date: diary.date, event: diary.event, idea: diary.idea, emotions: diary.emotion, action: diary.action)
+            let fetchDiary = Diary(date: diary.date, event: diary.event, idea: diary.idea, emotions: diary.emotion, action: diary.action, gptAnswer: diary.gptAnswer)
             self.fetchDiaryArray.append(fetchDiary)
         }
         completion(fetchDiaryArray)

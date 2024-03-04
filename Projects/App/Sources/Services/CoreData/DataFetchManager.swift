@@ -16,7 +16,7 @@ final class DataFetchManager {
     
     private let firebaseManager = FirebaseManager.shared
     private let coreDataManager = CoreDataManger.shared
-    private let diary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    private let diary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
 
     /// 로그인시, userID로 코어데이터, Firebase data fetch
     func fetchData(userID: String) async {
@@ -49,6 +49,7 @@ final class DataFetchManager {
                                 diaryInfo.idea = diary.idea
                                 diaryInfo.emotion = diary.emotions
                                 diaryInfo.action = diary.action
+                                diaryInfo.gptAnswer = diary.gptAnswer
                             }
                         }
                     }
