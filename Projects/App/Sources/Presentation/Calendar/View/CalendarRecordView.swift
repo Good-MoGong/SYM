@@ -35,6 +35,11 @@ struct CalendarRecordView: View {
     
     /// 기록 전, 후를 bool로 구분
     var existRecord: Bool
+    
+    /// 해당 날짜가 오늘인지 아닌지
+    var isDateInToday: Bool {
+        Calendar.current.isDateInToday(selectDate)
+    }
     /// 해당 날짜가 어제인지 아닌지
     var isDateInYesterday: Bool {
         Calendar.current.isDateInYesterday(selectDate)
@@ -44,7 +49,7 @@ struct CalendarRecordView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(existRecord ? "감정 일기 작성 완료!" : (
-                    selectDate == Date() ? "오늘의 기록" : (
+                    isDateInToday ? "오늘의 기록" : (
                         isDateInYesterday ? "어제의 기록" : "기록이 없어요!")))
                 .font(PretendardFont.h4Bold)
                 .padding(.bottom, 12)
