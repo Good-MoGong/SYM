@@ -28,6 +28,8 @@ struct CustomTextEditorStyle: ViewModifier {
                             .foregroundColor(Color.symGray3)
                     }
                 }
+                .textInputAutocapitalization(.none)
+                .autocorrectionDisabled()
                 .background(Color.symGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .scrollContentBackground(.hidden)
@@ -43,7 +45,6 @@ struct CustomTextEditorStyle: ViewModifier {
                                 text = String(newValue.prefix(200))
                             }
                         }
-                    
                 }
     }
 }
