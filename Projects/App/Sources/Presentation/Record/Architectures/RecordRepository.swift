@@ -13,7 +13,7 @@ protocol RecordRepositoryProtocal {
     func saveRecord(userID: String, diary: Diary) async -> Bool
     func fetchRecord(date: String, completion: @escaping (Diary, Bool) -> Void)
     func updateRecord(userID: String, diary: Diary) async -> Bool
-    func makeGPTRequest(text: String, completion: @escaping (String) -> Void)
+    func makeGPTRequest(text: String) -> AnyPublisher<String?, Error>
 }
 
 final class RecordRepository: RecordRepositoryProtocal {
@@ -105,23 +105,16 @@ final class RecordRepository: RecordRepositoryProtocal {
         completion(fetchDiary,isFetchSuccess)
     }
     
-    func makeGPTRequest(text: String, completion: @escaping (String) -> Void)  {
-        ChatGPTManager.shared.makeRequest(text: text)?
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error: \(error)")
-                case .finished:
-                    break
-                }
-            }, receiveValue: {  stringData in
-                if let gptAnswer = stringData {
-                    completion(gptAnswer)
-                } else {
-                    completion("Failed to get response from GPT")
-                }
-            })
-            .store(in: &cancellables)
-    }
+    func makeGPTRequest(text: String) -> AnyPublisher<String?, Error> {
+        guard let publisher = ChatGPTManager.shared.makeRequest(text: text) else {
+                return Just(nil)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            }
+
+            return publisher
+                .receive(on: DispatchQueue.main)
+                .map {$0}
+                .eraseToAnyPublisher()
+        }
 }

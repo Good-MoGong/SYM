@@ -26,10 +26,13 @@ final class RecordViewModel: RecordConditionFetch {
     @Published var isShowingToastMessage: Toast? = nil
     @Published var isGPTLoading: Bool = false
     
+    private var cancellables: Set<AnyCancellable> = []
+    
     init(recordUseCase: RecordUseCase) {
         self.recordUseCase = recordUseCase
     }
     
+    @MainActor
     func movePage(to direction: PageDirection) {
         guard let currentIndex = RecordOrder.allCases.firstIndex(of: recordOrder) else { return }
         
@@ -38,11 +41,7 @@ final class RecordViewModel: RecordConditionFetch {
             self.writeLater()
         }
         else if recordOrder == .action && direction == .next {
-            recordDiary.date = Date().formatToString()
             makeGPTRequest()
-//            Task {
-//                self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
-//            }
         } else {
             withAnimation {
                 let indexOffset = direction == .previous ? -1 : 1
@@ -62,6 +61,7 @@ final class RecordViewModel: RecordConditionFetch {
         }
     }
     
+    @MainActor
     func updateRecord(updateDiary: Diary) {
         recordDiary.event = updateDiary.event
         recordDiary.idea = updateDiary.idea
@@ -72,31 +72,46 @@ final class RecordViewModel: RecordConditionFetch {
         }
     }
     
+    @MainActor
     func makeGPTRequest() {
-        isGPTLoading = true
         isShowingCompletionView = true
-        recordUseCase.makeGPTRequest(diary: recordDiary) { [self] gptAnswer in
-            recordDiary.gptAnswer = gptAnswer
-            
-            self.isGPTLoading = false
-            Task {
-                await recordUseCase.saveRecord(userID: self.userID, diary: recordDiary)
-            }
+        isGPTLoading = true
+                recordUseCase.makeGPTRequest(diary: recordDiary)
+                    .receive(on: DispatchQueue.main)
+                    .sink { completion in
+                        switch completion {
+                        case .finished:
+                            self.isGPTLoading = false
+                        case .failure(let error):
+                            print("Error making GPT request: \(error)")
+                            self.isGPTLoading = false
+                        }
+                    } receiveValue: { gptAnswer in
+                        self.recordDiary.gptAnswer = gptAnswer ?? "시미가 공감할 수 없는 글이에요.."
+                        self.saveRecord()
+                    }
+                    .store(in: &cancellables)
+    }
+    
+    func saveRecord() {
+        Task {
+            await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
         }
     }
     
+    @MainActor
     func writeLater() {
         isShowingOutPopUp = true
     }
-    
+    @MainActor
     func showGuide() {
         isShowingGuidePopUp = true
     }
-    
+    @MainActor
     func selectEmotion(selected: EmotionType) {
         self.selectedEmotion = selected
     }
-    
+    @MainActor
     func selectedDatailEmotion(selected: String) -> Bool {
         
         if let index = self.selectedDatailEmotion.firstIndex(of: selected) {
@@ -113,7 +128,7 @@ final class RecordViewModel: RecordConditionFetch {
             return false
         }
     }
-    
+    @MainActor
     private func saveCurrentText() {
         switch recordOrder {
         case .event: recordDiary.event = currentText
@@ -123,6 +138,7 @@ final class RecordViewModel: RecordConditionFetch {
         }
     }
     
+    @MainActor
     private func updateCurrentText() {
         switch recordOrder {
         case .event: currentText = recordDiary.event
