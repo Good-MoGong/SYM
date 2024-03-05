@@ -16,6 +16,7 @@ struct RecordStartView: View {
     @StateObject private var recordViewModel: RecordViewModel = RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository()))
     @State private var isAppearAnimation: Bool = false
     @Binding var isShowingOrganizeView: Bool
+    var selectDate: Date
 
     var body: some View {
         NavigationStack {
@@ -140,6 +141,7 @@ struct RecordStartView: View {
             RecordCompletionView(recordViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         })
         .onAppear {
+            recordViewModel.recordDiary.date = selectDate.formatToString()
             recordViewModel.userID = authViewModel.userId ?? ""
             withAnimation {
                 isAppearAnimation = true
@@ -228,6 +230,6 @@ struct EmotionButton: View {
 }
 
 #Preview {
-    RecordStartView(isShowingOrganizeView: .constant(false))
+    RecordStartView(isShowingOrganizeView: .constant(false), selectDate: Date())
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }
