@@ -17,31 +17,6 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
-        ZStack {
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                }
-                .buttonStyle(.plain)
-                .padding()
-                Spacer()
-                
-                
-            }
-            .frame(height: 44)
-            .frame(maxWidth: .infinity)
-            
-            HStack {
-                Spacer()
-                
-                Text("\(organizeViewModel.recordDiary.date) 일기")
-                    .font(PretendardFont.h4Medium)
-                
-                Spacer()
-            }
-        }
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Spacer(minLength: 33)
@@ -159,8 +134,13 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden()
         .dismissKeyboardOnTap()
+        .customNavigationBar(centerView: {
+            Text("\(organizeViewModel.recordDiary.date) 일기")
+                .font(PretendardFont.h4Medium)
+        }, rightView: {
+            EmptyView()
+        }, isShowingBackButton: true)
     }
     
     let screenSize = UIScreen.main.bounds.size.width
