@@ -30,7 +30,6 @@ final class RecordViewModel: RecordConditionFetch {
         self.recordUseCase = recordUseCase
     }
     
-    @MainActor
     func movePage(to direction: PageDirection) {
         guard let currentIndex = RecordOrder.allCases.firstIndex(of: recordOrder) else { return }
         
@@ -55,6 +54,7 @@ final class RecordViewModel: RecordConditionFetch {
     
     func recordSpecificFetch() {
         recordUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
+            print("😵‍💫\(isSuccess)")
             DispatchQueue.main.async {
                 self.recordDiary = diary
                 self.isShowingOrganizeView = isSuccess
