@@ -94,7 +94,6 @@ struct RecordStartView: View {
                                 .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
                                 .frame(height: 200)
                             Spacer().frame(maxHeight: .symHeight * 0.03)
-                                .frame(maxHeight: .infinity)
                         }
                         Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
                             recordViewModel.movePage(to: .next)
