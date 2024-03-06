@@ -27,14 +27,14 @@ struct CalendarMainView: View {
                     HeaderView()
                         .padding(.horizontal, 20)
                         .padding(.top)
-                        .padding(.bottom, -15)
+                        .padding(.bottom, -40)
                     
                     ScrollView {
                         CalendarDetailView(currentDate: $currentDate,
                                            selectDate: $selectDate,
                                            calendarViewModel: calendarViewModel)
                         .padding(.horizontal, 20)
-                        .padding(.vertical, 15)
+                        .padding(.vertical, 10)
                         CalendarRecordView(calendarViewModel: calendarViewModel,
                                            isShowingOrganizeView: $isShowingOrganizeView,
                                            isShowingRecordView: $isShowingRecordView,
