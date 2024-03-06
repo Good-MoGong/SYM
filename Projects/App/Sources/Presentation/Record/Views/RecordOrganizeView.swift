@@ -81,6 +81,14 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                         isResolutionSentenceTitle(title: "행동")
                     }
                     .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        Text(organizeViewModel.recordDiary.gptAnswer)
+                            .setTextBackground(.sentenceField)
+                        
+                        isResolutionSentenceTitle(title: "시미의 공감")
+                    }
+                    .padding(.horizontal, 20)
                 } else {
                     ZStack {
                         TextEditor(text: $updateDiary.event)
@@ -108,15 +116,17 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                         isResolutionSentenceTitle(title: "행동")
                     }
                     .padding(.horizontal, 20)
-                }
-                
-                ZStack {
-                    Text(organizeViewModel.recordDiary.gptAnswer) // 추후에 실제 기록으로 변경 필요
-                        .setTextBackground(.sentenceField)
                     
-                    isResolutionSentenceTitle(title: "시미의 공감")
+                    ZStack {
+                        TextEditor(text: $updateDiary.gptAnswer)
+                            .customStyle2(userInput: $updateDiary.gptAnswer)
+                            .frame(maxHeight: 214)
+                            .disabled(true)
+                        
+                        isResolutionSentenceTitle(title: "시미의 공감")
+                    }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
                 
                 if editToggle == false {
                     Button("완료") {
@@ -178,6 +188,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
         updateDiary.event = organizeViewModel.recordDiary.event
         updateDiary.idea = organizeViewModel.recordDiary.idea
         updateDiary.action = organizeViewModel.recordDiary.action
+        updateDiary.gptAnswer = organizeViewModel.recordDiary.gptAnswer
     }
 }
 
