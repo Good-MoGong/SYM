@@ -45,12 +45,18 @@ final class CalendarRepository: CalendarRepositoryProtocol {
     func fetchWholeRecord(completion: @escaping ([Diary]) -> Void) {
         let diaryEntitys = coreDataManager.retrieve(type: DiaryEntity.self)
         for diary in diaryEntitys {
-            let fetchDiary = Diary(date: diary.date, event: diary.event, idea: diary.idea, emotions: diary.emotion, action: diary.action, gptAnswer: diary.gptAnswer)
+            let fetchDiary = Diary(date: diary.date, 
+                                   event: diary.event,
+                                   idea: diary.idea,
+                                   emotions: diary.emotion,
+                                   action: diary.action,
+                                   gptAnswer: diary.gptAnswer)
             self.fetchDiaryArray.append(fetchDiary)
         }
         completion(fetchDiaryArray)
     }
     
+    /// 기록 업데이트
     func updateRecord(userID: String, diary: Diary) async -> Bool {
         do {
             // Core Data에 업데이트하는 비동기 코드
@@ -65,11 +71,13 @@ final class CalendarRepository: CalendarRepositoryProtocol {
         }
     }
     
+    /// firebase 기록 업데이트
     private func updateToFirebase(userID: String, diary: Diary) async throws {
         try await fireBaseManager.updateDiaryFireStore(userID: userID, data: diary)
         print("Firebase 업데이트 성공")
     }
     
+    /// 코어데이터 기록 업데이트
     private func updateToCoreData(diary: Diary) async throws {
         let context = coreDataManager.newContextForBackgroundThread()
         _ = await context.perform {
@@ -80,6 +88,7 @@ final class CalendarRepository: CalendarRepositoryProtocol {
                 diaryInfo.idea = diary.idea
                 diaryInfo.emotion = diary.emotions
                 diaryInfo.action = diary.action
+                diaryInfo.gptAnswer = diary.gptAnswer
             }
         }
     }

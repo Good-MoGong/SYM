@@ -66,6 +66,7 @@ final class RecordViewModel: RecordConditionFetch {
         recordDiary.event = updateDiary.event
         recordDiary.idea = updateDiary.idea
         recordDiary.action = updateDiary.action
+        recordDiary.gptAnswer = updateDiary.gptAnswer
         
         Task {
             await recordUseCase.updateRecord(userID: userID, diary: recordDiary)
