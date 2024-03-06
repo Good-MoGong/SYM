@@ -65,6 +65,8 @@ struct CalendarRecordView: View {
                 if existRecord == true {
                     // 기록이 있을 경우
                     Button {
+                        calendarViewModel.recordDiary.date = selectDate.formatToString()
+                        calendarViewModel.recordSpecificFetch()
                         isShowingOrganizeView = true
                     } label: {
                         Text("기록 보러가기")
