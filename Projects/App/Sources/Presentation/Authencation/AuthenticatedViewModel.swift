@@ -54,7 +54,7 @@ class AuthenticationViewModel: ObservableObject {
         switch action {
             // 로그인 정보 확인하기
         case .checkAuthenticationState:
-            self.progressImage = true
+//            self.progressImage = true
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
@@ -65,17 +65,17 @@ class AuthenticationViewModel: ObservableObject {
                     firebaseService.checkingUserNickname(userID: userId) { result in
                         if result {
                             self.authenticationState = .authenticated
-                            self.progressImage = false
+//                            self.progressImage = false
                         } else {
                             self.authenticationState = .unauthenticated
-                            self.progressImage = false
+//                            self.progressImage = false
                         }
                     }
                 }
             } else {
                 print("🔺Here is userID is nil \(userId ?? "유저 아이디 없어요")")
                 print("🔺 유저 계정 상태 \(self.authenticationState)")
-                self.progressImage = false
+//                self.progressImage = false
                 self.authenticationState = .initial
             }
             
@@ -99,12 +99,14 @@ class AuthenticationViewModel: ObservableObject {
                             self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
                                 if result {
                                     print("🥶🥶 \(checkUser)")
+                                    print("📛📛🍎 nickname Userdefault : \(UserDefaultsKeys.nickname)")
+                                    
                                     self?.userId = checkUser
                                     // 지영 추가 - 첫 애플 로그인시에 타는 분기
                                     Task { [weak self] in
                                         // 강한참조 방지
                                         guard let self = self else { return }
-                                        self.progressImage = true
+//                                        self.progressImage = true
                                         // fetchData 함수 비동기 호출
                                         await self.dataFetchManager.fetchData(userID: checkUser)
                                         self.container.services.authService.getUserLoginEmail()
@@ -117,7 +119,7 @@ class AuthenticationViewModel: ObservableObject {
                                     self?.userId = checkUser
                                     self?.container.services.authService.getUserLoginEmail()
                                     self?.container.services.authService.getUserLoginProvider()
-                                    self?.progressImage = false
+//                                    self?.progressImage = false
                                     self?.authenticationState = .unauthenticated
                                 }
                             }
@@ -135,6 +137,7 @@ class AuthenticationViewModel: ObservableObject {
                     if let checkUser = self?.container.services.authService.checkAuthenticationState() {
                         print("🥶 카카오 checkUser \(checkUser)")
                         self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
+                            print("📛📛 nickname Userdefault : \(UserDefaultsKeys.nickname)")
                             if result {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
@@ -147,7 +150,7 @@ class AuthenticationViewModel: ObservableObject {
                                     await self.dataFetchManager.fetchData(userID: checkUser)
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
-                                    self.progressImage = false
+//                                    self.progressImage = false
                                     self.authenticationState = .authenticated
                                 }
                                 return
@@ -155,7 +158,7 @@ class AuthenticationViewModel: ObservableObject {
                                 self?.userId = checkUser
                                 self?.container.services.authService.getUserLoginEmail()
                                 self?.container.services.authService.getUserLoginProvider()
-                                self?.progressImage = false
+//                                self?.progressImage = false
                                 self?.authenticationState = .unauthenticated
                             }
                         }
@@ -179,7 +182,7 @@ class AuthenticationViewModel: ObservableObject {
                 } receiveValue: { [weak self] _ in
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
-                    self?.progressImage = false
+//                    self?.progressImage = false
                     self?.authenticationState = .initial
                 }.store(in: &subscritpions)
             dataFetchManager.deleteCoreData()
@@ -196,7 +199,7 @@ class AuthenticationViewModel: ObservableObject {
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
-                    self?.progressImage = false
+//                    self?.progressImage = false
                     self?.authenticationState = .initial
                 })
                 .store(in: &subscritpions)
@@ -211,7 +214,7 @@ class AuthenticationViewModel: ObservableObject {
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
-                    self?.progressImage = false
+//                    self?.progressImage = false
                     self?.authenticationState = .initial
                 })
                 .store(in: &subscritpions)

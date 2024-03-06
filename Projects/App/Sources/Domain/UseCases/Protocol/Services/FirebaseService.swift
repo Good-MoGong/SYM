@@ -58,6 +58,7 @@ final class FirebaseService {
                         completion(true)
                     }
                 } else {
+                    print("🔥 Firebase DEBUG: Nickname 정보 UserDefault에 저장 실패")
                     completion(false)
                 }
             }

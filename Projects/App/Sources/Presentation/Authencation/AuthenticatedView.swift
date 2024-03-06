@@ -21,11 +21,13 @@ struct AuthenticatedView: View {
                 LoginIntroView()
                     .environmentObject(authViewModel)
                     .overlay {
-                        if authViewModel.progressImage {
-                            ProgressViewSample()
-                        }
+//                        if authViewModel.progressImage {
+//                            ProgressViewSample()
+//                        }
                     }
-//                    .animation(.easeOut, value: authViewModel.progressImage)
+                    .onAppear {
+                        print("📛 logintroview nickname userDefault \(UserDefaultsKeys.nickname)")
+                    }
             case .unauthenticated:
                 LoginNicknameView()
                     .environmentObject(authViewModel)
@@ -34,6 +36,8 @@ struct AuthenticatedView: View {
                     .environmentObject(authViewModel)
                     .onAppear { // FCM
                         authViewModel.send(action: .requestPushNotification)
+                        
+                        print("📛 nickname userDefault \(UserDefaultsKeys.nickname)")
                     }
             }
         }
