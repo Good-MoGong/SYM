@@ -23,11 +23,8 @@ struct LoginIntroView: View {
             VStack {
                 Spacer()
                 VStack(spacing: 15) {
-                    Image("SimiSmile")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.horizontal, 50)
-                        .animationSimi(yOffset: yOffset)
+                    MovingSimiView()
+                        .padding(.horizontal, 80)
                     
                     VStack(spacing: 4) {
                         Text("SYM")
