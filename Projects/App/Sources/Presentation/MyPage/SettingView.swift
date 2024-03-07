@@ -25,15 +25,21 @@ struct SettingView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 26) {
-                Spacer().frame(height: 30)
+                Spacer().frame(height: 16)
                 
-                Toggle(isOn: $settingViewModel.notificationToggle, label: {
-                    Text("푸시 알림 설정")
-                })
-                .tint(Color.main)
+//                Toggle(isOn: $settingViewModel.notificationToggle, label: {
+//                    Text("푸시 알림 설정")
+//                })
+//                .tint(Color.main)
 
                                 
-                VStack(spacing: 26) {
+                VStack(spacing: 30) {
+//                    Text("테스트")
+//                        .onTapGesture {
+//                            print("🔑 UserDefaultsKeys.loginProvider: \(UserDefaultsKeys.loginProvider)")
+//                            print("🔑 UserDefaultsKeys.loginProvider type: \(type(of: UserDefaultsKeys.loginProvider))")
+//                            print("(userid) \(authViewModel.userId)")
+//                        }
                     Button {
                         settingViewModel.isShowingLogoutPopup.toggle()
                     } label: {
@@ -65,23 +71,20 @@ struct SettingView: View {
                desc: PopupContent.remove.desc,
                confirmHandler: {
                     if let userId = authViewModel.userId {
-                        if authViewModel.loginProvider == "Apple" {
-                            firebaseService.deleteUserData(user: userId) { result in
-                                if result {
-                                    authViewModel.send(action: .unlinkApple)
-                                }
-                            }
-                        } else {
-                             firebaseService.deleteUserData(user: userId) { result in
-                                 if result {
-                                     authViewModel.send(action: .unlinkKakao)
-                                 }
-                             }
-                        }
+                        print("🚀 \(userId)")
+                        print("🚀🚀 \(UserDefaultsKeys.loginProvider)")
                         
-                        settingViewModel.isShowingWithdrawalPopup.toggle()
+                        firebaseService.deleteDiarySubcollection(forUserID: userId) { result in
+                            if result, UserDefaultsKeys.loginProvider == "Apple" {
+                                authViewModel.send(action: .unlinkApple)
+                                settingViewModel.isShowingWithdrawalPopup.toggle()
+                            } else if result, UserDefaultsKeys.loginProvider == "Kakao" {
+                                authViewModel.send(action: .unlinkKakao)
+                                settingViewModel.isShowingWithdrawalPopup.toggle()
+                            }
+                        }
                     } else {
-                        print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 정보 삭제 시 에러 발생")
+                        print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 탈퇴 시 에러 발생")
                     }
         },
                cancelHandler: {
