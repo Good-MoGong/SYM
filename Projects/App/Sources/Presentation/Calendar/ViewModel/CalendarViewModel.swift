@@ -27,6 +27,7 @@ final class CalendarViewModel: RecordConditionFetch {
     }
     
     // 서연 추가
+    /// 현재 기준 미래날짜인지 아닌지 확인 -> 미래날짜일 경우 date button disabled
     func checkingDateFuture() {
         if popupDate {
             self.impossibleMessage = .init(message: "미래 날짜는 아직 기록할 수 없어요")
@@ -61,10 +62,12 @@ final class CalendarViewModel: RecordConditionFetch {
         })
     }
     
+    /// 기록 업데이트
     func updateRecord(updateDiary: Diary) {
         recordDiary.event = updateDiary.event
         recordDiary.idea = updateDiary.idea
         recordDiary.action = updateDiary.action
+        recordDiary.gptAnswer = updateDiary.gptAnswer
         
         Task {
             await calendarUseCase.updateRecord(userID: userID, diary: recordDiary)

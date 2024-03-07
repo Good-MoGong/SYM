@@ -59,11 +59,13 @@ class AuthenticationViewModel: ObservableObject {
                 Task {
                     await dataFetchManager.fetchData(userID: userId)
                     
-                    firebaseService.checkingUserNickname(userID: userId) { result in
-                        if result {
-                            self.authenticationState = .authenticated
-                        } else {
-                            self.authenticationState = .unauthenticated
+                    DispatchQueue.main.async {
+                        self.firebaseService.checkingUserNickname(userID: userId) { result in
+                            if result {
+                                self.authenticationState = .authenticated
+                            } else {
+                                self.authenticationState = .unauthenticated
+                            }
                         }
                     }
                 }
@@ -101,7 +103,9 @@ class AuthenticationViewModel: ObservableObject {
                                         
                                         // fetchData 함수 비동기 호출
                                         await self.dataFetchManager.fetchData(userID: checkUser)
-                                        self.authenticationState = .authenticated
+                                        DispatchQueue.main.async {
+                                            self.authenticationState = .authenticated
+                                        }
                                         self.container.services.authService.getUserLoginEmail()
                                         self.container.services.authService.getUserLoginProvider()
                                     }
@@ -137,7 +141,9 @@ class AuthenticationViewModel: ObservableObject {
                                     
                                     // fetchData 함수 비동기 호출
                                     await self.dataFetchManager.fetchData(userID: checkUser)
-                                    self.authenticationState = .authenticated
+                                    DispatchQueue.main.async {
+                                        self.authenticationState = .authenticated
+                                    }
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
                                 }
