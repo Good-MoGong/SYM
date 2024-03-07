@@ -25,7 +25,7 @@ class ChatGPTManager: ObservableObject {
         let model = "gpt-3.5-turbo"
         let prompt = text
         let temperature = 0.9
-        let maxTokens = text.count + 200
+        let maxTokens = text.count + 150
         let topP = 1
         let frequencyPenalty = 0.0
         let presencePenalty = 0.6
