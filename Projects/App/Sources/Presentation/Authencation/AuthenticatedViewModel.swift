@@ -43,7 +43,6 @@ class AuthenticationViewModel: ObservableObject {
     private var subscritpions = Set<AnyCancellable>()
     private let firebaseService = FirebaseService.shared
     private var nickname: String = UserDefaultsKeys.nickname
-    
     private let dataFetchManager = DataFetchManager.shared
     
     init(container: DIContainer) {
@@ -54,7 +53,8 @@ class AuthenticationViewModel: ObservableObject {
         switch action {
             // 로그인 정보 확인하기
         case .checkAuthenticationState:
-//            self.progressImage = true
+            self.progressImage = true
+            
             if let userId = container.services.authService.checkAuthenticationState() {
                 self.userId = userId
                 print("🔺 userID : \(userId)")
@@ -62,24 +62,28 @@ class AuthenticationViewModel: ObservableObject {
                 Task {
                     await dataFetchManager.fetchData(userID: userId)
                     
-                    firebaseService.checkingUserNickname(userID: userId) { result in
-                        if result {
-                            self.authenticationState = .authenticated
-//                            self.progressImage = false
-                        } else {
-                            self.authenticationState = .unauthenticated
-//                            self.progressImage = false
+                    DispatchQueue.main.async {
+                        self.firebaseService.checkingUserNickname(userID: userId) { result in
+                            if result {
+                                self.progressImage = false
+                                self.authenticationState = .authenticated
+                            } else {
+                                self.progressImage = false
+                                self.authenticationState = .unauthenticated
+                            }
                         }
                     }
                 }
             } else {
                 print("🔺Here is userID is nil \(userId ?? "유저 아이디 없어요")")
                 print("🔺 유저 계정 상태 \(self.authenticationState)")
-//                self.progressImage = false
+                self.progressImage = false
                 self.authenticationState = .initial
             }
             
         case let .appleLogin(requeset):
+            progressImage = true
+            
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
             
@@ -90,7 +94,7 @@ class AuthenticationViewModel: ObservableObject {
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
                     .sink { [weak self] completion in
                         if case .failure = completion {
-//                            self?.isLoading = false
+                            self?.progressImage = false
                         }
                     } receiveValue: { [weak self] user in
                         if let checkUser = self?.container.services.authService.checkAuthenticationState() {
@@ -106,21 +110,24 @@ class AuthenticationViewModel: ObservableObject {
                                     Task { [weak self] in
                                         // 강한참조 방지
                                         guard let self = self else { return }
-//                                        self.progressImage = true
                                         // fetchData 함수 비동기 호출
                                         await self.dataFetchManager.fetchData(userID: checkUser)
                                         self.container.services.authService.getUserLoginEmail()
                                         self.container.services.authService.getUserLoginProvider()
-                                        self.progressImage = false
-                                        self.authenticationState = .authenticated
+                                        DispatchQueue.main.async {
+                                            self.progressImage = false
+                                            self.authenticationState = .authenticated
+                                        }
                                     }
                                     return
                                 } else {
                                     self?.userId = checkUser
                                     self?.container.services.authService.getUserLoginEmail()
                                     self?.container.services.authService.getUserLoginProvider()
-//                                    self?.progressImage = false
-                                    self?.authenticationState = .unauthenticated
+                                    DispatchQueue.main.async {
+                                        self?.progressImage = false
+                                        self?.authenticationState = .unauthenticated
+                                    }
                                 }
                             }
                         }
@@ -130,9 +137,13 @@ class AuthenticationViewModel: ObservableObject {
             }
             
         case .kakaoLogin:
+            self.progressImage = true
+            
             container.services.authService.checkKakaoToken()
-                .sink { completion in
-                    //
+                .sink { [weak self] completion in
+                    if case .failure = completion {
+                        self?.progressImage = false
+                    }
                 } receiveValue: { [weak self] result in
                     if let checkUser = self?.container.services.authService.checkAuthenticationState() {
                         print("🥶 카카오 checkUser \(checkUser)")
@@ -150,16 +161,20 @@ class AuthenticationViewModel: ObservableObject {
                                     await self.dataFetchManager.fetchData(userID: checkUser)
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
-//                                    self.progressImage = false
-                                    self.authenticationState = .authenticated
+                                    DispatchQueue.main.async {
+                                        self.progressImage = false
+                                        self.authenticationState = .authenticated
+                                    }
                                 }
                                 return
                             } else {
                                 self?.userId = checkUser
                                 self?.container.services.authService.getUserLoginEmail()
                                 self?.container.services.authService.getUserLoginProvider()
-//                                self?.progressImage = false
-                                self?.authenticationState = .unauthenticated
+                                DispatchQueue.main.async {
+                                    self?.progressImage = false
+                                    self?.authenticationState = .unauthenticated
+                                }
                             }
                         }
                     }
@@ -169,53 +184,70 @@ class AuthenticationViewModel: ObservableObject {
             container.services.pushNotificationService.requestAuthorization { granted in
                 if granted {
                     // 알림 허용일 때 디폴트 알람 값 설정하기
-                    self.container.services.pushNotificationService.settingPushNotification()
+                    // self.container.services.pushNotificationService.settingPushNotification() -> 일단 주석
                 }
             }
             
             // 로그아웃
         case .logout:
+            self.progressImage = true
             container.services.authService.logoutWithKakao()
             container.services.authService.logout()
-                .sink { completion in
-                    //
+                .sink { [weak self] completion in
+                    if case .failure = completion {
+                        self?.progressImage = false
+                    }
                 } receiveValue: { [weak self] _ in
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
-//                    self?.progressImage = false
-                    self?.authenticationState = .initial
+                    DispatchQueue.main.async {
+                        self?.progressImage = false
+                        self?.authenticationState = .initial
+                    }
                 }.store(in: &subscritpions)
             dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
             
         case .unlinkKakao:
+            self.progressImage = true
+            
             firebaseService.deleteFriebaseAuth()
                 .flatMap { _ in
                     self.container.services.authService.removeKakaoAccount()
                 }
-                .sink(receiveCompletion: { completion in
-                    //
+                .sink(receiveCompletion: { [weak self] completion in
+                    if case .failure = completion {
+                        self?.progressImage = false
+                    }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
-//                    self?.progressImage = false
-                    self?.authenticationState = .initial
+                    DispatchQueue.main.async {
+                        self?.progressImage = false
+                        self?.authenticationState = .initial
+                    }
                 })
                 .store(in: &subscritpions)
             
         case .unlinkApple:
+            self.progressImage = true
+            
             firebaseService.deleteFriebaseAuth()
                 .flatMap { _ in
                     self.container.services.authService.removeAppleAccount()
                 }
-                .sink(receiveCompletion: { completion in
-                    //
+                .sink(receiveCompletion: { [weak self] completion in
+                    if case .failure = completion {
+                        self?.progressImage = false
+                    }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
-//                    self?.progressImage = false
-                    self?.authenticationState = .initial
+                    DispatchQueue.main.async {
+                        self?.progressImage = false
+                        self?.authenticationState = .initial
+                    }
                 })
                 .store(in: &subscritpions)
         }
