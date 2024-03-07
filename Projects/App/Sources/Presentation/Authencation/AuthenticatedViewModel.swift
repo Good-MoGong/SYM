@@ -208,7 +208,7 @@ class AuthenticationViewModel: ObservableObject {
             dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
-            
+            // MARK: - 카톡 탈퇴
         case .unlinkKakao:
             self.progressImage = true
             
@@ -230,6 +230,7 @@ class AuthenticationViewModel: ObservableObject {
                 })
                 .store(in: &subscritpions)
             
+            // MARK: - 애플 탈퇴
         case .unlinkApple:
             self.progressImage = true
             

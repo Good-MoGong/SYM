@@ -31,17 +31,17 @@ final class FirebaseService {
     
     // 탈퇴시 삭제되는 유저 정보를 찾는 함수 일단 User 디비만 삭제
     // (만약 일기 데이터로 인하여 하위 컬렉션 생성시.. 하위 컬렉션은 삭제되지 않음(파베에서 제공x)
-    func deleteUserData(user: String, completion: @escaping (Bool) -> Void) {
-        let _ = db.collection("User").document(user).delete() { error in
-            if let error = error {
-                print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 중 에러 발생 \(error.localizedDescription)")
-                completion(false)
-            } else {
-                print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 완료")
-                completion(true)
-            }
-        }
-    }
+//    func deleteUserData(user: String, completion: @escaping (Bool) -> Void) {
+//        let _ = db.collection("User").document(user).delete() { error in
+//            if let error = error {
+//                print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 중 에러 발생 \(error.localizedDescription)")
+//                completion(false)
+//            } else {
+//                print("🔥 Firebase DEBUG: User의 Firestore 문서 삭제 완료")
+//                completion(true)
+//            }
+//        }
+//    }
     
     // 서버에서 닉네임 값 가져오기
     func checkingUserNickname(userID: String, completion: @escaping (Bool) -> Void) {
@@ -54,8 +54,6 @@ final class FirebaseService {
                     print("🔥 Firebase DEBUG: Nickname 정보 서버에 있음!!")
                     if let nickname = document.data()?["name"] as? String {
                         UserDefaults.standard.set(nickname, forKey: "nickname")
-                        print("🔥 Firebase DEBUG: Nickname 정보 UserDefault에 저장🔥 \(nickname)🔥")
-                        print("🔥🔥 Firebase DEBUG: Nickname userDefault 정보: \(UserDefaultsKeys.nickname)🔥")
                         completion(true)
                     }
                 } else {
@@ -93,6 +91,43 @@ final class FirebaseService {
                 }
             }
         }.eraseToAnyPublisher()
+    }
+    
+    // Firebase에서 유저필드에 있는 Diary 컬렉션의 모든 문서필드 지우기
+    func deleteDiarySubcollection(forUserID userID: String, completion: @escaping (Bool) -> Void) {
+        let userRef = db.collection("User").document(userID)
+        let diaryRef = userRef.collection("Diary")
+        
+        diaryRef.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("🔥Firebase DEBUG: Diary 문서 값 가져올때 에러발생: \(error)")
+                return
+            } else {
+                guard let snapshot = snapshot else { return }
+                
+                for document in snapshot.documents {
+                    let documentID = document.documentID
+                    diaryRef.document(documentID).delete { (error) in
+                        if let error = error {
+                            print("🔥Firebase DEBUG: Diary 문서 삭제 중 에러 발생: \(error)")
+                        } else {
+                            print("🔥Firebase DEBUG: Diary 삭제완료 ")
+                        }
+                    }
+                }
+            }
+        }
+        
+        userRef.delete() { error in
+            if let error = error {
+                print("🔥Firebase DEBUG: User Collection 삭제 중 에러 발생")
+                completion(false)
+            } else {
+                print("🔥Firebase DEBUG: User Collection 까지 삭제 완료")
+                print("\(Auth.auth().currentUser)")
+                completion(true)
+            }
+        }
     }
     
 }

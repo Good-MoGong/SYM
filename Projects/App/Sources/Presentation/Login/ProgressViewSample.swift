@@ -23,14 +23,21 @@ struct ProgressViewSample: View {
 //                    .onAppear {
 //                        self.rotationAngle = 360
 //                    }
-                
-                IntroChatBubble(message: message, animatedMessage: $animatedMessage)
+                Text(message)
+                    .font(PretendardFont.bodyMedium)
+                    .tracking(0.5)
+                    .lineSpacing(5.0)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .background(Color.bright)
+                    .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
+//                IntroChatBubble(message: message, animatedMessage: $animatedMessage)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.white)
-            .onDisappear {
-                sleep(UInt32(1))
-            }
+//            .onDisappear {
+//                sleep(UInt32(1))
+//            }
         }
 }
 
