@@ -101,6 +101,18 @@ final class FirebaseService {
         diaryRef.getDocuments { (snapshot, error) in
             if let error = error {
                 print("🔥Firebase DEBUG: Diary 문서 값 가져올때 에러발생: \(error)")
+                
+                userRef.delete() { error in
+                    if let error = error {
+                        print("🔥Firebase DEBUG: User Collection 삭제 중 에러 발생 \(error.localizedDescription)")
+                        completion(false)
+                    } else {
+                        print("🔥Firebase DEBUG: User Collection 까지 삭제 완료")
+                        print("\(Auth.auth().currentUser)")
+                        completion(true)
+                    }
+                }
+                
                 return
             } else {
                 guard let snapshot = snapshot else { return }
@@ -120,7 +132,7 @@ final class FirebaseService {
         
         userRef.delete() { error in
             if let error = error {
-                print("🔥Firebase DEBUG: User Collection 삭제 중 에러 발생")
+                print("🔥Firebase DEBUG: User Collection 삭제 중 에러 발생 \(error.localizedDescription)")
                 completion(false)
             } else {
                 print("🔥Firebase DEBUG: User Collection 까지 삭제 완료")
