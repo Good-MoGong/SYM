@@ -10,7 +10,16 @@ import Foundation
 
 // 유저디폴트 키 모음
 struct UserDefaultsKeys {
-    static let nickname = UserDefaults.standard.string(forKey: "nickname") ?? ""
-    static let loginProvider = UserDefaults.standard.string(forKey: "loginProvider") ?? ""
-    static let userEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
+
+    static var nickname: String {
+        return UserDefaults.standard.string(forKey: "nickname") ?? ""
+    }
+    
+    static var loginProvider: String {
+        return UserDefaults.standard.string(forKey: "loginProvider") ?? ""
+    }
+    
+    static var userEmail: String {
+        return UserDefaults.standard.string(forKey: "userEmail") ?? ""
+    }
 }

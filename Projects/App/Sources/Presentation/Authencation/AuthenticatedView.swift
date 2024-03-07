@@ -21,12 +21,9 @@ struct AuthenticatedView: View {
                 LoginIntroView()
                     .environmentObject(authViewModel)
                     .overlay {
-//                        if authViewModel.progressImage {
-//                            ProgressViewSample()
-//                        }
-                    }
-                    .onAppear {
-                        print("📛 logintroview nickname userDefault \(UserDefaultsKeys.nickname)")
+                        if authViewModel.progressImage {
+                            ProgressViewSample()
+                        }
                     }
             case .unauthenticated:
                 LoginNicknameView()
