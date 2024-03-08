@@ -64,7 +64,6 @@ final class FirebaseService {
         }
     }
     
-    // Firebase Auth에서 삭제
     func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) {
         if let user = Auth.auth().currentUser {
             user.delete { error in
@@ -81,6 +80,7 @@ final class FirebaseService {
         }
     }
     
+    // Firebase Auth에서 삭제
     func deleteFriebaseAuth() -> AnyPublisher<Void, Error> {
         Future { promise in
             self.deleteFirebaseAuth { result in
@@ -104,11 +104,10 @@ final class FirebaseService {
                 
                 userRef.delete() { error in
                     if let error = error {
-                        print("🔥Firebase DEBUG: User Collection 삭제 중 에러 발생 \(error.localizedDescription)")
+                        print("🔥Firebase DEBUG: 일기 작성 없이 탈퇴 진행 중 에러 발생 \(error.localizedDescription)")
                         completion(false)
                     } else {
-                        print("🔥Firebase DEBUG: User Collection 까지 삭제 완료")
-                        print("\(Auth.auth().currentUser)")
+                        print("🔥Firebase DEBUG: 일기 작성 없이 탈퇴까지 삭제 완료")
                         completion(true)
                     }
                 }
@@ -136,7 +135,6 @@ final class FirebaseService {
                 completion(false)
             } else {
                 print("🔥Firebase DEBUG: User Collection 까지 삭제 완료")
-                print("\(Auth.auth().currentUser)")
                 completion(true)
             }
         }
