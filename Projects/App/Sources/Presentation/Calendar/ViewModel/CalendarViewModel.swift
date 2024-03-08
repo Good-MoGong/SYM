@@ -7,10 +7,15 @@
 //
 
 import Foundation
+import CoreData
+import Combine
 
 final class CalendarViewModel: RecordConditionFetch {
-    private let calendarUseCase: CalendarUseCase
+    
     var userID: String = ""
+    
+    private let calendarUseCase: CalendarUseCase
+    private var cancellables = Set<AnyCancellable>()
     
     // 서연 추가
     @Published var impossibleMessage: Toast?
@@ -24,6 +29,17 @@ final class CalendarViewModel: RecordConditionFetch {
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
+        recordWholeFetch()
+    }
+    
+    /// NSMagagedObjectContext가
+    func observeCoreData() {
+        NotificationCenter.default.publisher(for: NSManagedObjectContext.didSaveObjectsNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.recordWholeFetch()
+            }
+            .store(in: &cancellables)
     }
     
     // 서연 추가

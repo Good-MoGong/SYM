@@ -52,8 +52,7 @@ struct CalendarMainView: View {
                 .padding(.bottom, 20)
                 .scrollIndicators(.hidden)
                 .onAppear {
-                    // 데이터 전체 페치
-                    calendarViewModel.recordWholeFetch()
+                    calendarViewModel.observeCoreData()
                     calendarViewModel.userID = authViewModel.userId ?? ""
                 }
                 .animation(.easeIn, value: currentDate)
