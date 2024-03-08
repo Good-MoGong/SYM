@@ -65,7 +65,7 @@ struct MyAccountInfo: View {
                     VStack(alignment: .leading) {
                         Text("가입계정")
                             .font(PretendardFont.h5Bold)
-                        UserProvider(userEmail: "\(loginEmail)", providerType: authViewModel.loginProvider)
+                        UserProvider(userEmail: "\(loginEmail)")
                     }
                     
                     Spacer()
