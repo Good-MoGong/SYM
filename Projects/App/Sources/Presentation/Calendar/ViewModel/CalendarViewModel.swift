@@ -32,7 +32,7 @@ final class CalendarViewModel: RecordConditionFetch {
         recordWholeFetch()
     }
     
-    /// NSMagagedObjectContext가
+    /// NSMagagedObjectContext가 저장이 완료될 때마다 전체 페치 시행하는 함수
     func observeCoreData() {
         NotificationCenter.default.publisher(for: NSManagedObjectContext.didSaveObjectsNotification)
             .receive(on: DispatchQueue.main)
