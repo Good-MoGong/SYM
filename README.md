@@ -44,6 +44,7 @@ Speak Your Mind, 모공 프로젝트
 ```
 
 <img src="https://img.shields.io/badge/Xcode-188EE8?style=for-the-badge&logo=xcode&logoColor=white"><img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white"><img src="https://img.shields.io/badge/SwiftUI-0070FD?style=for-the-badge&logo=swift&logoColor=black"><img src="https://img.shields.io/badge/Firebase-FFCC30?style=for-the-badge&logo=firebase&logoColor=black"><img src="https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/Notion-FFFFFF?style=for-the-badge&logo=Notion&logoColor=black"><img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+
 <br>
 
 ### 🗃️ 컨벤션 및 깃플로우 전략
@@ -111,17 +112,17 @@ gitGraph
 ## 팀원 소개
 <div align="left">  
 
-### PM 👩🏻‍💼
+### 👩🏻‍💼 PM
 | [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
 | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
 
-### Designer 👩🏻‍🎨
+### 👩🏻‍🎨 Designer
 | [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
 | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
 
-### Developer 🧑🏻‍💻
+### 🧑🏻‍💻 Developer
 | [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"| [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/> "진심어린 사과 개발자 🍎" | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/> "" | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> ""| [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/> "" |
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/127810279?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/133854561?v=4" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/66257281?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/83643938?v=4" width="100" height="100"> |
