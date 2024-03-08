@@ -20,15 +20,21 @@ struct AuthenticatedView: View {
             case .initial:
                 LoginIntroView()
                     .environmentObject(authViewModel)
+                    .overlay {
+                        if authViewModel.progressImage {
+                            ProgressViewSample()
+                        }
+                    }
             case .unauthenticated:
                 LoginNicknameView()
                     .environmentObject(authViewModel)
             case .authenticated:
                 MainView()
                     .environmentObject(authViewModel)
-                    // FCM 관련 허용 여부 선택
-                    .onAppear {
+                    .onAppear { // FCM
                         authViewModel.send(action: .requestPushNotification)
+                        
+                        print("📛 nickname userDefault \(UserDefaultsKeys.nickname)")
                     }
             }
         }
