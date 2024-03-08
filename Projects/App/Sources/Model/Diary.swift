@@ -19,4 +19,6 @@ struct Diary: Codable {
     var emotions: [String]
     /// 행동
     var action: String
+    /// 시미의 공감
+    var gptAnswer: String
 }

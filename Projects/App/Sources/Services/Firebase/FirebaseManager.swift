@@ -67,7 +67,8 @@ final class FirebaseManager {
                 "event": data.event,
                 "idea": data.idea,
                 "emotions": data.emotions,
-                "action" : data.action
+                "action" : data.action,
+                "gptAnswer" : data.gptAnswer
               ], merge: true)
         } catch {
             throw error

@@ -17,7 +17,7 @@ final class CalendarViewModel: RecordConditionFetch {
     @Published var checkingDate: Date = Date()
     @Published var popupDate: Bool = false
     
-    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     @Published var recordDiaryArray: [Diary] = []
     @Published var completeRecord: Bool = true
     @Published var isShowingRecordView = false
@@ -27,6 +27,7 @@ final class CalendarViewModel: RecordConditionFetch {
     }
     
     // 서연 추가
+    /// 현재 기준 미래날짜인지 아닌지 확인 -> 미래날짜일 경우 date button disabled
     func checkingDateFuture() {
         if popupDate {
             self.impossibleMessage = .init(message: "미래 날짜는 아직 기록할 수 없어요")
@@ -40,17 +41,7 @@ final class CalendarViewModel: RecordConditionFetch {
         calendarUseCase.fetchRecord(date: recordDiary.date) { diary, isSuccess in
             DispatchQueue.main.async {
                 self.recordDiary = diary
-            }
-        }
-    }
-    
-    ///  오늘 날짜 기록 불러오기
-    func todayrecordFetch() {
-        calendarUseCase.fetchRecord(date: Date().formatToString()) { diary, isSuccess in
-            DispatchQueue.main.async {
-                self.recordDiary = diary
-                // RecordView의 beforeRecord랑 반대로 동작해서 반대로 값 넣어줘야함
-                self.completeRecord = !isSuccess
+                self.completeRecord = isSuccess
             }
         }
     }
@@ -71,10 +62,12 @@ final class CalendarViewModel: RecordConditionFetch {
         })
     }
     
+    /// 기록 업데이트
     func updateRecord(updateDiary: Diary) {
         recordDiary.event = updateDiary.event
         recordDiary.idea = updateDiary.idea
         recordDiary.action = updateDiary.action
+        recordDiary.gptAnswer = updateDiary.gptAnswer
         
         Task {
             await calendarUseCase.updateRecord(userID: userID, diary: recordDiary)

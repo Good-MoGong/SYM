@@ -15,76 +15,73 @@ struct RecordCompletionView: View {
     @Binding var isShowingOrganizeView: Bool
     
     var body: some View {
-        ZStack {
-            Image("RecordBackground")
-                .resizable()
-                .ignoresSafeArea()
-            
-            VStack(spacing: .symHeight * 0.05) {
-                ZStack {
-                    HStack {
-                        Button {
-                            isShowingOrganizeView = false
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Spacer()
-                        
-                    }
-                    .frame(height: 44)
-                    .frame(maxWidth: .infinity)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Text("감정일기")
-                            .font(PretendardFont.h4Medium)
-                         
-                        Spacer()
-                    }
-                }
-                Text("기록이 완료되었어요!")
-                    .font(PretendardFont.h3Bold)
-                Image("SimiSmile2")
-                    .resizable() 
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.6)
+        NavigationStack {
+            ZStack {
+                Image("RecordBackground")
+                    .resizable()
+                    .ignoresSafeArea()
                 
-                VStack(alignment: .leading) {
+                VStack(spacing: .symHeight * 0.05) {
+                    ZStack {
+                        HStack {
+                            Button {
+                                isShowingOrganizeView = false
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Spacer()
+                            
+                        }
+                        .frame(height: 44)
+                        .frame(maxWidth: .infinity)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Text("감정일기")
+                                .font(PretendardFont.h4Medium)
+                            
+                            Spacer()
+                        }
+                    }
+                    Text("기록이 완료되었어요!")
+                        .font(PretendardFont.h3Bold)
+                    Image("SimiSmile2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: .symWidth * 0.6)
+                    
                     if recordViewModel.isGPTLoading {
-                        ProgressView() 
+                        ProgressView()
                     } else {
-                        ChatBubble(message: recordViewModel.gptAnswerText, animatedMessage: $animatedMessage)
+                        ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                     }
                     Spacer()
-                }
-            
-                HStack {
-                    Button("홈") {
-                        isShowingOrganizeView = false
-                    }
-                    // .buttonStyle에 적용
-                    .buttonStyle(smallGrayButtonStyle())
-                    // 버튼 사이 간격 20
-                    .padding(.trailing, 20)
                     
-                    Button("기록 보기") {
-                        recordViewModel.recordSpecificFetch()
+                    HStack {
+                        Button("홈") {
+                            isShowingOrganizeView = false
+                        }
+                        // .buttonStyle에 적용
+                        .buttonStyle(smallGrayButtonStyle())
+                        // 버튼 사이 간격 20
+                        .padding(.trailing, 20)
+                        
+                        Button("기록 보기") {
+                            recordViewModel.recordSpecificFetch()
+                        }
+                        .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
-                    .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                 }
+                .padding()
             }
-            .padding()
+            .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
+                RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+            }
+            .navigationBarBackButtonHidden()
         }
-        .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
-            RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
-        }
-        .navigationBarBackButtonHidden()
-                .onAppear(perform: {
-                    recordViewModel.makeGPTRequest()
-                })
     }
 }
 

@@ -14,34 +14,9 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
-    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "")
+    @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
-        ZStack {
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                }
-                .buttonStyle(.plain)
-                .padding()
-                Spacer()
-                
-                
-            }
-            .frame(height: 44)
-            .frame(maxWidth: .infinity)
-            
-            HStack {
-                Spacer()
-                
-                Text("\(organizeViewModel.recordDiary.date) 일기")
-                    .font(PretendardFont.h4Medium)
-                
-                Spacer()
-            }
-        }
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Spacer(minLength: 33)
@@ -106,6 +81,14 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                         isResolutionSentenceTitle(title: "행동")
                     }
                     .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        Text(organizeViewModel.recordDiary.gptAnswer)
+                            .setTextBackground(.sentenceField)
+                        
+                        isResolutionSentenceTitle(title: "시미의 공감")
+                    }
+                    .padding(.horizontal, 20)
                 } else {
                     ZStack {
                         TextEditor(text: $updateDiary.event)
@@ -133,6 +116,16 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                         isResolutionSentenceTitle(title: "행동")
                     }
                     .padding(.horizontal, 20)
+                    
+                    ZStack {
+                        TextEditor(text: $updateDiary.gptAnswer)
+                            .customStyle2(userInput: $updateDiary.gptAnswer)
+                            .frame(maxHeight: 214)
+                            .disabled(true)
+                        
+                        isResolutionSentenceTitle(title: "시미의 공감")
+                    }
+                    .padding(.horizontal, 20)
                 }
                 
                 if editToggle == false {
@@ -151,7 +144,13 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden()
+        .dismissKeyboardOnTap()
+        .customNavigationBar(centerView: {
+            Text("\(organizeViewModel.recordDiary.date) 일기")
+                .font(PretendardFont.h4Medium)
+        }, rightView: {
+            EmptyView()
+        }, isShowingBackButton: true)
     }
     
     let screenSize = UIScreen.main.bounds.size.width
@@ -189,6 +188,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
         updateDiary.event = organizeViewModel.recordDiary.event
         updateDiary.idea = organizeViewModel.recordDiary.idea
         updateDiary.action = organizeViewModel.recordDiary.action
+        updateDiary.gptAnswer = organizeViewModel.recordDiary.gptAnswer
     }
 }
 

@@ -16,35 +16,36 @@ struct CustomTextEditorStyle: ViewModifier {
     @Binding var text: String
     
     func body(content: Content) -> some View {
-        ZStack (alignment: .bottomTrailing) {
             content
                 .padding(15)
+                .background(alignment: .topLeading) {
+                    if text.isEmpty {
+                        Text(placeholder)
+                            .lineSpacing(10)
+                            .padding(20)
+                            .padding(.top, 2)
+                            .font(PretendardFont.bodyMedium)
+                            .foregroundColor(Color.symGray3)
+                    }
+                }
+                .textInputAutocapitalization(.none)
+                .autocorrectionDisabled()
                 .background(Color.symGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .scrollContentBackground(.hidden)
                 .font(PretendardFont.bodyMedium)
-                .overlay(alignment: .topLeading) {
-                    Text(placeholder)
-                        .lineSpacing(10)
-                        .padding(20)
-                        .padding(.top, 2)
-                        .font(PretendardFont.bodyMedium)
-                        .foregroundColor(Color.symGray3)
-                        .opacity(text.isEmpty ? 1 : 0)
-                    
+                .overlay(alignment: .bottomTrailing) {
+                    Text("\(text.count) / 200")
+                        .font(PretendardFont.smallMedium)
+                        .foregroundColor(Color.symGray4)
+                        .padding(.trailing, 15)
+                        .padding(.bottom, 15)
+                        .onChange(of: text) { newValue in
+                            if newValue.count > 200 {
+                                text = String(newValue.prefix(200))
+                            }
+                        }
                 }
-            Text("\(text.count) / 200")
-                .font(PretendardFont.smallMedium)
-                .foregroundColor(Color.symGray4)
-                .padding(.trailing, 15)
-                .padding(.bottom, 15)
-                .onChange(of: text) { newValue in
-                    if newValue.count > 200 {
-                        text = String(newValue.prefix(200))
-                    }
-                }
-                
-        }
     }
 }
 
@@ -111,7 +112,7 @@ struct FormDemo: View {
             TextField("이름을 입력해주세요", text: $username)
                 .customTF(type: .normal)
                 .padding()
-
+            
             TextField("이름을 입력해주세요", text: $password)
                 .customTF(type: .error)
                 .padding()
