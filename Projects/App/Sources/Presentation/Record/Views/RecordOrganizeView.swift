@@ -14,9 +14,30 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
+    @State var isShowingPopup = false
     @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
+        if editToggle == false {
+            organizeView
+                .customNavigationBar(centerView: {
+                            Text("\(organizeViewModel.recordDiary.date) 일기")
+                                .font(PretendardFont.h4Medium)
+                        }, rightView: {
+                            EmptyView()
+                        }, isShowingBackButton: true)
+        } else {
+            organizeView
+                .customNavigationBar(centerView: {
+                            Text("\(organizeViewModel.recordDiary.date) 일기")
+                                .font(PretendardFont.h4Medium)
+                        }, rightView: {
+                            EmptyView()
+                        }, isShowingBackButton: false)
+        }
+    }
+    
+    var organizeView: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Spacer(minLength: 33)
@@ -48,6 +69,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     Button {
                         bindingText()
                         editToggle = true
+                        isShowingPopup = true
                     } label: {
                         Text("편집")
                             .font(PretendardFont.h4Bold)
@@ -145,12 +167,6 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
             }
         }
         .dismissKeyboardOnTap()
-        .customNavigationBar(centerView: {
-            Text("\(organizeViewModel.recordDiary.date) 일기")
-                .font(PretendardFont.h4Medium)
-        }, rightView: {
-            EmptyView()
-        }, isShowingBackButton: true)
     }
     
     let screenSize = UIScreen.main.bounds.size.width
