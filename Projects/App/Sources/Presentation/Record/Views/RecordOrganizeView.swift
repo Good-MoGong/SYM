@@ -119,7 +119,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     
                     ZStack {
                         TextEditor(text: $updateDiary.gptAnswer)
-                            .customStyle2(userInput: $updateDiary.gptAnswer)
+                            .customStyle3(userInput: $updateDiary.gptAnswer)
                             .frame(maxHeight: 214)
                             .disabled(true)
                         
