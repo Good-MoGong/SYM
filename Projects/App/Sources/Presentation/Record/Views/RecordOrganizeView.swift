@@ -14,7 +14,8 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
-    @State var isShowingPopup = false
+    @State var availablePopup = false
+    @State var popupToggle = false
     @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
@@ -25,7 +26,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                                 .font(PretendardFont.h4Medium)
                         }, rightView: {
                             EmptyView()
-                        }, isShowingBackButton: true)
+                        }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
         } else {
             organizeView
                 .customNavigationBar(centerView: {
@@ -33,7 +34,10 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                                 .font(PretendardFont.h4Medium)
                         }, rightView: {
                             EmptyView()
-                        }, isShowingBackButton: false)
+                        }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
+                .popup(isShowing: $popupToggle, type: .doubleButton(leftTitle: "중단하기", rightTitle: "이어쓰기"), title: "편집을 중단할까요?", desc: "편집을 중단하시면 지금까지\n수정한 내용이 모두 삭제돼요.", confirmHandler: { editToggle = false
+                    popupToggle = false
+                    availablePopup = false }, cancelHandler: { popupToggle = false })
         }
     }
     
@@ -69,11 +73,16 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     Button {
                         bindingText()
                         editToggle = true
-                        isShowingPopup = true
+                        availablePopup = true
                     } label: {
-                        Text("편집")
-                            .font(PretendardFont.h4Bold)
-                            .foregroundColor(Color.symGray3)
+                        if editToggle == false {
+                            Text("편집")
+                                .font(PretendardFont.h4Bold)
+                                .foregroundColor(Color.symGray3)
+                        } else {
+                            Text("")
+                                .disabled(true)
+                        }
                     }
                 }
                 .padding(.bottom, 7)
@@ -160,6 +169,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     Button("수정완료") {
                         organizeViewModel.updateRecord(updateDiary: updateDiary)
                         editToggle = false
+                        availablePopup = false
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     .padding(.horizontal, 20)
