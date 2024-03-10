@@ -10,13 +10,14 @@ import SwiftUI
 
 struct MovingSimiView: View {
     @State private var yOffset: CGFloat = 0
+    var image: String
     
     var body: some View {
         ZStack(alignment: .bottom) {
             Image("shadow")
                 .resizable()
                 .scaledToFit()
-            Image("SimiLogin")
+            Image(image)
                 .resizable()
                 .scaledToFit()
                 .padding(.bottom, 50)
@@ -26,5 +27,5 @@ struct MovingSimiView: View {
 }
 
 #Preview {
-    MovingSimiView()
+    MovingSimiView(image: "SimiLogin")
 }
