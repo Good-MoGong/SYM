@@ -37,6 +37,7 @@ class AuthenticationViewModel: ObservableObject {
     
     // MARK: - 프로그래스뷰 추가
     @Published var progressImage: Bool = false
+    @Published var signupProgressImage: Bool = false
     
     private var currentNonce: String?
     private var container: DIContainer
@@ -81,8 +82,10 @@ class AuthenticationViewModel: ObservableObject {
                 self.authenticationState = .initial
             }
             
+        // MARK: - Apple 로그인
         case let .appleLogin(requeset):
-            progressImage = true
+            // progressImage = true
+            signupProgressImage = true
             
             let nonce = container.services.authService.handleSignInWithAppleRequest(requeset)
             self.currentNonce = nonce
@@ -94,7 +97,8 @@ class AuthenticationViewModel: ObservableObject {
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
                     .sink { [weak self] completion in
                         if case .failure = completion {
-                            self?.progressImage = false
+                            // self?.progressImage = false
+                            self?.signupProgressImage = false
                         }
                     } receiveValue: { [weak self] user in
                         if let checkUser = self?.container.services.authService.checkAuthenticationState() {
@@ -103,7 +107,6 @@ class AuthenticationViewModel: ObservableObject {
                             self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
                                 if result {
                                     print("🥶🥶 \(checkUser)")
-                                    print("📛📛🍎 nickname Userdefault : \(UserDefaultsKeys.nickname)")
                                     
                                     self?.userId = checkUser
                                     // 지영 추가 - 첫 애플 로그인시에 타는 분기
@@ -115,7 +118,8 @@ class AuthenticationViewModel: ObservableObject {
                                         self.container.services.authService.getUserLoginEmail()
                                         self.container.services.authService.getUserLoginProvider()
                                         DispatchQueue.main.async {
-                                            self.progressImage = false
+                                            // self.progressImage = false
+                                            self.signupProgressImage = false
                                             self.authenticationState = .authenticated
                                         }
                                     }
@@ -125,7 +129,8 @@ class AuthenticationViewModel: ObservableObject {
                                     self?.container.services.authService.getUserLoginEmail()
                                     self?.container.services.authService.getUserLoginProvider()
                                     DispatchQueue.main.async {
-                                        self?.progressImage = false
+                                        // self?.progressImage = false
+                                        self?.signupProgressImage = false
                                         self?.authenticationState = .unauthenticated
                                     }
                                 }
@@ -136,19 +141,21 @@ class AuthenticationViewModel: ObservableObject {
                 print(error.localizedDescription)
             }
             
+        // MARK: - 카카오 로그인
         case .kakaoLogin:
-            self.progressImage = true
+//            self.progressImage = true
+            signupProgressImage = true
             
             container.services.authService.checkKakaoToken()
                 .sink { [weak self] completion in
                     if case .failure = completion {
-                        self?.progressImage = false
+                        // self?.progressImage = false
+                        self?.signupProgressImage = false
                     }
                 } receiveValue: { [weak self] result in
                     if let checkUser = self?.container.services.authService.checkAuthenticationState() {
                         print("🥶 카카오 checkUser \(checkUser)")
                         self?.firebaseService.checkingUserNickname(userID: checkUser) { result in
-                            print("📛📛 nickname Userdefault : \(UserDefaultsKeys.nickname)")
                             if result {
                                 print("🥶🥶 \(checkUser)")
                                 self?.userId = checkUser
@@ -162,7 +169,8 @@ class AuthenticationViewModel: ObservableObject {
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
                                     DispatchQueue.main.async {
-                                        self.progressImage = false
+                                        // self.progressImage = false
+                                        self.signupProgressImage = false
                                         self.authenticationState = .authenticated
                                     }
                                 }
@@ -172,14 +180,16 @@ class AuthenticationViewModel: ObservableObject {
                                 self?.container.services.authService.getUserLoginEmail()
                                 self?.container.services.authService.getUserLoginProvider()
                                 DispatchQueue.main.async {
-                                    self?.progressImage = false
+                                    // self?.progressImage = false
+                                    self?.signupProgressImage = false
                                     self?.authenticationState = .unauthenticated
                                 }
                             }
                         }
                     }
                 }.store(in: &subscritpions)
-            
+        
+        // MARK: - 알람 노티피케이션
         case .requestPushNotification:
             container.services.pushNotificationService.requestAuthorization { granted in
                 if granted {
@@ -188,29 +198,33 @@ class AuthenticationViewModel: ObservableObject {
                 }
             }
             
-            // 로그아웃
+        // MARK: - 로그아웃
         case .logout:
-            self.progressImage = true
+            // self.progressImage = true
+            signupProgressImage = true
             container.services.authService.logoutWithKakao()
             container.services.authService.logout()
                 .sink { [weak self] completion in
                     if case .failure = completion {
-                        self?.progressImage = false
+                        // self?.progressImage = false
+                        self?.signupProgressImage = false
                     }
                 } receiveValue: { [weak self] _ in
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
                     DispatchQueue.main.async {
-                        self?.progressImage = false
+                        // self?.progressImage = false
                         self?.authenticationState = .initial
+                        self?.signupProgressImage = false
                     }
                 }.store(in: &subscritpions)
             dataFetchManager.deleteCoreData()
             self.authenticationState = .initial
             
-            // MARK: - 카톡 탈퇴
+        // MARK: - 카톡 탈퇴
         case .unlinkKakao:
-            self.progressImage = true
+            // self.progressImage = true
+            signupProgressImage = true
             
             firebaseService.deleteFriebaseAuth()
                 .flatMap { _ in
@@ -218,21 +232,24 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure = completion {
-                        self?.progressImage = false
+//                        self?.progressImage = false
+                        self?.signupProgressImage = false
                     }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
                     DispatchQueue.main.async {
-                        self?.progressImage = false
+//                        self?.progressImage = false
                         self?.authenticationState = .initial
+                        self?.signupProgressImage = false
                     }
                 })
                 .store(in: &subscritpions)
             
-            // MARK: - 애플 탈퇴
+        // MARK: - 애플 탈퇴
         case .unlinkApple:
-            self.progressImage = true
+//            self.progressImage = true
+            signupProgressImage = true
             
             firebaseService.deleteFriebaseAuth()
                 .flatMap { _ in
@@ -240,13 +257,15 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure = completion {
-                        self?.progressImage = false
+//                        self?.progressImage = false
+                        self?.signupProgressImage = false
                     }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
                     DispatchQueue.main.async {
-                        self?.progressImage = false
+//                        self?.progressImage = false
+                        self?.signupProgressImage = false
                         self?.authenticationState = .initial
                     }
                 })

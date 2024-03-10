@@ -71,9 +71,6 @@ struct SettingView: View {
                desc: PopupContent.remove.desc,
                confirmHandler: {
                     if let userId = authViewModel.userId {
-                        print("🚀 \(userId)")
-                        print("🚀🚀 \(UserDefaultsKeys.loginProvider)")
-                        
                         firebaseService.deleteDiarySubcollection(forUserID: userId) { result in
                             if result, UserDefaultsKeys.loginProvider == "Apple" {
                                 authViewModel.send(action: .unlinkApple)
@@ -86,6 +83,8 @@ struct SettingView: View {
                     } else {
                         print("🔥 Firebase DEBUG: 회원가입 정보 없음, 유저 탈퇴 시 에러 발생")
                     }
+            
+                    authViewModel.progressImage = false
         },
                cancelHandler: {
                     settingViewModel.isShowingWithdrawalPopup.toggle()
@@ -100,6 +99,7 @@ struct SettingView: View {
                     authViewModel.progressImage = true
                     authViewModel.send(action: .logout)
                     settingViewModel.isShowingLogoutPopup.toggle()
+                    authViewModel.progressImage = false
             }, cancelHandler: {
                     settingViewModel.isShowingLogoutPopup.toggle()
             })

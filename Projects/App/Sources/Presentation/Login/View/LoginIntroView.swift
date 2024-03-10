@@ -23,7 +23,7 @@ struct LoginIntroView: View {
             VStack {
                 Spacer()
                 VStack(spacing: 15) {
-                    MovingSimiView()
+                    MovingSimiView(image: "SimiLogin")
                         .padding(.horizontal, 80)
                     
                     VStack(spacing: 4) {
