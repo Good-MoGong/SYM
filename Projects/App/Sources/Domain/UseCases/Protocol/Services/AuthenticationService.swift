@@ -31,7 +31,6 @@ protocol AuthenticationServiceType {
     func logout() -> AnyPublisher<Void, ServiceError>
     func logoutWithKakao()
     func removeAllUserDefaults()
-    
     func removeKakaoAccount() -> AnyPublisher<Void, Error>
     func removeAppleAccount() -> AnyPublisher<Void, Error>
     

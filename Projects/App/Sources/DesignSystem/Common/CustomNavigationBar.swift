@@ -11,6 +11,10 @@ import SwiftUI
 struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     @Environment(\.dismiss) var dismiss
     @GestureState private var dragOffset = CGSize.zero
+    /// Popup 메시지 등장 유무
+    @Binding var availablePopup: Bool
+    /// Popup 메시지 등장 토글
+    @Binding var popupToggle: Bool
     
     /// navigation 제목 뷰
     let centerView: (() -> C)?
@@ -19,10 +23,12 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     /// leading 백 버튼 유무, 기본 값 true
     let isShowingBackButton: Bool?
     
-    init(centerView: (() -> C)? = nil, rightView: (() -> R)? = nil, isShowingBackButton: Bool? = true) {
+    init(centerView: (() -> C)? = nil, rightView: (() -> R)? = nil, isShowingBackButton: Bool? = true, availablePopup: Binding<Bool> = .constant(false), popupToggle: Binding<Bool> = .constant(false)) {
         self.centerView = centerView
         self.rightView = rightView
         self.isShowingBackButton = isShowingBackButton
+        self._availablePopup = availablePopup
+        self._popupToggle = popupToggle
     }
     
     func body(content: Content) -> some View {
@@ -31,9 +37,12 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                 HStack {
                     if isShowingBackButton ?? true {
                         Button {
-                            dismiss()
-                            
-                            print("dismiss")
+                            if availablePopup == false{
+                                dismiss()
+                                print("dismiss")
+                            } else {
+                                popupToggle = true
+                            }
                         } label: {
                             Image(systemName: "chevron.left")
                         }
@@ -66,7 +75,12 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
         .gesture(DragGesture().onEnded { value in
             // 여기서 제스처를 인식하고 뒤로 이동하도록 처리해야 합니다.
             if value.translation.width > 100 {
-                dismiss()
+                if availablePopup == false{
+                    dismiss()
+                    print("dismiss")
+                } else {
+                    popupToggle = true
+                }
             }
         })
         .toolbar(.hidden)
@@ -83,6 +97,23 @@ extension View {
             CustomNavigationBarModifier(centerView: centerView,
                                         rightView: rightView,
                                         isShowingBackButton: isShowingBackButton
+                                       )
+        )
+    }
+    
+    func customNavigationBar<C, R>(
+        centerView: @escaping (() -> C),
+        rightView: @escaping (() -> R),
+        isShowingBackButton: Bool? = true,
+        availablePopup: Binding<Bool> = .constant(false),
+        popupToggle: Binding<Bool> = .constant(false)
+    ) -> some View where C: View, R: View {
+        modifier(
+            CustomNavigationBarModifier(centerView: centerView,
+                                        rightView: rightView,
+                                        isShowingBackButton: isShowingBackButton,
+                                        availablePopup: availablePopup,
+                                        popupToggle: popupToggle
                                        )
         )
     }
