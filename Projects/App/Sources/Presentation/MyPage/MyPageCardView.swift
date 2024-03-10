@@ -14,10 +14,19 @@ struct MyPageCardView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(nickname)님")
-                    .font(.bold(18))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 12)
+                NavigationLink {
+                    MyAccountInfo()
+                } label: {
+                    HStack {
+                        Text("\(nickname)님")
+                        Image(systemName: "chevron.right")
+                            .font(.medium(18))
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .font(.bold(18))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 12)
                 
                 Text("\(count)개의 감정기록이 담겨있네요!\n시미가 당신의 의견을 기다리고 있어요")
                     .frame(maxWidth: .infinity, alignment: .leading)
