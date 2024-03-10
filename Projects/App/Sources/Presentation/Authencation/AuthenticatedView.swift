@@ -12,7 +12,6 @@ import Combine
 struct AuthenticatedView: View {
     @StateObject var authViewModel: AuthenticationViewModel
     private let firebaseService = FirebaseService.shared
-    var nickname: String = UserDefaultsKeys.nickname
     
     var body: some View {
         VStack {
@@ -22,7 +21,9 @@ struct AuthenticatedView: View {
                     .environmentObject(authViewModel)
                     .overlay {
                         if authViewModel.progressImage {
-                            ProgressViewSample()
+                            SplashView()
+                        } else if authViewModel.signupProgressImage {
+                            LoginProgressView()
                         }
                     }
             case .unauthenticated:
@@ -33,13 +34,12 @@ struct AuthenticatedView: View {
                     .environmentObject(authViewModel)
                     .onAppear { // FCM
                         authViewModel.send(action: .requestPushNotification)
-                        
-                        print("📛 nickname userDefault \(UserDefaultsKeys.nickname)")
                     }
             }
         }
         .onAppear {
             authViewModel.send(action: .checkAuthenticationState)
+            print("여기 또 탐 ?")
         }
     }
 }
