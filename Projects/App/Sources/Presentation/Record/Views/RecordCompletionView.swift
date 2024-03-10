@@ -51,7 +51,7 @@ struct RecordCompletionView: View {
                     Image("SimiSmile2")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: .symWidth * 0.6)
+                        .frame(width: .symWidth * 0.5)
                     
                     if recordViewModel.isGPTLoading {
                         ProgressView()
