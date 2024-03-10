@@ -10,8 +10,7 @@ import SwiftUI
 
 struct UserProvider: View {
     let userEmail: String
-    let providerType: String
-    
+
     var body: some View {
         VStack {
             Text(userEmail)
@@ -23,11 +22,11 @@ struct UserProvider: View {
                 .font(.medium(14))
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .overlay(alignment: .trailing) {
-                    Image(providerType == "Apple" ? "AppleLogo" : "KaKaoLogo")
+                    Image(UserDefaultsKeys.loginProvider == "Apple" ? "AppleLogo" : "KaKaoLogo")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .padding(7)
-                        .background(providerType == "Apple" ? Color.black : Color.kakao)
+                        .background(UserDefaultsKeys.loginProvider == "Apple" ? Color.black : Color.kakao)
                         .clipShape(Circle())
                         .padding(.trailing, 15)
                 }
@@ -36,6 +35,6 @@ struct UserProvider: View {
     }
 }
 
-#Preview {
-    UserProvider(userEmail: "mogong2024@gmail.com", providerType: "KaKao")
-}
+//#Preview {
+//    UserProvider(userEmail: "mogong2024@gmail.com")
+//}
