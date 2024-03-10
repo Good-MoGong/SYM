@@ -14,9 +14,34 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @ObservedObject var organizeViewModel: viewModel
     @Binding var isShowingOrganizeView: Bool
     @State var editToggle = false
+    @State var availablePopup = false
+    @State var popupToggle = false
     @State var updateDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     
     var body: some View {
+        if editToggle == false {
+            organizeView
+                .customNavigationBar(centerView: {
+                            Text("\(organizeViewModel.recordDiary.date) 일기")
+                                .font(PretendardFont.h4Medium)
+                        }, rightView: {
+                            EmptyView()
+                        }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
+        } else {
+            organizeView
+                .customNavigationBar(centerView: {
+                            Text("\(organizeViewModel.recordDiary.date) 일기")
+                                .font(PretendardFont.h4Medium)
+                        }, rightView: {
+                            EmptyView()
+                        }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
+                .popup(isShowing: $popupToggle, type: .doubleButton(leftTitle: "중단하기", rightTitle: "이어쓰기"), title: "편집을 중단할까요?", desc: "편집을 중단하시면 지금까지\n수정한 내용이 모두 삭제돼요.", confirmHandler: { editToggle = false
+                    popupToggle = false
+                    availablePopup = false }, cancelHandler: { popupToggle = false })
+        }
+    }
+    
+    var organizeView: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
                 Spacer(minLength: 33)
@@ -48,10 +73,16 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     Button {
                         bindingText()
                         editToggle = true
+                        availablePopup = true
                     } label: {
-                        Text("편집")
-                            .font(PretendardFont.h4Bold)
-                            .foregroundColor(Color.symGray3)
+                        if editToggle == false {
+                            Text("편집")
+                                .font(PretendardFont.h4Bold)
+                                .foregroundColor(Color.symGray3)
+                        } else {
+                            Text("")
+                                .disabled(true)
+                        }
                     }
                 }
                 .padding(.bottom, 7)
@@ -119,7 +150,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     
                     ZStack {
                         TextEditor(text: $updateDiary.gptAnswer)
-                            .customStyle2(userInput: $updateDiary.gptAnswer)
+                            .customStyle3(userInput: $updateDiary.gptAnswer)
                             .frame(maxHeight: 214)
                             .disabled(true)
                         
@@ -138,6 +169,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     Button("수정완료") {
                         organizeViewModel.updateRecord(updateDiary: updateDiary)
                         editToggle = false
+                        availablePopup = false
                     }
                     .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     .padding(.horizontal, 20)
@@ -145,12 +177,6 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
             }
         }
         .dismissKeyboardOnTap()
-        .customNavigationBar(centerView: {
-            Text("\(organizeViewModel.recordDiary.date) 일기")
-                .font(PretendardFont.h4Medium)
-        }, rightView: {
-            EmptyView()
-        }, isShowingBackButton: true)
     }
     
     let screenSize = UIScreen.main.bounds.size.width
