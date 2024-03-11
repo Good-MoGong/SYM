@@ -53,11 +53,8 @@ struct RecordCompletionView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
                     
-                    if recordViewModel.isGPTLoading {
-                        ProgressView()
-                    } else {
-                        ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
-                    }
+                    ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
+                    
                     Spacer()
                     
                     HStack {
