@@ -9,8 +9,8 @@
 import SwiftUI
 
 enum Qualification: String {
-    case personal = "https://www.naver.com/"
-    case termsCodition = "https://www.youtube.com/"
+    case personal = "https://docs.google.com/document/d/1bumoRR722rVVHGAdlT8wDsnP0E_IKFeWttAe-u4t2w0/edit?usp=sharing"
+    case termsCodition = "https://docs.google.com/document/d/1IhIdE4TMgSdfjTtyTqx22sDhFQduehvqeKDbQPMaW7Y/edit?usp=sharing"
 }
 
 class LoginQualificationViewModel: ObservableObject {
