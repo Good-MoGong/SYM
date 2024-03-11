@@ -8,38 +8,45 @@
 
 import SwiftUI
 
-struct ProgressView: View {
-    @State private var isAnimating = true // 점의 움직임을 제어할 상태 변수
+struct ProgressView: View { 
+    
+    @ObservedObject var recordViewModel: RecordViewModel
     
     var body: some View {
-        
-        VStack {
-            HStack(alignment: .center) {
-                Text("시미가 답장 쓰는 중")
-                    .font(PretendardFont.bold18)
+        VStack(alignment: .leading) {
+            Spacer()
+            Image("RecordLoading")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100)
+                .offset(x: CGFloat(recordViewModel.progress) * (.symWidth * 0.65), y: 0)
+                .animation(.linear(duration: 3.0), value: recordViewModel.progress) // 수정된 부분
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 15)
+                    .frame(width: .symWidth * 0.9, height: 20)
+                    .opacity(0.3)
+                    .foregroundColor(.gray)
                 
-                ForEach(0..<3) { index in
-                    circle(delay: Double(index) * 0.2) // 각 점마다 0.3초씩 딜레이를 줍니다.
-                }
+                RoundedRectangle(cornerRadius: 15)
+                    .frame(width: CGFloat(recordViewModel.progress) * (.symWidth * 0.9), height: 20)
+                    .foregroundColor(.main)
+                    .animation(.linear(duration: 3.0), value: recordViewModel.progress) // 수정된 부분
             }
-        }
-        .onAppear {
-            // 뷰가 나타날 때 애니메이션 시작
-            withAnimation(Animation.easeInOut(duration: 0.6).repeatForever()) {
-                isAnimating.toggle()
+        
+            HStack {
+                Spacer()
+                Text("시미 답장 기다리는중..")
+                    .font(PretendardFont.h3Bold)
+                    .foregroundStyle(Color.sub)
             }
+            Spacer()
         }
-    }
-    
-    @ViewBuilder
-    private func circle(delay: Double) -> some View {
-        Circle()
-            .frame(width: 6, height: 6)
-            .offset(y: isAnimating ? -5 : 0)
-            .animation(.easeInOut.repeatForever().delay(delay), value: isAnimating)
+        .padding()
     }
 }
 
+
+
 #Preview {
-    ProgressView()
+    ProgressView(recordViewModel: RecordViewModel(recordUseCase: RecordUseCase(recordRepository: RecordRepository())))
 }
