@@ -312,6 +312,6 @@ struct DateButton: View {
 }
 
 #Preview {
-    CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
+    CalendarMainView()
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }

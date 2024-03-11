@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CalendarMainView: View {
-    @ObservedObject var authViewModel: AuthenticationViewModel
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var currentDate: Date = Date()
     @State private var selectDate: Date = Date()
     @State private var isShowingOrganizeView: Bool = false
@@ -85,6 +85,6 @@ struct HeaderView: View {
 }
 
 #Preview {
-    CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
+    CalendarMainView()
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }

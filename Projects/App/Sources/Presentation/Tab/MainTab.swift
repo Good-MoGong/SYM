@@ -14,7 +14,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
     var view: some View {
         switch self {
         case .home:
-            CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
+            CalendarMainView()
         case .mypage:
             MypageView()
         }
