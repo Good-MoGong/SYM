@@ -35,7 +35,9 @@ struct MyPageCardView: View {
                     .font(.medium(14))
                 
                     Button {
-
+                        if let url = URL(string: CustomerSupports.contactUs.rawValue) {
+                            UIApplication.shared.open(url)
+                        }
                     } label: {
                         Text("시미에게 의견 보내기")
                             .font(.bold(16))
