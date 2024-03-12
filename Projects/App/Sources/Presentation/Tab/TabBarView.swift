@@ -27,7 +27,7 @@ struct TabBarView: View {
                     VStack(spacing: 0) {
                         Image("\(tabBarViewModel.selected == item ? "\(item.imageName)" : "\(item.imageName)Default")")
                             .resizable()
-                            .frame(width: 39, height: 39)
+                            .frame(width: 28, height: 28)
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                         
                         Text(item.title)
@@ -39,9 +39,8 @@ struct TabBarView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 50)
+        .frame(height: 40)
         .padding(.top, 10)
-        .padding(.bottom, 8)
         .background(
             Rectangle()
                 .cornerRadius(30, corners: [.topLeft, .topRight])
