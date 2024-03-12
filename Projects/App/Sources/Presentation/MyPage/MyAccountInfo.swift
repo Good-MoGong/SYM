@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    
-    @State private var nickname = ""
+    @State private var nickname: String = UserDefaultsKeys.nickname
     @State private var loginEmail = UserDefaultsKeys.userEmail
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
@@ -94,9 +93,6 @@ struct MyAccountInfo: View {
         }, rightView: {
             EmptyView()
         }, isShowingBackButton: true)
-        .onAppear {
-            nickname = UserDefaultsKeys.nickname
-        }
     }
     
     private func updateNickname() async {
