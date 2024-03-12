@@ -16,8 +16,8 @@ struct MainButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 19)
-            .font(PretendardFont.h3Medium)
+            .padding(.vertical, 17)
+            .font(PretendardFont.h4Medium)
             .foregroundColor(isButtonEnabled ? Color.white : Color.symGray5)
             .background(isButtonEnabled ? Color.main : Color.symGray1)
             .cornerRadius(15)
