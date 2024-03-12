@@ -53,7 +53,7 @@ struct RecordStartView: View {
                             Spacer()
                         }
                     }
-                    Spacer().frame(maxHeight: .symHeight * 0.03)
+                    Spacer().frame(maxHeight: .symHeight * 0.02)
                     HStack(spacing: 12) {
                         ForEach(RecordOrder.allCases, id: \.self) { index in // 1
                             Circle()
@@ -87,9 +87,10 @@ struct RecordStartView: View {
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
                             ScrollView {
-                                Image("SimiSmile")
+                                Image("SimiRecord")
                                     .resizable()
-                                    .frame(width: 200, height: 220)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 230)
                                 TextEditor(text: $recordViewModel.currentText)
                                     .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
                                     .frame(height: 200)
@@ -103,9 +104,13 @@ struct RecordStartView: View {
                             .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
                             .disabled(recordViewModel.currentText.isEmpty)
                     case .emotions:
-                        Image("SimiCurious")
+                        Image("SimiEmotion")
                             .resizable()
-                            .frame(width: 200, height: 220)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 175)
+                        
+                        Spacer().frame(maxHeight: .symHeight * 0.02)
+                        
                         emotionSelectView
                             .frame(maxHeight: .infinity)
                     
@@ -185,7 +190,7 @@ extension RecordStartView {
                             
                         } label: {
                             Text("\(emotion.rawValue)")
-                                .font(PretendardFont.h3Bold)
+                                .font(PretendardFont.h4Bold)
                                 .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
                         }
                         .foregroundColor(.primary)
@@ -236,7 +241,7 @@ struct EmotionButton: View {
                 .font(PretendardFont.h5Medium)
                 .foregroundColor(isSelected ? .white : .black)
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(height: 15)
+                .frame(height: 11)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 17)
                 .background(
