@@ -22,7 +22,7 @@ Speak Your Mind, 모공 프로젝트
 ### 📱구동화면
 |**`로그인`**|**`캘린더`**|**`기록하기`**|**`기록보기`**|**`마이페이지`**|
 |-------|-------|-------|-------|-------|
-|<img src="https://github.com/MetroMates/metroCity/assets/110394722/a7c280d7-559f-4b31-87ff-4409a803b9cb" width="143" height="300">|<img src="https://github.com/MetroMates/metroCity/assets/110394722/f6926dd5-5727-4efc-861d-747de051e823" width="143" height="300">|<img src="https://github.com/MetroMates/metroCity/assets/110394722/e3da76e2-79e6-4c3a-942a-2119b4827a88" width="143" height="300">| <img src="https://github.com/MetroMates/metroCity/assets/110394722/4eab836b-4d00-4676-9746-cbfe1196ede8" width="143" height="300">|<img src = "https://github.com/MetroMates/metroCity/assets/110394722/027628eb-8888-4d91-84c7-4674f2bb8037" width="143" height="300" >|
+|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/97c14999-478b-48ae-9eba-fc26d83f2ea0" width="143" height="300">|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/8b53b435-746c-46a9-b090-de8195408cbd" width="143" height="300">|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/676177e4-dfb3-4116-9a23-74a82b71cdd3" width="143" height="300">| <img src="https://github.com/Good-MoGong/SYM/assets/127810279/7383236d-c2bd-48e4-bd59-719975a8d250" width="143" height="300">|<img src = "https://github.com/Good-MoGong/SYM/assets/127810279/f3e7262f-1180-48f5-9c0d-e018a367b287" width="143" height="300" >|
 
 <br>
 
