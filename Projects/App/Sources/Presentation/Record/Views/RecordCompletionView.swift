@@ -59,26 +59,25 @@ struct RecordCompletionView: View {
                     HStack {
                         Button("홈") {
                             isShowingOrganizeView = false
-                            }
-                            // .buttonStyle에 적용
-                            .buttonStyle(smallGrayButtonStyle())
-                            // 버튼 사이 간격 20
-                            .padding(.trailing, 20)
-                            
-                            Button("기록 보기") {
-                                recordViewModel.recordSpecificFetch()
-                            }
-                            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                         }
+                        // .buttonStyle에 적용
+                        .buttonStyle(smallGrayButtonStyle())
+                        // 버튼 사이 간격 20
+                        .padding(.trailing, 20)
+                        
+                        Button("기록 보기") {
+                            recordViewModel.recordSpecificFetch()
+                        }
+                        .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
                 }
-                .padding()
             }
-            .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
-                RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
-            }
-            .navigationBarBackButtonHidden()
+            .padding()
         }
+        .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
+            RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
