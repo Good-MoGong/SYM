@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MyPageCardView: View {
-    @State private var nickname: String = ""
+    @AppStorage("nickname") private var nickname = ""
     @State private var count: Int = CoreDataManger.shared.getDiaryCount()
     var body: some View {
         HStack {
@@ -63,9 +63,6 @@ struct MyPageCardView: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.bright)
         )
-        .onAppear {
-            nickname = UserDefaultsKeys.nickname
-        }
     }
 }
 

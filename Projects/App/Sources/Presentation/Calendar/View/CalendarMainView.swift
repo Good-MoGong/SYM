@@ -64,7 +64,7 @@ struct CalendarMainView: View {
 
 // MARK: - HeaderView: 환영글
 struct HeaderView: View {
-    @State private var nickname: String = ""
+    @AppStorage("nickname") private var nickname = ""
     
     var body: some View {
         HStack {
@@ -81,9 +81,6 @@ struct HeaderView: View {
         }
         .padding(.leading, 15)
         .padding(.bottom, 40)
-        .onAppear {
-            nickname = UserDefaultsKeys.nickname
-        }
     }
 }
 
