@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MyPageCardView: View {
-    @State private var nickname: String = UserDefaultsKeys.nickname
+    @AppStorage("nickname") private var nickname = ""
     @State private var count: Int = CoreDataManger.shared.getDiaryCount()
     var body: some View {
         HStack {

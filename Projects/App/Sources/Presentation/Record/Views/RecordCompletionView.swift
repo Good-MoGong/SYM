@@ -52,17 +52,13 @@ struct RecordCompletionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
-                    VStack {
-                        if recordViewModel.isGPTLoading {
-                            ProgressView()
-                        } else {
-                            ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
-                        }
-                        Spacer()
-                        
-                        HStack {
-                            Button("홈") {
-                                isShowingOrganizeView = false
+                    ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Button("홈") {
+                            isShowingOrganizeView = false
                             }
                             // .buttonStyle에 적용
                             .buttonStyle(smallGrayButtonStyle())
