@@ -37,7 +37,7 @@ struct LoginQualificationView: View {
                     VStack(alignment: .leading) {
                         Spacer().frame(height: 40)
                         Text("약관에 동의해주세요")
-                            .font(PretendardFont.h3Bold)
+                            .font(.bold(18))
                             .foregroundColor(.symGray6)        
                         Spacer().frame(height: 20)
                         
