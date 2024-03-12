@@ -52,9 +52,9 @@ struct RecordCompletionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
-                    ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                     
-                    Spacer()
+                    ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
+                        .frame(maxHeight: .infinity)
                     
                     HStack {
                         Button("홈") {
@@ -71,13 +71,16 @@ struct RecordCompletionView: View {
                         .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
                 }
+                .padding()
             }
-            .padding()
+            .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
+                RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+            }
+            .navigationBarBackButtonHidden()
+            .onAppear {
+                animatedMessage = ""
+            }
         }
-        .navigationDestination(isPresented: $recordViewModel.isShowingOrganizeView) {
-            RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
-        }
-        .navigationBarBackButtonHidden()
     }
 }
 
