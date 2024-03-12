@@ -18,9 +18,9 @@ enum RecordViewText {
         case .beforeRecord:
             "감정 일기가 기록되지 않았어요\n시미가 당신을 기다리고 있어요!"
         case .afterRecord:
-            "꾸준한 감정일기는\n자신을 단단히 만들어준답니다! \n내일도 와주실거죠?"
+            "꾸준한 감정일기는 자신을 단단히\n만들어준답니다! 내일도 와주실거죠?"
         case .noRecord:
-            "감정을 기록하지 않은 날이에요\n오늘은 시미와 함께\n감정을 기록해볼까요?"
+            "감정을 기록하지 않은 날이에요\n오늘은 시미와 함께 감정을 기록해볼까요?"
         }
     }
 }
@@ -51,16 +51,16 @@ struct CalendarRecordView: View {
                 Text(existRecord ? "감정 일기 작성 완료!" : (
                     isDateInToday ? "오늘의 기록" : (
                         isDateInYesterday ? "어제의 기록" : "기록이 없어요!")))
-                .font(PretendardFont.h4Bold)
-                .padding(.bottom, 12)
+                .font(PretendardFont.bodyBold)
+                .padding(.bottom, 8)
                 
                 Text(existRecord ? RecordViewText.afterRecord.stringValue :
                         (isTodayOrYesterday(date: selectDate) ?  RecordViewText.beforeRecord.stringValue
                          : RecordViewText.noRecord.stringValue))
                 .lineSpacing(8)
-                .font(PretendardFont.bodyMedium)
+                .font(PretendardFont.smallMedium)
                 .fixedSize(horizontal: true, vertical: false)
-                .padding(.bottom, 12)
+                .padding(.bottom, 8)
                 
                 if existRecord == true {
                     // 기록이 있을 경우
@@ -86,24 +86,15 @@ struct CalendarRecordView: View {
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
                 }
             }
-            
             Spacer()
             
             // 기록 있으면
-            if existRecord {
-                Image("SimiSmile")
+                Image(existRecord ? "SimiProud" : "SimiDefault")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: .symWidth * 0.3)
-                
-            } else {
-                // 기록 없으면
-                Image("SimiSad")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.3)
-            }
         }
+        .frame(width: .symWidth * 0.8)
         .padding(.horizontal, 20)
         .padding(.vertical, 18)
         .background(
@@ -119,4 +110,10 @@ struct CalendarRecordView: View {
         let yesterday = Calendar.current.isDateInYesterday(date)
         return today || yesterday
     }
+}
+
+#Preview {
+    CalendarRecordView(calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
+                       ,isShowingOrganizeView: .constant(true), isShowingRecordView: .constant(true),
+                       selectDate: .constant(Date()), existRecord: true)
 }
