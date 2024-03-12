@@ -87,7 +87,7 @@ struct MyAccountInfo: View {
             
             Spacer()
         }
-        
+        .dismissKeyboardOnTap()
         .customNavigationBar(centerView: {
             Text("닉네임 수정")
         }, rightView: {
