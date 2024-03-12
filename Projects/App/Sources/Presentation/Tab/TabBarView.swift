@@ -40,10 +40,10 @@ struct TabBarView: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 40)
-        .padding(.top, 10)
+        .padding(.top, 15)
         .background(
             Rectangle()
-                .cornerRadius(30, corners: [.topLeft, .topRight])
+                .cornerRadius(25, corners: [.topLeft, .topRight])
                 .foregroundColor(Color.white)
         )
         .clipped()
