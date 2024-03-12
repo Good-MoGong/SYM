@@ -52,7 +52,6 @@ struct RecordCompletionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
-                    
                     ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                     
                     Spacer()
@@ -60,16 +59,17 @@ struct RecordCompletionView: View {
                     HStack {
                         Button("홈") {
                             isShowingOrganizeView = false
+                            }
+                            // .buttonStyle에 적용
+                            .buttonStyle(smallGrayButtonStyle())
+                            // 버튼 사이 간격 20
+                            .padding(.trailing, 20)
+                            
+                            Button("기록 보기") {
+                                recordViewModel.recordSpecificFetch()
+                            }
+                            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                         }
-                        // .buttonStyle에 적용
-                        .buttonStyle(smallGrayButtonStyle())
-                        // 버튼 사이 간격 20
-                        .padding(.trailing, 20)
-                        
-                        Button("기록 보기") {
-                            recordViewModel.recordSpecificFetch()
-                        }
-                        .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
                 }
                 .padding()
