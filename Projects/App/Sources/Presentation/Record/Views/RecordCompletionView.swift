@@ -52,27 +52,28 @@ struct RecordCompletionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
-                    
-                    if recordViewModel.isGPTLoading {
-                        ProgressView()
-                    } else {
-                        ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
-                    }
-                    Spacer()
-                    
-                    HStack {
-                        Button("홈") {
-                            isShowingOrganizeView = false
+                    VStack {
+                        if recordViewModel.isGPTLoading {
+                            ProgressView()
+                        } else {
+                            ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                         }
-                        // .buttonStyle에 적용
-                        .buttonStyle(smallGrayButtonStyle())
-                        // 버튼 사이 간격 20
-                        .padding(.trailing, 20)
+                        Spacer()
                         
-                        Button("기록 보기") {
-                            recordViewModel.recordSpecificFetch()
+                        HStack {
+                            Button("홈") {
+                                isShowingOrganizeView = false
+                            }
+                            // .buttonStyle에 적용
+                            .buttonStyle(smallGrayButtonStyle())
+                            // 버튼 사이 간격 20
+                            .padding(.trailing, 20)
+                            
+                            Button("기록 보기") {
+                                recordViewModel.recordSpecificFetch()
+                            }
+                            .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                         }
-                        .buttonStyle(MainButtonStyle(isButtonEnabled: true))
                     }
                 }
                 .padding()
