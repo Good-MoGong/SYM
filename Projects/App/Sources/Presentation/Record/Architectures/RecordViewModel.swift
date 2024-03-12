@@ -13,7 +13,7 @@ final class RecordViewModel: RecordConditionFetch {
     
     let recordUseCase: RecordUseCase
     var userID: String = ""
-   
+    
     @Published var recordOrder: RecordOrder = .event
     @Published var recordDiary: Diary = .init(date: "", event: "", idea: "", emotions: [], action: "", gptAnswer: "")
     @Published var currentText: String = ""
@@ -89,8 +89,8 @@ final class RecordViewModel: RecordConditionFetch {
             self.progress += 0.1  // 적절한 단계로 업데이트
             if self.progress >= 1.0 {
                 self.timerCancellable?.cancel()
-                }
             }
+        }
         recordUseCase.makeGPTRequest(diary: recordDiary)
             .receive(on: DispatchQueue.main)
             .sink { completion in
@@ -114,7 +114,11 @@ final class RecordViewModel: RecordConditionFetch {
     
     func saveRecord() {
         Task {
-            self.isShowingCompletionView = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
+            let result = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
+            
+            DispatchQueue.main.async {
+                self.isShowingCompletionView = result
+            }
         }
     }
     
