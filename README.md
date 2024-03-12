@@ -113,17 +113,17 @@ gitGraph
 <div align="left">  
 
 ### 👩🏻‍💼 PM
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
+| [박혜연]<br/> [@hye-y](https://github.com/hye-y)<br/> |
 | :---: |
-| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
+| <img src="https://avatars.githubusercontent.com/u/78430802?v=4" width="100" height="100"> |
 
 ### 👩🏻‍🎨 Designer
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
+| [한지수]<br/> [@잔디밭](https://m.blog.naver.com/hhhjs-?tab=1)<br/> |
 | :---: |
-| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
+| <img src="https://blogpfthumb-phinf.pstatic.net/MjAyMjEwMjRfMjI4/MDAxNjY2NjIzNDc4MzU1.Mx0dRfEerHGDlZOkkCDHk140SFYvEVv4HKdqLnNarxsg.ZiG-W8ZcRyJcQnGCrVBa6SxW2TQRQXcam997i5cm5Z0g.PNG.hanjisu0523/profileImage.png" width="100" height="100"> |
 
 ### 🧑🏻‍💻 Developer
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"| [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/> "진심어린 사과 개발자 🍎" | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/> "" | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> ""| [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/> "" |
+| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> | [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/>  | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/>  | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> | [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/>  |
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/127810279?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/133854561?v=4" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/66257281?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/83643938?v=4" width="100" height="100"> |
 
