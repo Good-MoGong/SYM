@@ -286,7 +286,7 @@ struct DateButton: View {
                     Text("\(value.day)")
                         .font(PretendardFont.h4Bold)
                         .fontWeight(.bold)
-                        .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ? Color.symGray5 : (dayOfWeek == 1 ? Color.errorRed : Color.symGray4))
+                        .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ? (dayOfWeek == 1 ? Color.errorRed : Color.symGray5) : (dayOfWeek == 1 ? Color.sub : Color.symGray4))
                     
                     Circle()
                         .fill(calendarViewModel.diaryExists(on: value.date.formatToString()) ?
@@ -312,6 +312,6 @@ struct DateButton: View {
 }
 
 #Preview {
-    CalendarMainView(authViewModel: AuthenticationViewModel(container: DIContainer(services: Services())))
+    CalendarMainView()
         .environmentObject(AuthenticationViewModel(container: DIContainer(services: Services())))
 }

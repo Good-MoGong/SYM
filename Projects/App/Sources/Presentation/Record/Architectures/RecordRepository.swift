@@ -89,6 +89,7 @@ final class RecordRepository: RecordRepositoryProtocal {
                 diaryInfo.idea = diary.idea
                 diaryInfo.emotion = diary.emotions
                 diaryInfo.action = diary.action
+                diaryInfo.gptAnswer = diary.gptAnswer
             }
         }
     }

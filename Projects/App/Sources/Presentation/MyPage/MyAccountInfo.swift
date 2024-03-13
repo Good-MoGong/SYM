@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MyAccountInfo: View {
-    
-    @State private var nickname = UserDefaultsKeys.nickname
+    @State private var nickname: String = UserDefaultsKeys.nickname
     @State private var loginEmail = UserDefaultsKeys.userEmail
     @State var isPressed: Bool = false
     @State var nicknameRules = NickNameRules.allow
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Environment(\.dismiss) private var dismiss
     
+    private let firebaseService: FirebaseService = FirebaseService.shared
     private let loginProvider = UserDefaultsKeys.loginProvider
     
     var body: some View {
@@ -71,6 +71,10 @@ struct MyAccountInfo: View {
                     Spacer()
                     
                     Button("완료") {
+                        print("\(nickname)")
+                        Task {
+                            await updateNickname()
+                        }
                         UserDefaults.standard.set(nickname, forKey: "nickname")
                         dismiss()
                     }
@@ -83,12 +87,20 @@ struct MyAccountInfo: View {
             
             Spacer()
         }
-        
+        .dismissKeyboardOnTap()
         .customNavigationBar(centerView: {
             Text("닉네임 수정")
         }, rightView: {
             EmptyView()
         }, isShowingBackButton: true)
+    }
+    
+    private func updateNickname() async {
+        do {
+            try await firebaseService.updateUserNickname(userID: authViewModel.userId ?? "")
+        } catch {
+            print("\(error)")
+        }
     }
     
     private func koreaLangCheck(_ input: String) -> Bool {
