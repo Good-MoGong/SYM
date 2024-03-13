@@ -32,9 +32,9 @@ struct AuthenticatedView: View {
             case .authenticated:
                 MainView()
                     .environmentObject(authViewModel)
-                    .onAppear { // FCM
-                        authViewModel.send(action: .requestPushNotification)
-                    }
+//                    .onAppear { // FCM
+//                        authViewModel.send(action: .requestPushNotification)
+//                    }
             }
         }
         .onAppear {
