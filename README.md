@@ -22,7 +22,7 @@ Speak Your Mind, 모공 프로젝트
 ### 📱구동화면
 |**`로그인`**|**`캘린더`**|**`기록하기`**|**`기록보기`**|**`마이페이지`**|
 |-------|-------|-------|-------|-------|
-|<img src="https://github.com/MetroMates/metroCity/assets/110394722/a7c280d7-559f-4b31-87ff-4409a803b9cb" width="143" height="300">|<img src="https://github.com/MetroMates/metroCity/assets/110394722/f6926dd5-5727-4efc-861d-747de051e823" width="143" height="300">|<img src="https://github.com/MetroMates/metroCity/assets/110394722/e3da76e2-79e6-4c3a-942a-2119b4827a88" width="143" height="300">| <img src="https://github.com/MetroMates/metroCity/assets/110394722/4eab836b-4d00-4676-9746-cbfe1196ede8" width="143" height="300">|<img src = "https://github.com/MetroMates/metroCity/assets/110394722/027628eb-8888-4d91-84c7-4674f2bb8037" width="143" height="300" >|
+|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/97c14999-478b-48ae-9eba-fc26d83f2ea0" width="143" height="300">|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/8b53b435-746c-46a9-b090-de8195408cbd" width="143" height="300">|<img src="https://github.com/Good-MoGong/SYM/assets/127810279/676177e4-dfb3-4116-9a23-74a82b71cdd3" width="143" height="300">| <img src="https://github.com/Good-MoGong/SYM/assets/127810279/7383236d-c2bd-48e4-bd59-719975a8d250" width="143" height="300">|<img src = "https://github.com/Good-MoGong/SYM/assets/127810279/f3e7262f-1180-48f5-9c0d-e018a367b287" width="143" height="300" >|
 
 <br>
 
@@ -113,17 +113,17 @@ gitGraph
 <div align="left">  
 
 ### 👩🏻‍💼 PM
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
+| [박혜연]<br/> [@hye-y](https://github.com/hye-y)<br/> |
 | :---: |
-| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
+| <img src="https://avatars.githubusercontent.com/u/78430802?v=4" width="100" height="100"> |
 
 ### 👩🏻‍🎨 Designer
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"|
+| [한지수]<br/> [@잔디밭](https://m.blog.naver.com/hhhjs-?tab=1)<br/> |
 | :---: |
-| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> |
+| <img src="https://blogpfthumb-phinf.pstatic.net/MjAyMjEwMjRfMjI4/MDAxNjY2NjIzNDc4MzU1.Mx0dRfEerHGDlZOkkCDHk140SFYvEVv4HKdqLnNarxsg.ZiG-W8ZcRyJcQnGCrVBa6SxW2TQRQXcam997i5cm5Z0g.PNG.hanjisu0523/profileImage.png" width="100" height="100"> |
 
 ### 🧑🏻‍💻 Developer
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> "똑똑한 강원도 감자 개발자입니다🥔"| [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/> "진심어린 사과 개발자 🍎" | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/> "" | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> ""| [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/> "" |
+| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> | [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/>  | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/>  | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> | [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/>  |
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/127810279?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/133854561?v=4" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/66257281?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/83643938?v=4" width="100" height="100"> |
 

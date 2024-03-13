@@ -63,6 +63,20 @@ final class FirebaseService {
             }
         }
     }
+    // 서버에서 닉네임 수정하기
+    func updateUserNickname(userID: String) async throws {
+        guard !userID.isEmpty else { return }
+        
+        var collectionRef = db.collection("User").document(userID)
+        
+        do {
+            try await collectionRef.setData([
+                "name": UserDefaultsKeys.nickname
+              ], merge: true)
+        } catch {
+            throw error
+        }
+    }
     
     func deleteFirebaseAuth(completion: @escaping (Bool) -> Void) {
         if let user = Auth.auth().currentUser {

@@ -53,7 +53,7 @@ struct RecordStartView: View {
                             Spacer()
                         }
                     }
-                    Spacer().frame(maxHeight: .symHeight * 0.03)
+                    Spacer().frame(maxHeight: .symHeight * 0.02)
                     HStack(spacing: 12) {
                         ForEach(RecordOrder.allCases, id: \.self) { index in // 1
                             Circle()
@@ -86,29 +86,37 @@ struct RecordStartView: View {
                     Spacer().frame(maxHeight: .symHeight * 0.03)
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
-                        ScrollView {
-                            Image("SimiSmile")
-                                .resizable()
-                                .frame(width: 200, height: 220)
-                            TextEditor(text: $recordViewModel.currentText)
-                                .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
-                                .frame(height: 200)
-                            Spacer().frame(maxHeight: .symHeight * 0.03)
-                        }
-                        Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
-                            recordViewModel.movePage(to: .next)
-                        }
-                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
-                        .disabled(recordViewModel.currentText.isEmpty)
+                            ScrollView {
+                                Image("SimiRecord")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 230)
+                                TextEditor(text: $recordViewModel.currentText)
+                                    .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
+                                    .frame(height: 200)
+                                
+                                Spacer().frame(maxHeight: .symHeight * 0.03)
+                            }
+                            Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
+                                recordViewModel.dismissKeyboard()
+                                recordViewModel.movePage(to: .next)
+                            }
+                            .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
+                            .disabled(recordViewModel.currentText.isEmpty)
                     case .emotions:
-                        Image("SimiCurious")
+                        Image("SimiEmotion")
                             .resizable()
-                            .frame(width: 200, height: 220)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 175)
+                        
+                        Spacer().frame(maxHeight: .symHeight * 0.02)
+                        
                         emotionSelectView
                             .frame(maxHeight: .infinity)
                     
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
+                            recordViewModel.dismissKeyboard()
                             recordViewModel.movePage(to: .next)
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.selectedDatailEmotion.isEmpty))
@@ -116,6 +124,15 @@ struct RecordStartView: View {
                     }
                 }
                 .padding()
+            }
+        }
+        .overlay(alignment: .center) {
+            if recordViewModel.isGPTLoading {
+                ZStack {
+                    Color.black.opacity(0.7)
+                        .ignoresSafeArea()
+                    ProgressView(recordViewModel: recordViewModel)
+                }
             }
         }
         .dismissKeyboardOnTap()
@@ -134,6 +151,14 @@ struct RecordStartView: View {
         }, cancelHandler: {
             recordViewModel.isShowingGuidePopUp.toggle()
         })
+        .popup(isShowing: $recordViewModel.isShowingSavePopUp,
+               type: .doubleButton(leftTitle: "다음에쓸래", rightTitle: "저장할래"),
+               title: "시미가 답장을 해줄수 없어요 😭",
+               desc: "기록은 저장 할 수 있지만 시미의 답장이 저장되지 않아요. 저장 하시겠어요?") {
+            recordViewModel.isShowingSavePopUp.toggle()
+        } cancelHandler: {
+            recordViewModel.saveRecord()
+        }
         .toastView(toast: $recordViewModel.isShowingToastMessage)
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
@@ -165,7 +190,7 @@ extension RecordStartView {
                             
                         } label: {
                             Text("\(emotion.rawValue)")
-                                .font(PretendardFont.h3Bold)
+                                .font(PretendardFont.h4Bold)
                                 .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
                         }
                         .foregroundColor(.primary)
@@ -216,8 +241,9 @@ struct EmotionButton: View {
                 .font(PretendardFont.h5Medium)
                 .foregroundColor(isSelected ? .white : .black)
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(height: 15)
-                .padding(17)
+                .frame(height: 11)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 17)
                 .background(
                     RoundedRectangle(cornerRadius: 30)
                         .stroke(Color.symGray2, lineWidth: 2)

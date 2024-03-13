@@ -53,12 +53,8 @@ struct RecordCompletionView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: .symWidth * 0.5)
                     
-                    if recordViewModel.isGPTLoading {
-                        ProgressView()
-                    } else {
-                        ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
-                    }
-                    Spacer()
+                    ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
+                        .frame(maxHeight: .infinity)
                     
                     HStack {
                         Button("홈") {
@@ -81,6 +77,9 @@ struct RecordCompletionView: View {
                 RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
             }
             .navigationBarBackButtonHidden()
+            .onAppear {
+                animatedMessage = ""
+            }
         }
     }
 }

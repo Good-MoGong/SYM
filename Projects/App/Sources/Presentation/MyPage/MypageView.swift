@@ -8,6 +8,13 @@
 
 import SwiftUI
 
+enum CustomerSupports: String {
+    case termsCodition = "https://docs.google.com/document/d/1IhIdE4TMgSdfjTtyTqx22sDhFQduehvqeKDbQPMaW7Y/edit?usp=sharing"
+    case privacyPolicy = "https://docs.google.com/document/d/1bumoRR722rVVHGAdlT8wDsnP0E_IKFeWttAe-u4t2w0/edit?usp=sharing"
+    case contactUs = "https://forms.gle/eojoJnDg2csmb9QS6"
+}
+
+
 struct MypageView: View {
     
     var appVersion: String? {
@@ -45,8 +52,8 @@ struct MypageView: View {
                 .font(.bold(20))
             
             CustomerSupportButton(buttonTitle: "리뷰 남기기") // 앱스토어로 이동
-            SettingViewLinker(title: "서비스 이용 약관", url: "naver.com")
-            SettingViewLinker(title: "개인정보처리방침", url: "naver.com")
+            SettingViewLinker(title: "서비스 이용 약관", url: CustomerSupports.termsCodition.rawValue)
+            SettingViewLinker(title: "개인정보처리방침", url: CustomerSupports.privacyPolicy.rawValue)
             
             HStack {
                 Text("버전 정보")
@@ -67,16 +74,19 @@ struct SettingViewLinker: View {
     let url: String
     
     var body: some View {
-        HStack {
-            Text("\(title)")
-                .font(.medium(17))
             linkView("", url)
-        }
     }
     
     private func rowView(_ label: String) -> some View {
-        Image(systemName: "chevron.forward")
-            .font(PretendardFont.h4Medium)
+        HStack {
+            Text("\(title)")
+                .font(.medium(17))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Image(systemName: "chevron.forward")
+                .font(PretendardFont.h4Medium)
+        }
+        .foregroundColor(.symBlack)
+        .contentShape(Rectangle())
     }
     
     @ViewBuilder
