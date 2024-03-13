@@ -164,6 +164,9 @@ struct RecordStartView: View {
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {
             RecordCompletionView(recordViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
         })
+        .fullScreenCover(isPresented: $recordViewModel.isShowingSavePopUp, content: {
+            RecordOrganizeView(organizeViewModel: recordViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+        })
         .onAppear {
             recordViewModel.recordDiary.date = selectDate.formatToString()
             recordViewModel.userID = authViewModel.userId ?? ""
