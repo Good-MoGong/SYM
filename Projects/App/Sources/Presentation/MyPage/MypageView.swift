@@ -26,10 +26,8 @@ struct MypageView: View {
     var body: some View {
         NavigationStack {
             MyPageCardView()
-                .padding(.vertical, 20)
-            
+            Spacer().frame(height: 25)
             CustomerSupport()
-            
             Spacer()
         }
         .padding(.horizontal, 20)
@@ -83,7 +81,7 @@ struct SettingViewLinker: View {
                 .font(.medium(17))
                 .frame(maxWidth: .infinity, alignment: .leading)
             Image(systemName: "chevron.forward")
-                .font(PretendardFont.h4Medium)
+                .font(.medium(17))
         }
         .foregroundColor(.symBlack)
         .contentShape(Rectangle())
@@ -112,7 +110,7 @@ private struct CustomerSupportButton: View {
                     .font(.medium(17))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Image(systemName: "chevron.forward")
-                    .font(PretendardFont.h4Medium)
+                    .font(.medium(17))
             }
             .foregroundColor(.symBlack)
             .contentShape(Rectangle())

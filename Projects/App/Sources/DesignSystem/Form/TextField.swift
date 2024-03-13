@@ -24,14 +24,14 @@ struct CustomTextFieldStyle: ViewModifier {
                 .padding(.vertical, 20)
                 .padding(.leading, 20)
                 .background(Color.symGray1)
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .clipShape(RoundedRectangle(cornerRadius: 15))
             
         case .error:
             content
                 .padding(.vertical, 20)
                 .padding(.leading, 20)
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .background(

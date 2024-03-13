@@ -27,7 +27,7 @@ struct LoginNicknameView: View {
             VStack {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("환영해요! \n닉네임을 입력해주세요")
-                        .font(PretendardFont.h3Medium)
+                        .font(.medium(20))
                         .lineSpacing(8)
                     
                     VStack(alignment: .leading, spacing: 13) {
@@ -79,7 +79,7 @@ struct LoginNicknameView: View {
             }
         } label: {
             Text("완료")
-                .font(PretendardFont.h4Medium)
+                .font(.medium(17))
         }
         .buttonStyle(MainButtonStyle(isButtonEnabled: loginNicknameViewModel.nicknameRules == .allow))
         .disabled(1 > loginNicknameViewModel.nickname.count || loginNicknameViewModel.nickname.count >= 6)
@@ -93,7 +93,7 @@ struct SignupNickNameRuleView: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(PretendardFont.bodyMedium)
+            .font(.medium(14))
             .foregroundColor(color)
             .lineSpacing(1.5)
     }

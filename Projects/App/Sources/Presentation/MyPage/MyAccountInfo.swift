@@ -24,14 +24,15 @@ struct MyAccountInfo: View {
             VStack {
                 Spacer().frame(height: 30)
                 
-                Image("SimiSmile").resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal, 95)
+                Image("SimiFlower")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.horizontal, 100)
                 
                 VStack {
                     VStack(alignment: .leading) {
                         Text("닉네임")
-                            .font(PretendardFont.h5Bold)
+                            .font(.bold(16))
                         
                         VStack(alignment: .leading) {
                             TextField("닉네임을 입력해주세요", text: $nickname)
@@ -64,7 +65,7 @@ struct MyAccountInfo: View {
                     
                     VStack(alignment: .leading) {
                         Text("가입계정")
-                            .font(PretendardFont.h5Bold)
+                            .font(.bold(16))
                         UserProvider(userEmail: "\(loginEmail)")
                     }
                     
@@ -83,7 +84,7 @@ struct MyAccountInfo: View {
                 }
             }
             .padding(.horizontal, 20)
-            .font(PretendardFont.bodyBold)
+            .font(.bold(14))
             
             Spacer()
         }

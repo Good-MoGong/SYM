@@ -29,10 +29,10 @@ struct LoginIntroView: View {
                     VStack(spacing: 4) {
                         Text("SYM")
                             .foregroundColor(Color.main)
-                            .font(PretendardFont.bold30)
+                            .font(.bold(30))
                         Text("Speak Your Mind")
                             .foregroundColor(.sub)
-                            .font(PretendardFont.h3Bold)
+                            .font(.bold(20))
                     }
                     .foregroundColor(.main)
                 }
@@ -49,7 +49,7 @@ struct LoginIntroView: View {
                                 .frame(width: 30, height: 30)
                                 .padding(.leading, .symWidth * 0.17)
                             Text("카카오톡으로 로그인")
-                                .font(PretendardFont.h4Medium)
+                                .font(.medium(17))
                                 .foregroundColor(.symBlack)
                         }
                         .signupTextBackground(Color.kakao)
@@ -61,7 +61,7 @@ struct LoginIntroView: View {
                             .frame(width: 30, height: 30)
                             .padding(.leading, .symWidth * 0.17)
                         Text("Apple로 로그인")
-                            .font(PretendardFont.h4Medium)
+                            .font(.medium(17))
                             .foregroundColor(.white)
                     }
                     .signupTextBackground(.black)

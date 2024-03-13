@@ -51,16 +51,14 @@ struct CalendarRecordView: View {
                 Text(existRecord ? "감정 일기 작성 완료!" : (
                     isDateInToday ? "오늘의 기록" : (
                         isDateInYesterday ? "어제의 기록" : "기록이 없어요!")))
-                .font(PretendardFont.bodyBold)
+                .font(.bold(16))
                 .padding(.bottom, 8)
                 
-                Text(existRecord ? RecordViewText.afterRecord.stringValue :
-                        (isTodayOrYesterday(date: selectDate) ?  RecordViewText.beforeRecord.stringValue
-                         : RecordViewText.noRecord.stringValue))
-                .lineSpacing(8)
-                .font(PretendardFont.smallMedium)
-                .fixedSize(horizontal: true, vertical: false)
-                .padding(.bottom, 8)
+                Text(existRecord ? RecordViewText.afterRecord.stringValue : (isTodayOrYesterday(date: selectDate) ?
+                                                                             RecordViewText.beforeRecord.stringValue : RecordViewText.noRecord.stringValue))
+                .lineSpacing(7)
+                .font(.medium(11))
+                .padding(.vertical, 7)
                 
                 if existRecord == true {
                     // 기록이 있을 경우
@@ -70,7 +68,7 @@ struct CalendarRecordView: View {
                         isShowingOrganizeView = true
                     } label: {
                         Text("기록 보러가기")
-                            .font(PretendardFont.h4Bold)
+                            .font(.bold(18))
                             .padding(.vertical, -5)
                     }
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
@@ -80,7 +78,7 @@ struct CalendarRecordView: View {
                         isShowingRecordView = true
                     } label: {
                         Text("감정 기록하기")
-                            .font(PretendardFont.h4Bold)
+                            .font(.bold(18))
                             .padding(.vertical, -5)
                     }
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
@@ -89,10 +87,11 @@ struct CalendarRecordView: View {
             Spacer()
             
             // 기록 있으면
-                Image(existRecord ? "SimiProud" : "SimiDefault")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: .symWidth * 0.3)
+            Image(existRecord ? "SimiSparkle" : "SimiMain")
+                .resizable()
+                .scaledToFit()
+                .frame(width: .symWidth * 0.3, height: .symWidth * 0.3)
+        
         }
         .frame(width: .symWidth * 0.8)
         .padding(.horizontal, 20)

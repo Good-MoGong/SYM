@@ -37,7 +37,7 @@ struct SplashView: View {
                 Spacer()
                 
                 Text(message)
-                    .font(PretendardFont.bodyMedium)
+                    .font(.medium(14))
                     .tracking(0.5)
                     .lineSpacing(5.0)
                     .multilineTextAlignment(.center)
