@@ -12,7 +12,7 @@ extension Target {
                                   platform: Platform = .iOS,
                                   product: Product,
                                   deploymentTarget: DeploymentTarget = .iOS(targetVersion: "16.4",
-                                                                            devices: [.iphone, .ipad],
+                                                                            devices: [.iphone],
                                                                             supportsMacDesignedForIOS: true),
                                   dependencies: [TargetDependency] = [],
                                   scripts: [TargetScript] = [],
