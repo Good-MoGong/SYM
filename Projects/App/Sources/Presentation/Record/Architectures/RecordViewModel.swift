@@ -102,6 +102,7 @@ final class RecordViewModel: RecordConditionFetch {
                     print("Error making GPT request: \(error)")
                     self.isGPTLoading = false
                     self.isShowingSavePopUp = true
+                    self.saveRecord()
                 }
             } receiveValue: { gptAnswer in
                 self.recordDiary.gptAnswer = gptAnswer ?? "시미가 공감할 수 없는 글이에요.."

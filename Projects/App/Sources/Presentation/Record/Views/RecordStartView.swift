@@ -159,14 +159,6 @@ struct RecordStartView: View {
         }, cancelHandler: {
             recordViewModel.isShowingGuidePopUp.toggle()
         })
-        .popup(isShowing: $recordViewModel.isShowingSavePopUp,
-               type: .doubleButton(leftTitle: "다음에쓸래", rightTitle: "저장할래"),
-               title: "시미가 답장을 해줄수 없어요",
-               desc: "기록은 저장 할 수 있지만 시미의 답장이 저장되지 않아요. 저장 하시겠어요?") {
-            recordViewModel.isShowingSavePopUp.toggle()
-        } cancelHandler: {
-            recordViewModel.saveRecord()
-        }
         .toastView(toast: $recordViewModel.isShowingToastMessage)
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $recordViewModel.isShowingCompletionView, content: {

@@ -62,7 +62,8 @@ class AuthenticationViewModel: ObservableObject {
                 // 지영 추가 - 받아온 userID로 data fetch
                 Task {
                     await dataFetchManager.fetchData(userID: userId)
-                    
+                    self.container.services.authService.getUserLoginEmail()
+                    self.container.services.authService.getUserLoginProvider()                    
                     DispatchQueue.main.async {
                         self.firebaseService.checkingUserNickname(userID: userId) { result in
                             if result {
