@@ -62,7 +62,7 @@ struct BackgroundView: ViewModifier {
         case .sentenceTitle:
             content
                 .frame(width: UIScreen.main.bounds.width * 0.3, height: 37)
-                .font(.bold(18))
+                .font(.bold(16))
                 .background(Color.sub)
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
