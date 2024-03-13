@@ -101,7 +101,6 @@ final class RecordViewModel: RecordConditionFetch {
                 case .failure(let error):
                     print("Error making GPT request: \(error)")
                     self.isGPTLoading = false
-                    self.isShowingSavePopUp = true
                     self.saveRecord()
                 }
             } receiveValue: { gptAnswer in
@@ -118,7 +117,11 @@ final class RecordViewModel: RecordConditionFetch {
             let result = await recordUseCase.saveRecord(userID: userID, diary: recordDiary)
             
             DispatchQueue.main.async {
-                self.isShowingCompletionView = result
+                if self.recordDiary.gptAnswer == "" {
+                    self.isShowingSavePopUp = true
+                } else {
+                    self.isShowingCompletionView = result
+                }
             }
         }
     }
