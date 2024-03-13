@@ -31,7 +31,7 @@ struct TabBarView: View {
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                         
                         Text(item.title)
-                            .font(PretendardFont.smallMedium)
+                            .font(.medium(12))
                             .tint(tabBarViewModel.selected == item ? Color.sub : Color.symGray3)
                     }
                 }

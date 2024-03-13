@@ -75,7 +75,7 @@ struct HeaderView: View {
                 Text("오늘의 기분은 어때요?")
                     .foregroundStyle(Color.main)
             }
-            .font(PretendardFont.h3Bold)
+            .font(.bold(20))
             
             Spacer(minLength: 0)
         }

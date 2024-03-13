@@ -57,7 +57,7 @@ struct CommonQualificaion: View {
             Spacer().frame(width: 10)
             
             Text(title)
-                .font(PretendardFont.h4Medium)
+                .font(.medium(15))
                 .foregroundColor(.symGray6)
             Spacer()
             linkView("", url)

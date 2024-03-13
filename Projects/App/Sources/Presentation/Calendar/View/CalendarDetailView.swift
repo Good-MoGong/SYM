@@ -279,12 +279,12 @@ struct DateButton: View {
             } label: {
                 VStack(spacing: 3) {
                     Text(isToday ? "오늘" : "")
-                        .font(PretendardFont.smallMedium)
+                        .font(.medium(12))
                         .foregroundStyle(Color.errorRed)
                         .padding(.bottom, -5)
                     
                     Text("\(value.day)")
-                        .font(PretendardFont.h4Bold)
+                        .font(.bold(18))
                         .fontWeight(.bold)
                         .foregroundColor(calendarViewModel.diaryExists(on: value.date.formatToString()) ? (dayOfWeek == 1 ? Color.errorRed : Color.symGray5) : (dayOfWeek == 1 ? Color.sub : Color.symGray4))
                     

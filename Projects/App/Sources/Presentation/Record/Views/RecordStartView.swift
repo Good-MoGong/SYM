@@ -24,6 +24,7 @@ struct RecordStartView: View {
                 Image("RecordBackground")
                     .resizable()
                     .ignoresSafeArea()
+                
                 VStack {
                     ZStack {
                         HStack {
@@ -39,7 +40,7 @@ struct RecordStartView: View {
                                 recordViewModel.writeLater()
                             } label: {
                                 Text("나중에 쓰기")
-                                    .font(PretendardFont.bodyMedium)
+                                    .font(.medium(14))
                                     .foregroundColor(.symGray5)
                             }
                             .buttonStyle(.plain)
@@ -48,12 +49,13 @@ struct RecordStartView: View {
                             Spacer()
                             
                             Text("감정일기")
-                                .font(PretendardFont.h4Medium)
+                                .font(.medium(17))
                             
                             Spacer()
                         }
                     }
                     Spacer().frame(maxHeight: .symHeight * 0.02)
+                    
                     HStack(spacing: 12) {
                         ForEach(RecordOrder.allCases, id: \.self) { index in // 1
                             Circle()
@@ -62,9 +64,10 @@ struct RecordStartView: View {
                         }
                     }
                     Spacer().frame(maxHeight: .symHeight * 0.03)
+                    
                     HStack {
                         Text(recordViewModel.recordOrder.symMent)
-                            .font(PretendardFont.h3Bold)
+                            .font(.bold(20))
                         
                         Button {
                             recordViewModel.showGuide()
@@ -75,42 +78,44 @@ struct RecordStartView: View {
                         Spacer()
                     }
                     Spacer().frame(maxHeight: .symHeight * 0.01)
+                    
                     if recordViewModel.recordOrder == .emotions {
                         HStack {
                             Text("감정단어는 최대 5개까지 선택할 수 있어요")
-                                .font(PretendardFont.smallMedium)
+                                .font(.medium(12))
                             
                             Spacer()
                         }
                     }
                     Spacer().frame(maxHeight: .symHeight * 0.03)
+                    
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
-                            ScrollView {
-                                Image("SimiRecord")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 230)
-                                TextEditor(text: $recordViewModel.currentText)
-                                    .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
-                                    .frame(height: 200)
-                                
-                                Spacer().frame(maxHeight: .symHeight * 0.03)
-                            }
-                            Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
-                                recordViewModel.dismissKeyboard()
-                                recordViewModel.movePage(to: .next)
-                            }
-                            .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
-                            .disabled(recordViewModel.currentText.isEmpty)
+                        ScrollView {
+                            Image("SimiMain")
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.horizontal, 80)
+                            
+                            TextEditor(text: $recordViewModel.currentText)
+                                .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
+                                .frame(height: 200)
+                            Spacer().frame(maxHeight: .symHeight * 0.03)
+                        }
+                        Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
+                            recordViewModel.movePage(to: .next)
+                        }
+                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
+                        .disabled(recordViewModel.currentText.isEmpty)
+                    
                     case .emotions:
-                        Image("SimiEmotion")
+                        Image("SimiWithJelly")
                             .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 175)
+                            .scaledToFit()
+                            .padding(.horizontal, 80)
                         
                         Spacer().frame(maxHeight: .symHeight * 0.02)
-                        
+                            
                         emotionSelectView
                             .frame(maxHeight: .infinity)
                     
@@ -190,7 +195,7 @@ extension RecordStartView {
                             
                         } label: {
                             Text("\(emotion.rawValue)")
-                                .font(PretendardFont.h4Bold)
+                                .font(.bold(18))
                                 .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
                         }
                         .foregroundColor(.primary)
@@ -238,7 +243,7 @@ struct EmotionButton: View {
             isSelected.toggle()
         } label: {
             Text(title)
-                .font(PretendardFont.h5Medium)
+                .font(.medium(16))
                 .foregroundColor(isSelected ? .white : .black)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .frame(height: 11)

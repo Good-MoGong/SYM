@@ -16,7 +16,7 @@ struct ChatBubbleDemo: View {
         VStack {
             ChatBubble(message: message, animatedMessage: $animatedMessage)
             Image(systemName: "person.fill")
-                .font(PretendardFont.h1Bold)
+                .font(.bold(28))
         }
     }
 }

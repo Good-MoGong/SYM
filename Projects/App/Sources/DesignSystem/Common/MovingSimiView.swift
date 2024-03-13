@@ -17,10 +17,11 @@ struct MovingSimiView: View {
             Image("shadow")
                 .resizable()
                 .scaledToFit()
+                .frame(maxWidth: .symWidth * 0.4, alignment: .center)
             Image(image)
                 .resizable()
                 .scaledToFit()
-                .padding(.bottom, 50)
+                .padding(.bottom, 35)
                 .animationSimi(yOffset: yOffset)
         }
     }
@@ -28,4 +29,19 @@ struct MovingSimiView: View {
 
 #Preview {
     MovingSimiView(image: "SimiLogin")
+}
+
+struct SimiModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+//            .resizable()
+//            .scaledToFit()
+//            .padding(.horizontal, 50)
+    }
+}
+
+extension View {
+    func simiImageModifier() -> some View {
+        modifier(SimiModifier())
+    }
 }

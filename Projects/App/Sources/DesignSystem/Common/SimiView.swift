@@ -43,11 +43,11 @@ struct SimiView: View {
                 .padding(.top, 10)
             }
             
-            Image("SimiSad")
+            Image("SimiMain")
                 .resizable()
-                .scaledToFill()
-                .frame(width: 130, height: 130)
-                .padding(.top, 30)
+                .scaledToFit()
+                .frame(width: .symWidth * 0.35, height: .symWidth * 0.35)
+                
         }
         .padding(15)
         .background(Color.bright)

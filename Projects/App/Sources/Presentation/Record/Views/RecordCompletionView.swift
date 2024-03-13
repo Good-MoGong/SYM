@@ -41,17 +41,18 @@ struct RecordCompletionView: View {
                             Spacer()
                             
                             Text("감정일기")
-                                .font(PretendardFont.h4Medium)
+                                .font(.medium(17))
                             
                             Spacer()
                         }
                     }
                     Text("기록이 완료되었어요!")
-                        .font(PretendardFont.h3Bold)
-                    Image("SimiSmile2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: .symWidth * 0.5)
+                        .font(.bold(20))
+                    
+                    MovingSimiView(image: "SimiSparkle")
+                        .scaledToFit()
+                        .frame(width: .symWidth * 0.7, height: .symWidth * 0.7)
+                        .padding(.top, 20)
                     
                     ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                         .frame(maxHeight: .infinity)

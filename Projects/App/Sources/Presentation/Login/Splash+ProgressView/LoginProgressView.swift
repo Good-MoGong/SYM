@@ -16,7 +16,7 @@ struct LoginProgressView: View {
                 .padding(.horizontal, 120)
             
             Text("만나서 만가워요! \n당신의 기록을 기다릴게요")
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .tracking(0.5)
                 .lineSpacing(5.0)
                 .multilineTextAlignment(.center)
