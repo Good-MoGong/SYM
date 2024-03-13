@@ -105,6 +105,7 @@ struct RecordStartView: View {
                             Spacer().frame(maxHeight: .symHeight * 0.03)
                         }
                         Button(recordViewModel.recordOrder == .action ? "기록하기" : "다음으로") {
+                            recordViewModel.dismissKeyboard()
                             recordViewModel.movePage(to: .next)
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
