@@ -17,7 +17,7 @@ struct MainButtonStyle: ButtonStyle {
         configuration.label
             .frame(maxWidth: .infinity)
             .padding(.vertical, 17)
-            .font(PretendardFont.h4Medium)
+            .font(.medium(18))
             .foregroundColor(isButtonEnabled ? Color.white : Color.symGray5)
             .background(isButtonEnabled ? Color.main : Color.symGray1)
             .cornerRadius(15)
@@ -30,7 +30,7 @@ struct SubPinkButtonStyle: ButtonStyle {
         configuration.label
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
-            .font(PretendardFont.h3Medium)
+            .font(.medium(20))
             .foregroundColor(Color.white)
             .background(Color.sub)
             .cornerRadius(15)
@@ -43,7 +43,7 @@ struct smallGrayButtonStyle: ButtonStyle {
         configuration.label
             .padding(.horizontal, 40)
             .padding(.vertical, 17)
-            .font(PretendardFont.h3Medium)
+            .font(.medium(20))
             .foregroundColor(Color.symGray5)
             .background(Color.symGray1)
             .cornerRadius(15)

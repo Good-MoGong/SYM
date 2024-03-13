@@ -40,7 +40,7 @@ struct RecordStartView: View {
                                 recordViewModel.writeLater()
                             } label: {
                                 Text("나중에 쓰기")
-                                    .font(PretendardFont.bodyMedium)
+                                    .font(.medium(14))
                                     .foregroundColor(.symGray5)
                             }
                             .buttonStyle(.plain)
@@ -49,7 +49,7 @@ struct RecordStartView: View {
                             Spacer()
                             
                             Text("감정일기")
-                                .font(PretendardFont.h4Medium)
+                                .font(.medium(17))
                             
                             Spacer()
                         }
@@ -67,7 +67,7 @@ struct RecordStartView: View {
                     
                     HStack {
                         Text(recordViewModel.recordOrder.symMent)
-                            .font(PretendardFont.h3Bold)
+                            .font(.bold(20))
                         
                         Button {
                             recordViewModel.showGuide()
@@ -82,7 +82,7 @@ struct RecordStartView: View {
                     if recordViewModel.recordOrder == .emotions {
                         HStack {
                             Text("감정단어는 최대 5개까지 선택할 수 있어요")
-                                .font(PretendardFont.smallMedium)
+                                .font(.medium(12))
                             
                             Spacer()
                         }
@@ -95,7 +95,7 @@ struct RecordStartView: View {
                             Image("SimiMain")
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.horizontal, 55)
+                                .padding(.horizontal, 80)
                             
                             TextEditor(text: $recordViewModel.currentText)
                                 .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
@@ -195,7 +195,7 @@ extension RecordStartView {
                             
                         } label: {
                             Text("\(emotion.rawValue)")
-                                .font(PretendardFont.h4Bold)
+                                .font(.bold(18))
                                 .foregroundColor(recordViewModel.selectedEmotion == emotion ? .main : .symGray4)
                         }
                         .foregroundColor(.primary)
@@ -243,7 +243,7 @@ struct EmotionButton: View {
             isSelected.toggle()
         } label: {
             Text(title)
-                .font(PretendardFont.h5Medium)
+                .font(.medium(16))
                 .foregroundColor(isSelected ? .white : .black)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .frame(height: 11)

@@ -24,7 +24,7 @@ struct CustomTextEditorStyle: ViewModifier {
                             .lineSpacing(10)
                             .padding(20)
                             .padding(.top, 2)
-                            .font(PretendardFont.bodyMedium)
+                            .font(.medium(14))
                             .foregroundColor(Color.symGray3)
                     }
                 }
@@ -33,10 +33,10 @@ struct CustomTextEditorStyle: ViewModifier {
                 .background(Color.symGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .scrollContentBackground(.hidden)
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .overlay(alignment: .bottomTrailing) {
                     Text("\(text.count) / 200")
-                        .font(PretendardFont.smallMedium)
+                        .font(.medium(12))
                         .foregroundColor(Color.symGray4)
                         .padding(.trailing, 15)
                         .padding(.bottom, 15)
@@ -56,7 +56,7 @@ struct CustomTextEditorStyle2: ViewModifier {
     func body(content: Content) -> some View {
         ZStack (alignment: .bottomTrailing) {
             content
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .lineSpacing(7)
                 .padding(.horizontal, 17)
                 .padding(.vertical, 23)
@@ -72,12 +72,11 @@ struct CustomTextEditorStyle2: ViewModifier {
             
             HStack {
                 Text("\(text.count)")
-                    .font(PretendardFont.smallMedium)
                     .foregroundColor(Color.sub)
                 Text("/ 200")
-                    .font(PretendardFont.smallMedium)
                     .foregroundColor(Color.symGray4)
             }
+            .font(.medium(12))
             .padding(.trailing, 10)
             .padding(.bottom, 10)
             .onChange(of: text) { newValue in
@@ -95,7 +94,7 @@ struct CustomTextEditorStyle3: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(PretendardFont.bodyMedium)
+            .font(.medium(14))
             .lineSpacing(7)
             .padding(.horizontal, 17)
             .padding(.vertical, 23)
