@@ -26,10 +26,8 @@ struct MypageView: View {
     var body: some View {
         NavigationStack {
             MyPageCardView()
-                .padding(.vertical, 20)
-            
+            Spacer().frame(height: 25)
             CustomerSupport()
-            
             Spacer()
         }
         .padding(.horizontal, 20)

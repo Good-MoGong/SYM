@@ -24,9 +24,10 @@ struct MyAccountInfo: View {
             VStack {
                 Spacer().frame(height: 30)
                 
-                Image("SimiSmile").resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal, 95)
+                Image("SimiFlower")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.horizontal, 100)
                 
                 VStack {
                     VStack(alignment: .leading) {
