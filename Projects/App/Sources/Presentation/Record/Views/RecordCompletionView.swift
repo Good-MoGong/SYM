@@ -41,13 +41,13 @@ struct RecordCompletionView: View {
                             Spacer()
                             
                             Text("감정일기")
-                                .font(PretendardFont.h4Medium)
+                                .font(.medium(17))
                             
                             Spacer()
                         }
                     }
                     Text("기록이 완료되었어요!")
-                        .font(PretendardFont.h3Bold)
+                        .font(.bold(20))
                     
                     MovingSimiView(image: "SimiSparkle")
                         .scaledToFit()

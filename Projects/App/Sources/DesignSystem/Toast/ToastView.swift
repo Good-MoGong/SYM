@@ -18,7 +18,7 @@ struct ToastView: View {
                 .foregroundColor(Color.red)
 
             Text(message)
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
         }
         .tint(Color.white)
         .foregroundColor(Color.white)

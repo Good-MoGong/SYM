@@ -52,7 +52,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     
                     self.rightView?()
                         .foregroundStyle(Color.symBlack)
-                        .font(PretendardFont.h3Medium)
+                        .font(.medium(20))
                 }
                 .frame(height: 44)
                 .frame(maxWidth: .infinity)
@@ -62,7 +62,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     Spacer()
                     
                     self.centerView?()
-                        .font(PretendardFont.h3Medium)
+                        .font(.medium(20))
                     
                     Spacer()
                 }

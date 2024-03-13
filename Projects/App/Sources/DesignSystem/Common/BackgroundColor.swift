@@ -47,7 +47,7 @@ struct BackgroundView: ViewModifier {
                 )
         case .sentenceField:
             content
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .lineSpacing(7)
                 .padding(.horizontal, 17)
                 .padding(.vertical, 23)
@@ -62,7 +62,7 @@ struct BackgroundView: ViewModifier {
         case .sentenceTitle:
             content
                 .frame(width: UIScreen.main.bounds.width * 0.3, height: 37)
-                .font(PretendardFont.h4Bold)
+                .font(.bold(18))
                 .background(Color.sub)
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 30))

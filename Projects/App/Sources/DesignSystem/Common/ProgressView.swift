@@ -36,7 +36,7 @@ struct ProgressView: View {
             HStack {
                 Spacer()
                 Text("시미 답장 기다리는중..")
-                    .font(PretendardFont.h3Bold)
+                    .font(.bold(20))
                     .foregroundStyle(Color.sub)
             }
             Spacer()

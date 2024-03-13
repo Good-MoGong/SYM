@@ -23,7 +23,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
             organizeView
                 .customNavigationBar(centerView: {
                             Text("\(organizeViewModel.recordDiary.date) 일기")
-                                .font(PretendardFont.h4Medium)
+                        .font(.medium(17))
                         }, rightView: {
                             EmptyView()
                         }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
@@ -31,7 +31,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
             organizeView
                 .customNavigationBar(centerView: {
                             Text("\(organizeViewModel.recordDiary.date) 일기")
-                                .font(PretendardFont.h4Medium)
+                        .font(.medium(17))
                         }, rightView: {
                             EmptyView()
                         }, isShowingBackButton: true, availablePopup: $availablePopup, popupToggle: $popupToggle)
@@ -47,7 +47,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 Spacer(minLength: 33)
                 
                 Text("나의 감정")
-                    .font(PretendardFont.h4Bold)
+                    .font(.bold(18))
                     .padding(.leading, 20)
                     .padding(.bottom, -10)
                 
@@ -66,7 +66,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                 
                 HStack {
                     Text("나의 기록")
-                        .font(PretendardFont.h4Bold)
+                        .font(.bold(18))
                     
                     Spacer()
                     
@@ -77,7 +77,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                     } label: {
                         if editToggle == false {
                             Text("편집")
-                                .font(PretendardFont.h4Bold)
+                                .font(.bold(18))
                                 .foregroundColor(Color.symGray3)
                         } else {
                             Text("")

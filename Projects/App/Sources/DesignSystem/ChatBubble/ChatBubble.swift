@@ -18,10 +18,10 @@ struct ChatBubble: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 0) {
                 Text(title)
-                    .font(PretendardFont.h5Bold)
+                    .font(.bold(16))
             }
             Text(animatedMessage)
-                .font(PretendardFont.bodyMedium)
+                .font(.medium(14))
                 .tracking(0.5)
                 .lineSpacing(5.0)
         }
