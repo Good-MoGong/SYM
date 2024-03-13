@@ -68,8 +68,7 @@ struct HeaderView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                // ~님 -> 나중에 닉네임으로 변경
+            VStack(alignment: .leading, spacing: 8) {
                 Text("\(nickname)님, 반가워요!")
                     .foregroundStyle(Color.symBlack)
                 Text("오늘의 기분은 어때요?")
