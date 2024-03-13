@@ -22,10 +22,10 @@ class ChatGPTManager: ObservableObject {
     
     func makeRequest(text: String) -> AnyPublisher<String?, Error>? {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENAI_KEY") as? String else { return nil }
-        let model = "gpt-3.5-turbo"
+        let model = "gpt-3.5-turbo-0125"
         let prompt = text
         let temperature = 0.9
-        let maxTokens = text.count + 150
+        let maxTokens = text.count + 200
         let topP = 1
         let frequencyPenalty = 0.0
         let presencePenalty = 0.6
