@@ -78,7 +78,7 @@ struct CalendarRecordView: View {
                         isShowingRecordView = true
                     } label: {
                         Text("감정 기록하기")
-                            .font(.bold(18))
+                            .font(.bold(16))
                             .padding(.vertical, -5)
                     }
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))

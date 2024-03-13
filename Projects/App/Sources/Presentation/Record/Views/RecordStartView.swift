@@ -92,10 +92,12 @@ struct RecordStartView: View {
                     switch recordViewModel.recordOrder {
                     case .event, .idea, .action:
                         ScrollView {
-                            Image("SimiMain")
+                            Image("SimiCurious")
                                 .resizable()
                                 .scaledToFit()
-                                .padding(.horizontal, 80)
+                                .padding(.horizontal, 100)
+                            
+                            Spacer().frame(height: 30)
                             
                             TextEditor(text: $recordViewModel.currentText)
                                 .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
@@ -112,9 +114,9 @@ struct RecordStartView: View {
                         Image("SimiWithJelly")
                             .resizable()
                             .scaledToFit()
-                            .padding(.horizontal, 80)
+                            .padding(.horizontal, 100)
                         
-                        Spacer().frame(maxHeight: .symHeight * 0.02)
+                        Spacer().frame(height: 30)
                             
                         emotionSelectView
                             .frame(maxHeight: .infinity)
@@ -158,7 +160,7 @@ struct RecordStartView: View {
         })
         .popup(isShowing: $recordViewModel.isShowingSavePopUp,
                type: .doubleButton(leftTitle: "다음에쓸래", rightTitle: "저장할래"),
-               title: "시미가 답장을 해줄수 없어요 😭",
+               title: "시미가 답장을 해줄수 없어요",
                desc: "기록은 저장 할 수 있지만 시미의 답장이 저장되지 않아요. 저장 하시겠어요?") {
             recordViewModel.isShowingSavePopUp.toggle()
         } cancelHandler: {

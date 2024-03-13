@@ -51,8 +51,7 @@ struct RecordCompletionView: View {
                     
                     MovingSimiView(image: "SimiSparkle")
                         .scaledToFit()
-                        .frame(width: .symWidth * 0.7, height: .symWidth * 0.7)
-                        .padding(.top, 20)
+                        .frame(width: .symWidth * 0.5, height: .symWidth * 0.5)
                     
                     ChatBubble(message: recordViewModel.recordDiary.gptAnswer, animatedMessage: $animatedMessage)
                         .frame(maxHeight: .infinity)
