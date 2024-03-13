@@ -57,6 +57,7 @@ struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
                             Text(feeling)
                                 .setTextBackground(.brightWithStroke)
                                 .padding(.horizontal, 2)
+                                .font(.medium(16))
                         }
                     }
                     .padding(.leading, 2)

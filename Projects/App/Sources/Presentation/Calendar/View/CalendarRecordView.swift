@@ -20,7 +20,7 @@ enum RecordViewText {
         case .afterRecord:
             "꾸준한 감정일기는 자신을 단단히\n만들어준답니다! 내일도 와주실거죠?"
         case .noRecord:
-            "감정을 기록하지 않은 날이에요\n오늘은 시미와 함께 감정을 기록해볼까요?"
+            "감정을 기록하지 않은 날이라\n볼 수 있는 일기가 존재하지 않아요"
         }
     }
 }
@@ -50,15 +50,14 @@ struct CalendarRecordView: View {
             VStack(alignment: .leading) {
                 Text(existRecord ? "감정 일기 작성 완료!" : (
                     isDateInToday ? "오늘의 기록" : (
-                        isDateInYesterday ? "어제의 기록" : "기록이 없어요!")))
+                        isDateInYesterday ? "어제의 기록" : "기록이 없는 날이에요!")))
                 .font(.bold(16))
-                .padding(.bottom, 8)
                 
                 Text(existRecord ? RecordViewText.afterRecord.stringValue : (isTodayOrYesterday(date: selectDate) ?
                                                                              RecordViewText.beforeRecord.stringValue : RecordViewText.noRecord.stringValue))
-                .lineSpacing(7)
-                .font(.medium(11))
-                .padding(.vertical, 7)
+                .lineSpacing(5)
+                .font(.medium(13))
+                .padding(.vertical, 5)
                 
                 if existRecord == true {
                     // 기록이 있을 경우
@@ -68,7 +67,7 @@ struct CalendarRecordView: View {
                         isShowingOrganizeView = true
                     } label: {
                         Text("기록 보러가기")
-                            .font(.bold(18))
+                            .font(.bold(16))
                             .padding(.vertical, -5)
                     }
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
@@ -90,7 +89,7 @@ struct CalendarRecordView: View {
             Image(existRecord ? "SimiSparkle" : "SimiMain")
                 .resizable()
                 .scaledToFit()
-                .frame(width: .symWidth * 0.3, height: .symWidth * 0.3)
+                .frame(width: .symWidth * 0.28, height: .symWidth * 0.28)
         
         }
         .frame(width: .symWidth * 0.8)

@@ -27,7 +27,7 @@ struct CalendarMainView: View {
                     HeaderView()
                         .padding(.horizontal, 20)
                         .padding(.top)
-                        .padding(.bottom, -40)
+                        .padding(.bottom, -30)
                     
                     ScrollView {
                         CalendarDetailView(currentDate: $currentDate,
@@ -68,7 +68,7 @@ struct HeaderView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text("\(nickname)님, 반가워요!")
                     .foregroundStyle(Color.symBlack)
                 Text("오늘의 기분은 어때요?")
