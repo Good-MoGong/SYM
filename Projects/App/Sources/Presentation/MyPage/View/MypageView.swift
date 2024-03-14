@@ -16,13 +16,6 @@ enum CustomerSupports: String {
 
 
 struct MypageView: View {
-    
-    var appVersion: String? {
-        guard let dictionary = Bundle.main.infoDictionary,
-              let version = dictionary["CFBundleShortVersionString"] as? String else { return nil }
-        return version
-    }
-    
     @StateObject var mypageViewModel = MypageViewModel()
     
     var body: some View {
@@ -54,7 +47,7 @@ struct MypageView: View {
             Text("고객지원")
                 .font(.bold(20))
             
-            CustomerSupportButton(buttonTitle: "리뷰 남기기", mypageViewModel: mypageViewModel) // 앱스토어로 이동
+            CustomerSupportButton(buttonTitle: "리뷰 남기기", mypageViewModel: mypageViewModel)
             SettingViewLinker(title: "서비스 이용 약관", url: CustomerSupports.termsCodition.rawValue)
             SettingViewLinker(title: "개인정보처리방침", url: CustomerSupports.privacyPolicy.rawValue)
             
