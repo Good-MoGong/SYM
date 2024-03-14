@@ -9,9 +9,9 @@
 import SwiftUI
 
 enum CustomerSupports: String {
-    case termsCodition = "https://docs.google.com/document/d/1IhIdE4TMgSdfjTtyTqx22sDhFQduehvqeKDbQPMaW7Y/edit?usp=sharing"
-    case privacyPolicy = "https://docs.google.com/document/d/1bumoRR722rVVHGAdlT8wDsnP0E_IKFeWttAe-u4t2w0/edit?usp=sharing"
-    case contactUs = "https://forms.gle/eojoJnDg2csmb9QS6"
+    case termsCodition = "https://ballistic-dollar-2f4.notion.site/0afe47f5003f470d8b20adff3cc2abc5" // 이용약관
+    case privacyPolicy = "https://ballistic-dollar-2f4.notion.site/820097f01cca4e929e189f925548071b" // 개인정보 처리방침
+    case contactUs = "https://forms.gle/eojoJnDg2csmb9QS6" // 문의하기
 }
 
 
