@@ -9,19 +9,14 @@
 import SwiftUI
 
 enum CustomerSupports: String {
-    case termsCodition = "https://docs.google.com/document/d/1IhIdE4TMgSdfjTtyTqx22sDhFQduehvqeKDbQPMaW7Y/edit?usp=sharing"
-    case privacyPolicy = "https://docs.google.com/document/d/1bumoRR722rVVHGAdlT8wDsnP0E_IKFeWttAe-u4t2w0/edit?usp=sharing"
-    case contactUs = "https://forms.gle/eojoJnDg2csmb9QS6"
+    case termsCodition = "https://ballistic-dollar-2f4.notion.site/0afe47f5003f470d8b20adff3cc2abc5" // 이용약관
+    case privacyPolicy = "https://ballistic-dollar-2f4.notion.site/820097f01cca4e929e189f925548071b" // 개인정보 처리방침
+    case contactUs = "https://forms.gle/eojoJnDg2csmb9QS6" // 문의하기
 }
 
 
 struct MypageView: View {
-    
-    var appVersion: String? {
-        guard let dictionary = Bundle.main.infoDictionary,
-              let version = dictionary["CFBundleShortVersionString"] as? String else { return nil }
-        return version
-    }
+    @StateObject var mypageViewModel = MypageViewModel()
     
     var body: some View {
         NavigationStack {
@@ -41,6 +36,9 @@ struct MypageView: View {
                     .foregroundStyle(.black)
             }
         }, isShowingBackButton: false)
+        .onAppear {
+            mypageViewModel.latestVersion()
+        }
     }
     
     @ViewBuilder
@@ -49,7 +47,7 @@ struct MypageView: View {
             Text("고객지원")
                 .font(.bold(20))
             
-            CustomerSupportButton(buttonTitle: "리뷰 남기기") // 앱스토어로 이동
+            CustomerSupportButton(buttonTitle: "리뷰 남기기", mypageViewModel: mypageViewModel)
             SettingViewLinker(title: "서비스 이용 약관", url: CustomerSupports.termsCodition.rawValue)
             SettingViewLinker(title: "개인정보처리방침", url: CustomerSupports.privacyPolicy.rawValue)
             
@@ -58,7 +56,7 @@ struct MypageView: View {
                     .font(.medium(17))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text(appVersion ?? "0.0")
+                Text("\(mypageViewModel.nowVersion ?? "1.0")")
                     .font(.bold(14))
             }
         }
@@ -101,9 +99,11 @@ struct SettingViewLinker: View {
 // 리뷰 남기기
 private struct CustomerSupportButton: View {
     let buttonTitle: String
+    @ObservedObject var mypageViewModel: MypageViewModel
+    
     var body: some View {
         Button {
-            print(buttonTitle)
+            mypageViewModel.moveWritingReviews()
         } label: {
             HStack {
                 Text("\(buttonTitle)")

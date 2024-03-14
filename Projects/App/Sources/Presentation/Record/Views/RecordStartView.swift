@@ -17,7 +17,7 @@ struct RecordStartView: View {
     @State private var isAppearAnimation: Bool = false
     @Binding var isShowingOrganizeView: Bool
     var selectDate: Date
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -100,7 +100,7 @@ struct RecordStartView: View {
                             Spacer().frame(height: 30)
                             
                             TextEditor(text: $recordViewModel.currentText)
-                                .customStyle(placeholder: TextEditorContent.writtingDiary.rawValue, userInput: $recordViewModel.currentText)
+                                .customStyle(placeholder: placeholderForRecordOrder(recordViewModel.recordOrder), userInput: $recordViewModel.currentText)
                                 .frame(height: 200)
                             Spacer().frame(maxHeight: .symHeight * 0.03)
                         }
@@ -110,7 +110,7 @@ struct RecordStartView: View {
                         }
                         .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
                         .disabled(recordViewModel.currentText.isEmpty)
-                    
+                        
                     case .emotions:
                         Image("SimiWithJelly")
                             .resizable()
@@ -118,10 +118,10 @@ struct RecordStartView: View {
                             .padding(.horizontal, 100)
                         
                         Spacer().frame(height: 30)
-                            
+                        
                         emotionSelectView
                             .frame(maxHeight: .infinity)
-                    
+                        
                         Spacer().frame(maxHeight: .symHeight * 0.03)
                         Button("다음으로") {
                             recordViewModel.dismissKeyboard()
@@ -174,6 +174,19 @@ struct RecordStartView: View {
                 isAppearAnimation = true
                 
             }
+        }
+    }
+    
+    func placeholderForRecordOrder(_ order: RecordOrder) -> String {
+        switch order {
+        case .event:
+            return TextEditorContent.writtingDiary.rawValue
+        case .idea:
+            return TextEditorContent.writtingThink.rawValue
+        case .action:
+            return TextEditorContent.writtingAction.rawValue
+        case .emotions:
+            return ""
         }
     }
 }
