@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MyPageCardView: View {
     @AppStorage("nickname") private var nickname = ""
-    @State private var count: Int = CoreDataManger.shared.getDiaryCount()
+    @State private var count: Int = 0
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 12) {
@@ -61,6 +61,9 @@ struct MyPageCardView: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.bright)
         )
+        .onAppear {
+            count = CoreDataManger.shared.getDiaryCount()
+        }
     }
 }
 
