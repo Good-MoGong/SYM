@@ -27,19 +27,7 @@ struct SettingView: View {
             VStack(spacing: 26) {
                 Spacer().frame(height: 16)
                 
-//                Toggle(isOn: $settingViewModel.notificationToggle, label: {
-//                    Text("푸시 알림 설정")
-//                })
-//                .tint(Color.main)
-
-                                
                 VStack(spacing: 30) {
-//                    Text("테스트")
-//                        .onTapGesture {
-//                            print("🔑 UserDefaultsKeys.loginProvider: \(UserDefaultsKeys.loginProvider)")
-//                            print("🔑 UserDefaultsKeys.loginProvider type: \(type(of: UserDefaultsKeys.loginProvider))")
-//                            print("(userid) \(authViewModel.userId)")
-//                        }
                     Button {
                         settingViewModel.isShowingLogoutPopup.toggle()
                     } label: {
