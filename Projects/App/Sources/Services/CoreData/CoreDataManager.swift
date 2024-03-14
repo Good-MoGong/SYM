@@ -164,8 +164,8 @@ final class CoreDataManger {
             print("📝 기록된 감정일기 수 : \(count)")
             return count
         } catch {
-            print(error)
-            return -1
+            print(error.localizedDescription)
+            return 0
         }
     }
 }
