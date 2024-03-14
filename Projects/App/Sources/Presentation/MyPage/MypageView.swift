@@ -23,6 +23,8 @@ struct MypageView: View {
         return version
     }
     
+    @StateObject var mypageViewModel = MypageViewModel()
+    
     var body: some View {
         NavigationStack {
             MyPageCardView()
@@ -41,6 +43,9 @@ struct MypageView: View {
                     .foregroundStyle(.black)
             }
         }, isShowingBackButton: false)
+        .onAppear {
+            mypageViewModel.latestVersion()
+        }
     }
     
     @ViewBuilder
@@ -49,7 +54,7 @@ struct MypageView: View {
             Text("고객지원")
                 .font(.bold(20))
             
-            CustomerSupportButton(buttonTitle: "리뷰 남기기") // 앱스토어로 이동
+            CustomerSupportButton(buttonTitle: "리뷰 남기기", mypageViewModel: mypageViewModel) // 앱스토어로 이동
             SettingViewLinker(title: "서비스 이용 약관", url: CustomerSupports.termsCodition.rawValue)
             SettingViewLinker(title: "개인정보처리방침", url: CustomerSupports.privacyPolicy.rawValue)
             
@@ -58,7 +63,7 @@ struct MypageView: View {
                     .font(.medium(17))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text(appVersion ?? "0.0")
+                Text("\(mypageViewModel.nowVersion ?? "1.0")")
                     .font(.bold(14))
             }
         }
@@ -101,9 +106,11 @@ struct SettingViewLinker: View {
 // 리뷰 남기기
 private struct CustomerSupportButton: View {
     let buttonTitle: String
+    @ObservedObject var mypageViewModel: MypageViewModel
+    
     var body: some View {
         Button {
-            print(buttonTitle)
+            mypageViewModel.moveWritingReviews()
         } label: {
             HStack {
                 Text("\(buttonTitle)")
