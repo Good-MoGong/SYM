@@ -9,8 +9,8 @@
 import SwiftUI
 
 enum Qualification: String {
-    case personal = "https://docs.google.com/document/d/1bumoRR722rVVHGAdlT8wDsnP0E_IKFeWttAe-u4t2w0/edit?usp=sharing"
-    case termsCodition = "https://docs.google.com/document/d/1IhIdE4TMgSdfjTtyTqx22sDhFQduehvqeKDbQPMaW7Y/edit?usp=sharing"
+    case personal = "https://ballistic-dollar-2f4.notion.site/820097f01cca4e929e189f925548071b" // 개인정보 처리방침
+    case termsCodition =  "https://ballistic-dollar-2f4.notion.site/0afe47f5003f470d8b20adff3cc2abc5" // 이용약관
 }
 
 class LoginQualificationViewModel: ObservableObject {
