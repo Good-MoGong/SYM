@@ -1,21 +1,23 @@
 # SYM
 Speak Your Mind, 모공 프로젝트
+[SYM(심)](https://apps.apple.com/kr/app/sym-%EC%8B%AC-speak-your-mind/id6479210995)
 
 <br>
 
 ## 프로젝트 소개
->SYM은 현대 생활의 복잡함에서 벗어나 여러분이 자신을 돌아보고 감정, 생각을 명확하게 기록할 수 있도록 도와주는 감정일기 앱입니다!
->감정일기를 통해 나의 감정을 정확히 인식하여 자존감을 향상시키고, 더 나아가 사회성을 높일 수 있습니다~!
->또 캐릭터를 통해 사용자에게 공감과 위로를 얻을 수 있습니다. SYM을 통해 기록하는 즐거움을 느껴보세요!
+> Speak Your Mind, SYM (심) 당신의 마음을 말해보세요.
+> [사건-생각-감정-행동] 4단계의 일기 작성 가이드를 캐릭터와 함께 제공하여 감정 일기를 쉽게 적을 수 있도록 돕는 서비스입니다.
+> 감정일기를 통해 나의 감정을 정확히 인식하여 자존감을 향상시키고, 더 나아가 사회성을 높일 수 있습니다.
+> 캐릭터를 통해 사용자에게 공감과 위로를 얻을 수 있습니다. SYM을 통해 기록하는 즐거움을 느껴보세요.
 
 <br>
 
 ### 👀 주요기능
-- **`로그인`** : 카카오,애플 로그인으로 간편하게 로그인 할 수 있습니다.
+- **`로그인`** : 카카오,애플의 소셜로그인을 제공합니다.
 - **`메인`** : 캘린더를 통해 쉽게 기록 일정을 확인할 수 있습니다.
 - **`기록하기`** : 사건,생각,감정,행동을 기록하고 캐릭터를 통해 공감과 위로를 얻을 수 있습니다.
 - **`기록보기`** : 선택한 날짜의 내가 기록한 감정기록을 볼 수 있고 기록 수정을 할 수 있습니다.
-- **`마이페이지`** : 내가 쓴 기록갯수를 볼 수있고 닉네임 변경, 로그아웃, 회원탈퇴를 할 수 있습니다.
+- **`마이페이지`** : 내가 쓴 감정일기 갯수와 닉네임 변경, 로그아웃, 회원탈퇴를 할 수 있습니다.
 
 <br>
 
@@ -37,7 +39,7 @@ Speak Your Mind, 모공 프로젝트
 - 디자인 툴 : Figma
 - 협업 도구 : Github, Team Notion
 - 활용한 기술
-    - Xcode, Tuist, SwiftLint
+    - Xcode, Tuist(3.40.0)
     - MVVM, POP, Clean Architecture
     - Combine, CoreData, URLSession
     - FireStore
@@ -123,7 +125,7 @@ gitGraph
 | <img src="https://blogpfthumb-phinf.pstatic.net/MjAyMjEwMjRfMjI4/MDAxNjY2NjIzNDc4MzU1.Mx0dRfEerHGDlZOkkCDHk140SFYvEVv4HKdqLnNarxsg.ZiG-W8ZcRyJcQnGCrVBa6SxW2TQRQXcam997i5cm5Z0g.PNG.hanjisu0523/profileImage.png" width="100" height="100"> |
 
 ### 🧑🏻‍💻 Developer
-| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> | [조민근]<br/> [@syss220211](https://github.com/syss220211)<br/>  | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/>  | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> | [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/>  |
+| [박서연]<br/> [@syss220211](https://github.com/syss220211)<br/> | [조민근]<br/> [@Mingeun Cho](https://github.com/LutherCho)<br/>  | [안지영]<br/> [@yyomzzi](https://github.com/yyomzzi)<br/>  | [전민석]<br/> [@a-jb97](https://github.com/a-jb97)<br/> | [변상필]<br/> [@OzDevelop](https://github.com/OzDevelop)<br/>  |
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/127810279?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/133854561?v=4" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/66257281?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/83643938?v=4" width="100" height="100"> |
 
