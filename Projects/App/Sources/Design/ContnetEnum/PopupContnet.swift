@@ -1,8 +1,8 @@
 //
-//  PopupContent.swift
+//  PopupContnet.swift
 //  SYM
 //
-//  Created by 박서연 on 2024/03/02.
+//  Created by 박서연 on 2024/03/22.
 //  Copyright © 2024 Mogong. All rights reserved.
 //
 

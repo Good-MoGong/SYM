@@ -30,18 +30,3 @@ struct MovingSimiView: View {
 #Preview {
     MovingSimiView(image: "SimiLogin")
 }
-
-struct SimiModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-//            .resizable()
-//            .scaledToFit()
-//            .padding(.horizontal, 50)
-    }
-}
-
-extension View {
-    func simiImageModifier() -> some View {
-        modifier(SimiModifier())
-    }
-}
