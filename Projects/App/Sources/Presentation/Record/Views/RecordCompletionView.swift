@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct RecordCompletionView: View {
     
@@ -32,17 +33,14 @@ struct RecordCompletionView: View {
                             .buttonStyle(.plain)
                             
                             Spacer()
-                            
                         }
                         .frame(height: 44)
                         .frame(maxWidth: .infinity)
                         
                         HStack {
                             Spacer()
-                            
                             Text("감정일기")
                                 .font(.medium(17))
-                            
                             Spacer()
                         }
                     }

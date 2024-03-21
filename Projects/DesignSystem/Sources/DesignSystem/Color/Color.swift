@@ -28,4 +28,6 @@ extension Color {
     // error color
     static let buddhism_FF5959 = Color("Buddhism")
     static let possibility_4CD964 = Color("Possibility")
+    
+    static let test = Color("Test")
 }

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct MyAccountInfo: View {
     @State private var nickname: String = UserDefaultsKeys.nickname

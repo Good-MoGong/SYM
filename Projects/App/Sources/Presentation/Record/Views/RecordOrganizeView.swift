@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct RecordOrganizeView<viewModel: RecordConditionFetch>: View {
     @Environment(\.dismiss) var dismiss

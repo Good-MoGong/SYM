@@ -10,6 +10,7 @@ import SwiftUI
 import AuthenticationServices
 import Combine
 import FirebaseAuth
+import DesignSystem
 
 enum NickNameRules: String, CaseIterable {
     case allow = "사용가능한 닉네임이에요"
