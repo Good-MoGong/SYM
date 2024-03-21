@@ -98,7 +98,6 @@ class AuthenticationViewModel: ObservableObject {
                 container.services.authService.handleSignInWithAppleCompletion(authorization, none: nonce)
                     .sink { [weak self] completion in
                         if case .failure = completion {
-                            // self?.progressImage = false
                             self?.signupProgressImage = false
                         }
                     } receiveValue: { [weak self] user in
@@ -119,7 +118,6 @@ class AuthenticationViewModel: ObservableObject {
                                         self.container.services.authService.getUserLoginEmail()
                                         self.container.services.authService.getUserLoginProvider()
                                         DispatchQueue.main.async {
-                                            // self.progressImage = false
                                             self.signupProgressImage = false
                                             self.authenticationState = .authenticated
                                         }
@@ -130,7 +128,6 @@ class AuthenticationViewModel: ObservableObject {
                                     self?.container.services.authService.getUserLoginEmail()
                                     self?.container.services.authService.getUserLoginProvider()
                                     DispatchQueue.main.async {
-                                        // self?.progressImage = false
                                         self?.signupProgressImage = false
                                         self?.authenticationState = .unauthenticated
                                     }
@@ -150,7 +147,6 @@ class AuthenticationViewModel: ObservableObject {
             container.services.authService.checkKakaoToken()
                 .sink { [weak self] completion in
                     if case .failure = completion {
-                        // self?.progressImage = false
                         self?.signupProgressImage = false
                     }
                 } receiveValue: { [weak self] result in
@@ -170,7 +166,6 @@ class AuthenticationViewModel: ObservableObject {
                                     self.container.services.authService.getUserLoginEmail()
                                     self.container.services.authService.getUserLoginProvider()
                                     DispatchQueue.main.async {
-                                        // self.progressImage = false
                                         self.signupProgressImage = false
                                         self.authenticationState = .authenticated
                                     }
@@ -181,7 +176,6 @@ class AuthenticationViewModel: ObservableObject {
                                 self?.container.services.authService.getUserLoginEmail()
                                 self?.container.services.authService.getUserLoginProvider()
                                 DispatchQueue.main.async {
-                                    // self?.progressImage = false
                                     self?.signupProgressImage = false
                                     self?.authenticationState = .unauthenticated
                                 }
@@ -207,14 +201,12 @@ class AuthenticationViewModel: ObservableObject {
             container.services.authService.logout()
                 .sink { [weak self] completion in
                     if case .failure = completion {
-                        // self?.progressImage = false
                         self?.signupProgressImage = false
                     }
                 } receiveValue: { [weak self] _ in
                     self?.userId = nil
                     self?.container.services.authService.removeAllUserDefaults()
                     DispatchQueue.main.async {
-                        // self?.progressImage = false
                         self?.authenticationState = .initial
                         self?.signupProgressImage = false
                     }
@@ -224,7 +216,6 @@ class AuthenticationViewModel: ObservableObject {
             
         // MARK: - 카톡 탈퇴
         case .unlinkKakao:
-            // self.progressImage = true
             signupProgressImage = true
             
             firebaseService.deleteFriebaseAuth()
@@ -233,14 +224,12 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure = completion {
-//                        self?.progressImage = false
                         self?.signupProgressImage = false
                     }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
                     DispatchQueue.main.async {
-//                        self?.progressImage = false
                         self?.authenticationState = .initial
                         self?.signupProgressImage = false
                     }
@@ -249,7 +238,6 @@ class AuthenticationViewModel: ObservableObject {
             
         // MARK: - 애플 탈퇴
         case .unlinkApple:
-//            self.progressImage = true
             signupProgressImage = true
             
             firebaseService.deleteFriebaseAuth()
@@ -258,14 +246,12 @@ class AuthenticationViewModel: ObservableObject {
                 }
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure = completion {
-//                        self?.progressImage = false
                         self?.signupProgressImage = false
                     }
                 }, receiveValue: { [weak self] _ in
                     self?.container.services.authService.removeAllUserDefaults()
                     self?.dataFetchManager.deleteCoreData()
                     DispatchQueue.main.async {
-//                        self?.progressImage = false
                         self?.signupProgressImage = false
                         self?.authenticationState = .initial
                     }
