@@ -12,7 +12,10 @@ struct ColorDemo: View {
     var body: some View {
         Text("gray 1")
             .padding()
-            .background(Color.test)
+            .background(Color.gray6_42454A)
+        Text("sub_FFA9A9")
+            .padding()
+            .background(Color.sub_FFA9A9)
     }
 }
 

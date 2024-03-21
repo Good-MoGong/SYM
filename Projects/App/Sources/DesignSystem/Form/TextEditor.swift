@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 enum TextEditorContent: String, CaseIterable {
     // 사건 - 생각 - 행동
@@ -14,120 +15,120 @@ enum TextEditorContent: String, CaseIterable {
     case writtingThink = "예) 나는 좋은 마음에 행동한 것이었는데, 그 동안 친구는 불편하다고 느끼고 있었다고 말해서 너무 당황스러웠고 섭섭하고 화도 났다."
     case writtingAction = "예) 결국 친구한테 따지듯이 말을 하게 되었고 서로 기분이 상해서 싸우다가 홧김에 자리를 박차고 나와 집으로 돌아왔다. 지금와서 돌아보니 내 잘못이었나 싶지만, 어떻게 해야 잘 해결할 수 있을지 모르겠다."
 }
-
-struct CustomTextEditorStyle: ViewModifier {
-    
-    let placeholder: String
-    @Binding var text: String
-    
-    func body(content: Content) -> some View {
-            content
-                .padding(15)
-                .background(alignment: .topLeading) {
-                    if text.isEmpty {
-                        Text(placeholder)
-                            .lineSpacing(10)
-                            .padding(20)
-                            .padding(.top, 2)
-                            .font(.medium(14))
-                            .foregroundColor(Color.symGray3)
-                    }
-                }
-                .textInputAutocapitalization(.none)
-                .autocorrectionDisabled()
-                .background(Color.symGray1)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .scrollContentBackground(.hidden)
-                .font(.medium(14))
-                .overlay(alignment: .bottomTrailing) {
-                    Text("\(text.count) / 200")
-                        .font(.medium(12))
-                        .foregroundColor(Color.symGray4)
-                        .padding(.trailing, 15)
-                        .padding(.bottom, 15)
-                        .onChange(of: text) { newValue in
-                            if newValue.count > 200 {
-                                text = String(newValue.prefix(200))
-                            }
-                        }
-                }
-    }
-}
-
-struct CustomTextEditorStyle2: ViewModifier {
-    
-    @Binding var text: String
-    
-    func body(content: Content) -> some View {
-        ZStack (alignment: .bottomTrailing) {
-            content
-                .font(.medium(14))
-                .lineSpacing(7)
-                .padding(.horizontal, 17)
-                .padding(.vertical, 23)
-                .frame(maxWidth: .infinity, minHeight: 214)
-                .background(Color.bright)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .scrollContentBackground(.hidden)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.sub, lineWidth: 1)
-                        .frame(maxWidth: .infinity, minHeight: 214)
-                )
-            
-            HStack {
-                Text("\(text.count)")
-                    .foregroundColor(Color.sub)
-                Text("/ 200")
-                    .foregroundColor(Color.symGray4)
-            }
-            .font(.medium(12))
-            .padding(.trailing, 10)
-            .padding(.bottom, 10)
-            .onChange(of: text) { newValue in
-                if newValue.count > 200 {
-                    text = String(newValue.prefix(200))
-                }
-            }
-        }
-    }
-}
-
-struct CustomTextEditorStyle3: ViewModifier {
-    
-    @Binding var text: String
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.medium(14))
-            .lineSpacing(7)
-            .padding(.horizontal, 17)
-            .padding(.vertical, 23)
-            .frame(maxWidth: .infinity, minHeight: 214)
-            .background(Color.bright)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .scrollContentBackground(.hidden)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.sub, lineWidth: 1)
-                    .frame(maxWidth: .infinity, minHeight: 214)
-            )
-    }
-}
-
-extension TextEditor {
-    func customStyle(placeholder: String, userInput: Binding<String>) -> some View {
-        self.modifier(CustomTextEditorStyle(placeholder: placeholder, text: userInput))
-    }
-    
-    func customStyle2(userInput: Binding<String>) -> some View {
-        self.modifier(CustomTextEditorStyle2(text: userInput))
-    }
-    
-    func customStyle3(userInput: Binding<String>) -> some View {
-        self.modifier(CustomTextEditorStyle3(text: userInput))
-    }
-}
+//
+//struct CustomTextEditorStyle: ViewModifier {
+//    
+//    let placeholder: String
+//    @Binding var text: String
+//    
+//    func body(content: Content) -> some View {
+//            content
+//                .padding(15)
+//                .background(alignment: .topLeading) {
+//                    if text.isEmpty {
+//                        Text(placeholder)
+//                            .lineSpacing(10)
+//                            .padding(20)
+//                            .padding(.top, 2)
+//                            .font(.medium(14))
+//                            .foregroundColor(Color.symGray3)
+//                    }
+//                }
+//                .textInputAutocapitalization(.none)
+//                .autocorrectionDisabled()
+//                .background(Color.symGray1)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                .scrollContentBackground(.hidden)
+//                .font(.medium(14))
+//                .overlay(alignment: .bottomTrailing) {
+//                    Text("\(text.count) / 200")
+//                        .font(.medium(12))
+//                        .foregroundColor(Color.symGray4)
+//                        .padding(.trailing, 15)
+//                        .padding(.bottom, 15)
+//                        .onChange(of: text) { newValue in
+//                            if newValue.count > 200 {
+//                                text = String(newValue.prefix(200))
+//                            }
+//                        }
+//                }
+//    }
+//}
+//
+//struct CustomTextEditorStyle2: ViewModifier {
+//    
+//    @Binding var text: String
+//    
+//    func body(content: Content) -> some View {
+//        ZStack (alignment: .bottomTrailing) {
+//            content
+//                .font(.medium(14))
+//                .lineSpacing(7)
+//                .padding(.horizontal, 17)
+//                .padding(.vertical, 23)
+//                .frame(maxWidth: .infinity, minHeight: 214)
+//                .background(Color.bright)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                .scrollContentBackground(.hidden)
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 20)
+//                        .stroke(Color.sub, lineWidth: 1)
+//                        .frame(maxWidth: .infinity, minHeight: 214)
+//                )
+//            
+//            HStack {
+//                Text("\(text.count)")
+//                    .foregroundColor(Color.sub)
+//                Text("/ 200")
+//                    .foregroundColor(Color.symGray4)
+//            }
+//            .font(.medium(12))
+//            .padding(.trailing, 10)
+//            .padding(.bottom, 10)
+//            .onChange(of: text) { newValue in
+//                if newValue.count > 200 {
+//                    text = String(newValue.prefix(200))
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//struct CustomTextEditorStyle3: ViewModifier {
+//    
+//    @Binding var text: String
+//    
+//    func body(content: Content) -> some View {
+//        content
+//            .font(.medium(14))
+//            .lineSpacing(7)
+//            .padding(.horizontal, 17)
+//            .padding(.vertical, 23)
+//            .frame(maxWidth: .infinity, minHeight: 214)
+//            .background(Color.bright)
+//            .clipShape(RoundedRectangle(cornerRadius: 20))
+//            .scrollContentBackground(.hidden)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 20)
+//                    .stroke(Color.sub, lineWidth: 1)
+//                    .frame(maxWidth: .infinity, minHeight: 214)
+//            )
+//    }
+//}
+//
+//extension TextEditor {
+//    func customStyle(placeholder: String, userInput: Binding<String>) -> some View {
+//        self.modifier(CustomTextEditorStyle(placeholder: placeholder, text: userInput))
+//    }
+//    
+//    func customStyle2(userInput: Binding<String>) -> some View {
+//        self.modifier(CustomTextEditorStyle2(text: userInput))
+//    }
+//    
+//    func customStyle3(userInput: Binding<String>) -> some View {
+//        self.modifier(CustomTextEditorStyle3(text: userInput))
+//    }
+//}
 
 struct FormDemo: View {
     

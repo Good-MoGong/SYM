@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CommonDemo: View {
     @State private var nickname = "김모공"

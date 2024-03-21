@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CalendarMainView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
