@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// App Color DesignSystem
-
 extension Color {
     /// Main / Gradient
     static let main = Color.init(hex: "FF7E7E")

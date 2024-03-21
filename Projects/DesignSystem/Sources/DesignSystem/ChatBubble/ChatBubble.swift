@@ -9,13 +9,18 @@
 import Foundation
 import SwiftUI
 
-struct ChatBubble: View {
+public struct ChatBubble: View {
     let message: String
     var delay: CGFloat = 50
     var title: String = "시미의 따뜻한 공감 한마디"
     @Binding var animatedMessage: String
     
-    var body: some View {
+    public init(message: String, animatedMessage: Binding<String>) {
+        self.message = message
+        self._animatedMessage = animatedMessage
+    }
+    
+    public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 0) {
                 Text(title)
@@ -37,7 +42,7 @@ struct ChatBubble: View {
             
     }
     
-    private func animate() async {
+    public  func animate() async {
         for char in message {
             animatedMessage.append(char)
             do {

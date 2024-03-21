@@ -1,14 +1,14 @@
 //
-//  CustomNavigationBar.swift
-//  SYM
+//  File.swift
+//  DesignSystem
 //
-//  Created by 변상필 on 1/12/24.
+//  Created by 박서연 on 2024/03/22.
 //  Copyright © 2024 Mogong. All rights reserved.
 //
 
 import SwiftUI
 
-struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
+public struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     @Environment(\.dismiss) var dismiss
     @GestureState private var dragOffset = CGSize.zero
     /// Popup 메시지 등장 유무
@@ -23,7 +23,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     /// leading 백 버튼 유무, 기본 값 true
     let isShowingBackButton: Bool?
     
-    init(centerView: (() -> C)? = nil, rightView: (() -> R)? = nil, isShowingBackButton: Bool? = true, availablePopup: Binding<Bool> = .constant(false), popupToggle: Binding<Bool> = .constant(false)) {
+    public init(centerView: (() -> C)? = nil, rightView: (() -> R)? = nil, isShowingBackButton: Bool? = true, availablePopup: Binding<Bool> = .constant(false), popupToggle: Binding<Bool> = .constant(false)) {
         self.centerView = centerView
         self.rightView = rightView
         self.isShowingBackButton = isShowingBackButton
@@ -31,7 +31,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
         self._popupToggle = popupToggle
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         VStack {
             ZStack {
                 HStack {
@@ -51,7 +51,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
                     Spacer()
                     
                     self.rightView?()
-                        .foregroundStyle(Color.symBlack)
+                        .foregroundStyle(Color.black2D2D2D)
                         .font(.medium(20))
                 }
                 .frame(height: 44)
@@ -87,7 +87,7 @@ struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: View {
     }
 }
 
-extension View {
+public extension View {
     func customNavigationBar<C, R>(
         centerView: @escaping (() -> C),
         rightView: @escaping (() -> R),
@@ -132,15 +132,3 @@ extension View {
         )
     }
 }
-
-// 추가 작업 중
-//extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate {
-//    override open func viewDidLoad() {
-//        super.viewDidLoad()
-//        interactivePopGestureRecognizer?.delegate = self
-//    }
-//
-//    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return viewControllers.count > 1
-//    }
-//}
