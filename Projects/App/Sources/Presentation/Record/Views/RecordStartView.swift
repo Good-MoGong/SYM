@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+import DesignSystem
 
 struct RecordStartView: View {
     
