@@ -124,14 +124,14 @@ struct CalendarView: View {
                     let selectMonth = calender.component(.month, from: currentDate)
                     let presentMonth = calender.component(.month, from: Date())
                     
-                    if gesture.translation.width < -80 {
+                    if gesture.translation.width < -20 {
                         if selectMonth == presentMonth { // Calender의 Month와 현재 Month가 같으면 다음 Month로 넘어가지 않음
                             
                         } else {
                             currentMonth += 1
                             selectedMonth += 1
                         }
-                    } else if gesture.translation.width > 80 {
+                    } else if gesture.translation.width > 20 {
                         if selectyear == 2024 && selectMonth == 1 { // Calender의 Year가 2024, Month가 1이면 이전 Month로 넘어가지 않음
                         } else {
                             currentMonth -= 1
