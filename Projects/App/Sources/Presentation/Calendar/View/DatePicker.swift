@@ -12,12 +12,7 @@ import DesignSystem
 
 struct DatePicker: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
-    
-//    @Binding var selectedYear: Int
-//    @Binding var selectedMonth: Int
-//    @Binding var currentMonth: Int
     @Binding var isShowingDateChangeSheet: Bool
-//    @Binding var currentDate: Date
     
     var body: some View {
         VStack {

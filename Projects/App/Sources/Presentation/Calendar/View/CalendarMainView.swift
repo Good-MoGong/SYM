@@ -10,12 +10,7 @@ import SwiftUI
 import DesignSystem
 
 struct CalendarMainView: View {
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
-//    @State private var currentDate: Date = Date()
-//    @State private var selectDate: Date = Date()
-//    @State private var isShowingOrganizeView: Bool = false
-//    @State private var isShowingRecordView: Bool = false
-    
+    @EnvironmentObject var authViewModel: AuthenticationViewModel    
     @StateObject private var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
     
     var body: some View {

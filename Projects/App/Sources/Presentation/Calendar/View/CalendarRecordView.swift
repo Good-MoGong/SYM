@@ -27,12 +27,7 @@ enum RecordViewText {
 }
 
 struct CalendarRecordView: View {
-    
     @ObservedObject var calendarViewModel: CalendarViewModel
-    
-//    @Binding var isShowingOrganizeView: Bool
-//    @Binding var isShowingRecordView: Bool
-//    @Binding var selectDate: Date
     
     /// 기록 전, 후를 bool로 구분
     var existRecord: Bool
