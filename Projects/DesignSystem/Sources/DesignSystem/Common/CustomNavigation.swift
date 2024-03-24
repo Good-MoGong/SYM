@@ -45,6 +45,7 @@ public struct CustomNavigationBarModifier<C, R>: ViewModifier where C: View, R: 
                             }
                         } label: {
                             Image(systemName: "chevron.left")
+                                .padding(10)
                         }
                         .buttonStyle(.plain)
                     }
