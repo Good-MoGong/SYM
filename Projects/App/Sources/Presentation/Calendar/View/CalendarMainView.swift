@@ -11,10 +11,10 @@ import DesignSystem
 
 struct CalendarMainView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
-    @State private var currentDate: Date = Date()
-    @State private var selectDate: Date = Date()
-    @State private var isShowingOrganizeView: Bool = false
-    @State private var isShowingRecordView: Bool = false
+//    @State private var currentDate: Date = Date()
+//    @State private var selectDate: Date = Date()
+//    @State private var isShowingOrganizeView: Bool = false
+//    @State private var isShowingRecordView: Bool = false
     
     @StateObject private var calendarViewModel = CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
     
@@ -30,26 +30,20 @@ struct CalendarMainView: View {
                         .padding(.top)
                         .padding(.bottom, -30)
                     
-                        CalendarDetailView(currentDate: $currentDate,
-                                           selectDate: $selectDate,
-                                           calendarViewModel: calendarViewModel)
+                    CalendarDetailView(calendarViewModel: calendarViewModel)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
                     
-                    ScrollView {
-                        CalendarRecordView(calendarViewModel: calendarViewModel,
-                                           isShowingOrganizeView: $isShowingOrganizeView,
-                                           isShowingRecordView: $isShowingRecordView,
-                                           selectDate: $selectDate,
-                                           existRecord: calendarViewModel.diaryExists(on: selectDate.formatToString()))
+                    ScrollView { // CalendarRecordView만 ScrollView로 변경 (캘린더 부분 드래그할 때 불편해서)
+                        CalendarRecordView(calendarViewModel: calendarViewModel, existRecord: calendarViewModel.diaryExists(on: calendarViewModel.selectDate.formatToString()))
                         .padding(.horizontal, 20)
                     }
                 }
-                .navigationDestination(isPresented: $isShowingRecordView) {
-                    RecordStartView(isShowingOrganizeView: $isShowingRecordView, selectDate: selectDate)
+                .navigationDestination(isPresented: $calendarViewModel.isShowingRecordView) {
+                    RecordStartView(isShowingOrganizeView: $calendarViewModel.isShowingRecordView, selectDate: calendarViewModel.selectDate)
                 }
-                .navigationDestination(isPresented: $isShowingOrganizeView) {
-                    RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $isShowingOrganizeView)
+                .navigationDestination(isPresented: $calendarViewModel.isShowingOrganizeView) {
+                    RecordOrganizeView(organizeViewModel: calendarViewModel, isShowingOrganizeView: $calendarViewModel.isShowingOrganizeView)
                 }
                 .padding(.bottom, 20)
                 .scrollIndicators(.hidden)
@@ -57,7 +51,7 @@ struct CalendarMainView: View {
                     calendarViewModel.observeCoreData()
                     calendarViewModel.userID = authViewModel.userId ?? ""
                 }
-                .animation(.easeIn, value: currentDate)
+                .animation(.easeIn, value: calendarViewModel.currentDate)
                 .toastView(toast: $calendarViewModel.impossibleMessage)
             }
         }

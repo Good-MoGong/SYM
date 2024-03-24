@@ -11,22 +11,24 @@ import UIKit
 import DesignSystem
 
 struct DatePicker: View {
-    @Binding var selectedYear: Int
-    @Binding var selectedMonth: Int
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    
+//    @Binding var selectedYear: Int
+//    @Binding var selectedMonth: Int
+//    @Binding var currentMonth: Int
     @Binding var isShowingDateChangeSheet: Bool
-    @Binding var currentMonth: Int
-    @Binding var currentDate: Date
+//    @Binding var currentDate: Date
     
     var body: some View {
         VStack {
-            CustomDatePicker(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
+            CustomDatePicker(selectedYear: $calendarViewModel.selectedYear, selectedMonth: $calendarViewModel.selectedMonth)
 
             Button {
-                let selectedDate = createNewDate(year: selectedYear, month: selectedMonth)
+                let selectedDate = createNewDate(year: calendarViewModel.selectedYear, month: calendarViewModel.selectedMonth)
                 let difference = Calendar.current.dateComponents([.month], from: Calendar.current.startOfDay(for: Date()), to: selectedDate).month ?? 0
                 
-                currentMonth = difference
-                currentDate = selectedDate
+                calendarViewModel.currentMonth = difference
+                calendarViewModel.currentDate = selectedDate
                 isShowingDateChangeSheet.toggle()
             } label: {
                 Text("완료")
@@ -157,5 +159,5 @@ struct CustomDatePicker: UIViewRepresentable { // UIKit의 UIView를 SwiftUI에�
 
 
 #Preview {
-    DatePicker(selectedYear: .constant(Calendar.current.component(.year, from: .now)), selectedMonth: .constant(Calendar.current.component(.month, from: .now)), isShowingDateChangeSheet: .constant(false), currentMonth: .constant(0), currentDate: .constant(Date()))
+    DatePicker(calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository())), isShowingDateChangeSheet: .constant(false))
 }
