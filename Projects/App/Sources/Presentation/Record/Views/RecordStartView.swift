@@ -108,8 +108,8 @@ struct RecordStartView: View {
                             recordViewModel.dismissKeyboard()
                             recordViewModel.movePage(to: .next)
                         }
-                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.currentText.isEmpty))
-                        .disabled(recordViewModel.currentText.isEmpty)
+                        .buttonStyle(MainButtonStyle(isButtonEnabled: !recordViewModel.isWriteTextEditer()))
+                        .disabled(recordViewModel.isWriteTextEditer())
                         
                     case .emotions:
                         Image("SimiWithJelly")

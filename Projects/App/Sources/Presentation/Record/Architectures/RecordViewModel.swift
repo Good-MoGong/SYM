@@ -156,6 +156,10 @@ final class RecordViewModel: RecordConditionFetch {
         }
     }
     
+    func isWriteTextEditer() -> Bool {
+        return currentText.replacingOccurrences(of: " ", with: "").count >= 10 ? false : true
+    }
+    
     @MainActor
     private func saveCurrentText() {
         switch recordOrder {
