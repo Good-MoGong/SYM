@@ -39,7 +39,7 @@ final class AppVersion {
             let (data, _) = try await URLSession.shared.data(from: url)
             let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
             let results = json?["results"] as? [[String: Any]]
-            let appStoreVersion = results?[0]["version"] as? String
+//            let appStoreVersion = results?[0]["version"] as? String
             
             return appStoreVersion ?? "1"
         } catch {
