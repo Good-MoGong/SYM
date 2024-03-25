@@ -27,23 +27,18 @@ enum RecordViewText {
 }
 
 struct CalendarRecordView: View {
-    
     @ObservedObject var calendarViewModel: CalendarViewModel
-    
-    @Binding var isShowingOrganizeView: Bool
-    @Binding var isShowingRecordView: Bool
-    @Binding var selectDate: Date
     
     /// 기록 전, 후를 bool로 구분
     var existRecord: Bool
     
     /// 해당 날짜가 오늘인지 아닌지
     var isDateInToday: Bool {
-        Calendar.current.isDateInToday(selectDate)
+        Calendar.current.isDateInToday(calendarViewModel.selectDate)
     }
     /// 해당 날짜가 어제인지 아닌지
     var isDateInYesterday: Bool {
-        Calendar.current.isDateInYesterday(selectDate)
+        Calendar.current.isDateInYesterday(calendarViewModel.selectDate)
     }
     
     var body: some View {
@@ -54,7 +49,7 @@ struct CalendarRecordView: View {
                         isDateInYesterday ? "어제의 기록" : "기록이 없는 날이에요!")))
                 .font(.bold(16))
                 
-                Text(existRecord ? RecordViewText.afterRecord.stringValue : (isTodayOrYesterday(date: selectDate) ?
+                Text(existRecord ? RecordViewText.afterRecord.stringValue : (isTodayOrYesterday(date: calendarViewModel.selectDate) ?
                                                                              RecordViewText.beforeRecord.stringValue : RecordViewText.noRecord.stringValue))
                 .lineSpacing(5)
                 .font(.medium(13))
@@ -63,19 +58,19 @@ struct CalendarRecordView: View {
                 if existRecord == true {
                     // 기록이 있을 경우
                     Button {
-                        calendarViewModel.recordDiary.date = selectDate.formatToString()
+                        calendarViewModel.recordDiary.date = calendarViewModel.selectDate.formatToString()
                         calendarViewModel.recordSpecificFetch()
-                        isShowingOrganizeView = true
+                        calendarViewModel.isShowingOrganizeView = true
                     } label: {
                         Text("기록 보러가기")
                             .font(.bold(16))
                             .padding(.vertical, -5)
                     }
                     .buttonStyle(CustomButtonStyle(MainButtonStyle(isButtonEnabled: true)))
-                } else if isTodayOrYesterday(date: selectDate) {
+                } else if isTodayOrYesterday(date: calendarViewModel.selectDate) {
                     // 기록이 없고, 날짜가 오늘 또는 어제인 경우
                     Button {
-                        isShowingRecordView = true
+                        calendarViewModel.isShowingRecordView = true
                     } label: {
                         Text("감정 기록하기")
                             .font(.bold(16))
@@ -112,7 +107,5 @@ struct CalendarRecordView: View {
 }
 
 #Preview {
-    CalendarRecordView(calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository()))
-                       ,isShowingOrganizeView: .constant(true), isShowingRecordView: .constant(true),
-                       selectDate: .constant(Date()), existRecord: true)
+    CalendarRecordView(calendarViewModel: CalendarViewModel(calendarUseCase: CalendarUseCase(calendarRepository: CalendarRepository())), existRecord: true)
 }
