@@ -39,7 +39,6 @@ struct AuthenticatedView: View {
         }
         .onAppear {
             authViewModel.send(action: .checkAuthenticationState)
-            print("여기 또 탐 ?")
         }
     }
 }
