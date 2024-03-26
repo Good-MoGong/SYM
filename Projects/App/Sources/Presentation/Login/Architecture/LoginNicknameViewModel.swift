@@ -18,7 +18,7 @@ class LoginNicknameViewModel: ObservableObject {
     private let firebaseService = FirebaseService.shared
     
     func koreaLangCheck(_ input: String) -> Bool {
-        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        let pattern = "^[가-힣a-zA-Z]*$"
         if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
             let range = NSRange(location: 0, length: input.utf16.count)
             if regex.firstMatch(in: input, options: [], range: range) != nil {

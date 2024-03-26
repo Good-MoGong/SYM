@@ -48,11 +48,6 @@ struct SplashView: View {
                 Spacer().frame(height: 150)
             }
         }
-        .onAppear {
-            DispatchQueue.main.async {
-                sleep(UInt32(1.5))
-            }
-        }
     }
 }
 
